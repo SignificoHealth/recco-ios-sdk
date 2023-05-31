@@ -11,7 +11,7 @@ import SignificoSF
 struct ContentView: View {
     var body: some View {
         VStack {
-            SignificoSFRootView()
+            SFRootView()
         }
         .padding()
     }

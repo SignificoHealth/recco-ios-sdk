@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Resources
+import SFResources
 import SwiftUI
 
 extension Text {

@@ -17,6 +17,6 @@ extension Color {
 
 extension UIColor {
     public convenience init?(resource: String) {
-        self.init(named: resource, in: Resources.localBundle, compatibleWith: .current)
+        self.init(named: resource, in: SFResources.localBundle, compatibleWith: .current)
     }
 }

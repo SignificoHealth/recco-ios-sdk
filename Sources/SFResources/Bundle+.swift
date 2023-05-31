@@ -13,8 +13,8 @@ import Foundation
 
  private final class CurrentBundleFinder {}
 
- private let packageName: String = "Resources"
- private let targetName: String = "Resources"
+ private let packageName: String = "SFResources"
+ private let targetName: String = "SFResources"
 
  extension Foundation.Bundle {
      /// Returns the resource bundle associated with the current Swift module.

@@ -15,25 +15,37 @@ let package = Package(
     ],
     dependencies: [],
     targets: [
-        .target(name: "Core"),
         .target(name: "SignificoSF",
             dependencies: [
-                "DashboardFeature"
+                "SFDashboard"
             ]
         ),
+        .target(name: "SFCore"),
         .target(
-            name: "DashboardFeature",
+            name: "SFApi",
             dependencies: [
-                "SharedUI"
+                "SFCore"
+            ],
+            exclude: [
+                "sf-backend-open-api.json",
+                "generate-api.sh"
             ]
         ),
         .target(
-            name: "Resources",
+            name: "SFDashboard",
+            dependencies: [
+                "SFSharedUI",
+                "SFCore",
+                "SFApi"
+            ]
+        ),
+        .target(
+            name: "SFResources",
             dependencies: []
         ),
         .target(
-            name: "SharedUI",
-            dependencies: ["Resources"]
+            name: "SFSharedUI",
+            dependencies: ["SFResources"]
         )
     ]
 )
