@@ -20,6 +20,7 @@ let package = Package(
                 "SFDashboard"
             ]
         ),
+        .target(name: "SFEntities"),
         .target(name: "SFCore"),
         .target(
             name: "SFApi",
