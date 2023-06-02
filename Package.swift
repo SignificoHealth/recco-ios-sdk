@@ -56,7 +56,8 @@ let package = Package(
         .library(
             name: "SignificoSF",
             targets: ["SignificoSF"]
-        )
+        ),
+        .library(name: SharedUI.name, targets: [SharedUI.name])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "0.1.0"))
