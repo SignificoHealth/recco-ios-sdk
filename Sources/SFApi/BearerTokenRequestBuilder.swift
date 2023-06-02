@@ -21,12 +21,18 @@ class BearerRequestBuilder<T>: URLSessionRequestBuilder<T> {
     @discardableResult
     override func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
 
-        guard self.requiresAuthentication else {
+        guard self.requiresAuthentication,
+              !self.URLString.contains("login"),
+              !self.URLString.contains("logout") else {
             return super.execute(apiResponseQueue, completion)
         }
 
         // Before making the request, we can validate if we have a bearer token to be able to make a request
-        BearerTokenHandler.refreshTokenIfDoesntExist { token in
+        BearerTokenHandler.refreshTokenIfDoesntExist { token, error in
+            guard error == nil, let token = token else {
+                completion(.failure(.error(999999, nil, nil, error ?? NSError() as Error))); return
+            }
+            
             self.addHeaders(["Authorization": "Bearer \(token)"])
             
             // Here we make the request
@@ -73,12 +79,16 @@ class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBui
     @discardableResult
     override func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         
-        guard self.requiresAuthentication && !self.URLString.contains("login") else {
+        guard self.requiresAuthentication && !self.URLString.contains("login"), !self.URLString.contains("logout") else {
             return super.execute(apiResponseQueue, completion)
         }
 
         // Before making the request, we can validate if we have a bearer token to be able to make a request
-        BearerTokenHandler.refreshTokenIfDoesntExist { token in
+        BearerTokenHandler.refreshTokenIfDoesntExist { token, error  in
+            guard error == nil, let token = token else {
+                completion(.failure(.error(999999, nil, nil, error ?? NSError() as Error))); return
+            }
+            
             self.addHeaders(["Authorization": "Bearer \(token)"])
             
             // Here we make the request
@@ -129,12 +139,12 @@ public class BearerTokenHandler {
     static var clientSecret: String!
     static var clientId: String?
 
-    static func refreshTokenIfDoesntExist(completionHandler: @escaping (String) -> Void) {
+    static func refreshTokenIfDoesntExist(completionHandler: @escaping (String?, Error?) -> Void) {
         if let bearerToken = bearerToken {
-            completionHandler(bearerToken)
+            completionHandler(bearerToken, nil)
         } else {
             startRefreshingToken { token, error in
-                token.map(completionHandler)
+                completionHandler(token, error)
             }
         }
     }

@@ -13,5 +13,9 @@ public final class CoreAssembly: SFAssembly {
         container.register(type: Calendar.self) { _ in
             .current
         }
+        
+        container.register(type: KeychainProxy.self) { _ in
+            .standard
+        }
     }
 }

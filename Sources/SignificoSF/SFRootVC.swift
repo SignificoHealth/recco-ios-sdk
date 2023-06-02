@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import SFCore
 import SFApi
+import SFRepo
 
 public func initialize(clientSecret: String) {
     SFApi.initialize(
@@ -18,9 +19,22 @@ public func initialize(clientSecret: String) {
     )
     
     SFCore.assemble([
+        RepositoryAssembly(clientSecret: clientSecret),
         CoreAssembly(),
         DashboardAssembly()
     ])
+}
+
+public func login(user: String) async throws {
+    let repo: AuthRepository = get()
+    try await repo.login(clientUserId: user)
+    SFApi.clientIdChanged(user)
+}
+
+public func logout() async throws {
+    let repo: AuthRepository = get()
+    try await repo.logout()
+    SFApi.clientIdChanged(nil)
 }
 
 public struct SFRootView: View {

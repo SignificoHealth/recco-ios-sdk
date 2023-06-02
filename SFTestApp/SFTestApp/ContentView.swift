@@ -9,11 +9,37 @@ import SwiftUI
 import SignificoSF
 
 struct ContentView: View {
+    @AppStorage("loggedUser") var currentUser: String = ""
+    @State var showConfigurationView: Bool = false
+    
+    var currentUserDisplay: String {
+        currentUser.isEmpty ?
+        "Not logged in" :
+        currentUser
+    }
+    
     var body: some View {
-        VStack {
-            SFRootView()
+        NavigationView {
+            List {
+                Text("Current User: ") +
+                Text(currentUserDisplay).bold()
+                Text("Show Dashboard")
+                    .bold()
+            }
+            .navigationTitle("SFShowcase")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        showConfigurationView = true
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+            }
+            .sheet(isPresented: $showConfigurationView) {
+                ConfigurationView(user: $currentUser)
+            }
         }
-        .padding()
     }
 }
 

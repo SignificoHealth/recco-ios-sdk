@@ -28,15 +28,17 @@ public struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
     public var type: TypeDTO
     public var rating: RatingDTO
     public var status: StatusDTO
+    public var bookmarked: Bool
     public var headline: String
     public var lead: String?
     public var imageUrl: String?
 
-    public init(id: ContentIdDTO, type: TypeDTO, rating: RatingDTO, status: StatusDTO, headline: String, lead: String? = nil, imageUrl: String? = nil) {
+    public init(id: ContentIdDTO, type: TypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil) {
         self.id = id
         self.type = type
         self.rating = rating
         self.status = status
+        self.bookmarked = bookmarked
         self.headline = headline
         self.lead = lead
         self.imageUrl = imageUrl
@@ -47,6 +49,7 @@ public struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         case type
         case rating
         case status
+        case bookmarked
         case headline
         case lead
         case imageUrl
@@ -60,6 +63,7 @@ public struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         try container.encode(type, forKey: .type)
         try container.encode(rating, forKey: .rating)
         try container.encode(status, forKey: .status)
+        try container.encode(bookmarked, forKey: .bookmarked)
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(lead, forKey: .lead)
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)

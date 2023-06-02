@@ -53,28 +53,28 @@ open class QuestionnaireAPI {
     /**
      Return the associated questionnaire for a given topic.
      
-     - parameter topicId: (path)  
+     - parameter topic: (path)  
      - returns: QuestionnaireDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getQuestionnaireByTopic(topicId: Int) async throws -> QuestionnaireDTO {
-        return try await getQuestionnaireByTopicWithRequestBuilder(topicId: topicId).execute().body
+    open class func getQuestionnaireByTopic(topic: TopicDTO) async throws -> QuestionnaireDTO {
+        return try await getQuestionnaireByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
     /**
      Return the associated questionnaire for a given topic.
-     - GET /api/v1/me/questionnaire/topics/{topicId}
+     - GET /api/v1/me/questionnaire/topics/{topic}
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter topicId: (path)  
+     - parameter topic: (path)  
      - returns: RequestBuilder<QuestionnaireDTO> 
      */
-    open class func getQuestionnaireByTopicWithRequestBuilder(topicId: Int) -> RequestBuilder<QuestionnaireDTO> {
-        var localVariablePath = "/api/v1/me/questionnaire/topics/{topicId}"
-        let topicIdPreEscape = "\(APIHelper.mapValueToPathItem(topicId))"
-        let topicIdPostEscape = topicIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{topicId}", with: topicIdPostEscape, options: .literal, range: nil)
+    open class func getQuestionnaireByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<QuestionnaireDTO> {
+        var localVariablePath = "/api/v1/me/questionnaire/topics/{topic}"
+        let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
+        let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{topic}", with: topicPostEscape, options: .literal, range: nil)
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 

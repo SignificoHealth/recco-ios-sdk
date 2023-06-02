@@ -22,20 +22,17 @@ public struct UpdateStatusDTO: Codable, JSONEncodable, Hashable {
     public var contentId: ContentIdDTO
     public var contentType: ContentTypeDTO
     public var status: StatusDTO
-    public var categoriesIds: [Int]
 
-    public init(contentId: ContentIdDTO, contentType: ContentTypeDTO, status: StatusDTO, categoriesIds: [Int]) {
+    public init(contentId: ContentIdDTO, contentType: ContentTypeDTO, status: StatusDTO) {
         self.contentId = contentId
         self.contentType = contentType
         self.status = status
-        self.categoriesIds = categoriesIds
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case contentId
         case contentType
         case status
-        case categoriesIds
     }
 
     // Encodable protocol methods
@@ -45,7 +42,6 @@ public struct UpdateStatusDTO: Codable, JSONEncodable, Hashable {
         try container.encode(contentId, forKey: .contentId)
         try container.encode(contentType, forKey: .contentType)
         try container.encode(status, forKey: .status)
-        try container.encode(categoriesIds, forKey: .categoriesIds)
     }
 }
 

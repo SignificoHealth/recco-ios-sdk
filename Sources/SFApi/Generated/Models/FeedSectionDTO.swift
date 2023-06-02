@@ -28,18 +28,18 @@ public struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
     }
     public var type: TypeDTO
     public var locked: Bool
-    public var topicId: Int?
+    public var topic: TopicDTO?
 
-    public init(type: TypeDTO, locked: Bool, topicId: Int? = nil) {
+    public init(type: TypeDTO, locked: Bool, topic: TopicDTO? = nil) {
         self.type = type
         self.locked = locked
-        self.topicId = topicId
+        self.topic = topic
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case locked
-        case topicId
+        case topic
     }
 
     // Encodable protocol methods
@@ -48,7 +48,7 @@ public struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
         try container.encode(locked, forKey: .locked)
-        try container.encodeIfPresent(topicId, forKey: .topicId)
+        try container.encodeIfPresent(topic, forKey: .topic)
     }
 }
 

@@ -10,6 +10,7 @@ import SFSharedUI
 
 public struct DashboardView: View {
     @StateObject var viewModel: DashboardViewModel
+    
     public init(viewModel: DashboardViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }

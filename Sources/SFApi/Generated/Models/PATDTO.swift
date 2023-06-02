@@ -14,15 +14,21 @@ public struct PATDTO: Codable, JSONEncodable, Hashable {
 
     public var accessToken: String
     public var expirationDate: Date
+    public var tokenId: String
+    public var creationDate: Date
 
-    public init(accessToken: String, expirationDate: Date) {
+    public init(accessToken: String, expirationDate: Date, tokenId: String, creationDate: Date) {
         self.accessToken = accessToken
         self.expirationDate = expirationDate
+        self.tokenId = tokenId
+        self.creationDate = creationDate
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case accessToken
         case expirationDate
+        case tokenId
+        case creationDate
     }
 
     // Encodable protocol methods
@@ -31,6 +37,8 @@ public struct PATDTO: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(accessToken, forKey: .accessToken)
         try container.encode(expirationDate, forKey: .expirationDate)
+        try container.encode(tokenId, forKey: .tokenId)
+        try container.encode(creationDate, forKey: .creationDate)
     }
 }
 

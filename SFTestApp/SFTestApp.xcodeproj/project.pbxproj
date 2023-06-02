@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6EA7C67B2A28F4240090C2A2 /* ConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7C67A2A28F4240090C2A2 /* ConfigurationView.swift */; };
 		6EB3C1AC2A1F734C008C4EE4 /* SFTestAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3C1AB2A1F734C008C4EE4 /* SFTestAppApp.swift */; };
 		6EB3C1AE2A1F734C008C4EE4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3C1AD2A1F734C008C4EE4 /* ContentView.swift */; };
 		6EB3C1B02A1F734D008C4EE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EB3C1AF2A1F734D008C4EE4 /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6EA7C67A2A28F4240090C2A2 /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
 		6EB3C1A82A1F734C008C4EE4 /* SFTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EB3C1AB2A1F734C008C4EE4 /* SFTestAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTestAppApp.swift; sourceTree = "<group>"; };
 		6EB3C1AD2A1F734C008C4EE4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				6EB3C1C32A1FB62B008C4EE4 /* Info.plist */,
 				6EB3C1AB2A1F734C008C4EE4 /* SFTestAppApp.swift */,
 				6EB3C1AD2A1F734C008C4EE4 /* ContentView.swift */,
+				6EA7C67A2A28F4240090C2A2 /* ConfigurationView.swift */,
 				6EB3C1AF2A1F734D008C4EE4 /* Assets.xcassets */,
 				6EB3C1B12A1F734D008C4EE4 /* Preview Content */,
 			);
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EB3C1AE2A1F734C008C4EE4 /* ContentView.swift in Sources */,
+				6EA7C67B2A28F4240090C2A2 /* ConfigurationView.swift in Sources */,
 				6EB3C1AC2A1F734C008C4EE4 /* SFTestAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

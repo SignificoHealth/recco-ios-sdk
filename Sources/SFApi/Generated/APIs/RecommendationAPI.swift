@@ -15,28 +15,28 @@ open class RecommendationAPI {
     /**
      A list of content filtered by topic.
      
-     - parameter topicId: (path)  
+     - parameter topic: (path)  
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func exploreContentByTopic(topicId: Int) async throws -> [AppUserRecommendationDTO] {
-        return try await exploreContentByTopicWithRequestBuilder(topicId: topicId).execute().body
+    open class func exploreContentByTopic(topic: TopicDTO) async throws -> [AppUserRecommendationDTO] {
+        return try await exploreContentByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
     /**
      A list of content filtered by topic.
-     - GET /api/v1/me/recommendations/explore/topics/{topicId}
+     - GET /api/v1/me/recommendations/explore/topics/{topic}
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter topicId: (path)  
+     - parameter topic: (path)  
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
      */
-    open class func exploreContentByTopicWithRequestBuilder(topicId: Int) -> RequestBuilder<[AppUserRecommendationDTO]> {
-        var localVariablePath = "/api/v1/me/recommendations/explore/topics/{topicId}"
-        let topicIdPreEscape = "\(APIHelper.mapValueToPathItem(topicId))"
-        let topicIdPostEscape = topicIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{topicId}", with: topicIdPostEscape, options: .literal, range: nil)
+    open class func exploreContentByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[AppUserRecommendationDTO]> {
+        var localVariablePath = "/api/v1/me/recommendations/explore/topics/{topic}"
+        let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
+        let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{topic}", with: topicPostEscape, options: .literal, range: nil)
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
@@ -205,28 +205,28 @@ open class RecommendationAPI {
     /**
      A list of tailored recommendations filtered by topic.
      
-     - parameter topicId: (path)  
+     - parameter topic: (path)  
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTailoredRecommendationsByTopic(topicId: Int) async throws -> [AppUserRecommendationDTO] {
-        return try await getTailoredRecommendationsByTopicWithRequestBuilder(topicId: topicId).execute().body
+    open class func getTailoredRecommendationsByTopic(topic: TopicDTO) async throws -> [AppUserRecommendationDTO] {
+        return try await getTailoredRecommendationsByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
     /**
      A list of tailored recommendations filtered by topic.
-     - GET /api/v1/me/recommendations/tailored/topics/{topicId}
+     - GET /api/v1/me/recommendations/tailored/topics/{topic}
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter topicId: (path)  
+     - parameter topic: (path)  
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
      */
-    open class func getTailoredRecommendationsByTopicWithRequestBuilder(topicId: Int) -> RequestBuilder<[AppUserRecommendationDTO]> {
-        var localVariablePath = "/api/v1/me/recommendations/tailored/topics/{topicId}"
-        let topicIdPreEscape = "\(APIHelper.mapValueToPathItem(topicId))"
-        let topicIdPostEscape = topicIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{topicId}", with: topicIdPostEscape, options: .literal, range: nil)
+    open class func getTailoredRecommendationsByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[AppUserRecommendationDTO]> {
+        var localVariablePath = "/api/v1/me/recommendations/tailored/topics/{topic}"
+        let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
+        let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{topic}", with: topicPostEscape, options: .literal, range: nil)
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
@@ -277,6 +277,44 @@ open class RecommendationAPI {
         let localVariableRequestBuilder: RequestBuilder<[AppUserRecommendationDTO]>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Set recommendation bookmark state.
+     
+     - parameter updateBookmarkDTO: (body)  
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func setBookmark(updateBookmarkDTO: UpdateBookmarkDTO) async throws {
+        return try await setBookmarkWithRequestBuilder(updateBookmarkDTO: updateBookmarkDTO).execute().body
+    }
+
+    /**
+     Set recommendation bookmark state.
+     - PUT /api/v1/me/recommendations/bookmark
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter updateBookmarkDTO: (body)  
+     - returns: RequestBuilder<Void> 
+     */
+    open class func setBookmarkWithRequestBuilder(updateBookmarkDTO: UpdateBookmarkDTO) -> RequestBuilder<Void> {
+        let localVariablePath = "/api/v1/me/recommendations/bookmark"
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateBookmarkDTO)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**

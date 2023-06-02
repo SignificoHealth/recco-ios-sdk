@@ -111,6 +111,45 @@
         ]
       }
     },
+    "/api/v1/me/recommendations/bookmark": {
+      "put": {
+        "tags": [
+          "Recommendation"
+        ],
+        "summary": "Set recommendation bookmark state.",
+        "operationId": "setBookmark",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookmark"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/me/questionnaire/onboarding_answers": {
       "post": {
         "tags": [
@@ -339,7 +378,7 @@
         ]
       }
     },
-    "/api/v1/me/recommendations/tailored/topics/{topicId}": {
+    "/api/v1/me/recommendations/tailored/topics/{topic}": {
       "get": {
         "tags": [
           "Recommendation"
@@ -348,12 +387,11 @@
         "operationId": "getTailoredRecommendationsByTopic",
         "parameters": [
           {
-            "name": "topicId",
+            "name": "topic",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "$ref": "#/components/schemas/Topic"
             }
           }
         ],
@@ -545,7 +583,7 @@
         ]
       }
     },
-    "/api/v1/me/recommendations/explore/topics/{topicId}": {
+    "/api/v1/me/recommendations/explore/topics/{topic}": {
       "get": {
         "tags": [
           "Recommendation"
@@ -554,12 +592,11 @@
         "operationId": "exploreContentByTopic",
         "parameters": [
           {
-            "name": "topicId",
+            "name": "topic",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "$ref": "#/components/schemas/Topic"
             }
           }
         ],
@@ -641,7 +678,7 @@
         ]
       }
     },
-    "/api/v1/me/questionnaire/topics/{topicId}": {
+    "/api/v1/me/questionnaire/topics/{topic}": {
       "get": {
         "tags": [
           "Questionnaire"
@@ -650,12 +687,11 @@
         "operationId": "getQuestionnaireByTopic",
         "parameters": [
           {
-            "name": "topicId",
+            "name": "topic",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "$ref": "#/components/schemas/Topic"
             }
           }
         ],
@@ -786,7 +822,6 @@
       },
       "UpdateStatus": {
         "required": [
-          "categoriesIds",
           "contentId",
           "contentType",
           "status"
@@ -808,13 +843,6 @@
               "no_interaction",
               "viewed"
             ]
-          },
-          "categoriesIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
           }
         }
       },
@@ -847,7 +875,6 @@
       },
       "UpdateRating": {
         "required": [
-          "categoriesIds",
           "contentId",
           "contentType",
           "rating"
@@ -870,13 +897,28 @@
               "dislike",
               "not_rated"
             ]
+          }
+        }
+      },
+      "UpdateBookmark": {
+        "required": [
+          "bookmarked",
+          "contentId",
+          "contentType"
+        ],
+        "type": "object",
+        "properties": {
+          "contentId": {
+            "$ref": "#/components/schemas/ContentId"
           },
-          "categoriesIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
+          "contentType": {
+            "type": "string",
+            "enum": [
+              "articles"
+            ]
+          },
+          "bookmarked": {
+            "type": "boolean"
           }
         }
       },
@@ -951,7 +993,9 @@
       "PAT": {
         "required": [
           "accessToken",
-          "expirationDate"
+          "creationDate",
+          "expirationDate",
+          "tokenId"
         ],
         "type": "object",
         "properties": {
@@ -959,6 +1003,13 @@
             "type": "string"
           },
           "expirationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tokenId": {
+            "type": "string"
+          },
+          "creationDate": {
             "type": "string",
             "format": "date-time"
           }
@@ -975,8 +1026,18 @@
           }
         }
       },
+      "Topic": {
+        "type": "string",
+        "enum": [
+          "PHYSICAL_ACTIVITY",
+          "NUTRITION",
+          "PHYSICAL_WELLBEING",
+          "SLEEP"
+        ]
+      },
       "AppUserRecommendation": {
         "required": [
+          "bookmarked",
           "headline",
           "id",
           "rating",
@@ -1008,6 +1069,9 @@
               "no_interaction",
               "viewed"
             ]
+          },
+          "bookmarked": {
+            "type": "boolean"
           },
           "headline": {
             "type": "string"
@@ -1215,9 +1279,8 @@
           "locked": {
             "type": "boolean"
           },
-          "topicId": {
-            "type": "integer",
-            "format": "int32"
+          "topic": {
+            "$ref": "#/components/schemas/Topic"
           }
         }
       }
