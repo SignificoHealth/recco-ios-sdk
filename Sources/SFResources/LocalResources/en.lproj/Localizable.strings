@@ -1,1 +1,10 @@
+// MARK: Error screen
 
+"error.noInternet.title" = "No connection";
+"error.generic.title" = "Ups! There has been an error"
+"error.reload" = "Reload"
+
+// MARK: Notification
+
+"error.notification.title" = "Sorry!"
+"error.notification.subtitle" = "Something went wrong"

@@ -129,15 +129,3 @@ struct HCButtonPrimary_Previews: PreviewProvider {
         }
     }
 }
-
-public struct AnyShape: Shape {
-    private var base: (CGRect) -> Path
-    
-    public init<S: Shape>(_ shape: S) {
-        base = shape.path(in:)
-    }
-    
-    public func path(in rect: CGRect) -> Path {
-        base(rect)
-    }
-}

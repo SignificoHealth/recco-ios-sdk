@@ -20,3 +20,15 @@ extension UIColor {
         self.init(named: resource, in: SFResources.localBundle, compatibleWith: .current)
     }
 }
+
+extension Image {
+    public init(resource: String) {
+        self.init(resource, bundle: SFResources.localBundle)
+    }
+}
+
+extension UIImage {
+    public convenience init?(resource: String) {
+        self.init(named: resource, in: SFResources.localBundle, with: nil)
+    }
+}

@@ -33,7 +33,8 @@ let Repo: Target = .target(name: "SFRepo", dependencies: [
 ])
 
 let SharedUI: Target = .target(name: "SFSharedUI", dependencies: [
-    .add(Resources)
+    .add(Resources),
+    .add(Repo)
 ])
 
 // MARK: Feature
