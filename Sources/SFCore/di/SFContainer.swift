@@ -30,34 +30,68 @@ class SFSharedContainer {
     fileprivate init() {}
 
     static let shared = SFSharedContainer()
-
+    private var rememberedSingletons: [ServiceParameters: Bool] = [:]
+    var singletons: [ServiceParameters: Any] = [:]
     var services: [ServiceParameters: (SFResolver, [Any]) -> Any] = [:]
 }
 
 extension SFSharedContainer: SFResolver {
     func resolve<Service, Arg1>(type: Service.Type, argument: Arg1) -> Service? {
-        let provider = services[.init(type: "\(type)", arguments: ["\(Arg1.self)"])]
+        let key: ServiceParameters = .init(type: "\(type)", arguments: ["\(Arg1.self)"])
+        let provider = services[key]
+        
+        if rememberedSingletons[key] ?? false {
+            guard let value = singletons[key] else {
+                let value = provider?((SFSharedContainer.shared), [argument])
+                singletons[key] = value
+                return value as? Service
+            }
+            
+            return value as? Service
+        }
         
         return provider?((SFSharedContainer.shared), [argument]) as? Service
-
     }
     
     func resolve<Service>(type: Service.Type) -> Service? {
-        let provider = services[.init(type: "\(type)", arguments: [])]
+        let key: ServiceParameters = .init(type: "\(type)", arguments: [])
+        let provider = services[key]
+        
+        if rememberedSingletons[key] ?? false {
+            guard let value = singletons[key] else {
+                let value = provider?(SFSharedContainer.shared, [])
+                singletons[key] = value
+                return value as? Service
+            }
+            
+            return value as? Service
+        }
         
         return provider?(SFSharedContainer.shared, []) as? Service
     }
 }
 
 extension SFSharedContainer: SFContainer {
-    func register<Service>(type: Service.Type, service: @escaping (SFResolver) -> Service) {
-        services[.init(type: "\(type)", arguments: [])] = { resolver, _ in
+    func register<Service>(
+        type: Service.Type,
+        singleton: Bool,
+        service: @escaping (SFResolver) -> Service
+    ) {
+        let params = ServiceParameters(type: "\(type)", arguments: [])
+        rememberedSingletons[params] = singleton
+        services[params] = { resolver, _ in
             service(resolver)
         }
     }
     
-    func register<Service, Arg1>(type: Service.Type, service: @escaping (SFResolver, Arg1) -> Service) {
-        services[.init(type: "\(type)", arguments: ["\(Arg1.self)"])] = { resolver, params in
+    func register<Service, Arg1>(
+        type: Service.Type,
+        singleton: Bool,
+        service: @escaping (SFResolver, Arg1) -> Service
+    ) {
+        let params = ServiceParameters(type: "\(type)", arguments: ["\(Arg1.self)"])
+        rememberedSingletons[params] = singleton
+        services[params] = { resolver, params in
             service(resolver, params[0] as! Arg1)
         }
     }
@@ -73,8 +107,18 @@ public protocol SFResolver {
 }
 
 public protocol SFContainer {
-    func register<Service>(type: Service.Type, service: @escaping (SFResolver) -> Service)
-    func register<Service, Arg1>(type: Service.Type, service: @escaping (SFResolver, Arg1) -> Service)
+    func register<Service>(type: Service.Type, singleton: Bool, service: @escaping (SFResolver) -> Service)
+    func register<Service, Arg1>(type: Service.Type, singleton: Bool, service: @escaping (SFResolver, Arg1) -> Service)
+}
+
+extension SFContainer {
+    public func register<Service>(type: Service.Type, service: @escaping (SFResolver) -> Service) {
+        register(type: type, singleton: false, service: service)
+    }
+    
+    public func register<Service, Arg1>(type: Service.Type, service: @escaping (SFResolver, Arg1) -> Service) {
+        register(type: type, singleton: false, service: service)
+    }
 }
 
 public extension SFResolver {

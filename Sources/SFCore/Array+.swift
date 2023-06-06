@@ -1,10 +1,3 @@
-//
-//  Array+.swift
-//  
-//
-//  Created by Adrián R on 8/3/22.
-//
-
 import Foundation
 
 public extension Array {
