@@ -67,6 +67,12 @@ public final class KeychainProxy {
 }
 
 extension KeychainProxy {
+    public func remove(
+        key: KeychainKey
+    ) {
+        delete(service: service, account: key.rawValue)
+    }
+    
     public func save<T>(
         key: KeychainKey,
         _ item: T

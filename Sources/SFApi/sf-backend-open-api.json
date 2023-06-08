@@ -963,20 +963,12 @@
       "QuestionnaireAnswers": {
         "required": [
           "answers",
-          "categoriesIds",
           "id"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
-          },
-          "categoriesIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
           },
           "answers": {
             "type": "array",
@@ -1240,7 +1232,6 @@
       },
       "Questionnaire": {
         "required": [
-          "categoriesIds",
           "id",
           "questions"
         ],
@@ -1248,13 +1239,6 @@
         "properties": {
           "id": {
             "type": "string"
-          },
-          "categoriesIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
           },
           "questions": {
             "type": "array",

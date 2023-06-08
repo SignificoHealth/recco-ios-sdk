@@ -181,11 +181,3 @@ public class BearerTokenHandler {
         }
     }
 }
-
-extension TopicDTO: ExpressibleByStringLiteral {
-    public init(stringLiteral value: StringLiteralType) {
-        self.init(rawValue: value)!
-    }
-}
-
-extension TopicDTO: ExpressibleByStringInterpolation {}

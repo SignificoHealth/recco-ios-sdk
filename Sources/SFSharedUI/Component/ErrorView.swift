@@ -31,9 +31,9 @@ public enum SFErrorType {
     var description: String {
         switch self {
         case .generic:
-            return "error.generic.description".localized
+            return "error.generic.subtitle".localized
         case .noInternet:
-            return "error.noInternet.description".localized
+            return "error.generic.subtitle".localized
         }
     }
 }
@@ -52,15 +52,15 @@ public struct ErrorView: View {
     public var body: some View {
         VStack(spacing: .S) {
             if let wrappedError = error.wrappedValue {
-                let hcError = SFErrorType(error: wrappedError)
-                Image(resource: hcError.imageName)
+                let sfError = SFErrorType(error: wrappedError)
+                Image(resource: sfError.imageName)
 
                 VStack(spacing: .XXS) {
-                    Text(hcError.title)
+                    Text(sfError.title)
                         .h4()
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    Text(hcError.description)
+                    Text(sfError.description)
                         .body1()
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)

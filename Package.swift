@@ -40,11 +40,21 @@ let SharedUI: Target = .target(name: "SFSharedUI", dependencies: [
 
 // MARK: Feature
 
+let Article: Target = .target(
+    name: "SFArticle",
+    dependencies: [
+        .add(SharedUI),
+        .add(Repo),
+        .product(name: "Nuke", package: "Nuke"),
+        .product(name: "NukeUI", package: "Nuke")
+    ])
+
 let Dashboard: Target = .target(
     name: "SFDashboard",
     dependencies: [
         .add(SharedUI),
         .add(Repo),
+        .add(Article),
         .product(name: "Nuke", package: "Nuke"),
         .product(name: "NukeUI", package: "Nuke")
     ]
@@ -62,14 +72,16 @@ let package = Package(
             targets: ["SignificoSF"]
         ),
         .library(name: SharedUI.name, targets: [SharedUI.name]),
-        .library(name: Dashboard.name, targets: [Dashboard.name])
+        .library(name: Dashboard.name, targets: [Dashboard.name]),
+        .library(name: Article.name, targets: [Article.name])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "0.1.0")),
         .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.0"))
     ],
     targets: [
-        .target(name: "SignificoSF",
+        .target(
+            name: "SignificoSF",
             dependencies: [
                 .add(Dashboard)
             ]
@@ -80,6 +92,7 @@ let package = Package(
         Api,
         Resources,
         SharedUI,
-        Dashboard
+        Dashboard,
+        Article
     ]
 )

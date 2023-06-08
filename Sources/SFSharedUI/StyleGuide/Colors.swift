@@ -39,9 +39,9 @@ public extension Color {
 
 public extension UIColor {
     static var sfIllustration80: UIColor =
-        .sfPrimary.withAlphaComponent(0.8)
+        .sfIllustration.withAlphaComponent(0.8)
     static var sfIllustration40: UIColor =
-        .sfPrimary.withAlphaComponent(0.4)
+        .sfIllustration.withAlphaComponent(0.4)
     static var sfPrimary10: UIColor =
         .sfPrimary.withAlphaComponent(0.1)
     static var sfPrimary20: UIColor =

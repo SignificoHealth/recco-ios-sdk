@@ -1,7 +1,7 @@
 import Foundation
 
 public enum ContentRating: String, Codable, CaseIterable {
-    case like
-    case dislike
-    case notRated
+    case like = "like"
+    case dislike = "dislike"
+    case notRated = "not_rated"
 }

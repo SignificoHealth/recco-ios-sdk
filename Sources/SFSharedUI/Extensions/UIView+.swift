@@ -27,3 +27,23 @@ extension UIView {
         trailing.priority = .init(priority)
     }
 }
+
+extension UIWindow {
+    public func topViewController() -> UIViewController? {
+        var top = self.rootViewController
+        while true {
+            if let presented = top?.presentedViewController {
+                top = presented
+            } else if let nav = top as? UINavigationController {
+                top = nav.visibleViewController
+            } else if let tab = top as? UITabBarController {
+                top = tab.selectedViewController
+            } else if top?.children.count == 1 {
+                top = top?.children.first
+            } else {
+                break
+            }
+        }
+        return top
+    }
+}

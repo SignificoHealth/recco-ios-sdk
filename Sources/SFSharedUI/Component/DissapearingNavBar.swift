@@ -14,7 +14,10 @@ struct DissapearingNavBar: View {
     var title: String
     
     var navOffset: CGFloat {
-        (-topbarHeight + ((scrollOffset - threshold).clamped(to: 0...topbarHeight) )).clamped(to: -topbarHeight...0)
+        (-topbarHeight + (
+            ((scrollOffset - threshold) * 2).clamped(to: 0...topbarHeight))
+        )
+            .clamped(to: -topbarHeight...0)
     }
     
     var opacity: CGFloat {
@@ -30,6 +33,7 @@ struct DissapearingNavBar: View {
                         Button(action: backAction, label: {
                             Image(systemName: "chevron.left")
                         })
+                        .accentColor(.sfPrimary)
                     } else {
                         Text("")
                     }
@@ -48,6 +52,7 @@ struct DissapearingNavBar: View {
                         Button(action: closeAction, label: {
                             Image(systemName: "xmark")
                         })
+                        .accentColor(.sfPrimary)
                     } else {
                         Text("")
                     }

@@ -11,10 +11,15 @@ import SFCore
 public final class DashboardAssembly: SFAssembly {
     public init() {}
     public func assemble(container: SFContainer) {
+        container.register(type: DashboardCoordinator.self) { r in
+            DashboardCoordinator(window: r.get())
+        }
+        
         container.register(type: DashboardViewModel.self) { r in
             DashboardViewModel(
                 feedRepo: r.get(),
-                recRepo: r.get()
+                recRepo: r.get(),
+                nav: r.get()
             )
         }
     }

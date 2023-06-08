@@ -16,21 +16,27 @@ public struct DashboardView: View {
     }
 
     public var body: some View {
-        SFLoadingView(viewModel.isLoading) {
-            RefreshableScrollView(
-                refreshAction: viewModel.getFeedItems) {
-                    VStack(alignment: .leading) {
-                        DashboardHeader()
-                        
-                        ForEach(viewModel.sections, id: \.self) { section in
-                            FeedSectionView(section: section)
+        NavigationView {
+            SFLoadingView(viewModel.isLoading) {
+                RefreshableScrollView(
+                    refreshAction: viewModel.getFeedItems) {
+                        VStack(alignment: .leading) {
+                            DashboardHeader()
+                            
+                            ForEach(viewModel.sections, id: \.self) { section in
+                                FeedSectionView(
+                                    section: section,
+                                    goToDetail: viewModel.goToDetail
+                                )
+                            }
                         }
+                        .padding(.vertical, .M)
                     }
-                    .padding(.vertical, .M)
-                }
+            }
+            .errorView(error: $viewModel.initialLoadError, onRetry: viewModel.getFeedItems)
+            .padding(.top, .M)
+            .background(Color.sfBackground)
         }
-        .errorView(error: $viewModel.initialLoadError, onRetry: viewModel.getFeedItems)
-        .background(Color.sfBackground)
     }
 }
 

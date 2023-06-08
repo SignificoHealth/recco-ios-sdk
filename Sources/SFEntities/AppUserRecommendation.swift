@@ -1,7 +1,7 @@
 import Foundation
 
 public enum ContentType: String, Codable, CaseIterable {
-    case articles
+    case articles = "articles"
 }
 
 public struct AppUserRecommendation: Equatable, Hashable {

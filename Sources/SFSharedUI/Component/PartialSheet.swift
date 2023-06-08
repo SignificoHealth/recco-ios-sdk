@@ -12,10 +12,11 @@ import UIKit
 
 public struct PaddingTopView<Content: View>: View {
     var content: Content
+    var paddingTop: CGFloat
     
     public var body: some View {
         content
-            .padding(.top, .M)
+            .padding(.top, paddingTop)
     }
 }
 
@@ -45,10 +46,14 @@ public enum SheetSize {
 public class PartialSheetHostingController<C: View>: UIHostingController<PaddingTopView<C>>, UIViewControllerTransitioningDelegate {
     private let height: CGFloat
     
-    public init(size: SheetSize = .medium, rootView: C) {
+    public init(
+        size: SheetSize = .medium,
+        paddingTop: CGFloat,
+        rootView: C
+    ) {
         self.height = size.value
         
-        super.init(rootView: PaddingTopView(content: rootView))
+        super.init(rootView: PaddingTopView(content: rootView, paddingTop: paddingTop))
         super.transitioningDelegate = self
         super.modalPresentationStyle = .custom
     }
@@ -107,7 +112,7 @@ class CustomPresentationController: UIPresentationController {
         self.height = height
         super.init(presentedViewController: presentedVc, presenting: presenting)
         self.panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction))
-        self.tapOutsideGesture = UITapGestureRecognizer(target: self, action: #selector( tapOutsideAction))
+        self.tapOutsideGesture = UITapGestureRecognizer(target: self, action: #selector(tapOutsideAction))
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)

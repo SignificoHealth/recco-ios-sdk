@@ -24,3 +24,7 @@ public func clientIdChanged(_ newValue: String?) {
 public func logedIn(newBearer: String) {
     BearerTokenHandler.bearerToken = newBearer
 }
+
+public func logedOut() {
+    BearerTokenHandler.bearerToken = nil
+}

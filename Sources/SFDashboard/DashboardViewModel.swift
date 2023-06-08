@@ -8,6 +8,7 @@
 import Foundation
 import SFRepo
 import SFEntities
+import SFArticle
 
 struct FeedSectionViewState: Hashable {
     var section: FeedSection
@@ -18,6 +19,7 @@ struct FeedSectionViewState: Hashable {
 public final class DashboardViewModel: ObservableObject {
     private let feedRepo: FeedRepository
     private let recRepo: RecommendationRepository
+    private let nav: DashboardCoordinator
     
     @Published var isLoading: Bool = true
     @Published var initialLoadError: Error?
@@ -26,17 +28,28 @@ public final class DashboardViewModel: ObservableObject {
     
     public init(
         feedRepo: FeedRepository,
-        recRepo: RecommendationRepository
+        recRepo: RecommendationRepository,
+        nav: DashboardCoordinator
     ) {
         self.recRepo = recRepo
         self.feedRepo = feedRepo
+        self.nav = nav
         
         getFeedItems()
     }
     
+    func goToDetail(of item: AppUserRecommendation) {
+        nav.navigate(to: .article(
+            id: item.id, headline: item.headline, imageUrl: item.imageUrl
+        ))
+    }
+    
     func getFeedItems() {
-        initialLoadError = nil
         Task {
+            await MainActor.run {
+                initialLoadError = nil
+            }
+            
             do {
                 let data = try await feedRepo.getFeed()
                 await setView(sections: data)

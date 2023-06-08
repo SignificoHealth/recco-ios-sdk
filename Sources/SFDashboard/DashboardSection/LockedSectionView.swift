@@ -16,7 +16,7 @@ struct LockedSectionView: View {
             .overlay(
                 GeometryReader { proxy in
                     Color.clear.onAppear {
-                        numberOfItems = Int(proxy.size.width / .cardSize.width)
+                        numberOfItems = max(numberOfItems, Int(proxy.size.width / .cardSize.width))
                     }
                 }
             )

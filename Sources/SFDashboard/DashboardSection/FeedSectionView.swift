@@ -4,6 +4,7 @@ import SFSharedUI
 
 struct FeedSectionView: View {
     var section: FeedSectionViewState
+    var goToDetail: (AppUserRecommendation) -> Void
     
     @ViewBuilder
     var body: some View {
@@ -24,8 +25,12 @@ struct FeedSectionView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack(spacing: .XS) {
                                 Spacer(minLength: .S)
-                                ForEach(section.items, id: \.self) {
-                                    FeedItemView(item: $0)
+                                ForEach(section.items, id: \.self) { item in
+                                    Button {
+                                        goToDetail(item)
+                                    } label: {
+                                        FeedItemView(item: item)
+                                    }
                                 }
                                 Spacer(minLength: .M)
                             }
@@ -48,7 +53,7 @@ struct FeedSectionView_Previews: PreviewProvider {
                 section: .init(type: .mostPopular, locked: true),
                 isLoading: false,
                 items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))]
-            )
+            ), goToDetail: { _ in}
         )
     }
 }

@@ -18,13 +18,21 @@ struct ContentView: View {
         currentUser
     }
     
+    var window: UIWindow? {
+        UIApplication.shared.connectedScenes
+        .filter { $0.activationState == .foregroundActive }
+        .first(where: { $0 is UIWindowScene })
+        .flatMap({ $0 as? UIWindowScene })?.windows
+        .first(where: \.isKeyWindow)
+    }
+    
     var body: some View {
         NavigationView {
             List {
                 Text("Current User: ") +
                 Text(currentUserDisplay).bold()
                 Button {
-                    UIApplication.shared.windows.first?.rootViewController?.present(GestureDismissableSFDashboard(), animated: true)
+                    window?.rootViewController?.present(GestureDismissableSFDashboard(), animated: true)
                 } label: {
                     Text("Show Dashboard")
                         .bold()

@@ -13,6 +13,7 @@ import SFApi
 import SFRepo
 import SFEntities
 import SFSharedUI
+import SFArticle
 
 public func initialize(clientSecret: String) {
     SFApi.initialize(
@@ -23,7 +24,8 @@ public func initialize(clientSecret: String) {
     SFCore.assemble([
         RepositoryAssembly(clientSecret: clientSecret),
         CoreAssembly(),
-        DashboardAssembly()
+        DashboardAssembly(),
+        ArticleAssembly()
     ])
     
     let keychain: KeychainProxy = get()
@@ -52,5 +54,5 @@ public struct SFRootView: View {
 }
 
 public func GestureDismissableSFDashboard() -> UIViewController {
-    PartialSheetHostingController(size: .custom(UIScreen.main.bounds.height * 0.95), rootView: SFRootView())
+    PartialSheetHostingController(size: .custom(UIScreen.main.bounds.height * 0.95), paddingTop: .zero, rootView: SFRootView())
 }

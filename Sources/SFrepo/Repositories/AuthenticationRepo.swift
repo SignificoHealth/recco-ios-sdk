@@ -45,5 +45,10 @@ public class LiveAuthRepository: AuthRepository {
             clientUserId: currentUserId.id,
             pATReferenceDeleteDTO: .init(tokenId: currentPat.tokenId)
         )
+        
+        keychain.remove(key: .currentPat)
+        keychain.remove(key: .currentUserId)
+
+        SFApi.logedOut()
     }
 }

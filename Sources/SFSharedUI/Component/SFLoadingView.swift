@@ -13,6 +13,8 @@ public struct SFLoadingView<Content: View>: View {
         if isLoading {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .primary))
+                .padding(.M)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             content()
         }

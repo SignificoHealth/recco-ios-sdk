@@ -13,18 +13,15 @@ import AnyCodable
 public struct QuestionnaireAnswersDTO: Codable, JSONEncodable, Hashable {
 
     public var id: String
-    public var categoriesIds: [Int]
     public var answers: [CreateQuestionnaireAnswerDTO]
 
-    public init(id: String, categoriesIds: [Int], answers: [CreateQuestionnaireAnswerDTO]) {
+    public init(id: String, answers: [CreateQuestionnaireAnswerDTO]) {
         self.id = id
-        self.categoriesIds = categoriesIds
         self.answers = answers
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
-        case categoriesIds
         case answers
     }
 
@@ -33,7 +30,6 @@ public struct QuestionnaireAnswersDTO: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
-        try container.encode(categoriesIds, forKey: .categoriesIds)
         try container.encode(answers, forKey: .answers)
     }
 }

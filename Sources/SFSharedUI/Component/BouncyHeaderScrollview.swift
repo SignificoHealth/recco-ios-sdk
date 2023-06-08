@@ -50,6 +50,10 @@ public struct BouncyHeaderScrollview<
         -(scrollOffset.clamped(to: 0...200) / 10)
     }
     
+    var navBarThreshold: CGFloat {
+        imageHeaderHeight - imageHeaderHeight * 0.2
+    }
+    
     public var body: some View {
         ZStack(alignment: .topLeading) {
             ZStack(alignment: .topLeading) {
@@ -86,9 +90,8 @@ public struct BouncyHeaderScrollview<
                         Button(action: backAction, label: {
                             Image(systemName: "chevron.left")
                         })
-                        .opacity(
-                            1.0 - (scrollOffset.clamped(to: 0...20) / 20.0)
-                        )
+                        .accentColor(.sfOnPrimary)
+                        .padding(.vertical, .XS)
                         Spacer()
                     }
                     
@@ -97,9 +100,8 @@ public struct BouncyHeaderScrollview<
                         Button(action: closeAction, label: {
                             Image(systemName: "xmark")
                         })
-                        .opacity(
-                            1.0 - (scrollOffset.clamped(to: 0...20) / 20.0)
-                        )
+                        .accentColor(.sfOnPrimary)
+                        .padding(.vertical, .XS)
                     }
                 }
                     .padding(.horizontal, .S),
@@ -108,7 +110,7 @@ public struct BouncyHeaderScrollview<
         }
         .dissapearingNavBar(
             scrollOffset: scrollOffset,
-            threshold: imageHeaderHeight - imageHeaderHeight * 0.5,
+            threshold: navBarThreshold,
             title: navTitle,
             backAction: backAction,
             closeAction: closeAction
@@ -123,7 +125,7 @@ CTA == EmptyView {
         navTitle: String? = nil,
         backAction: (() -> Void)? = nil,
         closeAction: (() -> Void)? = nil,
-        imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
+        imageHeaderHeight: CGFloat = UIScreen.main.bounds.height * 0.4,
         shapeHeight: CGFloat? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder content: @escaping () -> Content
