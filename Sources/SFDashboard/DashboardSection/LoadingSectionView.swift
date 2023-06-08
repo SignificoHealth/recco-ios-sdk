@@ -8,19 +8,19 @@ struct LoadingSectionView: View {
         // Empty axes allows us to create scrollview with no scrolling
         ScrollView([]) {
             HStack(spacing: .XXS) {
-                ForEach(1..<numberOfItems, id: \.self) { _ in
+                ForEach(0...numberOfItems, id: \.self) { _ in
                     LoadingItemView()
                 }
             }
             .padding(.horizontal, .M)
-            .overlay(
-                GeometryReader { proxy in
-                    Color.clear.onAppear {
-                        numberOfItems = Int(proxy.size.width / .cardSize.width)
-                    }
-                }
-            )
         }
+        .overlay(
+            GeometryReader { proxy in
+                Color.clear.onAppear {
+                    numberOfItems = Int(proxy.size.width / .cardSize.width)
+                }
+            }
+        )
         .frame(height: .cardSize.height)
         .redacted(reason: .placeholder)
         .shimmer(true)

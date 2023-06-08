@@ -23,7 +23,7 @@ struct FeedSectionView: View {
                         LockedSectionView()
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: .XS) {
+                            HStack(spacing: .XS) {
                                 Spacer(minLength: .S)
                                 ForEach(section.items, id: \.self) { item in
                                     Button {

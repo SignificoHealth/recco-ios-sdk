@@ -36,6 +36,7 @@ public struct DashboardView: View {
             .errorView(error: $viewModel.initialLoadError, onRetry: viewModel.getFeedItems)
             .padding(.top, .M)
             .background(Color.sfBackground)
+            .navigationBarHidden(true)
         }
     }
 }

@@ -82,8 +82,8 @@ struct ConfigurationView: View {
                     }
                 }
             }
-            .alert(isPresented: $errorOcurred, error: LoginError()) {
-                Text("OK")
+            .alert(isPresented: $errorOcurred) {
+                Alert(title: Text("An error ocurred"))
             }
         }
         .navigationTitle("Configuration")

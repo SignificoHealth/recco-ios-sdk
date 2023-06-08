@@ -44,6 +44,7 @@ public struct ArticleDetailView: View {
                 }
             }
             .processors([.resize(width: UIScreen.main.bounds.width)])
+            .animation(.linear(duration: 0.3))
         } content: {
             VStack(alignment: .leading, spacing: .M) {
                 Text(viewModel.heading)
@@ -63,8 +64,10 @@ public struct ArticleDetailView: View {
                             }
                             
                             if let body = article.articleBodyHtml {
-                                Text(body)
-                                    .body2()
+                                HTMLTextView(text: body)
+                                    .isEditable(false)
+                                    .isSelectable(true)
+                                    .autoDetectDataTypes(.all)
                             }
                         }
                     }

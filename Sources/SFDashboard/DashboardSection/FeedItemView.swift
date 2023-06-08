@@ -32,6 +32,7 @@ struct FeedItemView: View {
             }
         }
         .processors([.resize(width: .cardSize.width)])
+        .animation(.linear(duration: 0.1))
         .frame(width: .cardSize.width, height: .cardSize.height)
         .overlay(
             Text(item.headline)
