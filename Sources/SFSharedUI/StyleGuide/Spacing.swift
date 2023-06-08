@@ -21,6 +21,9 @@ public enum Spacing: CGFloat {
 }
 
 extension CGFloat {
+    public static var cardSize: CGSize {
+        .init(width: 144, height: 256)
+    }
     /// 4 pt
     public static var XXXS: CGFloat {
         Spacing.xxxs.rawValue

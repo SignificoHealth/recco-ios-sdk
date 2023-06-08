@@ -56,32 +56,35 @@ open class RecommendationAPI {
     /**
      Get article.
      
-     - parameter recommendationId: (path)  
+     - parameter itemId: (query)  
+     - parameter catalogId: (query)  
      - returns: AppUserArticleDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getArticle(recommendationId: String) async throws -> AppUserArticleDTO {
-        return try await getArticleWithRequestBuilder(recommendationId: recommendationId).execute().body
+    open class func getArticle(itemId: String, catalogId: String) async throws -> AppUserArticleDTO {
+        return try await getArticleWithRequestBuilder(itemId: itemId, catalogId: catalogId).execute().body
     }
 
     /**
      Get article.
-     - GET /api/v1/me/recommendations/articles/{recommendationId}
+     - GET /api/v1/me/recommendations/articles
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter recommendationId: (path)  
+     - parameter itemId: (query)  
+     - parameter catalogId: (query)  
      - returns: RequestBuilder<AppUserArticleDTO> 
      */
-    open class func getArticleWithRequestBuilder(recommendationId: String) -> RequestBuilder<AppUserArticleDTO> {
-        var localVariablePath = "/api/v1/me/recommendations/articles/{recommendationId}"
-        let recommendationIdPreEscape = "\(APIHelper.mapValueToPathItem(recommendationId))"
-        let recommendationIdPostEscape = recommendationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{recommendationId}", with: recommendationIdPostEscape, options: .literal, range: nil)
+    open class func getArticleWithRequestBuilder(itemId: String, catalogId: String) -> RequestBuilder<AppUserArticleDTO> {
+        let localVariablePath = "/api/v1/me/recommendations/articles"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "itemId": (wrappedValue: itemId.encodeToJSON(), isExplode: true),
+            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

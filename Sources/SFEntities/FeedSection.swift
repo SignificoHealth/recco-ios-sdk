@@ -18,12 +18,12 @@ public enum FeedSectionType: String, Codable, CaseIterable {
 public struct FeedSection: Equatable, Hashable {
     public var type: FeedSectionType
     public var locked: Bool
-    public var topicId: Int?
+    public var topic: SFTopic?
 
-    public init(type: FeedSectionType, locked: Bool, topicId: Int? = nil) {
+    public init(type: FeedSectionType, locked: Bool, topic: SFTopic? = nil) {
         self.type = type
         self.locked = locked
-        self.topicId = topicId
+        self.topic = topic
     }
 }
 

@@ -23,7 +23,8 @@ let Api: Target = .target(
     ],
     exclude: [
         "sf-backend-open-api.json",
-        "generate-api.sh"
+        "generate-api.sh",
+        "patch-api"
     ]
 )
 let Repo: Target = .target(name: "SFRepo", dependencies: [
@@ -43,7 +44,9 @@ let Dashboard: Target = .target(
     name: "SFDashboard",
     dependencies: [
         .add(SharedUI),
-        .add(Repo)
+        .add(Repo),
+        .product(name: "Nuke", package: "Nuke"),
+        .product(name: "NukeUI", package: "Nuke")
     ]
 )
 
@@ -58,10 +61,12 @@ let package = Package(
             name: "SignificoSF",
             targets: ["SignificoSF"]
         ),
-        .library(name: SharedUI.name, targets: [SharedUI.name])
+        .library(name: SharedUI.name, targets: [SharedUI.name]),
+        .library(name: Dashboard.name, targets: [Dashboard.name])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "0.1.0"))
+        .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "0.1.0")),
+        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.0"))
     ],
     targets: [
         .target(name: "SignificoSF",

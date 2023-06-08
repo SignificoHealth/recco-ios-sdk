@@ -38,6 +38,10 @@ public extension Color {
 // MARK: Derivation
 
 public extension UIColor {
+    static var sfIllustration80: UIColor =
+        .sfPrimary.withAlphaComponent(0.8)
+    static var sfIllustration40: UIColor =
+        .sfPrimary.withAlphaComponent(0.4)
     static var sfPrimary10: UIColor =
         .sfPrimary.withAlphaComponent(0.1)
     static var sfPrimary20: UIColor =
@@ -56,7 +60,9 @@ public extension UIColor {
     static let sfAccent60 = UIColor.sfAccent.withAlphaComponent(0.6)
 }
 
-extension Color {
+public extension Color {
+    static var sfIllustration80: Color = Color(.sfIllustration80)
+    static var sfIllustration40: Color = Color(.sfIllustration40)
     static let sfPrimary10: Color = Color(.sfPrimary10)
     static let sfPrimary20: Color = Color(.sfPrimary20)
     static let sfPrimary40: Color = Color(.sfPrimary40)

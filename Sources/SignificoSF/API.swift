@@ -11,6 +11,8 @@ import SwiftUI
 import SFCore
 import SFApi
 import SFRepo
+import SFEntities
+import SFSharedUI
 
 public func initialize(clientSecret: String) {
     SFApi.initialize(
@@ -23,6 +25,10 @@ public func initialize(clientSecret: String) {
         CoreAssembly(),
         DashboardAssembly()
     ])
+    
+    let keychain: KeychainProxy = get()
+    let appUser: AppUser? = try? keychain.read(key: .currentUserId)
+    appUser.map(\.id).map(SFApi.clientIdChanged)
 }
 
 public func login(user: String) async throws {
@@ -45,6 +51,6 @@ public struct SFRootView: View {
     }
 }
 
-public var SFRootVC: UIViewController {
-    UIHostingController(rootView: SFRootView())
+public func GestureDismissableSFDashboard() -> UIViewController {
+    PartialSheetHostingController(size: .custom(UIScreen.main.bounds.height * 0.95), rootView: SFRootView())
 }

@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Adrián R on 1/6/23.
-//
-
 import Foundation
 import SFEntities
 import SFApi
@@ -32,6 +25,8 @@ public class LiveAuthRepository: AuthRepository {
         
         try keychain.save(key: .currentUserId, AppUser(id: clientUserId))
         try keychain.save(key: .currentPat, PAT(dto: dto))
+        
+        SFApi.logedIn(newBearer: dto.accessToken)
     }
     
     public func logout() async throws {

@@ -632,7 +632,7 @@
         ]
       }
     },
-    "/api/v1/me/recommendations/articles/{recommendationId}": {
+    "/api/v1/me/recommendations/articles": {
       "get": {
         "tags": [
           "Recommendation"
@@ -641,8 +641,16 @@
         "operationId": "getArticle",
         "parameters": [
           {
-            "name": "recommendationId",
-            "in": "path",
+            "name": "itemId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "catalogId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
@@ -1086,6 +1094,7 @@
       },
       "AppUserArticle": {
         "required": [
+          "bookmarked",
           "headline",
           "id",
           "rating",
@@ -1094,7 +1103,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "$ref": "#/components/schemas/ContentId"
           },
           "rating": {
             "type": "string",
@@ -1110,6 +1119,9 @@
               "no_interaction",
               "viewed"
             ]
+          },
+          "bookmarked": {
+            "type": "boolean"
           },
           "headline": {
             "type": "string"

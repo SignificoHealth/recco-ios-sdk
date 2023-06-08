@@ -3,6 +3,6 @@ import SwiftUI
 
 extension View {
     public func shadowBase() -> some View {
-        shadow(color: .sfOnBackground.opacity(0.1), radius: 20, y: 4)
+        shadow(color: .sfOnBackground.opacity(0.05), radius: 5, y: 4)
     }
 }

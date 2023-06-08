@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct RefreshableScrollView<Content: View>: View {
-    init(
+public struct RefreshableScrollView<Content: View>: View {
+    public init(
         refreshAction: @escaping () async -> Void,
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -12,7 +12,7 @@ struct RefreshableScrollView<Content: View>: View {
     let content: () -> Content
     let refreshAction: () async -> Void
     
-    var body: some View {
+    public var body: some View {
         if #available(iOS 16, *) {
             ScrollView {
                 content()

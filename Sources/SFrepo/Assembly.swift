@@ -10,6 +10,7 @@ import SFCore
 
 public final class RepositoryAssembly: SFAssembly {
     private let clientSecret: String
+    
     public init(clientSecret: String) {
         self.clientSecret = clientSecret
     }
@@ -20,6 +21,14 @@ public final class RepositoryAssembly: SFAssembly {
                 keychain: r.get(),
                 clientSecret: clientSecret
             )
+        }
+        
+        container.register(type: RecommendationRepository.self) { _ in
+            LiveRecommendationRepository()
+        }
+        
+        container.register(type: FeedRepository.self) { _ in
+            LiveFeedRepository()
         }
     }
 }

@@ -13,7 +13,7 @@ import SFApi
 struct SFTestAppApp: App {
     init() {
         SignificoSF.initialize(
-            clientSecret: "YuJi02IHzJDxe-oiqT1QOptnh9mGMnulPPx5C3xoyBSe0dNha-m1qOjG9DopeSspqR9d6-Y"
+            clientSecret: "G29B_plhobNgkKPv5Np26EMK67cvxhbhT1VRyB5-vbFifpKhuveuMeCjnk0tnv8b2QKWflY"
         )
     }
     

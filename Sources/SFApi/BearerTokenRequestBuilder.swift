@@ -135,7 +135,7 @@ class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBui
 }
 
 public class BearerTokenHandler {
-    private static var bearerToken: String? = nil
+    static var bearerToken: String? = nil
     static var clientSecret: String!
     static var clientId: String?
 
@@ -181,3 +181,11 @@ public class BearerTokenHandler {
         }
     }
 }
+
+extension TopicDTO: ExpressibleByStringLiteral {
+    public init(stringLiteral value: StringLiteralType) {
+        self.init(rawValue: value)!
+    }
+}
+
+extension TopicDTO: ExpressibleByStringInterpolation {}

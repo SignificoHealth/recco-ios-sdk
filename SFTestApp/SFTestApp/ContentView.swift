@@ -11,7 +11,7 @@ import SignificoSF
 struct ContentView: View {
     @AppStorage("loggedUser") var currentUser: String = ""
     @State var showConfigurationView: Bool = false
-    
+
     var currentUserDisplay: String {
         currentUser.isEmpty ?
         "Not logged in" :
@@ -23,8 +23,12 @@ struct ContentView: View {
             List {
                 Text("Current User: ") +
                 Text(currentUserDisplay).bold()
-                Text("Show Dashboard")
-                    .bold()
+                Button {
+                    UIApplication.shared.windows.first?.rootViewController?.present(GestureDismissableSFDashboard(), animated: true)
+                } label: {
+                    Text("Show Dashboard")
+                        .bold()
+                }
             }
             .navigationTitle("SFShowcase")
             .toolbar {

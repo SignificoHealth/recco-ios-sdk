@@ -14,8 +14,13 @@ public func initialize(
     OpenAPIClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()
     OpenAPIClientAPI.basePath = baseUrl
     BearerTokenHandler.clientSecret = "Bearer \(clientSecret)"
+    OpenAPIClientAPI.customHeaders["Accept-Language"] = "en-US"
 }
 
 public func clientIdChanged(_ newValue: String?) {
     BearerTokenHandler.clientId = newValue
+}
+
+public func logedIn(newBearer: String) {
+    BearerTokenHandler.bearerToken = newBearer
 }

@@ -30,6 +30,7 @@ class SFSharedContainer {
     fileprivate init() {}
 
     static let shared = SFSharedContainer()
+    
     private var rememberedSingletons: [ServiceParameters: Bool] = [:]
     var singletons: [ServiceParameters: Any] = [:]
     var services: [ServiceParameters: (SFResolver, [Any]) -> Any] = [:]
@@ -56,7 +57,7 @@ extension SFSharedContainer: SFResolver {
     func resolve<Service>(type: Service.Type) -> Service? {
         let key: ServiceParameters = .init(type: "\(type)", arguments: [])
         let provider = services[key]
-        
+
         if rememberedSingletons[key] ?? false {
             guard let value = singletons[key] else {
                 let value = provider?(SFSharedContainer.shared, [])
@@ -123,7 +124,7 @@ extension SFContainer {
 
 public extension SFResolver {
     func get<T>() -> T {
-        resolve(type: T.self)!
+        return resolve(type: T.self)!
     }
     
     func get<T, Arg1>(argument: Arg1) -> T {
@@ -133,20 +134,20 @@ public extension SFResolver {
 
 #if DEBUG
 import SwiftUI
+
 public struct Assembling<Content: View>: View {
-    private var previewContainer = SFSharedContainer()
     var content: (any SFResolver) -> Content
-    
+
     public init(_ assembling: SFAssembly..., @ViewBuilder content: @escaping (SFResolver) -> Content) {
         for a in assembling {
-            a.assemble(container: previewContainer)
+            a.assemble(container: SFSharedContainer.shared)
         }
         
         self.content = content
     }
     
     public var body: some View {
-        content(previewContainer)
+        content(SFSharedContainer.shared)
     }
 }
 #endif
