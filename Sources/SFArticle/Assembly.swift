@@ -4,7 +4,7 @@ import SFEntities
 public final class ArticleAssembly: SFAssembly {
     public init() {}
     public func assemble(container: SFContainer) {
-        container.register(type: ArticleDetailViewModel.self) { (r: SFResolver, tuple: (ContentId, String, URL?)) in
+        container.register(type: ArticleDetailViewModel.self) { (r: SFResolver, tuple: (ContentId, String, URL?, (ContentId) -> Void)) in
             ArticleDetailViewModel(
                 loadedContent: tuple,
                 articleRepo: r.get(),

@@ -13,6 +13,7 @@ public struct BouncyHeaderScrollview<
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
         shapeHeight: CGFloat?,
+        offset: Binding<CGFloat>? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder overlayHeader: @escaping () -> OverlayHeader,
         @ViewBuilder content: @escaping () -> Content,
@@ -27,8 +28,10 @@ public struct BouncyHeaderScrollview<
         self.cta = cta
         self.navTitle = navTitle
         self.shapeHeight = shapeHeight
+        self.propagatedOffset = offset
     }
     
+    private var propagatedOffset: Binding<CGFloat>?
     private var navTitle: String?
     private var shapeHeight: CGFloat?
     private var header: () -> Header
@@ -39,6 +42,7 @@ public struct BouncyHeaderScrollview<
     private var closeAction: (() -> Void)?
     
     @State private var scrollOffset: CGFloat = .zero
+    
     private var imageHeaderHeight: CGFloat
     
     var zoomEffect: CGFloat {
@@ -115,6 +119,9 @@ public struct BouncyHeaderScrollview<
             backAction: backAction,
             closeAction: closeAction
         )
+        .onChange(of: scrollOffset) { newValue in
+            propagatedOffset?.wrappedValue = newValue
+        }
     }
 }
 
@@ -127,6 +134,7 @@ CTA == EmptyView {
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.height * 0.4,
         shapeHeight: CGFloat? = nil,
+        offset: Binding<CGFloat>? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -136,6 +144,7 @@ CTA == EmptyView {
             closeAction: closeAction,
             imageHeaderHeight: imageHeaderHeight,
             shapeHeight: shapeHeight,
+            offset: offset,
             header: header,
             overlayHeader: { EmptyView() },
             content: content,
@@ -151,11 +160,23 @@ extension BouncyHeaderScrollview where CTA == EmptyView {
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
         shapeHeight: CGFloat? = nil,
+        offset: Binding<CGFloat>? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder overlayHeader: @escaping () -> OverlayHeader,
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self.init(navTitle: navTitle, backAction: backAction, closeAction: closeAction, imageHeaderHeight: imageHeaderHeight, shapeHeight: shapeHeight, header: header, overlayHeader: overlayHeader, content: content, cta: { EmptyView() })
+        self.init(
+            navTitle: navTitle,
+            backAction: backAction,
+            closeAction: closeAction,
+            imageHeaderHeight: imageHeaderHeight,
+            shapeHeight: shapeHeight,
+            offset: offset,
+            header: header,
+            overlayHeader: overlayHeader,
+            content: content,
+            cta: { EmptyView() }
+        )
     }
 }
 

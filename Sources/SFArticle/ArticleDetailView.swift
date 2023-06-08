@@ -12,11 +12,19 @@ public struct ArticleDetailView: View {
     
     @Environment(\.presentationMode) var dismiss
     @StateObject var viewModel: ArticleDetailViewModel
+    @State private var offset: CGFloat = .zero
+    @State private var thresholdShadowY: CGFloat = .infinity
+    
+    private var calculatedOpacityForShadow: CGFloat {
+        let distance = thresholdShadowY - offset
+        return abs((distance/100).clamped(to: 0.0...0.3))
+    }
     
     public var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
-            backAction: { dismiss.wrappedValue.dismiss() }
+            backAction: { dismiss.wrappedValue.dismiss() },
+            offset: $offset
         ) {
             LazyImage(
                 url: viewModel.imageUrl
@@ -57,8 +65,8 @@ public struct ArticleDetailView: View {
                     .frame(maxWidth: .infinity)
                 
                 SFLoadingView(viewModel.isLoading) {
-                    VStack(alignment: .leading, spacing: .L) {
-                        if let article = viewModel.article {
+                    if let article = viewModel.article {
+                        VStack(alignment: .leading, spacing: .L) {
                             if let lead = article.lead {
                                 Text(lead).body1bold()
                             }
@@ -72,17 +80,46 @@ public struct ArticleDetailView: View {
                         }
                     }
                 }
+                
+                Spacer()
+                    .overlay(
+                        GeometryReader { geometry in
+                            Color.clear.onAppear {
+                                thresholdShadowY = geometry.frame(in: .named("scroll")).minY - 60
+                            }
+                        }
+                    )
             }
+            .coordinateSpace(name: "scroll")
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, .L)
             .padding(.horizontal, .S)
             .background(Color.sfBackground)
             .cornerRadius(.L, corners: [.topLeft, .topRight])
             .padding(.top, -UIScreen.main.bounds.height * 0.05)
+            .errorView(error: $viewModel.initialLoadError, onRetry: {
+                await viewModel.initialLoad()
+            })
         }
+        .overlay(
+            Group {
+                if let article = viewModel.article {
+                    ContentInteractionView(
+                        rating: article.rating,
+                        bookmark: article.bookmarked,
+                        toggleBookmark: viewModel.toggleBookmark,
+                        rate: viewModel.rate
+                    )
+                    .shadowBase(opacity: calculatedOpacityForShadow)
+                    .padding(.M)
+                }
+            },
+            alignment: .bottom
+        )
+        .sfNotification(error: $viewModel.actionError)
         .navigationBarHidden(true)
         .task {
-            await viewModel.getArticle()
+            await viewModel.initialLoad()
         }
     }
 }

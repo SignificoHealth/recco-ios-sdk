@@ -19,6 +19,7 @@ struct FeedItemView: View {
             if let image = state.image {
                 image.resizable()
                     .scaledToFill()
+                    .opacity(item.status == .viewed ? 0.4 : 1)
             } else if state.error != nil {
                 Color.sfPrimary20.overlay(
                     Image(systemName: "exclamationmark.icloud.fill")
@@ -49,7 +50,6 @@ struct FeedItemView: View {
         .clipShape(
             RoundedRectangle(cornerRadius: .XXS)
         )
-        .opacity(item.status == .viewed ? 0.4 : 1)
         .shadowBase()
     }
 }
@@ -63,7 +63,6 @@ struct FeedItemView_Previews: PreviewProvider {
             status: .noInteraction,
             headline: "This card is good",
             imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg")
-        )
-        )
+        ))
     }
 }

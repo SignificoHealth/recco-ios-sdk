@@ -4,11 +4,12 @@ import SFSharedUI
 
 struct FeedSectionView: View {
     var section: FeedSectionViewState
+    var items: [AppUserRecommendation]
     var goToDetail: (AppUserRecommendation) -> Void
     
     @ViewBuilder
     var body: some View {
-        if section.items.isEmpty && !section.isLoading && !section.section.locked {
+        if items.isEmpty && !section.isLoading && !section.section.locked {
             EmptyView()
         } else {
             VStack(alignment: .leading, spacing: .S) {
@@ -16,7 +17,7 @@ struct FeedSectionView: View {
                     .h4()
                     .padding(.horizontal, .M)
                 
-                if section.isLoading && !section.section.locked && section.items.isEmpty {
+                if section.isLoading && !section.section.locked && items.isEmpty {
                     LoadingSectionView()
                 } else {
                     if section.section.locked {
@@ -25,7 +26,7 @@ struct FeedSectionView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: .XS) {
                                 Spacer(minLength: .S)
-                                ForEach(section.items, id: \.self) { item in
+                                ForEach(items, id: \.self) { item in
                                     Button {
                                         goToDetail(item)
                                     } label: {
@@ -37,7 +38,6 @@ struct FeedSectionView: View {
                             .frame(height: .cardSize.height)
                             .padding(.bottom, .M)
                         }
-                        
                     }
                 }
             }
@@ -51,9 +51,10 @@ struct FeedSectionView_Previews: PreviewProvider {
         FeedSectionView(
             section: .init(
                 section: .init(type: .mostPopular, locked: true),
-                isLoading: false,
-                items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))]
-            ), goToDetail: { _ in}
+                isLoading: false
+            ),
+            items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
+            goToDetail: { _ in}
         )
     }
 }

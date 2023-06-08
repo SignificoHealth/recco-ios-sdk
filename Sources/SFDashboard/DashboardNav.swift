@@ -6,7 +6,7 @@ import SwiftUI
 import SFCore
 
 enum Destination {
-    case article(id: ContentId, headline: String, imageUrl: URL?)
+    case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void)
 }
 
 public final class DashboardCoordinator {
@@ -22,9 +22,9 @@ public final class DashboardCoordinator {
     
     func navigate(to destination: Destination) {
         switch destination {
-        case .article(id: let id, headline: let headline, imageUrl: let imageUrl):
+        case let .article(id, headline, imageUrl, seenContent):
             navController?.pushViewController(
-                UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl)))),
+                UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl, seenContent)))),
                 animated: true
             )
         }

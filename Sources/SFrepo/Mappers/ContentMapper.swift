@@ -70,6 +70,7 @@ extension AppUserArticle {
             rating: try .init(dto: dto.rating),
             status: try .init(dto: dto.status),
             headline: dto.headline,
+            bookmarked: dto.bookmarked,
             lead: dto.lead,
             imageUrl: dto.imageUrl.flatMap(URL.init),
             articleBodyHtml: dto.articleBodyHtml

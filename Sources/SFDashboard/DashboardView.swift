@@ -26,6 +26,7 @@ public struct DashboardView: View {
                             ForEach(viewModel.sections, id: \.self) { section in
                                 FeedSectionView(
                                     section: section,
+                                    items: viewModel.items[section.section, default: []],
                                     goToDetail: viewModel.goToDetail
                                 )
                             }

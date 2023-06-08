@@ -14,13 +14,13 @@ public struct SFButton: View {
     var leadingImage: Image?
     var trailingImage: Image?
     var text: String?
-    var action: () -> Void
+    var action: () async -> Void
     var isLoading: Bool
     var style: SFButton.Style
     
     public init(
         style: SFButton.Style = .primary,
-        action: @escaping () -> Void,
+        action: @escaping () async -> Void,
         text: String? = nil,
         leadingImage: Image? = nil,
         trailingImage: Image? = nil,
@@ -80,7 +80,11 @@ public struct SFButton: View {
     }
     
     public var body: some View {
-        Button(action: action) {
+        Button(action: {
+            Task {
+                await action()
+            }
+        }) {
             HStack(spacing: style == .mini ? .XXXS : .XS) {
                 if isLoading {
                     ProgressView()
