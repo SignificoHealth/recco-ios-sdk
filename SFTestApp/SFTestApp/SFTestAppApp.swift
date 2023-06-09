@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SignificoSF
-import SFApi
 
 @main
 struct SFTestAppApp: App {

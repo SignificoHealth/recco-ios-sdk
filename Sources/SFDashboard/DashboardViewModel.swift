@@ -25,7 +25,7 @@ public final class DashboardViewModel: ObservableObject {
     @Published var sections: [FeedSectionViewState] = []
     @Published var items: [FeedSection: [AppUserRecommendation]] = [:]
     @Published var errors: [FeedSection: Error?] = [:]
-    
+
     public init(
         feedRepo: FeedRepository,
         recRepo: RecommendationRepository,

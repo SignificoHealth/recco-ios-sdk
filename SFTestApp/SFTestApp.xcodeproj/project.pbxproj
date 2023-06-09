@@ -17,7 +17,7 @@
 
 /* Begin PBXFileReference section */
 		6EA7C67A2A28F4240090C2A2 /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
-		6EB3C1A82A1F734C008C4EE4 /* SFTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EB3C1A82A1F734C008C4EE4 /* SF Showcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF Showcase.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EB3C1AB2A1F734C008C4EE4 /* SFTestAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTestAppApp.swift; sourceTree = "<group>"; };
 		6EB3C1AD2A1F734C008C4EE4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6EB3C1AF2A1F734D008C4EE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		6EB3C1A92A1F734C008C4EE4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6EB3C1A82A1F734C008C4EE4 /* SFTestApp.app */,
+				6EB3C1A82A1F734C008C4EE4 /* SF Showcase.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6EB3C1A72A1F734C008C4EE4 /* SFTestApp */ = {
+		6EB3C1A72A1F734C008C4EE4 /* SF Showcase */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6EB3C1B62A1F734D008C4EE4 /* Build configuration list for PBXNativeTarget "SFTestApp" */;
+			buildConfigurationList = 6EB3C1B62A1F734D008C4EE4 /* Build configuration list for PBXNativeTarget "SF Showcase" */;
 			buildPhases = (
 				6EB3C1A42A1F734C008C4EE4 /* Sources */,
 				6EB3C1A52A1F734C008C4EE4 /* Frameworks */,
@@ -107,12 +107,12 @@
 			);
 			dependencies = (
 			);
-			name = SFTestApp;
+			name = "SF Showcase";
 			packageProductDependencies = (
 				6EB3C1C42A1FB632008C4EE4 /* SignificoSF */,
 			);
 			productName = SFTestApp;
-			productReference = 6EB3C1A82A1F734C008C4EE4 /* SFTestApp.app */;
+			productReference = 6EB3C1A82A1F734C008C4EE4 /* SF Showcase.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -143,7 +143,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6EB3C1A72A1F734C008C4EE4 /* SFTestApp */,
+				6EB3C1A72A1F734C008C4EE4 /* SF Showcase */,
 			);
 		};
 /* End PBXProject section */
@@ -362,7 +362,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6EB3C1B62A1F734D008C4EE4 /* Build configuration list for PBXNativeTarget "SFTestApp" */ = {
+		6EB3C1B62A1F734D008C4EE4 /* Build configuration list for PBXNativeTarget "SF Showcase" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6EB3C1B72A1F734D008C4EE4 /* Debug */,

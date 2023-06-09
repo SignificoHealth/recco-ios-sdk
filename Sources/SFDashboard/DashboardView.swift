@@ -10,7 +10,8 @@ import SFSharedUI
 
 public struct DashboardView: View {
     @StateObject var viewModel: DashboardViewModel
-    
+    @Environment(\.presentationMode) private var dismiss
+
     public init(viewModel: DashboardViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
@@ -20,8 +21,10 @@ public struct DashboardView: View {
             SFLoadingView(viewModel.isLoading) {
                 RefreshableScrollView(
                     refreshAction: viewModel.getFeedItems) {
-                        VStack(alignment: .leading) {
-                            DashboardHeader()
+                        VStack(alignment: .leading, spacing: .XXS) {
+                            DashboardHeader(
+                                dismiss: { dismiss.wrappedValue.dismiss() }
+                            )
                             
                             ForEach(viewModel.sections, id: \.self) { section in
                                 FeedSectionView(
@@ -31,11 +34,14 @@ public struct DashboardView: View {
                                 )
                             }
                         }
-                        .padding(.vertical, .M)
+                        .padding(.bottom, .M)
                     }
             }
-            .errorView(error: $viewModel.initialLoadError, onRetry: viewModel.getFeedItems)
-            .padding(.top, .M)
+            .errorView(
+                error: $viewModel.initialLoadError,
+                onRetry: viewModel.getFeedItems,
+                onClose: { dismiss.wrappedValue.dismiss() }
+            )
             .background(Color.sfBackground)
             .navigationBarHidden(true)
         }
@@ -43,29 +49,43 @@ public struct DashboardView: View {
 }
 
 struct DashboardHeader: View {
+    var dismiss: () -> Void
+    
     var body: some View {
-        HStack(alignment: .top, spacing: .XS) {
-            VStack(alignment: .leading) {
-                Text("dashboard.title".localized)
-                    .h1()
-                Text("dashboard.subtitle".localized)
-                    .body1()
+        VStack {
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .foregroundColor(.sfPrimary)
             }
-            .padding(.leading, .M)
+            .padding(.trailing, .M)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .padding(.vertical, .M)
             
-            Spacer()
-            
-            Image(resource: "flower_fill")
-                .renderingMode(.template)
-                .foregroundColor(Color.sfIllustration80)
-                .overlay(Image(resource: "flower_outline"))
+            HStack(alignment: .top, spacing: .XS) {
+                VStack(alignment: .leading) {
+                    Text("dashboard.title".localized)
+                        .h1()
+                    Text("dashboard.subtitle".localized)
+                        .body1()
+                }
+                .padding(.leading, .M)
+                
+                Spacer()
+                
+                Image(resource: "flower_fill")
+                    .renderingMode(.template)
+                    .foregroundColor(Color.sfIllustration80)
+                    .overlay(Image(resource: "flower_outline"))
+            }
         }
     }
 }
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardHeader()
+        DashboardHeader(dismiss: {})
         
         withAssembly { r in
             DashboardView(viewModel: r.get())

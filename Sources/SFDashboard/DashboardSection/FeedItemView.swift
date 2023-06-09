@@ -38,9 +38,11 @@ struct FeedItemView: View {
         .overlay(
             Text(item.headline)
                 .body3()
+                .lineLimit(2)
                 .frame(maxWidth: .infinity)
                 .padding(.XXS)
                 .multilineTextAlignment(.center)
+                .frame(height: .L + .M)
                 .background(Color.sfBackground),
             alignment: .bottom
         )

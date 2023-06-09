@@ -3,6 +3,14 @@ import SFSharedUI
 import SFEntities
 import NukeUI
 
+fileprivate struct BoundsPreference: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
 public struct ArticleDetailView: View {
     public init(
         viewModel: ArticleDetailViewModel
@@ -10,20 +18,32 @@ public struct ArticleDetailView: View {
         self._viewModel = .init(wrappedValue: viewModel)
     }
     
+    private var headerHeight: CGFloat {
+        UIScreen.main.bounds.height * 0.4
+    }
+    
+    private var negativePaddingTop: CGFloat {
+        -UIScreen.main.bounds.height * 0.05
+    }
+    
+    private var shadowOpacity: CGFloat {
+        if viewModel.isLoading { return 0.3 }
+        let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL
+
+        return (-distance/100).clamped(to: 0...0.3)
+    }
+    
     @Environment(\.presentationMode) var dismiss
     @StateObject var viewModel: ArticleDetailViewModel
     @State private var offset: CGFloat = .zero
-    @State private var thresholdShadowY: CGFloat = .infinity
-    
-    private var calculatedOpacityForShadow: CGFloat {
-        let distance = thresholdShadowY - offset
-        return abs((distance/100).clamped(to: 0.0...0.3))
-    }
-    
+    @State private var contentHeight: CGFloat = .zero
+    @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
+
     public var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             backAction: { dismiss.wrappedValue.dismiss() },
+            imageHeaderHeight: headerHeight,
             offset: $offset
         ) {
             LazyImage(
@@ -82,24 +102,21 @@ public struct ArticleDetailView: View {
                 }
                 
                 Spacer()
-                    .overlay(
-                        GeometryReader { geometry in
-                            Color.clear.onAppear {
-                                thresholdShadowY = geometry.frame(in: .named("scroll")).minY - 60
-                            }
-                        }
-                    )
             }
-            .coordinateSpace(name: "scroll")
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, .L)
             .padding(.horizontal, .S)
             .background(Color.sfBackground)
+            .overlay(
+                GeometryReader { proxy in
+                    Color.clear.preference(key: BoundsPreference.self, value: proxy.size.height)
+                }
+            )
             .cornerRadius(.L, corners: [.topLeft, .topRight])
-            .padding(.top, -UIScreen.main.bounds.height * 0.05)
-            .errorView(error: $viewModel.initialLoadError, onRetry: {
-                await viewModel.initialLoad()
-            })
+            .padding(.top, negativePaddingTop)
+        }
+        .onPreferenceChange(BoundsPreference.self) { new in
+            contentHeight = new
         }
         .overlay(
             Group {
@@ -110,14 +127,29 @@ public struct ArticleDetailView: View {
                         toggleBookmark: viewModel.toggleBookmark,
                         rate: viewModel.rate
                     )
-                    .shadowBase(opacity: calculatedOpacityForShadow)
+                    .shadowBase(opacity: shadowOpacity)
                     .padding(.M)
                 }
             },
             alignment: .bottom
         )
+        .errorView(
+            error: $viewModel.initialLoadError,
+            onRetry: {
+                await viewModel.initialLoad()
+            },
+            onClose: { dismiss.wrappedValue.dismiss()
+            }
+        )
         .sfNotification(error: $viewModel.actionError)
         .navigationBarHidden(true)
+        .overlay(
+            GeometryReader { proxy in
+                Color.clear.onAppear {
+                    totalViewHeight = proxy.size.height
+                }
+            }
+        )
         .task {
             await viewModel.initialLoad()
         }
@@ -127,7 +159,12 @@ public struct ArticleDetailView: View {
 struct ArticleDetailView_Previews: PreviewProvider {
     static var previews: some View {
         withAssembly { r in
-            ArticleDetailView(viewModel: r.get(argument: (ContentId(itemId: "", catalogId: ""), "This is a header", URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))))
+            ArticleDetailView(viewModel: r.get(argument: (
+                ContentId(itemId: "", catalogId: "")
+                , "This is a header",
+                URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"),
+                { (asdf: ContentId) in }
+            )))
         }
     }
 }

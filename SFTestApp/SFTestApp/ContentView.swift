@@ -11,6 +11,8 @@ import SignificoSF
 struct ContentView: View {
     @AppStorage("loggedUser") var currentUser: String = ""
     @State var showConfigurationView: Bool = false
+    @State var showFullscreenDashboard: Bool = false
+    @State var showSheetDashboard: Bool = false
 
     var currentUserDisplay: String {
         currentUser.isEmpty ?
@@ -31,10 +33,18 @@ struct ContentView: View {
             List {
                 Text("Current User: ") +
                 Text(currentUserDisplay).bold()
+                
                 Button {
-                    window?.rootViewController?.present(GestureDismissableSFDashboard(), animated: true)
+                    showSheetDashboard = true
                 } label: {
-                    Text("Show Dashboard")
+                    Text("Show Dashboard partially")
+                        .bold()
+                }
+                
+                Button {
+                    showFullscreenDashboard = true
+                } label: {
+                    Text("Show Dashboard full scren")
                         .bold()
                 }
             }
@@ -48,8 +58,14 @@ struct ContentView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showSheetDashboard) {
+                SFRootView()
+            }
             .sheet(isPresented: $showConfigurationView) {
                 ConfigurationView(user: $currentUser)
+            }
+            .fullScreenCover(isPresented: $showFullscreenDashboard) {
+                SFRootView()
             }
         }
     }

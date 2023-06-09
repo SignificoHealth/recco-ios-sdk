@@ -88,7 +88,9 @@ public struct ErrorView: View {
         if let onClose = onClose {
             Button(action: onClose, label: {
                 Image(systemName: "xmark")
+                    .foregroundColor(.sfPrimary)
             })
+            .padding(.vertical, .M)
             .padding(.horizontal, .S)
         }
     }
