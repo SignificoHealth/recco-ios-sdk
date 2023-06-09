@@ -25,10 +25,8 @@ public final class DashboardAssembly: SFAssembly {
     }
 }
 
-#if DEBUG
 import SwiftUI
 import SFRepo
 func withAssembly<Content>(@ViewBuilder content: @escaping (SFResolver) -> Content) -> Assembling<Content> {
     Assembling(RepositoryAssembly(clientSecret: ""), CoreAssembly(), DashboardAssembly(), content: content)
 }
-#endif

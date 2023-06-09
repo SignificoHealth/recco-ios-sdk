@@ -141,6 +141,7 @@ public struct ArticleDetailView: View {
             onClose: { dismiss.wrappedValue.dismiss()
             }
         )
+        .background(Color.sfBackground.ignoresSafeArea())
         .sfNotification(error: $viewModel.actionError)
         .navigationBarHidden(true)
         .overlay(

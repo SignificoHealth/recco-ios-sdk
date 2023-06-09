@@ -14,10 +14,8 @@ public final class ArticleAssembly: SFAssembly {
     }
 }
 
-#if DEBUG
 import SwiftUI
 import SFRepo
 func withAssembly<Content>(@ViewBuilder content: @escaping (SFResolver) -> Content) -> Assembling<Content> {
     Assembling(RepositoryAssembly(clientSecret: ""), CoreAssembly(), ArticleAssembly(), content: content)
 }
-#endif

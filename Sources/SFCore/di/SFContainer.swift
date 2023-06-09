@@ -132,7 +132,6 @@ public extension SFResolver {
     }
 }
 
-#if DEBUG
 import SwiftUI
 
 public struct Assembling<Content: View>: View {
@@ -150,4 +149,3 @@ public struct Assembling<Content: View>: View {
         content(SFSharedContainer.shared)
     }
 }
-#endif

@@ -42,7 +42,7 @@ public struct DashboardView: View {
                 onRetry: viewModel.getFeedItems,
                 onClose: { dismiss.wrappedValue.dismiss() }
             )
-            .background(Color.sfBackground)
+            .background(Color.sfBackground.ignoresSafeArea())
             .navigationBarHidden(true)
         }
     }
