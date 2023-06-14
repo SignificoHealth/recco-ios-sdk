@@ -28,7 +28,7 @@ struct LockedSectionView: View {
 struct LockedFeedItem: View {
     var body: some View {
         ZStack {
-            Image(resource: "locked_bg_\(Int.random(in: (1...3)))")
+            Image(resource: "locked_bg_item_\(Int.random(in: (1...3)))")
                 .resizable()
             
             VStack(spacing: .XXS) {
