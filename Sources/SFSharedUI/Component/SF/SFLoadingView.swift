@@ -9,10 +9,11 @@ public struct SFLoadingView<Content: View>: View {
     public var isLoading: Bool
     public var content: () -> Content
     
+    @ViewBuilder
     public var body: some View {
         if isLoading {
             ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .primary))
+                .progressViewStyle(CircularProgressViewStyle(tint: .sfPrimary))
                 .padding(.M)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {

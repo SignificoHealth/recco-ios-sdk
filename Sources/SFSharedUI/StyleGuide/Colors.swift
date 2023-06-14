@@ -19,8 +19,8 @@ public extension UIColor {
     static let sfOnAccent: UIColor = .init(resource: "sfOnAccent")!
     static let sfOnBackground: UIColor = .init(resource: "sfOnBackground")!
     static let sfOnPrimary: UIColor = .init(resource: "sfOnPrimary")!
-    static let sfOnSurface: UIColor = .init(resource: "sfOnSurface")!
-    static let sfSurface: UIColor = .init(resource: "sfSurface")!
+    static let sfIllustrationLine: UIColor = .init(resource: "sfIllustrationLine")!
+    static let sfLightGray: UIColor = .init(resource: "sfLightGray")!
 }
 
 public extension Color {
@@ -31,8 +31,8 @@ public extension Color {
     static let sfOnAccent: Color = .init(.sfOnAccent)
     static let sfOnBackground: Color = .init(.sfOnBackground)
     static let sfOnPrimary: Color = .init(.sfOnPrimary)
-    static let sfOnSurface: Color = .init(.sfOnSurface)
-    static let sfSurface: Color = .init(.sfSurface)
+    static let sfIllustrationLine: Color = .init(.sfIllustrationLine)
+    static let sfLightGray: Color = .init(.sfLightGray)
 }
 
 // MARK: Derivation
@@ -80,7 +80,7 @@ struct ColorsName_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             VStack {
-                ForEach([Color.sfPrimary, .sfPrimary10, .sfPrimary20, .sfPrimary40, .sfPrimary60, .sfPrimary80, .sfAccent, .sfAccent10, .sfAccent20, .sfAccent40, .sfAccent60, .sfSurface, .sfBackground, .sfIllustration, .sfOnAccent, .sfOnPrimary, .sfOnSurface, .sfOnBackground, .sfOnBackground20, .sfOnBackground60], id: \.self) { color in
+                ForEach([Color.sfPrimary, .sfPrimary10, .sfPrimary20, .sfPrimary40, .sfPrimary60, .sfPrimary80, .sfAccent, .sfAccent10, .sfAccent20, .sfAccent40, .sfAccent60, .sfLightGray, .sfBackground, .sfIllustration, .sfOnAccent, .sfOnPrimary, .sfIllustrationLine, .sfOnBackground, .sfOnBackground20, .sfOnBackground60], id: \.self) { color in
                         Rectangle()
                             .fill(color)
                             .frame(width: 20, height: 20)

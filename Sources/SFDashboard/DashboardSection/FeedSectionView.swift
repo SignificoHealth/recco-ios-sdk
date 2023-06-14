@@ -6,6 +6,7 @@ struct FeedSectionView: View {
     var section: FeedSectionViewState
     var items: [AppUserRecommendation]
     var goToDetail: (AppUserRecommendation) -> Void
+    var pressedLockedSection: (FeedSection) -> Void
     
     @ViewBuilder
     var body: some View {
@@ -22,6 +23,9 @@ struct FeedSectionView: View {
                 } else {
                     if section.section.locked {
                         LockedSectionView()
+                            .onTapGesture {
+                                pressedLockedSection(section.section)
+                            }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: .XS) {
@@ -54,7 +58,8 @@ struct FeedSectionView_Previews: PreviewProvider {
                 isLoading: false
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
-            goToDetail: { _ in}
+            goToDetail: { _ in},
+            pressedLockedSection: {_ in}
         )
     }
 }

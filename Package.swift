@@ -49,6 +49,13 @@ let Article: Target = .target(
         .product(name: "NukeUI", package: "Nuke")
     ])
 
+let Questionnaire: Target = .target(
+    name: "SFQuestionnaire",
+    dependencies: [
+        .add(SharedUI),
+        .add(Repo)
+    ])
+
 let Dashboard: Target = .target(
     name: "SFDashboard",
     dependencies: [

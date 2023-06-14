@@ -8,7 +8,7 @@
 import SwiftUI
 import SFEntities
 
-public struct ContentInteractionView: View {
+public struct SFContentInteractionView: View {
     public init(rating: ContentRating, bookmark: Bool, toggleBookmark: @escaping () -> Void, rate: @escaping (ContentRating) -> Void) {
         self.rating = rating
         self.bookmark = bookmark
@@ -65,12 +65,12 @@ public struct ContentInteractionView: View {
     }
 }
 
-struct ContentInteractionView_Previews: PreviewProvider {
+struct SFContentInteractionView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.sfSurface
+            Color.sfLightGray
             
-            ContentInteractionView(
+            SFContentInteractionView(
                 rating: .like,
                 bookmark: true,
                 toggleBookmark: {},

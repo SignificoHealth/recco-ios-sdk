@@ -62,7 +62,7 @@ struct DissapearingNavBar: View {
             .frame(height: 44)
             .overlay(
                 Rectangle()
-                    .fill(Color.sfSurface)
+                    .fill(Color.sfLightGray)
                     .frame(height: 1),
                 alignment: .bottom
             )

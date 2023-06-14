@@ -27,8 +27,8 @@ public struct ArticleDetailView: View {
     }
     
     private var shadowOpacity: CGFloat {
-        if viewModel.isLoading { return 0.3 }
-        let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL
+        if viewModel.isLoading { return 0 }
+        let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
 
         return (-distance/100).clamped(to: 0...0.3)
     }
@@ -121,7 +121,7 @@ public struct ArticleDetailView: View {
         .overlay(
             Group {
                 if let article = viewModel.article {
-                    ContentInteractionView(
+                    SFContentInteractionView(
                         rating: article.rating,
                         bookmark: article.bookmarked,
                         toggleBookmark: viewModel.toggleBookmark,
@@ -133,7 +133,7 @@ public struct ArticleDetailView: View {
             },
             alignment: .bottom
         )
-        .errorView(
+        .sfErrorView(
             error: $viewModel.initialLoadError,
             onRetry: {
                 await viewModel.initialLoad()

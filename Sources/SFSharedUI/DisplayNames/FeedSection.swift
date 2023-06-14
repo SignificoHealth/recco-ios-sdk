@@ -37,4 +37,34 @@ extension FeedSectionType {
             return "feedSection.name.rec.start".localized
         }
     }
+    
+    public var recName: String {
+        switch self {
+        case .physicalActivityRecommendations:
+            return "feedSection.recName.physicalActivity".localized
+        case .nutritionRecommendations:
+            return "feedSection.recName.nutrition".localized
+        case .physicalWellbeingRecommendations:
+            return "feedSection.recName.physicalWellbeing".localized
+        case .sleepRecommendations:
+            return "feedSection.recName.sleep".localized
+        default:
+            fatalError()
+        }
+    }
+    
+    public var description: String? {
+        switch self {
+        case .physicalActivityRecommendations:
+            return "feedSection.description.rec.physicalActivity".localized
+        case .nutritionRecommendations:
+            return "feedSection.description.rec.nutrition".localized
+        case .physicalWellbeingRecommendations:
+            return "feedSection.description.rec.physicalWellbeing".localized
+        case .sleepRecommendations:
+            return "feedSection.description.rec.sleep".localized
+        default:
+            return nil
+        }
+    }
 }

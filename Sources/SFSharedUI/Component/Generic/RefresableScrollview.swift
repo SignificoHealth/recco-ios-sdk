@@ -12,20 +12,26 @@ public struct RefreshableScrollView<Content: View>: View {
     let content: () -> Content
     let refreshAction: () async -> Void
     
+    @ViewBuilder
     public var body: some View {
         if #available(iOS 16, *) {
             ScrollView {
                 content()
             }
             .refreshable {
-                await refreshAction()
+                // done to avoid possible bug iOS 16(scrollview gets repainted on pull to refresh, cancelling the structured task). https://developer.apple.com/forums/thread/722673
+                Task {
+                    await refreshAction()
+                }
             }
         } else if #available(iOS 15, *) {
             iOS15RefreshableScrollview(
                 content: content
             )
             .refreshable {
-                await refreshAction()
+                Task {
+                    await refreshAction()
+                }
             }
         } else {
             iOS14RefreshableScrollView(

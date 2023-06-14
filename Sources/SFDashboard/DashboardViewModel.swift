@@ -20,12 +20,13 @@ public final class DashboardViewModel: ObservableObject {
     private let recRepo: RecommendationRepository
     private let nav: DashboardCoordinator
     
+    @Published var lockedSectionAlert: FeedSection?
     @Published var isLoading: Bool = true
     @Published var initialLoadError: Error?
     @Published var sections: [FeedSectionViewState] = []
     @Published var items: [FeedSection: [AppUserRecommendation]] = [:]
     @Published var errors: [FeedSection: Error?] = [:]
-
+    
     public init(
         feedRepo: FeedRepository,
         recRepo: RecommendationRepository,
@@ -34,8 +35,6 @@ public final class DashboardViewModel: ObservableObject {
         self.recRepo = recRepo
         self.feedRepo = feedRepo
         self.nav = nav
-        
-        getFeedItems()
     }
     
     func goToDetail(of item: AppUserRecommendation) {
@@ -49,22 +48,25 @@ public final class DashboardViewModel: ObservableObject {
         ))
     }
     
-    func getFeedItems() {
-        Task {
-            await MainActor.run {
-                initialLoadError = nil
-            }
-            
-            do {
-                let data = try await feedRepo.getFeed()
-                await setView(sections: data)
-                await load(sections: data)
-            } catch {
-                await MainActor.run {
-                    initialLoadError = error
-                    isLoading = false
-                }
-            }
+    func pressedUnlockSectionStart() {
+        
+    }
+    
+    func pressedLocked(section: FeedSection) {
+        lockedSectionAlert = section
+    }
+    
+    @MainActor
+    func getFeedItems() async {
+        initialLoadError = nil
+        
+        do {
+            let data = try await feedRepo.getFeed()
+            setView(sections: data)
+            await load(sections: data)
+        } catch {
+            initialLoadError = error
+            isLoading = false
         }
     }
     
@@ -106,7 +108,7 @@ public final class DashboardViewModel: ObservableObject {
     
     @MainActor
     private func setView(sections: [FeedSection]) {
-        self.isLoading = false
+        isLoading = false
         self.sections = sections.enumerated().map { idx, element in
             FeedSectionViewState(
                 section: element,

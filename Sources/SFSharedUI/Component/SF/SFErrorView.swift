@@ -38,7 +38,7 @@ public enum SFErrorType {
     }
 }
 
-public struct ErrorView: View {
+public struct SFErrorView: View {
     let error: Binding<Error?>
     let onRetry: (() -> Void)?
     let onClose: (() -> Void)?
@@ -98,14 +98,14 @@ public struct ErrorView: View {
 
 extension View {
     @ViewBuilder
-    public func errorView(
+    public func sfErrorView(
         error: Binding<Error?>,
         onRetry: (() -> Void)? = nil,
         onClose: (() -> Void)? = nil
     ) -> some View {
         ZStack {
             if error.wrappedValue != nil {
-                ErrorView(error: error, onRetry: onRetry, onClose: onClose)
+                SFErrorView(error: error, onRetry: onRetry, onClose: onClose)
             } else {
                 self
             }
@@ -115,12 +115,12 @@ extension View {
     }
 
     @ViewBuilder
-    public func errorView(
+    public func sfErrorView(
         error: Binding<Error?>,
         onRetry: @escaping (@Sendable () async -> Void),
         onClose: (() -> Void)? = nil
     ) -> some View {
-        errorView(error: error, onRetry: { _Concurrency.Task(operation: onRetry) }, onClose: onClose)
+        sfErrorView(error: error, onRetry: { _Concurrency.Task(operation: onRetry) }, onClose: onClose)
     }
 }
 
@@ -134,7 +134,7 @@ extension Binding: Equatable where Value == Error? {
 
 struct ErrorView_Previews: PreviewProvider {
     static var previews: some View {
-        ErrorView(
+        SFErrorView(
             error: .constant(NSError(domain: "", code: NSURLErrorNotConnectedToInternet)),
             onRetry: { print("Reload") }
         )

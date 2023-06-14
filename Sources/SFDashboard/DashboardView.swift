@@ -7,44 +7,70 @@
 
 import SwiftUI
 import SFSharedUI
+import SFEntities
 
 public struct DashboardView: View {
     @StateObject var viewModel: DashboardViewModel
     @Environment(\.presentationMode) private var dismiss
-
+    
     public init(viewModel: DashboardViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
-
+    
     public var body: some View {
         NavigationView {
             SFLoadingView(viewModel.isLoading) {
                 RefreshableScrollView(
-                    refreshAction: viewModel.getFeedItems) {
-                        VStack(alignment: .leading, spacing: .XXS) {
-                            DashboardHeader(
-                                dismiss: { dismiss.wrappedValue.dismiss() }
+                    refreshAction: viewModel.getFeedItems
+                ) {
+                    VStack(alignment: .leading, spacing: .XXS) {
+                        DashboardHeader(
+                            dismiss: { dismiss.wrappedValue.dismiss() }
+                        )
+                        
+                        ForEach(viewModel.sections, id: \.self) { section in
+                            FeedSectionView(
+                                section: section,
+                                items: viewModel.items[section.section, default: []],
+                                goToDetail: viewModel.goToDetail,
+                                pressedLockedSection: viewModel.pressedLocked
                             )
-                            
-                            ForEach(viewModel.sections, id: \.self) { section in
-                                FeedSectionView(
-                                    section: section,
-                                    items: viewModel.items[section.section, default: []],
-                                    goToDetail: viewModel.goToDetail
-                                )
-                            }
                         }
-                        .padding(.bottom, .M)
                     }
+                    .padding(.bottom, .M)
+                }
+                .sfAlert(
+                    showWhenPresent: $viewModel.lockedSectionAlert,
+                    body: unlockAlert
+                )
             }
-            .errorView(
+            .sfErrorView(
                 error: $viewModel.initialLoadError,
-                onRetry: viewModel.getFeedItems,
+                onRetry: { await viewModel.getFeedItems() },
                 onClose: { dismiss.wrappedValue.dismiss() }
             )
             .background(Color.sfBackground.ignoresSafeArea())
             .navigationBarHidden(true)
         }
+        .task {
+            if viewModel.items.isEmpty {
+                await viewModel.getFeedItems()
+            }
+        }
+    }
+    
+    private func unlockAlert(for section: FeedSection) -> SFAlert<some View> {
+        SFAlert(
+            isPresent: $viewModel.lockedSectionAlert.isPresent(),
+            title: section.type.recName,
+            text: section.type.description,
+            buttonText: "dashboard.unlockSection.button".localized,
+            header: {
+                Image(resource: "digital_people")
+                    .frame(minHeight: 238, alignment: .bottom)
+            },
+            action: viewModel.pressedUnlockSectionStart
+        )
     }
 }
 
