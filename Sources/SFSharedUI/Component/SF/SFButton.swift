@@ -85,29 +85,33 @@ public struct SFButton: View {
                 await action()
             }
         }) {
-            HStack(spacing: style == .mini ? .XXXS : .XS) {
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: accentColor))
-                } else {
-                    leadingImage?.renderingMode(.template).foregroundColor(accentColor)
-                    if style != .mini {
-                        text.map { Text($0) }?
-                            .foregroundColor(accentColor)
-                            .cta()
+            ZStack {
+                background
+                    .layoutPriority(-1)
+                
+                HStack(spacing: style == .mini ? .XXXS : .XS) {
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: accentColor))
                     } else {
-                        text.map { Text($0) }?
-                            .foregroundColor(accentColor)
-                            .labelSmall()
+                        leadingImage?.renderingMode(.template).foregroundColor(accentColor)
+                        if style != .mini {
+                            text.map { Text($0) }?
+                                .foregroundColor(accentColor)
+                                .cta()
+                        } else {
+                            text.map { Text($0) }?
+                                .foregroundColor(accentColor)
+                                .labelSmall()
+                        }
+                        
+                        trailingImage?.renderingMode(.template).foregroundColor(accentColor)
                     }
-                    
-                    trailingImage?.renderingMode(.template).foregroundColor(accentColor)
                 }
+                .padding(.vertical, style == .mini ? .XXS : .XS)
+                .padding(.horizontal, style == .mini ? .M : .S)
+                .frame(maxWidth: style == .mini ? nil : .infinity)
             }
-            .padding(.vertical, style == .mini ? .XXS : .XS)
-            .padding(.horizontal, style == .mini ? .M : .S)
-            .frame(maxWidth: style == .mini ? nil : .infinity)
-            .background(background)
         }
     }
 }

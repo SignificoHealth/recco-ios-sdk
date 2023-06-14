@@ -61,14 +61,12 @@ public struct ArticleDetailView: View {
                     }
                 } else if state.error != nil {
                     Color.sfPrimary20.overlay(
-                        Image(systemName: "exclamationmark.icloud.fill")
+                        Image(resource: "error_image")
                             .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 60)
-                            .foregroundColor(.sfPrimary)
+                            .aspectRatio(contentMode: .fill)
                     )
                 } else {
-                    ProgressView()
+                    SFImageLoadingView(feedItem: false)
                 }
             }
             .processors([.resize(width: UIScreen.main.bounds.width)])
@@ -81,7 +79,7 @@ public struct ArticleDetailView: View {
                 
                 Rectangle()
                     .fill(Color.sfAccent)
-                    .frame(height: 8)
+                    .frame(height: 2)
                     .frame(maxWidth: .infinity)
                 
                 SFLoadingView(viewModel.isLoading) {
@@ -138,8 +136,7 @@ public struct ArticleDetailView: View {
             onRetry: {
                 await viewModel.initialLoad()
             },
-            onClose: { dismiss.wrappedValue.dismiss()
-            }
+            onClose: { dismiss.wrappedValue.dismiss() }
         )
         .background(Color.sfBackground.ignoresSafeArea())
         .sfNotification(error: $viewModel.actionError)

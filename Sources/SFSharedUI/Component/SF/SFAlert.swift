@@ -21,6 +21,7 @@ public struct SFAlert<Header: View>: View {
     }
     
     @Binding public var isPresent: Bool
+        
     public var title: String
     public var text: String?
     public var buttonText: String
@@ -30,10 +31,20 @@ public struct SFAlert<Header: View>: View {
     public var body: some View {
         ZStack {
             Spacer()
+            
             VStack(spacing: 0) {
-                header()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.sfAccent20)
+                ZStack(alignment: .topTrailing) {
+                    header()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.sfAccent20)
+                        .cornerRadius(.M, corners: [.topLeft, .topRight])
+                    
+                    SFCloseButton {
+                        $isPresent.wrappedValue = false
+                    }
+                    .padding(.horizontal, .M)
+                    .padding(.top, -.M)
+                }
                 
                 VStack(spacing: .M) {
                     Text(title)
@@ -55,25 +66,16 @@ public struct SFAlert<Header: View>: View {
                 .padding(.top, .M)
                 .padding(.bottom, .L)
             }
-            .overlay(
-                SFCloseButton {
-                    $isPresent.wrappedValue = false
-                }
-                .padding(.horizontal, .M)
-                .padding(.top, -.M),
-                alignment: .topTrailing
-            )
             Spacer()
         }
         .background(
             RoundedRectangle(cornerRadius: .M)
                 .fill(Color.sfBackground)
+                .shadowBase(opacity: 0.2)
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, .M)
-        .background(
-            Color.sfPrimary.opacity(0.6).ignoresSafeArea(edges: .all)
-        )
+        .transition(.move(edge: .bottom))
     }
 }
 
@@ -86,9 +88,11 @@ extension View {
         header: @escaping () -> Header,
         action: @escaping () -> Void
     ) -> some View {
-        Group {
-            if isPresent.wrappedValue {
-                overlay(
+        ZStack {
+            self
+            
+            ZStack {
+                if isPresent.wrappedValue {
                     SFAlert(
                         isPresent: isPresent,
                         title: title,
@@ -97,13 +101,10 @@ extension View {
                         header: header,
                         action: action
                     )
-                )
-            } else {
-                self
+                }
             }
+            .animation(.interpolatingSpring(stiffness: 400, damping: 30), value: isPresent.wrappedValue)
         }
-        .transition(.opacity)
-        .animation(.easeInOut, value: isPresent.wrappedValue)
     }
     
     public func sfAlert<Wrapped, Header: View>(
@@ -118,21 +119,39 @@ extension View {
                     body(value)
                 }
             }
-            .transition(.opacity)
-            .animation(.easeInOut(duration: 0.2), value: showWhenPresent.isPresent().wrappedValue)
+            .animation(.interpolatingSpring(stiffness: 400, damping: 30), value: showWhenPresent.isPresent().wrappedValue)
         }
     }
 }
 
 struct SFAlert_Previews: PreviewProvider {
+    struct Wrapper: View {
+        @State var isPresent: Bool = false
+        
+        var body: some View {
+            ZStack {
+                Color.gray
+                
+                Button("show") {
+                    isPresent = true
+                }
+            }
+            .sfAlert(
+                isPresent: $isPresent,
+                title: "Hola",
+                text: "ASLKDJHFALK ALKSDFLKAJHS DFH ALKSJDH FLKAJHSDLFKJHALSKDJFH ",
+                buttonText: "Accept",
+                header: {
+                    Image(systemName: "photo.fill")
+                        .resizable()
+                        .scaledToFit()
+                },
+                action: {}
+            )
+        }
+    }
+    
     static var previews: some View {
-        SFAlert(
-            isPresent: .constant(true),
-            title: "Hola",
-            text: "Hey this is Chema, shorthaired now (sorry ladies)",
-            buttonText: "Continue",
-            header: { Image(systemName: "photo.fill") },
-            action: {}
-        )
+        Wrapper()
     }
 }

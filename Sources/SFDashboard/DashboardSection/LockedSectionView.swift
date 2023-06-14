@@ -43,11 +43,8 @@ struct LockedFeedItem: View {
             RoundedRectangle(cornerRadius: .XXS)
         )
         .background(
-            Color
-                .sfBackground
-                .clipShape(
-                    RoundedRectangle(cornerRadius: .XXS)
-                )
+            RoundedRectangle(cornerRadius: .XXS)
+                .fill(Color.sfBackground)
         )
     }
 }

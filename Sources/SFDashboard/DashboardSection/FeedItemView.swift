@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SFEntities
+import SFSharedUI
 import NukeUI
 
 struct FeedItemView: View {
@@ -19,17 +20,17 @@ struct FeedItemView: View {
             if let image = state.image {
                 image.resizable()
                     .scaledToFill()
-                    .opacity(item.status == .viewed ? 0.4 : 1)
+                    .opacity(
+                        item.status == .viewed ? 0.4 : 1
+                    )
             } else if state.error != nil {
                 Color.sfPrimary20.overlay(
-                    Image(systemName: "exclamationmark.icloud.fill")
+                    Image(resource: "error_image")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 60)
-                        .foregroundColor(.sfPrimary)
+                        .aspectRatio(contentMode: .fill)
                 )
             } else {
-                ProgressView()
+                SFImageLoadingView(feedItem: true)
             }
         }
         .processors([.resize(width: .cardSize.width)])
@@ -46,13 +47,14 @@ struct FeedItemView: View {
                 .background(Color.sfBackground),
             alignment: .bottom
         )
-        .background(
-            Color.sfBackground
-        )
         .clipShape(
             RoundedRectangle(cornerRadius: .XXS)
         )
-        .shadowBase()
+        .background(
+            RoundedRectangle(cornerRadius: .XXS)
+                .fill(Color.sfBackground)
+                .shadowBase()
+        )
     }
 }
 
