@@ -7,6 +7,7 @@ import SFCore
 
 enum Destination {
     case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void)
+    case dismiss
 }
 
 public final class DashboardCoordinator {
@@ -27,6 +28,9 @@ public final class DashboardCoordinator {
                 UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl, seenContent)))),
                 animated: true
             )
+            
+        case .dismiss:
+            window?.topViewController()?.dismiss(animated: true)
         }
     }
 }

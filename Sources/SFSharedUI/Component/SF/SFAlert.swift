@@ -1,6 +1,10 @@
 import Foundation
 import SwiftUI
 
+private var alertAnimation: Animation {
+    .easeInOut(duration: 0.3)
+}
+
 /// This view will be presented over another view, so make sure the undelying view is big enough for your alert, as it won't overflow like a real alertview
 ///
 public struct SFAlert<Header: View>: View {
@@ -21,7 +25,8 @@ public struct SFAlert<Header: View>: View {
     }
     
     @Binding public var isPresent: Bool
-        
+    @State private var offset: CGFloat = 0.0
+    
     public var title: String
     public var text: String?
     public var buttonText: String
@@ -29,53 +34,76 @@ public struct SFAlert<Header: View>: View {
     public var action: () -> Void
     
     public var body: some View {
-        ZStack {
-            Spacer()
-            
-            VStack(spacing: 0) {
-                ZStack(alignment: .topTrailing) {
-                    header()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.sfAccent20)
-                        .cornerRadius(.M, corners: [.topLeft, .topRight])
-                    
-                    SFCloseButton {
+        content
+            .background(
+                RoundedRectangle(cornerRadius: .M)
+                    .fill(Color.sfBackground)
+                    .shadowBase(opacity: 0.2)
+            )
+            .offset(y: offset)
+            .simultaneousGesture(dragToDismiss)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.M)
+            .transition(.move(edge: .bottom))
+    }
+    
+    private var dragToDismiss: some Gesture {
+        DragGesture(minimumDistance: 10)
+            .onChanged { gesture in
+                guard gesture.translation.height > 0 else { return }
+                withAnimation(.interactiveSpring()) {
+                    offset = gesture.translation.height
+                }
+            }
+            .onEnded { gesture in
+                let velocityY = gesture.predictedEndLocation.y - gesture.location.y
+                if offset > UIScreen.main.bounds.height * 0.15 && velocityY > 500 {
+                    withAnimation(alertAnimation) {
                         $isPresent.wrappedValue = false
                     }
-                    .padding(.horizontal, .M)
-                    .padding(.top, -.M)
-                }
-                
-                VStack(spacing: .M) {
-                    Text(title)
-                        .h1()
-                        .multilineTextAlignment(.center)
-                    
-                    if let text {
-                        Text(text)
-                            .body2()
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    withAnimation(alertAnimation) {
+                        offset = .zero
                     }
-                    
-                    SFButton(
-                        action: action,
-                        text: buttonText
-                    )
+                }
+            }
+    }
+    
+    private var content: some View {
+        VStack(spacing: 0) {
+            ZStack(alignment: .topTrailing) {
+                header()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.sfAccent20)
+                    .cornerRadius(.M, corners: [.topLeft, .topRight])
+                
+                SFCloseButton {
+                    $isPresent.wrappedValue = false
                 }
                 .padding(.horizontal, .M)
-                .padding(.top, .M)
-                .padding(.bottom, .L)
+                .padding(.top, -.M)
             }
-            Spacer()
+            
+            VStack(spacing: .M) {
+                Text(title)
+                    .h1()
+                    .multilineTextAlignment(.center)
+                
+                if let text {
+                    Text(text)
+                        .body2()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                SFButton(
+                    action: action,
+                    text: buttonText
+                )
+            }
+            .padding(.horizontal, .M)
+            .padding(.top, .M)
+            .padding(.bottom, .L)
         }
-        .background(
-            RoundedRectangle(cornerRadius: .M)
-                .fill(Color.sfBackground)
-                .shadowBase(opacity: 0.2)
-        )
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, .M)
-        .transition(.move(edge: .bottom))
     }
 }
 
@@ -90,7 +118,10 @@ extension View {
     ) -> some View {
         ZStack {
             self
-            
+                .allowsHitTesting(
+                    !isPresent.wrappedValue
+                )
+                        
             ZStack {
                 if isPresent.wrappedValue {
                     SFAlert(
@@ -103,7 +134,7 @@ extension View {
                     )
                 }
             }
-            .animation(.interpolatingSpring(stiffness: 400, damping: 30), value: isPresent.wrappedValue)
+            .animation(alertAnimation, value: isPresent.wrappedValue)
         }
     }
     
@@ -113,13 +144,16 @@ extension View {
     ) -> some View {
         ZStack {
             self
+                .allowsHitTesting(
+                    !showWhenPresent.isPresent().wrappedValue
+                )
 
             ZStack {
                 if let value = showWhenPresent.wrappedValue {
                     body(value)
                 }
             }
-            .animation(.interpolatingSpring(stiffness: 400, damping: 30), value: showWhenPresent.isPresent().wrappedValue)
+            .animation(alertAnimation, value: showWhenPresent.isPresent().wrappedValue)
         }
     }
 }

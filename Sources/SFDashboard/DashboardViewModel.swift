@@ -48,6 +48,10 @@ public final class DashboardViewModel: ObservableObject {
         ))
     }
     
+    func dismiss() {
+        nav.navigate(to: .dismiss)
+    }
+    
     func pressedUnlockSectionStart() {
         
     }

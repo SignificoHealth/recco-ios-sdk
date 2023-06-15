@@ -49,10 +49,15 @@ public struct SFRootView: View {
     public init() {}
     
     public var body: some View {
-        DashboardView(viewModel: get())
+        ToSwiftUI {
+            SFNavigationController(
+                rootViewController: UIHostingController(
+                    rootView: DashboardView(
+                        viewModel: get()
+                    )
+                )
+            )
+        }
+        .ignoresSafeArea()
     }
-}
-
-public func GestureDismissableSFDashboard() -> UIViewController {
-    PartialSheetHostingController(size: .custom(UIScreen.main.bounds.height * 0.95), paddingTop: .zero, rootView: SFRootView())
 }
