@@ -12,20 +12,8 @@ import AnyCodable
 
 public struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
 
-    public enum TypeDTO: String, Codable, CaseIterable {
-        case articles = "articles"
-    }
-    public enum RatingDTO: String, Codable, CaseIterable {
-        case like = "like"
-        case dislike = "dislike"
-        case notRated = "not_rated"
-    }
-    public enum StatusDTO: String, Codable, CaseIterable {
-        case noInteraction = "no_interaction"
-        case viewed = "viewed"
-    }
     public var id: ContentIdDTO
-    public var type: TypeDTO
+    public var type: ContentTypeDTO
     public var rating: RatingDTO
     public var status: StatusDTO
     public var bookmarked: Bool
@@ -33,7 +21,7 @@ public struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
     public var lead: String?
     public var imageUrl: String?
 
-    public init(id: ContentIdDTO, type: TypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil) {
+    public init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil) {
         self.id = id
         self.type = type
         self.rating = rating

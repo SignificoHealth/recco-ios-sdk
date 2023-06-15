@@ -62,6 +62,7 @@ let Dashboard: Target = .target(
         .add(SharedUI),
         .add(Repo),
         .add(Article),
+        .add(Questionnaire),
         .product(name: "Nuke", package: "Nuke"),
         .product(name: "NukeUI", package: "Nuke")
     ]
@@ -80,7 +81,8 @@ let package = Package(
         ),
         .library(name: SharedUI.name, targets: [SharedUI.name]),
         .library(name: Dashboard.name, targets: [Dashboard.name]),
-        .library(name: Article.name, targets: [Article.name])
+        .library(name: Article.name, targets: [Article.name]),
+        .library(name: Questionnaire.name, targets: [Questionnaire.name])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "0.1.0")),
@@ -100,6 +102,7 @@ let package = Package(
         Resources,
         SharedUI,
         Dashboard,
-        Article
+        Article,
+        Questionnaire
     ]
 )

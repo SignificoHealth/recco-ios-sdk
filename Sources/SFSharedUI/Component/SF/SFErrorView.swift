@@ -69,13 +69,12 @@ public struct SFErrorView: View {
                 if let onRetry = onRetry {
                     SFButton(
                         style: .primary,
-                        action: {
-                            error.wrappedValue = nil
-                            onRetry()
-                        },
                         text: "error.reload".localized,
                         leadingImage: Image(resource: "reload_ic")
-                    )
+                    ) {
+                        error.wrappedValue = nil
+                        onRetry()
+                    }
                 }
             }
         }

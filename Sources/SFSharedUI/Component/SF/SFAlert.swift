@@ -96,8 +96,8 @@ public struct SFAlert<Header: View>: View {
                 }
                 
                 SFButton(
-                    action: action,
-                    text: buttonText
+                    text: buttonText,
+                    action: action
                 )
             }
             .padding(.horizontal, .M)

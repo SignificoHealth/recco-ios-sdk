@@ -31,12 +31,16 @@ public final class RepositoryAssembly: SFAssembly {
             LiveFeedRepository()
         }
         
-        container.register(type: ArticleRepository.self) { r in
+        container.register(type: ArticleRepository.self) { _ in
             LiveArticleRepository()
         }
         
-        container.register(type: ContentRepository.self) { r in
+        container.register(type: ContentRepository.self) { _ in
             LiveContentRepository()
+        }
+        
+        container.register(type: QuestionnaireRepository.self) { _ in
+            LiveQuestionnaireRepository()
         }
     }
 }

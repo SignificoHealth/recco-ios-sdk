@@ -12,13 +12,6 @@ import AnyCodable
 
 public struct UpdateStatusDTO: Codable, JSONEncodable, Hashable {
 
-    public enum ContentTypeDTO: String, Codable, CaseIterable {
-        case articles = "articles"
-    }
-    public enum StatusDTO: String, Codable, CaseIterable {
-        case noInteraction = "no_interaction"
-        case viewed = "viewed"
-    }
     public var contentId: ContentIdDTO
     public var contentType: ContentTypeDTO
     public var status: StatusDTO

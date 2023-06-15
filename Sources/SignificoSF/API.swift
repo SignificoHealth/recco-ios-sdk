@@ -14,6 +14,7 @@ import SFRepo
 import SFEntities
 import SFSharedUI
 import SFArticle
+import SFQuestionnaire
 
 public func initialize(clientSecret: String) {
     SFApi.initialize(
@@ -25,7 +26,8 @@ public func initialize(clientSecret: String) {
         RepositoryAssembly(clientSecret: clientSecret),
         CoreAssembly(),
         DashboardAssembly(),
-        ArticleAssembly()
+        ArticleAssembly(),
+        QuestionnaireAssembly()
     ])
     
     let keychain: KeychainProxy = get()

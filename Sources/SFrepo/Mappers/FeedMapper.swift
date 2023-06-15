@@ -3,7 +3,7 @@ import SFApi
 import SFEntities
 
 extension FeedSectionType {
-    init(dto: FeedSectionDTO.TypeDTO) {
+    init(dto: FeedSectionTypeDTO) {
         switch dto {
         case .physicalActivityRecommendations:
             self = .physicalActivityRecommendations

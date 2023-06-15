@@ -4,10 +4,12 @@ import SFArticle
 import UIKit
 import SwiftUI
 import SFCore
+import SFQuestionnaire
 
 enum Destination {
     case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void)
     case dismiss
+    case questionnaire(SFTopic)
 }
 
 public final class DashboardCoordinator {
@@ -26,6 +28,12 @@ public final class DashboardCoordinator {
         case let .article(id, headline, imageUrl, seenContent):
             navController?.pushViewController(
                 UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl, seenContent)))),
+                animated: true
+            )
+            
+        case let .questionnaire(topic):
+            navController?.pushViewController(
+                UIHostingController(rootView: QuestionnaireView(viewModel: get(argument: topic))),
                 animated: true
             )
             

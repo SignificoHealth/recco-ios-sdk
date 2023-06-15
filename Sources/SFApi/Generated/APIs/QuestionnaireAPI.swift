@@ -15,12 +15,12 @@ open class QuestionnaireAPI {
     /**
      Set user app answers for a questionnaire.
      
-     - parameter questionnaireAnswersDTO: (body)  
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func answers(questionnaireAnswersDTO: QuestionnaireAnswersDTO) async throws {
-        return try await answersWithRequestBuilder(questionnaireAnswersDTO: questionnaireAnswersDTO).execute().body
+    open class func answers(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) async throws {
+        return try await answersWithRequestBuilder(createQuestionnaireAnswerDTO: createQuestionnaireAnswerDTO).execute().body
     }
 
     /**
@@ -29,13 +29,13 @@ open class QuestionnaireAPI {
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter questionnaireAnswersDTO: (body)  
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func answersWithRequestBuilder(questionnaireAnswersDTO: QuestionnaireAnswersDTO) -> RequestBuilder<Void> {
+    open class func answersWithRequestBuilder(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/questionnaire/answers"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: questionnaireAnswersDTO)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createQuestionnaireAnswerDTO)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -54,10 +54,10 @@ open class QuestionnaireAPI {
      Return the associated questionnaire for a given topic.
      
      - parameter topic: (path)  
-     - returns: QuestionnaireDTO
+     - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getQuestionnaireByTopic(topic: TopicDTO) async throws -> QuestionnaireDTO {
+    open class func getQuestionnaireByTopic(topic: TopicDTO) async throws -> [QuestionDTO] {
         return try await getQuestionnaireByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
@@ -68,9 +68,9 @@ open class QuestionnaireAPI {
        - type: http
        - name: bearerAuth
      - parameter topic: (path)  
-     - returns: RequestBuilder<QuestionnaireDTO> 
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
-    open class func getQuestionnaireByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<QuestionnaireDTO> {
+    open class func getQuestionnaireByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[QuestionDTO]> {
         var localVariablePath = "/api/v1/me/questionnaire/topics/{topic}"
         let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
         let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -86,30 +86,30 @@ open class QuestionnaireAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<QuestionnaireDTO>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[QuestionDTO]>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
-     Return the onboarding questionnaires.
+     Return the onboarding questionnaire.
      
-     - returns: [QuestionnaireDTO]
+     - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func onboarding() async throws -> [QuestionnaireDTO] {
+    open class func onboarding() async throws -> [QuestionDTO] {
         return try await onboardingWithRequestBuilder().execute().body
     }
 
     /**
-     Return the onboarding questionnaires.
+     Return the onboarding questionnaire.
      - GET /api/v1/me/questionnaire/onboarding_questionnaires
      - BASIC:
        - type: http
        - name: bearerAuth
-     - returns: RequestBuilder<[QuestionnaireDTO]> 
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
-    open class func onboardingWithRequestBuilder() -> RequestBuilder<[QuestionnaireDTO]> {
+    open class func onboardingWithRequestBuilder() -> RequestBuilder<[QuestionDTO]> {
         let localVariablePath = "/api/v1/me/questionnaire/onboarding_questionnaires"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -122,7 +122,7 @@ open class QuestionnaireAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[QuestionnaireDTO]>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[QuestionDTO]>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -130,12 +130,12 @@ open class QuestionnaireAPI {
     /**
      Set user app answers for the onboarding questionnaires.
      
-     - parameter questionnaireAnswersDTO: (body)  
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func onboardingAnswers(questionnaireAnswersDTO: [QuestionnaireAnswersDTO]) async throws {
-        return try await onboardingAnswersWithRequestBuilder(questionnaireAnswersDTO: questionnaireAnswersDTO).execute().body
+    open class func onboardingAnswers(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) async throws {
+        return try await onboardingAnswersWithRequestBuilder(createQuestionnaireAnswerDTO: createQuestionnaireAnswerDTO).execute().body
     }
 
     /**
@@ -144,13 +144,13 @@ open class QuestionnaireAPI {
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter questionnaireAnswersDTO: (body)  
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func onboardingAnswersWithRequestBuilder(questionnaireAnswersDTO: [QuestionnaireAnswersDTO]) -> RequestBuilder<Void> {
+    open class func onboardingAnswersWithRequestBuilder(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/questionnaire/onboarding_answers"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: questionnaireAnswersDTO)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createQuestionnaireAnswerDTO)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

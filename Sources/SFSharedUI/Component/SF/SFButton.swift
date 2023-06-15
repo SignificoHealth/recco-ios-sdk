@@ -14,17 +14,17 @@ public struct SFButton: View {
     var leadingImage: Image?
     var trailingImage: Image?
     var text: String?
-    var action: () async -> Void
+    var action: () -> Void
     var isLoading: Bool
     var style: SFButton.Style
     
     public init(
         style: SFButton.Style = .primary,
-        action: @escaping () async -> Void,
         text: String? = nil,
         leadingImage: Image? = nil,
         trailingImage: Image? = nil,
-        isLoading: Bool = false
+        isLoading: Bool = false,
+        action: @escaping () -> Void
     ) {
         self.leadingImage = leadingImage
         self.trailingImage = trailingImage
@@ -81,9 +81,7 @@ public struct SFButton: View {
     
     public var body: some View {
         Button(action: {
-            Task {
-                await action()
-            }
+            action()
         }) {
             ZStack {
                 background
@@ -111,6 +109,7 @@ public struct SFButton: View {
                 .padding(.vertical, style == .mini ? .XXS : .XS)
                 .padding(.horizontal, style == .mini ? .M : .S)
                 .frame(maxWidth: style == .mini ? nil : .infinity)
+                .frame(height: 48)
             }
         }
     }
@@ -124,10 +123,10 @@ struct HCButtonPrimary_Previews: PreviewProvider {
                     ForEach([true, false], id: \.self) { enabled in
                         SFButton(
                             style: style,
-                            action: {},
                             text: "Hi man",
                             leadingImage: Image(systemName: "plus"),
-                            isLoading: .random()
+                            isLoading: .random(),
+                            action: {}
                         )
                         .disabled(!enabled)
                     }

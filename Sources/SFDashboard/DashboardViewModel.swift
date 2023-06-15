@@ -52,8 +52,13 @@ public final class DashboardViewModel: ObservableObject {
         nav.navigate(to: .dismiss)
     }
     
+    @MainActor
     func pressedUnlockSectionStart() {
+        if let topic = lockedSectionAlert?.topic {
+            nav.navigate(to: .questionnaire(topic))
+        }
         
+        lockedSectionAlert = nil
     }
     
     func pressedLocked(section: FeedSection) {

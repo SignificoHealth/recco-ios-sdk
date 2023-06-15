@@ -1,5 +1,7 @@
 import SFCore
 import SFEntities
+import SwiftUI
+import SFRepo
 
 public final class ArticleAssembly: SFAssembly {
     public init() {}
@@ -14,8 +16,6 @@ public final class ArticleAssembly: SFAssembly {
     }
 }
 
-import SwiftUI
-import SFRepo
 func withAssembly<Content>(@ViewBuilder content: @escaping (SFResolver) -> Content) -> Assembling<Content> {
     Assembling(RepositoryAssembly(clientSecret: ""), CoreAssembly(), ArticleAssembly(), content: content)
 }

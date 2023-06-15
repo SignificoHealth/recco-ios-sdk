@@ -21,6 +21,6 @@ final class LiveArticleRepository: ArticleRepository {
             itemId: id.itemId,
             catalogId: id.catalogId
         )
-        return try AppUserArticle(dto: dto)
+        return AppUserArticle(dto: dto)
     }
 }

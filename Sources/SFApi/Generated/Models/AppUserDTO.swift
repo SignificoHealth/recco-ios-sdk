@@ -13,13 +13,16 @@ import AnyCodable
 public struct AppUserDTO: Codable, JSONEncodable, Hashable {
 
     public var id: String
+    public var isOnboardingQuestionnaireCompleted: Bool
 
-    public init(id: String) {
+    public init(id: String, isOnboardingQuestionnaireCompleted: Bool) {
         self.id = id
+        self.isOnboardingQuestionnaireCompleted = isOnboardingQuestionnaireCompleted
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
+        case isOnboardingQuestionnaireCompleted
     }
 
     // Encodable protocol methods
@@ -27,6 +30,7 @@ public struct AppUserDTO: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
+        try container.encode(isOnboardingQuestionnaireCompleted, forKey: .isOnboardingQuestionnaireCompleted)
     }
 }
 

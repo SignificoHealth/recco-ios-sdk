@@ -12,18 +12,16 @@ import AnyCodable
 
 public struct CreateQuestionnaireAnswerDTO: Codable, JSONEncodable, Hashable {
 
-    public enum TypeDTO: String, Codable, CaseIterable {
-        case multichoice = "multichoice"
-        case numeric = "numeric"
-    }
     public var multichoice: [Int]?
     public var numeric: Double?
+    public var questionnaireId: String
     public var questionId: String
-    public var type: TypeDTO
+    public var type: QuestionAnswerTypeDTO
 
-    public init(multichoice: [Int]? = nil, numeric: Double? = nil, questionId: String, type: TypeDTO) {
+    public init(multichoice: [Int]? = nil, numeric: Double? = nil, questionnaireId: String, questionId: String, type: QuestionAnswerTypeDTO) {
         self.multichoice = multichoice
         self.numeric = numeric
+        self.questionnaireId = questionnaireId
         self.questionId = questionId
         self.type = type
     }
@@ -31,6 +29,7 @@ public struct CreateQuestionnaireAnswerDTO: Codable, JSONEncodable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case multichoice
         case numeric
+        case questionnaireId
         case questionId
         case type
     }
@@ -41,6 +40,7 @@ public struct CreateQuestionnaireAnswerDTO: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(multichoice, forKey: .multichoice)
         try container.encodeIfPresent(numeric, forKey: .numeric)
+        try container.encode(questionnaireId, forKey: .questionnaireId)
         try container.encode(questionId, forKey: .questionId)
         try container.encode(type, forKey: .type)
     }

@@ -163,7 +163,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/QuestionnaireAnswers"
+                  "$ref": "#/components/schemas/CreateQuestionnaireAnswer"
                 }
               }
             }
@@ -203,7 +203,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/QuestionnaireAnswers"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateQuestionnaireAnswer"
+                }
               }
             }
           },
@@ -719,7 +722,10 @@
             "content": {
               "application/hal+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Questionnaire"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
                 }
               }
             }
@@ -737,7 +743,7 @@
         "tags": [
           "Questionnaire"
         ],
-        "summary": "Return the onboarding questionnaires.",
+        "summary": "Return the onboarding questionnaire.",
         "operationId": "onboarding",
         "responses": {
           "401": {
@@ -757,7 +763,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Questionnaire"
+                    "$ref": "#/components/schemas/Question"
                   }
                 }
               }
@@ -828,6 +834,19 @@
           }
         }
       },
+      "ContentType": {
+        "type": "string",
+        "enum": [
+          "articles"
+        ]
+      },
+      "Status": {
+        "type": "string",
+        "enum": [
+          "no_interaction",
+          "viewed"
+        ]
+      },
       "UpdateStatus": {
         "required": [
           "contentId",
@@ -840,17 +859,10 @@
             "$ref": "#/components/schemas/ContentId"
           },
           "contentType": {
-            "type": "string",
-            "enum": [
-              "articles"
-            ]
+            "$ref": "#/components/schemas/ContentType"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "no_interaction",
-              "viewed"
-            ]
+            "$ref": "#/components/schemas/Status"
           }
         }
       },
@@ -881,6 +893,14 @@
           }
         }
       },
+      "Rating": {
+        "type": "string",
+        "enum": [
+          "like",
+          "dislike",
+          "not_rated"
+        ]
+      },
       "UpdateRating": {
         "required": [
           "contentId",
@@ -893,18 +913,10 @@
             "$ref": "#/components/schemas/ContentId"
           },
           "contentType": {
-            "type": "string",
-            "enum": [
-              "articles"
-            ]
+            "$ref": "#/components/schemas/ContentType"
           },
           "rating": {
-            "type": "string",
-            "enum": [
-              "like",
-              "dislike",
-              "not_rated"
-            ]
+            "$ref": "#/components/schemas/Rating"
           }
         }
       },
@@ -920,10 +932,7 @@
             "$ref": "#/components/schemas/ContentId"
           },
           "contentType": {
-            "type": "string",
-            "enum": [
-              "articles"
-            ]
+            "$ref": "#/components/schemas/ContentType"
           },
           "bookmarked": {
             "type": "boolean"
@@ -933,6 +942,7 @@
       "CreateQuestionnaireAnswer": {
         "required": [
           "questionId",
+          "questionnaireId",
           "type"
         ],
         "type": "object",
@@ -948,35 +958,23 @@
             "type": "number",
             "format": "double"
           },
+          "questionnaireId": {
+            "type": "string"
+          },
           "questionId": {
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "multichoice",
-              "numeric"
-            ]
+            "$ref": "#/components/schemas/QuestionAnswerType"
           }
         }
       },
-      "QuestionnaireAnswers": {
-        "required": [
-          "answers",
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "answers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateQuestionnaireAnswer"
-            }
-          }
-        }
+      "QuestionAnswerType": {
+        "type": "string",
+        "enum": [
+          "multichoice",
+          "numeric"
+        ]
       },
       "PATReferenceDelete": {
         "required": [
@@ -1017,12 +1015,16 @@
       },
       "AppUser": {
         "required": [
-          "id"
+          "id",
+          "isOnboardingQuestionnaireCompleted"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
+          },
+          "isOnboardingQuestionnaireCompleted": {
+            "type": "boolean"
           }
         }
       },
@@ -1050,25 +1052,13 @@
             "$ref": "#/components/schemas/ContentId"
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "articles"
-            ]
+            "$ref": "#/components/schemas/ContentType"
           },
           "rating": {
-            "type": "string",
-            "enum": [
-              "like",
-              "dislike",
-              "not_rated"
-            ]
+            "$ref": "#/components/schemas/Rating"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "no_interaction",
-              "viewed"
-            ]
+            "$ref": "#/components/schemas/Status"
           },
           "bookmarked": {
             "type": "boolean"
@@ -1098,19 +1088,10 @@
             "$ref": "#/components/schemas/ContentId"
           },
           "rating": {
-            "type": "string",
-            "enum": [
-              "like",
-              "dislike",
-              "not_rated"
-            ]
+            "$ref": "#/components/schemas/Rating"
           },
           "status": {
-            "type": "string",
-            "enum": [
-              "no_interaction",
-              "viewed"
-            ]
+            "$ref": "#/components/schemas/Status"
           },
           "bookmarked": {
             "type": "boolean"
@@ -1200,11 +1181,15 @@
         "required": [
           "id",
           "index",
+          "questionnaireId",
           "text",
           "type"
         ],
         "type": "object",
         "properties": {
+          "questionnaireId": {
+            "type": "string"
+          },
           "id": {
             "type": "string"
           },
@@ -1216,35 +1201,13 @@
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "multichoice",
-              "numeric"
-            ]
+            "$ref": "#/components/schemas/QuestionAnswerType"
           },
           "multiChoice": {
             "$ref": "#/components/schemas/MultiChoiceQuestion"
           },
           "numeric": {
             "$ref": "#/components/schemas/NumericQuestion"
-          }
-        }
-      },
-      "Questionnaire": {
-        "required": [
-          "id",
-          "questions"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "questions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Question"
-            }
           }
         }
       },
@@ -1256,21 +1219,7 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "enum": [
-              "PHYSICAL_ACTIVITY_RECOMMENDATIONS",
-              "NUTRITION_RECOMMENDATIONS",
-              "PHYSICAL_WELLBEING_RECOMMENDATIONS",
-              "SLEEP_RECOMMENDATIONS",
-              "PREFERRED_RECOMMENDATIONS",
-              "MOST_POPULAR",
-              "NEW_CONTENT",
-              "PHYSICAL_ACTIVITY_EXPLORE",
-              "NUTRITION_EXPLORE",
-              "PHYSICAL_WELLBEING_EXPLORE",
-              "SLEEP_EXPLORE",
-              "STARTING_RECOMMENDATIONS"
-            ]
+            "$ref": "#/components/schemas/FeedSectionType"
           },
           "locked": {
             "type": "boolean"
@@ -1279,6 +1228,23 @@
             "$ref": "#/components/schemas/Topic"
           }
         }
+      },
+      "FeedSectionType": {
+        "type": "string",
+        "enum": [
+          "PHYSICAL_ACTIVITY_RECOMMENDATIONS",
+          "NUTRITION_RECOMMENDATIONS",
+          "PHYSICAL_WELLBEING_RECOMMENDATIONS",
+          "SLEEP_RECOMMENDATIONS",
+          "PREFERRED_RECOMMENDATIONS",
+          "MOST_POPULAR",
+          "NEW_CONTENT",
+          "PHYSICAL_ACTIVITY_EXPLORE",
+          "NUTRITION_EXPLORE",
+          "PHYSICAL_WELLBEING_EXPLORE",
+          "SLEEP_EXPLORE",
+          "STARTING_RECOMMENDATIONS"
+        ]
       }
     },
     "securitySchemes": {

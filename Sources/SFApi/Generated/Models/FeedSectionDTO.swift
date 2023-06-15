@@ -12,25 +12,11 @@ import AnyCodable
 
 public struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
 
-    public enum TypeDTO: String, Codable, CaseIterable {
-        case physicalActivityRecommendations = "PHYSICAL_ACTIVITY_RECOMMENDATIONS"
-        case nutritionRecommendations = "NUTRITION_RECOMMENDATIONS"
-        case physicalWellbeingRecommendations = "PHYSICAL_WELLBEING_RECOMMENDATIONS"
-        case sleepRecommendations = "SLEEP_RECOMMENDATIONS"
-        case preferredRecommendations = "PREFERRED_RECOMMENDATIONS"
-        case mostPopular = "MOST_POPULAR"
-        case newContent = "NEW_CONTENT"
-        case physicalActivityExplore = "PHYSICAL_ACTIVITY_EXPLORE"
-        case nutritionExplore = "NUTRITION_EXPLORE"
-        case physicalWellbeingExplore = "PHYSICAL_WELLBEING_EXPLORE"
-        case sleepExplore = "SLEEP_EXPLORE"
-        case startingRecommendations = "STARTING_RECOMMENDATIONS"
-    }
-    public var type: TypeDTO
+    public var type: FeedSectionTypeDTO
     public var locked: Bool
     public var topic: TopicDTO?
 
-    public init(type: TypeDTO, locked: Bool, topic: TopicDTO? = nil) {
+    public init(type: FeedSectionTypeDTO, locked: Bool, topic: TopicDTO? = nil) {
         self.type = type
         self.locked = locked
         self.topic = topic

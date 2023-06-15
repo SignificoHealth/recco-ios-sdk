@@ -12,15 +12,6 @@ import AnyCodable
 
 public struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
 
-    public enum RatingDTO: String, Codable, CaseIterable {
-        case like = "like"
-        case dislike = "dislike"
-        case notRated = "not_rated"
-    }
-    public enum StatusDTO: String, Codable, CaseIterable {
-        case noInteraction = "no_interaction"
-        case viewed = "viewed"
-    }
     public var id: ContentIdDTO
     public var rating: RatingDTO
     public var status: StatusDTO

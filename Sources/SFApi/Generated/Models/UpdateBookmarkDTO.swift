@@ -12,9 +12,6 @@ import AnyCodable
 
 public struct UpdateBookmarkDTO: Codable, JSONEncodable, Hashable {
 
-    public enum ContentTypeDTO: String, Codable, CaseIterable {
-        case articles = "articles"
-    }
     public var contentId: ContentIdDTO
     public var contentType: ContentTypeDTO
     public var bookmarked: Bool
