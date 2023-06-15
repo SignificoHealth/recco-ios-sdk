@@ -67,6 +67,7 @@ public struct ArticleDetailView: View {
                     )
                 } else {
                     SFImageLoadingView(feedItem: false)
+                        .scaledToFill()
                 }
             }
             .processors([.resize(width: UIScreen.main.bounds.width)])
