@@ -9,17 +9,19 @@ public struct Question: Equatable, Hashable {
     struct NoNumericQuestion: Error {}
     struct NoMultichoiceQuestion: Error {}
     
+    public var questionnaireId: String
     public var id: String
     public var index: Int
     public var text: String
-    public var type: QuestionnaireType
+    public var type: QuestionType
     public var value: EitherQuestionType
     
-    public init(id: String, index: Int, text: String, type: QuestionnaireType, multiChoice: MultiChoiceQuestion? = nil, numeric: NumericQuestion? = nil) throws {
+    public init(id: String, questionnaireId: String, index: Int, text: String, type: QuestionType, multiChoice: MultiChoiceQuestion? = nil, numeric: NumericQuestion? = nil) throws {
         self.id = id
         self.index = index
         self.text = text
         self.type = type
+        self.questionnaireId = questionnaireId
         
         switch type {
         case .numeric:
@@ -28,6 +30,23 @@ public struct Question: Equatable, Hashable {
         case .multichoice:
             guard let multiChoice else { throw NoMultichoiceQuestion() }
             self.value = .multiChoice(multiChoice)
+        }
+    }
+}
+
+extension MultiChoiceQuestion {
+    public var isSingleChoice: Bool {
+        return maxOptions == 1
+    }
+}
+
+extension Question {
+    public var isSingleChoice: Bool {
+        switch value {
+        case .numeric:
+            return false
+        case let .multiChoice(multi):
+            return multi.isSingleChoice
         }
     }
 }

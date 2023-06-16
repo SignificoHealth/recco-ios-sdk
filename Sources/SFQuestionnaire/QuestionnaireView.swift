@@ -23,7 +23,7 @@ public struct QuestionnaireView: View {
             retry: { await viewModel.getQuestionnaire() }
         ) { questions in
             VStack(spacing: .XXS) {
-                progressView
+                questionnaireProgressView
                     .padding(.horizontal, .M)
                 
                 TabView(
@@ -33,7 +33,8 @@ public struct QuestionnaireView: View {
                         QuestionView(
                             item: question,
                             currentAnswer: viewModel.answers[question]??.value,
-                            answerChanged: viewModel.answerFor
+                            answerChanged: { viewModel.answer($1, for: $0)
+                            }
                         )
                         .tag(Optional(question))
                     }
@@ -56,12 +57,14 @@ public struct QuestionnaireView: View {
                                     
                     SFButton(
                         text: viewModel.isOnLastQuestion ? "questionnaire.button.finish".localized : "questionnaire.button.continue".localized,
+                        isLoading: viewModel.sendLoading,
                         action: {
                             withAnimation(.interactiveSpring()) {
                                 viewModel.next()
                             }
                         }
                     )
+                    .disabled(!viewModel.mainButtonEnabled)
                 }
                 .padding(.M)
             }
@@ -69,6 +72,7 @@ public struct QuestionnaireView: View {
         .navigationBarHidden(false)
         .navigationTitle(viewModel.topic.displayName)
         .background(Color.sfBackground.ignoresSafeArea())
+        .sfNotification(error: $viewModel.sendError)
         .task {
             if viewModel.questions == nil {
                 await viewModel.getQuestionnaire()
@@ -77,7 +81,7 @@ public struct QuestionnaireView: View {
     }
     
     @ViewBuilder
-    var progressView: some View {
+    var questionnaireProgressView: some View {
         if let questions = viewModel.questions,
            let current = viewModel.currentQuestion,
            let currentQuestionNumber = questions.firstIndex(of: current) {

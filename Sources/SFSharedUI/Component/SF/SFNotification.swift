@@ -28,7 +28,7 @@ extension View {
         return self
     }
     
-    public func hcNotification(
+    public func sfNotification(
         data: Binding<SFNotificationData?>,
         duration: Int = 2
     ) -> Self {

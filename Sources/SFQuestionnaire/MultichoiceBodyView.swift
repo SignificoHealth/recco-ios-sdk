@@ -16,20 +16,14 @@ private struct Selectable<T: Equatable & Hashable>: Equatable, Hashable {
 struct MultichoiceBodyView: View {
     var question: MultiChoiceQuestion
     var answers: [Int]?
-    var selectedAnswers: ([MultiChoiceAnswerOption]) -> Void
+    var selectedAnswers: ([MultiChoiceAnswerOption]?) -> Void
     
     @State private var options: [Selectable<MultiChoiceAnswerOption>]
-    
-    private var isSingleChoice: Bool {
-        return (0...1).contains(
-            question.maxOptions - question.minOptions
-        )
-    }
     
     init(
         question: MultiChoiceQuestion,
         answers: [Int]? = nil,
-        selectedAnswers: @escaping ([MultiChoiceAnswerOption]) -> Void
+        selectedAnswers: @escaping ([MultiChoiceAnswerOption]?) -> Void
     ) {
         self.question = question
         self.answers = answers
@@ -44,6 +38,13 @@ struct MultichoiceBodyView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: .XXS) {
+            if !question.isSingleChoice {
+                Text("questionnaire.button.multiple".localized(String(question.maxOptions)))
+                    .foregroundColor(.sfPrimary40)
+                    .body3()
+                    .padding(.bottom, .M)
+            }
+            
             ForEach($options, id: \.self) { $option in
                 item(for: $option)
             }
@@ -53,17 +54,7 @@ struct MultichoiceBodyView: View {
     @ViewBuilder
     private func item(for option: Binding<Selectable<MultiChoiceAnswerOption>>) -> some View {
         Button {
-            if isSingleChoice {
-                options.indices.forEach { options[$0].selected = false }
-            }
-            
-            option.wrappedValue.selected.toggle()
-            
-            selectedAnswers(
-                options
-                    .filter(\.selected)
-                    .map(\.value)
-            )
+            performLogicOnSelecting(option: option)
         } label: {
             HStack(spacing: .S) {
                 Text(option.wrappedValue.value.text)
@@ -71,7 +62,7 @@ struct MultichoiceBodyView: View {
                     .body2()
                     .multilineTextAlignment(.leading)
                 
-                if !isSingleChoice {
+                if !question.isSingleChoice {
                     Spacer()
                     
                     Image(resource: option.wrappedValue.selected ? "check_ic" : "plus_ic")
@@ -95,6 +86,33 @@ struct MultichoiceBodyView: View {
                             Color.sfAccent :
                             Color.sfPrimary20
                     )
+            )
+        }
+    }
+    
+    private func performLogicOnSelecting(option: Binding<Selectable<MultiChoiceAnswerOption>>) {
+        // if it is not already selected
+        if !option.wrappedValue.selected {
+            if question.isSingleChoice {
+                options.indices.forEach { options[$0].selected = false }
+            }
+            
+            if question.maxOptions <= options.filter(\.selected).count {
+                options
+                    .firstIndex(where: \.selected)
+                    .map { options[$0].selected = false  }
+            }
+        }
+        
+        option.wrappedValue.selected.toggle()
+        
+        let selected = options
+            .filter(\.selected)
+            .map(\.value)
+        
+        withAnimation {
+            selectedAnswers(
+                selected.isEmpty ? nil : selected
             )
         }
     }

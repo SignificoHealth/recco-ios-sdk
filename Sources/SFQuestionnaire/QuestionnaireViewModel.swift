@@ -10,7 +10,10 @@ public final class QuestionnaireViewModel: ObservableObject {
     @Published var questions: [Question]?
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
     @Published var initialLoadError: Error?
-
+    @Published var sendError: Error?
+    @Published var sendLoading: Bool = false
+    @Published var mainButtonEnabled = true
+    
     var currentIndex: Int {
         currentQuestion.flatMap {
             questions?.firstIndex(of: $0)
@@ -29,30 +32,92 @@ public final class QuestionnaireViewModel: ObservableObject {
         self.topic = topic
     }
     
+    @MainActor
     func previousQuestion() {
         guard currentIndex != 0 else { return }
         currentQuestion = questions?[safe: currentIndex - 1]
     }
     
+    @MainActor
     func next() {
         if isOnLastQuestion {
-            
+            sendQuestionnaire()
         } else {
             currentQuestion = questions?[safe: currentIndex + 1]
         }
     }
     
-    func answerFor(question: Question, _ answer: EitherAnswerType) {
-        print(question.id, answer)
+    @MainActor
+    func answer(_ answer: EitherAnswerType, for question: Question) {
+        let isValid = validate(answer: answer, for: question)
+        
+        if isValid {
+            answers[question] = .init(
+                value: answer,
+                questionId: question.id,
+                type: question.type,
+                questionnaireId: question.questionnaireId
+            )
+            
+            if question.isSingleChoice,
+               answer.multichoice != nil,
+               question.type != .numeric,
+               !isOnLastQuestion
+            {
+                next()
+            }
+        }
+        
+        mainButtonEnabled = isValid
     }
     
     @MainActor
     func getQuestionnaire() async {
         do {
-            questions = try await repo.getQuestionnaire(topic: topic)
+            let data = try await repo.getQuestionnaire(topic: topic)
+            questions = data
+            answers = data.reduce(into: [:], { answers, question in
+                answers[question] = CreateQuestionnaireAnswer(
+                    value: question.type == .multichoice ? .multiChoice(nil) : .numeric(nil),
+                    questionId: question.id,
+                    type: question.type,
+                    questionnaireId: question.questionnaireId
+                )
+            })
             currentQuestion = questions?.first
         } catch {
             initialLoadError = error
+        }
+    }
+    
+    @MainActor
+    private func sendQuestionnaire() {
+        Task {
+            sendLoading = true
+            do {
+                let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
+                try await repo.sendQuestionnaire(answers)
+            } catch {
+                sendError = error
+            }
+            sendLoading = false
+        }
+    }
+    
+    private func validate(answer: EitherAnswerType, for question: Question) -> Bool {
+        switch question.value {
+        case let .multiChoice(q):
+            guard q.minOptions <= q.maxOptions else { return false }
+            guard let count =  answer.multichoice.map(\.count) else { return true }
+            return (q.minOptions...q.maxOptions).contains(count)
+            
+        case let .numeric(q):
+            guard q.minValue <= q.maxValue else { return false }
+            guard let value = answer.numeric else {
+                return true
+            }
+            
+            return (Double(q.minValue)...Double(q.maxValue)).contains(value)
         }
     }
 }

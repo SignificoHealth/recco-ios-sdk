@@ -9,7 +9,7 @@ import Foundation
 import SFEntities
 import SFApi
 
-extension QuestionnaireType {
+extension QuestionType {
     init(dto: QuestionAnswerTypeDTO) {
         switch dto {
         case .multichoice:
@@ -65,11 +65,35 @@ extension Question {
     init(dto: QuestionDTO) throws {
         try self.init(
             id: dto.id,
+            questionnaireId: dto.questionnaireId,
             index: dto.index,
             text: dto.text,
             type: .init(dto: dto.type),
             multiChoice: dto.multiChoice.map(MultiChoiceQuestion.init),
             numeric: dto.numeric.map(NumericQuestion.init)
+        )
+    }
+}
+
+extension QuestionAnswerTypeDTO {
+    init(entity: QuestionType) {
+        switch entity {
+        case .multichoice:
+            self = .multichoice
+        case .numeric:
+            self = .numeric
+        }
+    }
+}
+
+extension CreateQuestionnaireAnswerDTO {
+    init(entity: CreateQuestionnaireAnswer) {
+        self.init(
+            multichoice: entity.value.multichoice,
+            numeric: entity.value.numeric,
+            questionnaireId: entity.questionnaireId,
+            questionId: entity.questionId,
+            type: .init(entity: entity.type)
         )
     }
 }

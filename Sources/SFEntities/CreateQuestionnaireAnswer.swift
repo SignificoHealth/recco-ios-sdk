@@ -1,6 +1,6 @@
 import Foundation
 
-public enum QuestionnaireType: String, Hashable, CaseIterable {
+public enum QuestionType: String, Hashable, CaseIterable {
     case multichoice
     case numeric
 }
@@ -25,14 +25,17 @@ extension EitherAnswerType {
 }
 
 public struct CreateQuestionnaireAnswer: Equatable, Hashable {
-    public var value: EitherAnswerType
-    public var questionId: String
-    public var type: QuestionnaireType
-
-    public init(value: EitherAnswerType, questionId: String, type: QuestionnaireType) {
+    public init(value: EitherAnswerType, questionId: String, type: QuestionType, questionnaireId: String) {
         self.value = value
         self.questionId = questionId
         self.type = type
+        self.questionnaireId = questionnaireId
     }
+    
+    public var value: EitherAnswerType
+    public var questionId: String
+    public var type: QuestionType
+    public var questionnaireId: String
+   
 }
 

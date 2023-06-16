@@ -11,6 +11,7 @@ import SFApi
 
 public protocol QuestionnaireRepository {
     func getQuestionnaire(topic: SFTopic) async throws -> [Question]
+    func sendQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws
 }
 
 public final class LiveQuestionnaireRepository: QuestionnaireRepository {
@@ -20,5 +21,11 @@ public final class LiveQuestionnaireRepository: QuestionnaireRepository {
         )
         
         return try dto.map(Question.init)
+    }
+    
+    public func sendQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws {
+        try await QuestionnaireAPI.answers(
+            createQuestionnaireAnswerDTO: answers.map(CreateQuestionnaireAnswerDTO.init)
+        )
     }
 }

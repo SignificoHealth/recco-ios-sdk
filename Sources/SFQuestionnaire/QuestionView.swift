@@ -15,7 +15,7 @@ struct QuestionView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: .L) {
+            VStack(alignment: .leading, spacing: .S) {
                 Text(item.text)
                     .cta()
                 
@@ -25,11 +25,17 @@ struct QuestionView: View {
                         question: multi,
                         answers: currentAnswer?.multichoice,
                         selectedAnswers: { options in
-                            answerChanged(item, .multiChoice(options.map(\.id)))
+                            answerChanged(
+                                item, .multiChoice(
+                                    options?.map(\.id)
+                                )
+                            )
                         }
                     )
                 case let .numeric(numeric):
-                    NumericBodyView(question: numeric)
+                    NumericBodyView(question: numeric, selectedAnswer: {
+                        answerChanged(item, .numeric($0))
+                    })
                 }
             }
             .frame(
@@ -47,13 +53,14 @@ struct QuestionView_Previews: PreviewProvider {
         QuestionView(
             item: try! .init(
                 id: UUID().uuidString,
+                questionnaireId: "",
                 index: 0,
                 text: "hi my man",
-                type: .multichoice,
-                multiChoice: .init(
-                    maxOptions: 0,
-                    minOptions: 1,
-                    options: [.init(id: 0, text: "Answer 1"), .init(id: 1, text: "Answer 2"), .init(id: 2, text: "Answer 3 Answer 3 Answer 3 Answer 3 Answer 3 Answer 3 v Answer 3 Answer 3 Answer 3 Answer 3 Answer 3")]
+                type: .numeric,
+                numeric: .init(
+                    maxValue: 0,
+                    minValue: 100,
+                    format: .decimal
                 )
             ),
             currentAnswer: nil,

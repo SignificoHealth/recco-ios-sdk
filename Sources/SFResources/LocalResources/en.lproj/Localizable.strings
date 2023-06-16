@@ -51,3 +51,4 @@
 "questionnaire.title.mentalHealth" = "Mental health";
 "questionnaire.button.continue" = "Continue";
 "questionnaire.button.finish" = "Finish";
+"questionnaire.button.multiple" = "Multiple answers possible: %@";
