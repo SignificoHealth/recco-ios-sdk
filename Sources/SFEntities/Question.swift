@@ -13,7 +13,7 @@ public struct Question: Equatable, Hashable {
     public var index: Int
     public var text: String
     public var type: QuestionnaireType
-    public var question: EitherQuestionType
+    public var value: EitherQuestionType
     
     public init(id: String, index: Int, text: String, type: QuestionnaireType, multiChoice: MultiChoiceQuestion? = nil, numeric: NumericQuestion? = nil) throws {
         self.id = id
@@ -24,10 +24,10 @@ public struct Question: Equatable, Hashable {
         switch type {
         case .numeric:
             guard let numeric else { throw NoNumericQuestion() }
-            self.question = .numeric(numeric)
+            self.value = .numeric(numeric)
         case .multichoice:
             guard let multiChoice else { throw NoMultichoiceQuestion() }
-            self.question = .multiChoice(multiChoice)
+            self.value = .multiChoice(multiChoice)
         }
     }
 }

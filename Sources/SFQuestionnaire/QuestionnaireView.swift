@@ -30,8 +30,12 @@ public struct QuestionnaireView: View {
                     selection: $viewModel.currentQuestion.animation(.interactiveSpring())
                 ) {
                     ForEach(viewModel.questions ?? [], id: \.self) { question in
-                        QuestionView(item: question)
-                            .tag(Optional(question))
+                        QuestionView(
+                            item: question,
+                            currentAnswer: viewModel.answers[question]??.value,
+                            answerChanged: viewModel.answerFor
+                        )
+                        .tag(Optional(question))
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))

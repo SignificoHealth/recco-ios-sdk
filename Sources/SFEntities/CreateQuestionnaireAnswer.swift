@@ -5,15 +5,32 @@ public enum QuestionnaireType: String, Hashable, CaseIterable {
     case numeric
 }
 
+public enum EitherAnswerType: Hashable, Equatable {
+    case numeric(Double?)
+    case multiChoice([Int]?)
+}
+
+extension EitherAnswerType {
+    public var numeric: Double? {
+        if case let .numeric(value) = self {
+            return value
+        } else { return nil }
+    }
+    
+    public var multichoice: [Int]? {
+        if case let .multiChoice(value) = self {
+            return value
+        } else { return nil }
+    }
+}
+
 public struct CreateQuestionnaireAnswer: Equatable, Hashable {
-    public var multichoice: [Int]?
-    public var numeric: Double?
+    public var value: EitherAnswerType
     public var questionId: String
     public var type: QuestionnaireType
 
-    public init(multichoice: [Int]? = nil, numeric: Double? = nil, questionId: String, type: QuestionnaireType) {
-        self.multichoice = multichoice
-        self.numeric = numeric
+    public init(value: EitherAnswerType, questionId: String, type: QuestionnaireType) {
+        self.value = value
         self.questionId = questionId
         self.type = type
     }

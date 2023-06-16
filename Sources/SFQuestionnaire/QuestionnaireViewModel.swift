@@ -23,7 +23,7 @@ public final class QuestionnaireViewModel: ObservableObject {
     
     init(
         topic: SFTopic,
-         repo: QuestionnaireRepository
+        repo: QuestionnaireRepository
     ) {
         self.repo = repo
         self.topic = topic
@@ -40,6 +40,10 @@ public final class QuestionnaireViewModel: ObservableObject {
         } else {
             currentQuestion = questions?[safe: currentIndex + 1]
         }
+    }
+    
+    func answerFor(question: Question, _ answer: EitherAnswerType) {
+        print(question.id, answer)
     }
     
     @MainActor
