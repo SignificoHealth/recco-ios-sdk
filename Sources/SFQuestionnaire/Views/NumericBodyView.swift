@@ -98,7 +98,6 @@ fileprivate struct BiggerInsetsTextField: UIViewRepresentable {
     }
 }
 
-
 extension View {
     func placeholder<Content: View>(
             when shouldShow: Bool,
