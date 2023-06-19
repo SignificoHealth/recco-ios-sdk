@@ -3,14 +3,27 @@ import SFEntities
 import SFSharedUI
 
 struct FeedSectionView: View {
+    @Binding var performedUnlockAnimation: Bool
     var section: FeedSectionViewState
     var items: [AppUserRecommendation]
     var goToDetail: (AppUserRecommendation) -> Void
     var pressedLockedSection: (FeedSection) -> Void
     
+    private var showSectionLoading: Bool {
+        section.isLoading && !section.section.locked && items.isEmpty
+    }
+    
+    private var hideSection: Bool {
+        items.isEmpty && !section.isLoading && !section.section.locked
+    }
+    
+    private var showLockedSectionView: Bool {
+        section.section.locked || !performedUnlockAnimation
+    }
+        
     @ViewBuilder
     var body: some View {
-        if items.isEmpty && !section.isLoading && !section.section.locked {
+        if hideSection {
             EmptyView()
         } else {
             VStack(alignment: .leading, spacing: .S) {
@@ -18,14 +31,17 @@ struct FeedSectionView: View {
                     .h4()
                     .padding(.horizontal, .M)
                 
-                if section.isLoading && !section.section.locked && items.isEmpty {
+                if showSectionLoading {
                     LoadingSectionView()
                 } else {
-                    if section.section.locked {
-                        LockedSectionView()
-                            .onTapGesture {
-                                pressedLockedSection(section.section)
-                            }
+                    if showLockedSectionView {
+                        LockedSectionView(
+                            isLocked: section.section.locked,
+                            performedUnlockAnimation: $performedUnlockAnimation
+                        )
+                        .onTapGesture {
+                            pressedLockedSection(section.section)
+                        }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: .XS) {
@@ -53,6 +69,7 @@ struct FeedSectionView: View {
 struct FeedSectionView_Previews: PreviewProvider {
     static var previews: some View {
         FeedSectionView(
+            performedUnlockAnimation: .constant(false),
             section: .init(
                 section: .init(type: .mostPopular, locked: true),
                 isLoading: false

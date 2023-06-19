@@ -28,8 +28,13 @@ public struct DashboardView: View {
                     
                     ForEach(viewModel.sections, id: \.self) { section in
                         FeedSectionView(
+                            performedUnlockAnimation: .init(get: {
+                                viewModel.unlockAnimationsDone[section.section.type, default: true]
+                            }, set: { new in
+                                viewModel.unlockAnimationsDone[section.section.type] = new
+                            }),
                             section: section,
-                            items: viewModel.items[section.section, default: []],
+                            items: viewModel.items[section.section.type, default: []],
                             goToDetail: viewModel.goToDetail,
                             pressedLockedSection: viewModel.pressedLocked
                         )

@@ -69,6 +69,11 @@ public struct QuestionnaireView: View {
                 .padding(.M)
             }
         }
+        .onChange(of: viewModel.currentQuestion, perform: { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                UIApplication.shared.endEditing()
+            }
+        })
         .navigationBarHidden(false)
         .navigationTitle(viewModel.topic.displayName)
         .background(Color.sfBackground.ignoresSafeArea())
@@ -99,6 +104,13 @@ public struct QuestionnaireView: View {
                 ).h4()
             }
         }
+    }
+}
+
+
+extension UIApplication {
+    fileprivate func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

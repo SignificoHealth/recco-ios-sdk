@@ -9,7 +9,7 @@ import SFQuestionnaire
 enum Destination {
     case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void)
     case dismiss
-    case questionnaire(SFTopic)
+    case questionnaire(SFTopic, (SFTopic) -> Void)
 }
 
 public final class DashboardCoordinator {
@@ -31,9 +31,9 @@ public final class DashboardCoordinator {
                 animated: true
             )
             
-        case let .questionnaire(topic):
+        case let .questionnaire(topic, unlocked):
             navController?.pushViewController(
-                UIHostingController(rootView: QuestionnaireView(viewModel: get(argument: topic))),
+                UIHostingController(rootView: QuestionnaireView(viewModel: get(argument: (topic, unlocked)))),
                 animated: true
             )
             

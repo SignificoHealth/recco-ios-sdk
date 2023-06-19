@@ -4,6 +4,9 @@ import SFEntities
 
 public final class QuestionnaireViewModel: ObservableObject {
     private let repo: QuestionnaireRepository
+    private let unlocked: (SFTopic) -> Void
+    private let nav: QuestionnaireCoordinator
+
     let topic: SFTopic
     
     @Published var currentQuestion: Question?
@@ -26,10 +29,14 @@ public final class QuestionnaireViewModel: ObservableObject {
     
     init(
         topic: SFTopic,
-        repo: QuestionnaireRepository
+        repo: QuestionnaireRepository,
+        nav: QuestionnaireCoordinator,
+        unlocked: @escaping (SFTopic) -> Void
     ) {
         self.repo = repo
         self.topic = topic
+        self.unlocked = unlocked
+        self.nav = nav
     }
     
     @MainActor
@@ -94,13 +101,17 @@ public final class QuestionnaireViewModel: ObservableObject {
     private func sendQuestionnaire() {
         Task {
             sendLoading = true
+            
             do {
                 let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
                 try await repo.sendQuestionnaire(answers)
             } catch {
                 sendError = error
             }
+            
             sendLoading = false
+            unlocked(topic)
+            nav.navigate(to: .back)
         }
     }
     

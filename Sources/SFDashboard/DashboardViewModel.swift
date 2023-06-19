@@ -23,8 +23,9 @@ public final class DashboardViewModel: ObservableObject {
     @Published var lockedSectionAlert: FeedSection?
     @Published var isLoading: Bool = true
     @Published var initialLoadError: Error?
+    @Published var unlockAnimationsDone: [FeedSectionType: Bool] = [:]
     @Published var sections: [FeedSectionViewState] = []
-    @Published var items: [FeedSection: [AppUserRecommendation]] = [:]
+    @Published var items: [FeedSectionType: [AppUserRecommendation]] = [:]
     @Published var errors: [FeedSection: Error?] = [:]
     
     public init(
@@ -55,7 +56,10 @@ public final class DashboardViewModel: ObservableObject {
     @MainActor
     func pressedUnlockSectionStart() {
         if let topic = lockedSectionAlert?.topic {
-            nav.navigate(to: .questionnaire(topic))
+            nav.navigate(to: .questionnaire(
+                topic,
+                { [unowned self] in unlock(topic: $0) }
+            ))
         }
         
         lockedSectionAlert = nil
@@ -91,7 +95,7 @@ public final class DashboardViewModel: ObservableObject {
                 group.addTask { @MainActor [unowned self] in
                     do {
                         let items = try await recRepo.getFeedSection(section)
-                        self.items[section] = items
+                        self.items[section.type] = items
                         self.errors[section] = nil
                     } catch {
                         self.initialLoadError = error
@@ -105,11 +109,30 @@ public final class DashboardViewModel: ObservableObject {
     
     // MARK: Private
     
+    @MainActor
+    private func unlock(topic: SFTopic) {
+        guard let idx = sections.firstIndex(
+            where: { $0.section.locked && $0.section.topic == topic }
+        ) else { return }
+        
+        let section = sections[idx].section
+        
+        Task {
+            do {
+                let data = try await recRepo.getFeedSection(section)
+                items[section.type] = data
+                sections[idx].section.locked = false
+            } catch {
+                self.initialLoadError = error
+            }
+        }
+    }
+    
     private func markContentAsSeen(id: ContentId) {
         for section in sections {
-            for (item, idx) in zip(items[section.section, default: []], items[section.section, default: []].indices) where item.status != .viewed {
+            for (item, idx) in zip(items[section.section.type, default: []], items[section.section.type, default: []].indices) where item.status != .viewed {
                 if item.id == id {
-                    items[section.section]?[idx].status = .viewed
+                    items[section.section.type]?[idx].status = .viewed
                 }
             }
         }
@@ -118,11 +141,15 @@ public final class DashboardViewModel: ObservableObject {
     @MainActor
     private func setView(sections: [FeedSection]) {
         isLoading = false
-        self.sections = sections.enumerated().map { idx, element in
+        self.sections = sections.map { element in
             FeedSectionViewState(
                 section: element,
-                isLoading: true
+                isLoading: !element.locked
             )
         }
+        
+        self.unlockAnimationsDone = sections.reduce(into: [:], { partialResult, section in
+            partialResult[section.type] = !section.locked
+        })
     }
 }

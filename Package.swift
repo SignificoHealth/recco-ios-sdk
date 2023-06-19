@@ -14,7 +14,10 @@ extension Target.Dependency {
 let Core: Target = .target(name: "SFCore", dependencies: [
     .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
 ])
-let Resources: Target = .target(name: "SFResources")
+let Resources: Target = .target(
+    name: "SFResources",
+    resources: [.process("Haptics")]
+)
 let Entities: Target = .target(name: "SFEntities")
 let Api: Target = .target(
     name: "SFApi",
