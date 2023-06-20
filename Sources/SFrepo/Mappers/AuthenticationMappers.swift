@@ -9,6 +9,15 @@ import Foundation
 import SFApi
 import SFEntities
 
+extension AppUser {
+    init(dto: AppUserDTO) {
+        self.init(
+            id: dto.id,
+            isOnboardingQuestionnaireCompleted: dto.isOnboardingQuestionnaireCompleted
+        )
+    }
+}
+
 extension PAT {
     init(dto: PATDTO) {
         self.init(

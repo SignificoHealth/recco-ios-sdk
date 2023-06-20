@@ -3,7 +3,7 @@
 import Foundation
 
 public enum KeychainKey: String {
-    case currentUserId = "currentUserId"
+    case currentUser = "currentUser"
     case currentPat = "currentPat"
 }
 

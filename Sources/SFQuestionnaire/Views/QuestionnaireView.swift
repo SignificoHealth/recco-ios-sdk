@@ -11,8 +11,13 @@ import SFSharedUI
 
 public struct QuestionnaireView: View {
     @StateObject var viewModel: QuestionnaireViewModel
+    var navTitle: String
     
-    public init(viewModel: QuestionnaireViewModel) {
+    public init(
+        viewModel: QuestionnaireViewModel,
+        navTitle: String
+    ) {
+        self.navTitle = navTitle
         self._viewModel = .init(wrappedValue: viewModel)
     }
     
@@ -75,7 +80,7 @@ public struct QuestionnaireView: View {
             }
         })
         .navigationBarHidden(false)
-        .navigationTitle(viewModel.topic.displayName)
+        .navigationTitle(navTitle)
         .background(Color.sfBackground.ignoresSafeArea())
         .sfNotification(error: $viewModel.sendError)
         .task {
@@ -120,7 +125,8 @@ struct SwiftUIView_Previews: PreviewProvider {
             QuestionnaireView(
                 viewModel: r.get(
                     argument: SFTopic.physicalActivity
-                )
+                ),
+                navTitle: "Title"
             )
         }
     }

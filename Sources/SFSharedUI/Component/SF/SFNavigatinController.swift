@@ -49,6 +49,7 @@ func createNavAppearance() -> UINavigationBarAppearance {
 
     appearance.backgroundColor = .sfBackground
     appearance.backgroundEffect = .none
+    appearance.shadowColor = .clear
     
     let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
     buttonAppearance.normal.titleTextAttributes = [.foregroundColor: tint]

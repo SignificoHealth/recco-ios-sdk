@@ -32,8 +32,9 @@ public final class DashboardCoordinator {
             )
             
         case let .questionnaire(topic, unlocked):
+            let viewModel: TopicQuestionnaireViewModel = get(argument: (topic, unlocked))
             navController?.pushViewController(
-                UIHostingController(rootView: QuestionnaireView(viewModel: get(argument: (topic, unlocked)))),
+                UIHostingController(rootView: QuestionnaireView(viewModel: viewModel, navTitle: topic.displayName)),
                 animated: true
             )
             

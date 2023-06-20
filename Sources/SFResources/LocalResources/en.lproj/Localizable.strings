@@ -52,3 +52,15 @@
 "questionnaire.button.continue" = "Continue";
 "questionnaire.button.finish" = "Finish";
 "questionnaire.button.multiple" = "Multiple answers possible: %@";
+
+// MARK: Onboarding
+
+"onboarding.navTitle" = "About you";
+"onboarding.button.next" = "Next";
+"onboarding.button.start" = "Start";
+"onboarding.page1.title" = "Well hello there!";
+"onboarding.page1.description" = "Welcome to Shadowflight.We’ll give you customized health advice for a better life.\n\nAll advice will be stored here. Come back every time you want!";
+"onboarding.page2.title" = "Cool content";
+"onboarding.page2.description" = "We´ll give you health advice, recipes, and exercise to help you live your life at it’s fullest.\n\nWe’ll give you some questions to fine-tune the content you want to see";
+"onboarding.page3.title" = "About you";
+"onboarding.page3.description" = "Who are you? What are your health interests? What’s your health status?\n\nWe want to know you!";

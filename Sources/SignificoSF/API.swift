@@ -15,6 +15,7 @@ import SFEntities
 import SFSharedUI
 import SFArticle
 import SFQuestionnaire
+import SFOnboarding
 
 public func initialize(clientSecret: String) {
     SFApi.initialize(
@@ -27,24 +28,33 @@ public func initialize(clientSecret: String) {
         CoreAssembly(),
         DashboardAssembly(),
         ArticleAssembly(),
-        QuestionnaireAssembly()
+        QuestionnaireAssembly(),
+        OnboardingAssembly()
     ])
     
     let keychain: KeychainProxy = get()
-    let appUser: AppUser? = try? keychain.read(key: .currentUserId)
+    let appUser: AppUser? = try? keychain.read(key: .currentUser)
     appUser.map(\.id).map(SFApi.clientIdChanged)
 }
 
 public func login(user: String) async throws {
     let repo: AuthRepository = get()
     try await repo.login(clientUserId: user)
-    SFApi.clientIdChanged(user)
 }
 
 public func logout() async throws {
     let repo: AuthRepository = get()
     try await repo.logout()
-    SFApi.clientIdChanged(nil)
+}
+
+public func sfRootViewController() -> UIViewController {
+    SFNavigationController(
+        rootViewController: UIHostingController(
+            rootView: SplashView(
+                viewModel: get()
+            )
+        )
+    )
 }
 
 public struct SFRootView: View {
@@ -52,13 +62,7 @@ public struct SFRootView: View {
     
     public var body: some View {
         ToSwiftUI {
-            SFNavigationController(
-                rootViewController: UIHostingController(
-                    rootView: DashboardView(
-                        viewModel: get()
-                    )
-                )
-            )
+            sfRootViewController()
         }
         .ignoresSafeArea()
     }

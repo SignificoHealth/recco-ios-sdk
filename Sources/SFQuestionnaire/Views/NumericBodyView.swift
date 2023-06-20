@@ -10,11 +10,33 @@ import SFEntities
 import UIKit
 
 struct NumericBodyView: View {
+    init(
+        question: NumericQuestion,
+        selectedAnswer: @escaping (Double?) -> Void,
+        answer: Double?
+    ) {
+        self.question = question
+        self.selectedAnswer = selectedAnswer
+        
+        let formattedAnswer = answer.map {
+            displayAnswer($0, format: question.format)
+        }
+        
+        if let formattedAnswer {
+            self._value = .init(initialValue: formattedAnswer.0)
+            self._value2 = .init(initialValue: formattedAnswer.1 ?? "")
+        } else {
+            self._value = .init(initialValue: "")
+            self._value2 = .init(initialValue: "")
+        }
+    }
+    
     let question: NumericQuestion
     var selectedAnswer: (Double?) -> Void
 
-    @State private var value: String = ""
-    
+    @State private var value: String
+    @State private var value2: String
+
     var body: some View {
         HStack {
             BiggerInsetsTextField(text: $value)
@@ -113,6 +135,6 @@ extension View {
 
 struct NumericBodyView_Previews: PreviewProvider {
     static var previews: some View {
-        NumericBodyView(question: .init(maxValue: 0, minValue: 10, format: .decimal), selectedAnswer: { _ in })
+        NumericBodyView(question: .init(maxValue: 0, minValue: 10, format: .decimal), selectedAnswer: { _ in }, answer: nil)
     }
 }

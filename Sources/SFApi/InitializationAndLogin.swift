@@ -15,6 +15,7 @@ public func initialize(
     OpenAPIClientAPI.basePath = baseUrl
     BearerTokenHandler.clientSecret = "Bearer \(clientSecret)"
     OpenAPIClientAPI.customHeaders["Accept-Language"] = "en-US"
+    OpenAPIClientAPI.customHeaders["Client-Platform"] = "iOS"
 }
 
 public func clientIdChanged(_ newValue: String?) {

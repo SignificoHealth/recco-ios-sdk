@@ -23,16 +23,18 @@ public class LiveAuthRepository: AuthRepository {
             clientUserId: clientUserId
         )
         
-        try keychain.save(key: .currentUserId, AppUser(id: clientUserId))
         try keychain.save(key: .currentPat, PAT(dto: dto))
+        SFApi.clientIdChanged(clientUserId)
+
+        let user = try await AppUserAPI.callGet()
         
-        SFApi.logedIn(newBearer: dto.accessToken)
+        try keychain.save(key: .currentUser, AppUser(dto: user))
     }
     
     public func logout() async throws {
         struct NoUserOrPatStored: Error {}
         
-        let currentUserId: AppUser? = try keychain.read(key: .currentUserId)
+        let currentUserId: AppUser? = try keychain.read(key: .currentUser)
         let currentPat: PAT? = try keychain.read(key: .currentPat)
         
         guard let currentUserId = currentUserId,
@@ -47,8 +49,9 @@ public class LiveAuthRepository: AuthRepository {
         )
         
         keychain.remove(key: .currentPat)
-        keychain.remove(key: .currentUserId)
+        keychain.remove(key: .currentUser)
 
         SFApi.logedOut()
+        SFApi.clientIdChanged(nil)
     }
 }

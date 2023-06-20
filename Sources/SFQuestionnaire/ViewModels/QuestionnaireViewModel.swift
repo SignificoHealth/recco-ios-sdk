@@ -1,21 +1,20 @@
 import Foundation
 import SFRepo
 import SFEntities
+import Combine
 
-public final class QuestionnaireViewModel: ObservableObject {
+public class QuestionnaireViewModel: ObservableObject {
     private let repo: QuestionnaireRepository
-    private let unlocked: (SFTopic) -> Void
-    private let nav: QuestionnaireCoordinator
+    private let nextScreen: () -> Void
+    private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
 
-    let topic: SFTopic
-    
     @Published var currentQuestion: Question?
     @Published var questions: [Question]?
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
     @Published var initialLoadError: Error?
     @Published var sendError: Error?
     @Published var sendLoading: Bool = false
-    @Published var mainButtonEnabled = true
+    @Published var mainButtonEnabled: Bool
     
     var currentIndex: Int {
         currentQuestion.flatMap {
@@ -27,16 +26,23 @@ public final class QuestionnaireViewModel: ObservableObject {
         return currentIndex == (questions?.count ?? 0) - 1
     }
     
+    private var isOnboarding: Bool {
+        type(of: self) == OnboardingQuestionnaireViewModel.self
+    }
+    
     init(
-        topic: SFTopic,
         repo: QuestionnaireRepository,
-        nav: QuestionnaireCoordinator,
-        unlocked: @escaping (SFTopic) -> Void
+        nextScreen: @escaping () -> Void,
+        getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question]
     ) {
         self.repo = repo
-        self.topic = topic
-        self.unlocked = unlocked
-        self.nav = nav
+        self.nextScreen = nextScreen
+        self.getQuestions = getQuestions
+        self.mainButtonEnabled = type(of: self) == TopicQuestionnaireViewModel.self
+        
+        if isOnboarding {
+            validateAnswerOnQuestionChange()
+        }
     }
     
     @MainActor
@@ -58,30 +64,31 @@ public final class QuestionnaireViewModel: ObservableObject {
     func answer(_ answer: EitherAnswerType, for question: Question) {
         let isValid = validate(answer: answer, for: question)
         
-        if isValid {
-            answers[question] = .init(
-                value: answer,
-                questionId: question.id,
-                type: question.type,
-                questionnaireId: question.questionnaireId
-            )
-            
-            if question.isSingleChoice,
-               answer.multichoice != nil,
-               question.type != .numeric,
-               !isOnLastQuestion
-            {
-                next()
-            }
+        answers[question] = .init(
+            value: answer,
+            questionId: question.id,
+            type: question.type,
+            questionnaireId: question.questionnaireId
+        )
+        
+        if question.isSingleChoice,
+           answer.multichoice != nil,
+           question.type != .numeric,
+           !isOnLastQuestion,
+           isValid
+        {
+            next()
         }
         
-        mainButtonEnabled = isValid
+        if !isOnboarding {
+            mainButtonEnabled = isValid
+        }
     }
     
     @MainActor
     func getQuestionnaire() async {
         do {
-            let data = try await repo.getQuestionnaire(topic: topic)
+            let data = try await getQuestions(repo)
             questions = data
             answers = data.reduce(into: [:], { answers, question in
                 answers[question] = CreateQuestionnaireAnswer(
@@ -97,6 +104,20 @@ public final class QuestionnaireViewModel: ObservableObject {
         }
     }
     
+    private func validateAnswerOnQuestionChange() {
+        $currentQuestion
+            .compactMap { $0 }
+            .combineLatest($answers)
+            .map { [unowned self] newValue, answers in
+                if let a = answers[newValue], let answer = a, isOnboarding {
+                    return validate(answer: answer.value, for: newValue)
+                } else {
+                    return true
+                }
+            }
+            .assign(to: &$mainButtonEnabled)
+    }
+    
     @MainActor
     private func sendQuestionnaire() {
         Task {
@@ -105,13 +126,13 @@ public final class QuestionnaireViewModel: ObservableObject {
             do {
                 let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
                 try await repo.sendQuestionnaire(answers)
+                
+                nextScreen()
             } catch {
                 sendError = error
             }
             
             sendLoading = false
-            unlocked(topic)
-            nav.navigate(to: .back)
         }
     }
     
@@ -119,13 +140,15 @@ public final class QuestionnaireViewModel: ObservableObject {
         switch question.value {
         case let .multiChoice(q):
             guard q.minOptions <= q.maxOptions else { return false }
-            guard let count =  answer.multichoice.map(\.count) else { return true }
+            guard let count = answer.multichoice.map(\.count), count != 0 else {
+                return !isOnboarding
+            }
             return (q.minOptions...q.maxOptions).contains(count)
             
         case let .numeric(q):
             guard q.minValue <= q.maxValue else { return false }
-            guard let value = answer.numeric else {
-                return true
+            guard let value = answer.numeric, value != 0 else {
+                return !isOnboarding
             }
             
             return (Double(q.minValue)...Double(q.maxValue)).contains(value)

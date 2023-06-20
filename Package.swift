@@ -14,6 +14,7 @@ extension Target.Dependency {
 let Core: Target = .target(name: "SFCore", dependencies: [
     .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
 ])
+
 let Resources: Target = .target(
     name: "SFResources",
     resources: [.process("Haptics")]
@@ -71,6 +72,15 @@ let Dashboard: Target = .target(
     ]
 )
 
+let Onboarding: Target = .target(
+    name: "SFOnboarding",
+    dependencies: [
+        .add(SharedUI),
+        .add(Repo),
+        .add(Article),
+        .add(Dashboard),
+    ])
+
 // MARK: Definition
 
 let package = Package(
@@ -85,7 +95,8 @@ let package = Package(
         .library(name: SharedUI.name, targets: [SharedUI.name]),
         .library(name: Dashboard.name, targets: [Dashboard.name]),
         .library(name: Article.name, targets: [Article.name]),
-        .library(name: Questionnaire.name, targets: [Questionnaire.name])
+        .library(name: Questionnaire.name, targets: [Questionnaire.name]),
+        .library(name: Onboarding.name, targets: [Onboarding.name])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "0.1.0")),
@@ -95,7 +106,7 @@ let package = Package(
         .target(
             name: "SignificoSF",
             dependencies: [
-                .add(Dashboard)
+                .add(Onboarding)
             ]
         ),
         Entities,
@@ -104,6 +115,7 @@ let package = Package(
         Api,
         Resources,
         SharedUI,
+        Onboarding,
         Dashboard,
         Article,
         Questionnaire

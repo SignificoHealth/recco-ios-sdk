@@ -10,12 +10,19 @@ public final class QuestionnaireAssembly: SFAssembly {
             QuestionnaireCoordinator(window: r.get())
         }
         
-        container.register(type: QuestionnaireViewModel.self) { (r: SFResolver, tuple: (SFTopic, (SFTopic) -> Void)) in
-            QuestionnaireViewModel(
+        container.register(type: TopicQuestionnaireViewModel.self) { (r: SFResolver, tuple: (SFTopic, (SFTopic) -> Void)) in
+            TopicQuestionnaireViewModel(
                 topic: tuple.0,
-                repo: r.get(),
+                unlocked: tuple.1,
                 nav: r.get(),
-                unlocked: tuple.1
+                repo: r.get()
+            )
+        }
+        
+        container.register(type: OnboardingQuestionnaireViewModel.self) { r, next in
+            OnboardingQuestionnaireViewModel(
+                nextScreen: next,
+                repo: r.get()
             )
         }
     }

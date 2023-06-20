@@ -33,9 +33,13 @@ struct QuestionView: View {
                         }
                     )
                 case let .numeric(numeric):
-                    NumericBodyView(question: numeric, selectedAnswer: {
-                        answerChanged(item, .numeric($0))
-                    })
+                    NumericBodyView(
+                        question: numeric,
+                        selectedAnswer: {
+                            answerChanged(item, .numeric($0))
+                        },
+                        answer: currentAnswer?.numeric
+                    )
                 }
             }
             .frame(
