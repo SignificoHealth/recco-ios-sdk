@@ -10,7 +10,12 @@ import SFEntities
 import SFSharedUI
 
 struct NumericBodyView: View {
-    @Environment(\.locale) var locale
+    private var locale: Locale {
+        .current
+    }
+    
+    let question: NumericQuestion
+    var selectedAnswer: (Double?) -> Void
     
     init(
         question: NumericQuestion,
@@ -19,23 +24,23 @@ struct NumericBodyView: View {
     ) {
         self.question = question
         self.selectedAnswer = selectedAnswer
-        self._value = .init(initialValue: "")
-        self._value2 = .init(initialValue: "")
-
-        defer {
-            let formattedAnswer = answer.map {
-                displayAnswer($0, locale: locale, format: question.format)
-            }
-
-            if let formattedAnswer {
-                self.value = formattedAnswer.0
-                self.value2 = formattedAnswer.1 ?? ""
-            }
+        
+        let formattedAnswer = answer.map {
+            displayAnswer(
+                $0,
+                locale: .current,
+                format: question.format
+            )
+        }
+        
+        if let formattedAnswer {
+            self._value = .init(initialValue: formattedAnswer.0)
+            self._value2 = .init(initialValue: formattedAnswer.1 ?? "")
+        } else {
+            self._value = .init(initialValue: "")
+            self._value2 = .init(initialValue: "")
         }
     }
-    
-    let question: NumericQuestion
-    var selectedAnswer: (Double?) -> Void
 
     @State private var value: String
     @State private var value2: String

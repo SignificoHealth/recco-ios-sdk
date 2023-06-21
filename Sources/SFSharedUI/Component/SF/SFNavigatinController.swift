@@ -77,5 +77,8 @@ public struct SFNavigationView<Content: View>: View {
                 )
             )
         }
+        .background(
+            Color.sfBackground.ignoresSafeArea()
+        )
     }
 }
