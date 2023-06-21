@@ -12,12 +12,20 @@ public final class OnboardingAssembly: SFAssembly {
             OnboardingCoordinator(window: r.get())
         }
         
+        container.register(type: OnboardingOutroViewModel.self) { r in
+            OnboardingOutroViewModel(
+                meRepo: r.get()
+            )
+        }
+        
         container.register(type: OnboardingViewModel.self) { r in
             OnboardingViewModel(nav: r.get())
         }
         
         container.register(type: SplashViewModel.self) { r in
-            SplashViewModel(keychain: r.get())
+            SplashViewModel(
+                repo: r.get()
+            )
         }
     }
 }

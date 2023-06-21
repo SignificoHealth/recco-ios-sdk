@@ -17,6 +17,8 @@ public final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
             },
             getQuestions: { repo in
                 try await repo.getQuestionnaire(topic: topic)
+            }, sendQuestions: { repo, answers in
+                try await repo.sendQuestionnaire(answers)
             }
         )
     }

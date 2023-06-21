@@ -28,6 +28,10 @@
       "description": "Expose authentication related resources for an app user."
     },
     {
+      "name": "Metric",
+      "description": "Expose metric related events for an app user."
+    },
+    {
       "name": "Questionnaire",
       "description": "Expose questionnaire related resources for an app user."
     }
@@ -212,6 +216,74 @@
           },
           "required": true
         },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/metric/session": {
+      "post": {
+        "tags": [
+          "Metric"
+        ],
+        "summary": "Log session duration event.",
+        "operationId": "sessionEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMetricSession"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/metric/login": {
+      "post": {
+        "tags": [
+          "Metric"
+        ],
+        "summary": "Log session login event.",
+        "operationId": "loginEvent",
         "responses": {
           "401": {
             "description": "Unauthorized",
@@ -976,6 +1048,18 @@
           "numeric"
         ]
       },
+      "CreateMetricSession": {
+        "required": [
+          "seconds"
+        ],
+        "type": "object",
+        "properties": {
+          "seconds": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "PATReferenceDelete": {
         "required": [
           "tokenId"
@@ -1206,20 +1290,35 @@
           "multiChoice": {
             "$ref": "#/components/schemas/MultiChoiceQuestion"
           },
+          "multiChoiceSelectedIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
           "numeric": {
             "$ref": "#/components/schemas/NumericQuestion"
+          },
+          "numericSelected": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
       "FeedSection": {
         "required": [
           "locked",
+          "state",
           "type"
         ],
         "type": "object",
         "properties": {
           "type": {
             "$ref": "#/components/schemas/FeedSectionType"
+          },
+          "state": {
+            "$ref": "#/components/schemas/FeedSectionState"
           },
           "locked": {
             "type": "boolean"
@@ -1228,6 +1327,14 @@
             "$ref": "#/components/schemas/Topic"
           }
         }
+      },
+      "FeedSectionState": {
+        "type": "string",
+        "enum": [
+          "LOCK",
+          "UNLOCK",
+          "PARTIALLY_UNLOCK"
+        ]
       },
       "FeedSectionType": {
         "type": "string",

@@ -24,11 +24,8 @@ public class LiveAuthRepository: AuthRepository {
         )
         
         try keychain.save(key: .currentPat, PAT(dto: dto))
+        SFApi.logedIn(newBearer: dto.accessToken)
         SFApi.clientIdChanged(clientUserId)
-
-        let user = try await AppUserAPI.callGet()
-        
-        try keychain.save(key: .currentUser, AppUser(dto: user))
     }
     
     public func logout() async throws {

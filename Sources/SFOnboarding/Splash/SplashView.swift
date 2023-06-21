@@ -2,6 +2,7 @@ import SwiftUI
 import SFSharedUI
 import SFDashboard
 import SFCore
+import SFEntities
 
 public struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
@@ -15,13 +16,19 @@ public struct SplashView: View {
         return NoUser()
     }
     
+    @State private var _user: AppUser?
+    
     @ViewBuilder
     var content: some View {
-        if let user = viewModel.user {
+        if let user = _user {
             if user.isOnboardingQuestionnaireCompleted {
-                DashboardView(viewModel: get())
+                SFNavigationView {
+                    DashboardView(viewModel: get())
+                }
             } else {
-                OnboardingView(viewModel: get())
+                SFNavigationView {
+                    OnboardingView(viewModel: get())
+                }
             }
         } else {
             SFErrorView(error: .constant(noUser))
@@ -31,6 +38,15 @@ public struct SplashView: View {
     @ViewBuilder
     public var body: some View {
         content
-            .navigationBarHidden(true)
+            .transition(.opacity)
+            .onReceive(viewModel.$user) { newUser in
+                if _user == nil {
+                    _user = newUser
+                } else {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        _user = newUser
+                    }
+                }
+            }
     }
 }

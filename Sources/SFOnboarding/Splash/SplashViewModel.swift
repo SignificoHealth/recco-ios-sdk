@@ -8,18 +8,27 @@
 import Foundation
 import SFCore
 import SFEntities
+import SFRepo
+import Combine
 
 public final class SplashViewModel: ObservableObject {
+    private let repo: MeRepo
+    
     @Published var user: AppUser?
-    @Published var error: Error?
-
+    
+    var cancellable: AnyCancellable?
     init(
-        keychain: KeychainProxy
+        repo: MeRepo
     ) {
-        do {
-            self.user = try keychain.read(key: .currentUser)
-        } catch {
-            self.error = error
-        }
+        self.repo = repo
+
+        bind()
+    }
+    
+    private func bind() {
+        repo
+            .currentUser
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$user)
     }
 }

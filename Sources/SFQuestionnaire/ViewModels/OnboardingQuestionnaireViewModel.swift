@@ -12,6 +12,8 @@ public final class OnboardingQuestionnaireViewModel: QuestionnaireViewModel {
             nextScreen: nextScreen,
             getQuestions: { repo in
                 try await repo.getOnboardingQuestionnaire()
+            }, sendQuestions: { repo, answers in
+                try await repo.sendOnboardingQuestionnaire(answers)
             }
         )
     }

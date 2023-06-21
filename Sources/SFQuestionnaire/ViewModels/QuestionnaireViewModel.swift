@@ -7,6 +7,7 @@ public class QuestionnaireViewModel: ObservableObject {
     private let repo: QuestionnaireRepository
     private let nextScreen: () -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
+    private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
 
     @Published var currentQuestion: Question?
     @Published var questions: [Question]?
@@ -33,13 +34,14 @@ public class QuestionnaireViewModel: ObservableObject {
     init(
         repo: QuestionnaireRepository,
         nextScreen: @escaping () -> Void,
-        getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question]
+        getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question],
+        sendQuestions: @escaping (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
     ) {
         self.repo = repo
         self.nextScreen = nextScreen
         self.getQuestions = getQuestions
         self.mainButtonEnabled = type(of: self) == TopicQuestionnaireViewModel.self
-        
+        self.sendQuestions = sendQuestions
         if isOnboarding {
             validateAnswerOnQuestionChange()
         }
@@ -71,6 +73,10 @@ public class QuestionnaireViewModel: ObservableObject {
             questionnaireId: question.questionnaireId
         )
         
+        if isOnboarding {
+            mainButtonEnabled = validateAll(until: question)
+        }
+        
         if question.isSingleChoice,
            answer.multichoice != nil,
            question.type != .numeric,
@@ -81,7 +87,7 @@ public class QuestionnaireViewModel: ObservableObject {
         }
         
         if !isOnboarding {
-            mainButtonEnabled = isValid
+            mainButtonEnabled = validate(answer: answer, for: question)
         }
     }
     
@@ -107,10 +113,9 @@ public class QuestionnaireViewModel: ObservableObject {
     private func validateAnswerOnQuestionChange() {
         $currentQuestion
             .compactMap { $0 }
-            .combineLatest($answers)
-            .map { [unowned self] newValue, answers in
-                if let a = answers[newValue], let answer = a, isOnboarding {
-                    return validate(answer: answer.value, for: newValue)
+            .map { [unowned self] newValue in
+                if isOnboarding {
+                    return validateAll(until: newValue)
                 } else {
                     return true
                 }
@@ -125,7 +130,7 @@ public class QuestionnaireViewModel: ObservableObject {
             
             do {
                 let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
-                try await repo.sendQuestionnaire(answers)
+                try await sendQuestions(repo, answers)
                 
                 nextScreen()
             } catch {
@@ -152,6 +157,21 @@ public class QuestionnaireViewModel: ObservableObject {
             }
             
             return (Double(q.minValue)...Double(q.maxValue)).contains(value)
+        }
+    }
+    
+    private func validateAll(until q: Question) -> Bool {
+        guard let partial = questions?.firstIndex(of: q),
+            let partialQuestions = questions?[0...partial] else {
+            return false
+        }
+        
+        return partialQuestions.reduce(true) { partialResult, q in
+            if let answer = answers[q]??.value {
+                return partialResult && validate(answer: answer, for: q)
+            } else {
+                return false
+            }
         }
     }
 }

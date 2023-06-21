@@ -42,5 +42,9 @@ public final class RepositoryAssembly: SFAssembly {
         container.register(type: QuestionnaireRepository.self) { _ in
             LiveQuestionnaireRepository()
         }
+        
+        container.register(type: MeRepo.self, singleton: true) { r in
+            LiveMeRepo(keychain: r.get())
+        }
     }
 }

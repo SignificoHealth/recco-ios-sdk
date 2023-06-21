@@ -37,6 +37,7 @@ struct OnboardingView: View {
         .background(
             Color.sfBackground.ignoresSafeArea()
         )
+        .navigationBarHidden(true)
     }
     
     @ViewBuilder

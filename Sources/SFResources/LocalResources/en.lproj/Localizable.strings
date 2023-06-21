@@ -52,6 +52,12 @@
 "questionnaire.button.continue" = "Continue";
 "questionnaire.button.finish" = "Finish";
 "questionnaire.button.multiple" = "Multiple answers possible: %@";
+"questionnaire.numeric.label.lb" = "lb.";
+"questionnaire.numeric.label.cm" = "cm.";
+"questionnaire.numeric.label.feet" = "ft.";
+"questionnaire.numeric.label.inches" = "in.";
+"questionnaire.numeric.label.kg" = "kg.";
+"questionnaire.numeric.label.stones" = "st.";
 
 // MARK: Onboarding
 
@@ -64,3 +70,6 @@
 "onboarding.page2.description" = "We´ll give you health advice, recipes, and exercise to help you live your life at it’s fullest.\n\nWe’ll give you some questions to fine-tune the content you want to see";
 "onboarding.page3.title" = "About you";
 "onboarding.page3.description" = "Who are you? What are your health interests? What’s your health status?\n\nWe want to know you!";
+"onboarding.outro.title" = "Great! Glad to get to know you better!";
+"onboarding.outro.description" = "Now let’s see what we have for you";
+"onboarding.outro.button" = "Go to dashboard";

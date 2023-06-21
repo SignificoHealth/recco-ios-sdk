@@ -61,3 +61,21 @@ func createNavAppearance() -> UINavigationBarAppearance {
     
     return appearance
 }
+
+public struct SFNavigationView<Content: View>: View {
+    public init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+    
+    public var content: () -> Content
+    
+    public var body: some View {
+        ToSwiftUI {
+            SFNavigationController(
+                rootViewController: UIHostingController(
+                    rootView: content()
+                )
+            )
+        }
+    }
+}

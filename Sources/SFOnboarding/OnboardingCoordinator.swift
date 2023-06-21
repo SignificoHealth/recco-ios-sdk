@@ -10,10 +10,10 @@ import UIKit
 import SwiftUI
 import SFQuestionnaire
 import SFCore
+import SFDashboard
 
 enum Destination {
     case questionnaire
-    case dashboard
     case questionnaireOutro
 }
 
@@ -33,11 +33,11 @@ public final class OnboardingCoordinator {
         case .questionnaire:
             let viewModel: OnboardingQuestionnaireViewModel = get(
                 argument: { [unowned self] in
-                    navigate(to: .dashboard)
+                    navigate(to: .questionnaireOutro)
                 }
             )
             
-            let vc = DisablingTabBarScrollHostingController(
+            let vc = UIHostingController(
                 rootView: QuestionnaireView(
                     viewModel: viewModel,
                     navTitle: "onboarding.navTitle".localized
@@ -49,16 +49,17 @@ public final class OnboardingCoordinator {
                 animated: true
             )
             
-        case .dashboard:
-            break
         case .questionnaireOutro:
-            break
+            let vc = UIHostingController(
+                rootView: OnboardingOutroView(
+                    viewModel: get()
+                )
+            )
+            
+            navController?.pushViewController(
+                vc,
+                animated: true
+            )
         }
-    }
-}
-
-private class DisablingTabBarScrollHostingController<Content: View>: UIHostingController<Content> {
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
 }

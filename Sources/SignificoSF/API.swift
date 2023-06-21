@@ -38,8 +38,11 @@ public func initialize(clientSecret: String) {
 }
 
 public func login(user: String) async throws {
-    let repo: AuthRepository = get()
-    try await repo.login(clientUserId: user)
+    let authRepo: AuthRepository = get()
+    let meRepo: MeRepo = get()
+    
+    try await authRepo.login(clientUserId: user)
+    try await meRepo.getMe()
 }
 
 public func logout() async throws {
@@ -48,11 +51,9 @@ public func logout() async throws {
 }
 
 public func sfRootViewController() -> UIViewController {
-    SFNavigationController(
-        rootViewController: UIHostingController(
-            rootView: SplashView(
-                viewModel: get()
-            )
+    UIHostingController(
+        rootView: SplashView(
+            viewModel: get()
         )
     )
 }

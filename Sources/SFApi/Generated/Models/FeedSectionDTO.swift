@@ -13,17 +13,20 @@ import AnyCodable
 public struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
 
     public var type: FeedSectionTypeDTO
+    public var state: FeedSectionStateDTO
     public var locked: Bool
     public var topic: TopicDTO?
 
-    public init(type: FeedSectionTypeDTO, locked: Bool, topic: TopicDTO? = nil) {
+    public init(type: FeedSectionTypeDTO, state: FeedSectionStateDTO, locked: Bool, topic: TopicDTO? = nil) {
         self.type = type
+        self.state = state
         self.locked = locked
         self.topic = topic
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
+        case state
         case locked
         case topic
     }
@@ -33,6 +36,7 @@ public struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
+        try container.encode(state, forKey: .state)
         try container.encode(locked, forKey: .locked)
         try container.encodeIfPresent(topic, forKey: .topic)
     }
