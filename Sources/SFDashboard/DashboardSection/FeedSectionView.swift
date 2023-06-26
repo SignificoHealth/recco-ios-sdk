@@ -10,7 +10,7 @@ struct FeedSectionView: View {
     var pressedLockedSection: (FeedSection) -> Void
     
     private var showSectionLoading: Bool {
-        section.isLoading && !section.section.locked && items.isEmpty
+        section.isLoading && !section.section.locked && items.isEmpty && performedUnlockAnimation
     }
     
     private var hideSection: Bool {

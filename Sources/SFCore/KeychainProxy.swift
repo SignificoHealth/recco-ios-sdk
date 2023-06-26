@@ -2,9 +2,10 @@
 
 import Foundation
 
-public enum KeychainKey: String {
+public enum KeychainKey: String, CaseIterable {
     case currentUser = "currentUser"
     case currentPat = "currentPat"
+    case clientUserId = "clientId"
 }
 
 public final class KeychainProxy {
@@ -16,6 +17,13 @@ public final class KeychainProxy {
     
     private init(service: String) {
         self.service = service
+        
+        // We need to clear the Keychain on fresh install because Keychain
+        // keeps its data even after uninstalling the app
+        if !UserDefaults.standard.bool(forKey: "_sfIsKeychainCleared") {
+            clearKeychain()
+            UserDefaults.standard.set(true, forKey: "_sfIsKeychainCleared")
+        }
     }
     
     func save(_ data: Data, account: String) {
@@ -88,5 +96,11 @@ extension KeychainProxy {
 
         let item = try JSONDecoder().decode(T.self, from: data)
         return item
+    }
+    
+    func clearKeychain() {
+        KeychainKey.allCases.forEach { key in
+            remove(key: key)
+        }
     }
 }

@@ -92,7 +92,8 @@ public struct BouncyHeaderScrollview<
                 HStack {
                     if let backAction = backAction {
                         Button(action: backAction, label: {
-                            Image(systemName: "chevron.left")
+                            Image(resource: "chevron_back")
+                                .renderingMode(.template)
                         })
                         .accentColor(.sfOnPrimary)
                         .padding(.vertical, .XS)
@@ -112,13 +113,6 @@ public struct BouncyHeaderScrollview<
                 alignment: .top
             )
         }
-        .dissapearingNavBar(
-            scrollOffset: scrollOffset,
-            threshold: navBarThreshold,
-            title: navTitle,
-            backAction: backAction,
-            closeAction: closeAction
-        )
         .onChange(of: scrollOffset) { newValue in
             propagatedOffset?.wrappedValue = newValue
         }

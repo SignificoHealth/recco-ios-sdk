@@ -48,5 +48,6 @@ public struct SplashView: View {
                     }
                 }
             }
+            .ignoresSafeArea()
     }
 }

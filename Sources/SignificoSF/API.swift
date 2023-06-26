@@ -18,11 +18,6 @@ import SFQuestionnaire
 import SFOnboarding
 
 public func initialize(clientSecret: String) {
-    SFApi.initialize(
-        clientSecret: clientSecret,
-        baseUrl: "http://api.sf-dev.significo.dev"
-    )
-    
     SFCore.assemble([
         RepositoryAssembly(clientSecret: clientSecret),
         CoreAssembly(),
@@ -33,8 +28,12 @@ public func initialize(clientSecret: String) {
     ])
     
     let keychain: KeychainProxy = get()
-    let appUser: AppUser? = try? keychain.read(key: .currentUser)
-    appUser.map(\.id).map(SFApi.clientIdChanged)
+    
+    SFApi.initialize(
+        clientSecret: clientSecret,
+        baseUrl: "http://api.sf-dev.significo.dev",
+        keychain: keychain
+    )    
 }
 
 public func login(user: String) async throws {

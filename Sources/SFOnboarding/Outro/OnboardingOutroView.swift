@@ -39,6 +39,7 @@ struct OnboardingOutroView: View {
                 .padding(.M)
             }
         }
+        .background(Color.sfBackground.ignoresSafeArea())
         .sfNotification(error: $viewModel.meError)
         .navigationBarHidden(true)
     }

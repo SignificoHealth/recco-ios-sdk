@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SFCore
 
 class BearerRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
@@ -138,6 +139,7 @@ public class BearerTokenHandler {
     static var bearerToken: String? = nil
     static var clientSecret: String!
     static var clientId: String?
+    static var keychain: KeychainProxy!
 
     static func refreshTokenIfDoesntExist(completionHandler: @escaping (String?, Error?) -> Void) {
         if let bearerToken = bearerToken {
@@ -174,6 +176,8 @@ public class BearerTokenHandler {
             do {
                 let token = try await AuthenticationAPI.login(authorization: clientSecret, clientUserId: clientId)
                 bearerToken = token.accessToken
+                try keychain.save(key: .currentPat, token)
+                try keychain.save(key: .clientUserId, clientId)
                 completionHandler(token.accessToken, nil)
             } catch {
                 completionHandler(nil, error)

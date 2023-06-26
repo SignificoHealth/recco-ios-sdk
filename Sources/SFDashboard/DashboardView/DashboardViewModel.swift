@@ -119,9 +119,10 @@ public final class DashboardViewModel: ObservableObject {
         
         Task {
             do {
+                sections[idx].section.locked = false
+                sections[idx].isLoading = true
                 let data = try await recRepo.getFeedSection(section)
                 items[section.type] = data
-                sections[idx].section.locked = false
             } catch {
                 self.initialLoadError = error
             }

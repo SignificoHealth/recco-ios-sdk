@@ -22,9 +22,7 @@ public struct DashboardView: View {
                 refreshAction: viewModel.getFeedItems
             ) {
                 VStack(alignment: .leading, spacing: .XXS) {
-                    DashboardHeader(
-                        dismiss: viewModel.dismiss
-                    )
+                    DashboardHeader()
                     
                     ForEach(viewModel.sections, id: \.self) { section in
                         FeedSectionView(
@@ -55,7 +53,17 @@ public struct DashboardView: View {
         .background(
             Color.sfBackground.ignoresSafeArea()
         )
-        .navigationBarHidden(true)
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    viewModel.dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.sfPrimary)
+                }
+            }
+        }
+        .navigationBarHidden(false)
         .task {
             if viewModel.items.isEmpty {
                 await viewModel.getFeedItems()
@@ -79,43 +87,29 @@ public struct DashboardView: View {
 }
 
 struct DashboardHeader: View {
-    var dismiss: () -> Void
-    
     var body: some View {
-        VStack {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .foregroundColor(.sfPrimary)
+        HStack(alignment: .top, spacing: .XS) {
+            VStack(alignment: .leading) {
+                Text("dashboard.title".localized)
+                    .h1()
+                Text("dashboard.subtitle".localized)
+                    .body1()
             }
-            .padding(.trailing, .M)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding(.vertical, .M)
+            .padding(.leading, .M)
             
-            HStack(alignment: .top, spacing: .XS) {
-                VStack(alignment: .leading) {
-                    Text("dashboard.title".localized)
-                        .h1()
-                    Text("dashboard.subtitle".localized)
-                        .body1()
-                }
-                .padding(.leading, .M)
-                
-                Spacer()
-                
-                Image(resource: "flower_fill")
-                    .renderingMode(.template)
-                    .foregroundColor(Color.sfIllustration80)
-                    .overlay(Image(resource: "flower_outline"))
-            }
+            Spacer()
+            
+            Image(resource: "flower_fill")
+                .renderingMode(.template)
+                .foregroundColor(Color.sfIllustration80)
+                .overlay(Image(resource: "flower_outline"))
         }
     }
 }
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardHeader(dismiss: {})
+        DashboardHeader()
         
         withAssembly { r in
             DashboardView(viewModel: r.get())

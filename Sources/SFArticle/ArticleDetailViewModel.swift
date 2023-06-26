@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Adrián R on 8/6/23.
-//
-
 import Foundation
 import SFRepo
 import SFEntities
@@ -41,11 +34,6 @@ public final class ArticleDetailViewModel: ObservableObject {
         do {
             let article = try await articleRepo.getArticle(with: contentId)
             self.article = article
-            try await contentRepo.setStatus(.init(
-                contentId: article.id,
-                contentType: .articles,
-                status: .viewed
-            ))
             self.article?.status = .viewed
             self.updateContentSeen(article.id)
         } catch {

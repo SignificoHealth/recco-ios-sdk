@@ -47,22 +47,30 @@ struct LockedSectionView: View {
     }
     
     private func performUnlockAnimation() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                shouldShake = true
+        Task {
+            try await Task.sleep(nanoseconds: 400 * NSEC_PER_MSEC)
+            
+            await MainActor.run {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    shouldShake = true
+                }
+                
+                HapticPlayer.shared.playUnlockHapticPattern()
             }
             
-            HapticPlayer.shared.playUnlockHapticPattern()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                performingUnlockAnimation = true
+            try await Task.sleep(nanoseconds: 700 * NSEC_PER_MSEC)
+            
+            await MainActor.run {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    performingUnlockAnimation = true
+                }
             }
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            performedUnlockAnimation = true
+
+            try await Task.sleep(nanoseconds: 1000 * NSEC_PER_MSEC)
+            
+            await MainActor.run {
+                performedUnlockAnimation = true
+            }
         }
     }
 }

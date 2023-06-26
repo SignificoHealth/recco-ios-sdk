@@ -38,11 +38,11 @@ public struct ArticleDetailView: View {
     @State private var offset: CGFloat = .zero
     @State private var contentHeight: CGFloat = .zero
     @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
+    @State private var navigationBarHidden: Bool = true
 
     public var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
-            backAction: { dismiss.wrappedValue.dismiss() },
             imageHeaderHeight: headerHeight,
             offset: $offset
         ) {
@@ -141,7 +141,23 @@ public struct ArticleDetailView: View {
         )
         .background(Color.sfBackground.ignoresSafeArea())
         .sfNotification(error: $viewModel.actionError)
-        .navigationBarHidden(true)
+        .onChange(of: offset) { new in
+            let reachedThreshold = new > 200
+            if reachedThreshold && navigationBarHidden {
+                print("Helo")
+                withAnimation(.interactiveSpring()) {
+                    navigationBarHidden = false
+                }
+            }
+            
+            if !reachedThreshold && !navigationBarHidden {
+                print("Bye")
+                withAnimation(.interactiveSpring()) {
+                    navigationBarHidden = true
+                }
+            }
+        }
+        .navigationBarHidden(navigationBarHidden)
         .overlay(
             GeometryReader { proxy in
                 Color.clear.onAppear {
