@@ -155,7 +155,7 @@ public struct ArticleDetailView: View {
                 }
             }
         )
-        .showNavigationBarOnScroll(scrollOffsetY: offset)
+        .showNavigationBarOnScroll(threshold: headerHeight)
         .addCloseSDKToNavbar()
         .navigationTitle(viewModel.heading)
         .task {

@@ -1,24 +1,33 @@
 import SwiftUI
+import Combine
+
+struct CurrentScrollOffsetObservable: EnvironmentKey {
+    static let defaultValue: PassthroughSubject<CGFloat, Never> = .init()
+}
+
+extension EnvironmentValues {
+    var currentScrollObservable: PassthroughSubject<CGFloat, Never> {
+        get { self[CurrentScrollOffsetObservable.self] }
+        set { self[CurrentScrollOffsetObservable.self] = newValue }
+    }
+}
 
 public struct RefreshableScrollView<Content: View>: View {
     public init(
-        scrollOffset: Binding<CGFloat> = .constant(0),
         refreshAction: @escaping () async -> Void,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
         self.refreshAction = refreshAction
-        self.scrollOffset = scrollOffset
     }
     
-    var scrollOffset: Binding<CGFloat>
     let content: () -> Content
     let refreshAction: () async -> Void
     
     @ViewBuilder
     public var body: some View {
         if #available(iOS 16, *) {
-            ObservableScrollView(scrollOffset: scrollOffset) { _ in
+            ObservableScrollView { _ in
                 content()
             }
             .refreshable {
@@ -29,7 +38,6 @@ public struct RefreshableScrollView<Content: View>: View {
             }
         } else if #available(iOS 15, *) {
             iOS15RefreshableScrollview(
-                scrollOffset: scrollOffset,
                 content: content
             )
             .refreshable {
@@ -39,7 +47,6 @@ public struct RefreshableScrollView<Content: View>: View {
             }
         } else {
             iOS14RefreshableScrollView(
-                scrollOffset: scrollOffset,
                 content: content,
                 refreshAction: refreshAction
             )
@@ -65,16 +72,13 @@ private struct iOS15RefreshableScrollview<Content: View>: View {
     private var content: () -> Content
     private let coordinateSpace = "pullToRefresh"
     private var threshold: CGFloat
-    private var scrollOffset: Binding<CGFloat>
-
+    
     public init(
-        scrollOffset: Binding<CGFloat>,
         threshold: CGFloat = 70,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
         self.threshold = threshold
-        self.scrollOffset = scrollOffset
     }
     
     @ViewBuilder
@@ -105,7 +109,7 @@ private struct iOS15RefreshableScrollview<Content: View>: View {
     }
     
     public var body: some View {
-        ObservableScrollView(scrollOffset: scrollOffset) { _ in
+        ObservableScrollView { _ in
             VStack(spacing: 0) {
                 refreshLoader
                 content()
@@ -128,16 +132,14 @@ private class ScrollViewController: UIViewController {
 }
 
 private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepresentable {
-    var scrollOffset: Binding<CGFloat>
+    @Environment(\.currentScrollObservable) var scrollObservable
     let content: () -> Content
     let refreshAction: (() async -> Void)?
     
     init(
-        scrollOffset: Binding<CGFloat>,
         content: @escaping () -> Content,
         refreshAction: @escaping (@escaping () -> Void) -> Void
     ) {
-        self.scrollOffset = scrollOffset
         self.content = content
         self.refreshAction = {
             await withCheckedContinuation { continuation in
@@ -149,11 +151,9 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
     }
     
     init(
-        scrollOffset: Binding<CGFloat>,
         content: @escaping () -> Content,
         refreshAction: @escaping () async -> Void
     ) {
-        self.scrollOffset = scrollOffset
         self.content = content
         self.refreshAction = refreshAction
     }
@@ -178,7 +178,7 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         controller.addChild(container)
         
         scrollView.addSubview(container.view)
-
+        
         scrollView.contentLayoutGuide.topAnchor
             .constraint(equalTo: containerView.topAnchor).isActive = true
         scrollView.contentLayoutGuide.leadingAnchor
@@ -217,7 +217,7 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            parent.scrollOffset.wrappedValue = scrollView.contentOffset.y
+            parent.scrollObservable.send(scrollView.contentOffset.y)
         }
         
         @objc func triggerRefresh(_ control: UIRefreshControl) {
@@ -278,15 +278,15 @@ private struct iOS15RefreshControl: View {
     
     var body: some View {
         TimelineView(.animation) { timeline in
-        if state != .disappearing {
+            if state != .disappearing {
                 let progress: CGFloat = {
-                if state == .threshold {
-                    return animation
-                } else if state == .refreshing {
-                    return timeline.date.timeIntervalSinceReferenceDate.remainder(dividingBy: 1)
-                } else {
-                    return 1
-                }
+                    if state == .threshold {
+                        return animation
+                    } else if state == .refreshing {
+                        return timeline.date.timeIntervalSinceReferenceDate.remainder(dividingBy: 1)
+                    } else {
+                        return 1
+                    }
                 }()
                 ZStack {
                     ForEach(0..<8, id: \.self) { index in

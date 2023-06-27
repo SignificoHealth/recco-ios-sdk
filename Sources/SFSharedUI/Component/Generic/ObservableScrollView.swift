@@ -11,8 +11,8 @@ struct ScrollViewOffsetPreferenceKey: PreferenceKey {
 // A ScrollView wrapper that tracks scroll offset changes.
 public struct ObservableScrollView<Content>: View where Content: View {
     @Namespace var scrollSpace
+    @Environment(\.currentScrollObservable) var scrollObservable
     
-    @Binding var scrollOffset: CGFloat
     let content: (ScrollViewProxy) -> Content
     var showsIndicators: Bool
     var axis: Axis.Set
@@ -20,10 +20,8 @@ public struct ObservableScrollView<Content>: View where Content: View {
     public init(
         axis: Axis.Set = .vertical,
         showsIndicators: Bool = false,
-        scrollOffset: Binding<CGFloat>,
         @ViewBuilder content: @escaping (ScrollViewProxy) -> Content
     ) {
-        _scrollOffset = scrollOffset
         self.showsIndicators = showsIndicators
         self.content = content
         self.axis = axis
@@ -43,7 +41,7 @@ public struct ObservableScrollView<Content>: View where Content: View {
         }
         .coordinateSpace(name: scrollSpace)
         .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
-            scrollOffset = value
+            scrollObservable.send(value)
         }
     }
 }

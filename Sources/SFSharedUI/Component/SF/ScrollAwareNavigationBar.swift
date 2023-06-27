@@ -1,24 +1,24 @@
 import SwiftUI
 
 public struct ScrollAwareNavigationBar<Content: View>: View {
+    @Environment(\.currentScrollObservable) var scrollObservable
     @State private var navigationBarHidden: Bool = true
-    private var scrollOffsetY: CGFloat
+    
     private var threshold: CGFloat
     private var content: () -> Content
 
     public init(
         threshold: CGFloat = 200.0,
-        scrollOffsetY: CGFloat,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.threshold = threshold
-        self.scrollOffsetY = scrollOffsetY
         self.content = content
     }
     
     public var body: some View {
         content()
-            .onChange(of: scrollOffsetY) { new in
+            .navigationBarHidden(navigationBarHidden)
+            .onReceive(scrollObservable) { new in
                 let reachedThreshold = new > threshold
                 if reachedThreshold && navigationBarHidden {
                     withAnimation {
@@ -32,18 +32,15 @@ public struct ScrollAwareNavigationBar<Content: View>: View {
                     }
                 }
             }
-            .navigationBarHidden(navigationBarHidden)
     }
 }
 
 extension View {
     public func showNavigationBarOnScroll(
-        threshold: CGFloat = 200.0,
-        scrollOffsetY: CGFloat
+        threshold: CGFloat = UIScreen.main.bounds.height * 0.2
     ) -> some View {
         ScrollAwareNavigationBar(
             threshold: threshold,
-            scrollOffsetY: scrollOffsetY,
             content: { self }
         )
     }

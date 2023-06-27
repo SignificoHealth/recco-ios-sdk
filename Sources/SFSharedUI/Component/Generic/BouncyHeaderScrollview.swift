@@ -28,10 +28,8 @@ public struct BouncyHeaderScrollview<
         self.cta = cta
         self.navTitle = navTitle
         self.shapeHeight = shapeHeight
-        self.propagatedOffset = offset
     }
     
-    private var propagatedOffset: Binding<CGFloat>?
     private var navTitle: String?
     private var shapeHeight: CGFloat?
     private var header: () -> Header
@@ -41,6 +39,7 @@ public struct BouncyHeaderScrollview<
     private var backAction: (() -> Void)?
     private var closeAction: (() -> Void)?
     
+    @Environment(\.currentScrollObservable) var scrollObservable
     @State private var scrollOffset: CGFloat = .zero
     
     private var imageHeaderHeight: CGFloat
@@ -76,7 +75,7 @@ public struct BouncyHeaderScrollview<
             .overlay(overlayHeader())
             
             VStack(spacing: 0) {
-                ObservableScrollView(scrollOffset: $scrollOffset) { _ in
+                ObservableScrollView { _ in
                     VStack(alignment: .leading, spacing: 0) {
                         Color.clear
                             .frame(height: imageHeaderHeight, alignment: .top)
@@ -114,8 +113,8 @@ public struct BouncyHeaderScrollview<
                 alignment: .top
             )
         }
-        .onChange(of: scrollOffset) { newValue in
-            propagatedOffset?.wrappedValue = newValue
+        .onReceive(scrollObservable) {
+            scrollOffset = $0
         }
     }
 }

@@ -15,16 +15,13 @@ public struct DashboardView: View {
     public init(viewModel: DashboardViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
-    
-    @State private var scrollOffset: CGFloat = .zero
-    
+        
     public var body: some View {
         SFLoadingView(viewModel.isLoading) {
             RefreshableScrollView(
-                scrollOffset: $scrollOffset,
                 refreshAction: viewModel.getFeedItems
             ) {
-                VStack(alignment: .leading, spacing: .XXS) {
+                LazyVStack(alignment: .leading, spacing: .XXS) {
                     DashboardHeader(dismiss: viewModel.dismiss)
                     
                     ForEach(viewModel.sections, id: \.self) { section in
@@ -56,7 +53,7 @@ public struct DashboardView: View {
         .background(
             Color.sfBackground.ignoresSafeArea()
         )
-        .showNavigationBarOnScroll(scrollOffsetY: scrollOffset)
+        .showNavigationBarOnScroll()
         .addCloseSDKToNavbar()
         .navigationTitle("dashboard.title".localized)
         .task {
