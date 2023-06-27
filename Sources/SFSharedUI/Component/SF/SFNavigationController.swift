@@ -1,9 +1,12 @@
 import SwiftUI
 import UIKit
 
+internal var currentSDKNavigationController: SFNavigationController?
+
 public final class SFNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     override public func viewDidLoad() {
         super.viewDidLoad()
+        currentSDKNavigationController = self
         
         delegate = self
         interactivePopGestureRecognizer?.delegate = self
@@ -30,6 +33,12 @@ public final class SFNavigationController: UINavigationController, UIGestureReco
     
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         viewController.navigationItem.backButtonDisplayMode = .minimal
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        currentSDKNavigationController = nil
     }
 }
 

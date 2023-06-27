@@ -81,6 +81,7 @@ public struct SFErrorView: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .overlay(closeButtonIfNeeded(), alignment: .topTrailing)
+        .background(Color.sfBackground)
     }
 
     @ViewBuilder private func closeButtonIfNeeded() -> some View {

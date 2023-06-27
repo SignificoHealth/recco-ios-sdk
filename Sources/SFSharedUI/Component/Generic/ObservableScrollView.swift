@@ -19,7 +19,7 @@ public struct ObservableScrollView<Content>: View where Content: View {
 
     public init(
         axis: Axis.Set = .vertical,
-        showsIndicators: Bool = true,
+        showsIndicators: Bool = false,
         scrollOffset: Binding<CGFloat>,
         @ViewBuilder content: @escaping (ScrollViewProxy) -> Content
     ) {

@@ -103,7 +103,8 @@ public struct BouncyHeaderScrollview<
                     if let closeAction = closeAction {
                         Spacer()
                         Button(action: closeAction, label: {
-                            Image(systemName: "xmark")
+                            Image(resource: "close_ic")
+                                .renderingMode(.template)
                         })
                         .accentColor(.sfOnPrimary)
                         .padding(.vertical, .XS)

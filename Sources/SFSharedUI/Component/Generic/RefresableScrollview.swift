@@ -2,20 +2,23 @@ import SwiftUI
 
 public struct RefreshableScrollView<Content: View>: View {
     public init(
+        scrollOffset: Binding<CGFloat> = .constant(0),
         refreshAction: @escaping () async -> Void,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
         self.refreshAction = refreshAction
+        self.scrollOffset = scrollOffset
     }
     
+    var scrollOffset: Binding<CGFloat>
     let content: () -> Content
     let refreshAction: () async -> Void
     
     @ViewBuilder
     public var body: some View {
         if #available(iOS 16, *) {
-            ScrollView {
+            ObservableScrollView(scrollOffset: scrollOffset) { _ in
                 content()
             }
             .refreshable {
@@ -26,6 +29,7 @@ public struct RefreshableScrollView<Content: View>: View {
             }
         } else if #available(iOS 15, *) {
             iOS15RefreshableScrollview(
+                scrollOffset: scrollOffset,
                 content: content
             )
             .refreshable {
@@ -35,6 +39,7 @@ public struct RefreshableScrollView<Content: View>: View {
             }
         } else {
             iOS14RefreshableScrollView(
+                scrollOffset: scrollOffset,
                 content: content,
                 refreshAction: refreshAction
             )
@@ -60,13 +65,16 @@ private struct iOS15RefreshableScrollview<Content: View>: View {
     private var content: () -> Content
     private let coordinateSpace = "pullToRefresh"
     private var threshold: CGFloat
-    
+    private var scrollOffset: Binding<CGFloat>
+
     public init(
+        scrollOffset: Binding<CGFloat>,
         threshold: CGFloat = 70,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
         self.threshold = threshold
+        self.scrollOffset = scrollOffset
     }
     
     @ViewBuilder
@@ -97,7 +105,7 @@ private struct iOS15RefreshableScrollview<Content: View>: View {
     }
     
     public var body: some View {
-        ScrollView {
+        ObservableScrollView(scrollOffset: scrollOffset) { _ in
             VStack(spacing: 0) {
                 refreshLoader
                 content()
@@ -120,10 +128,16 @@ private class ScrollViewController: UIViewController {
 }
 
 private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepresentable {
+    var scrollOffset: Binding<CGFloat>
     let content: () -> Content
     let refreshAction: (() async -> Void)?
     
-    init(content: @escaping () -> Content, refreshAction: @escaping (@escaping () -> Void) -> Void) {
+    init(
+        scrollOffset: Binding<CGFloat>,
+        content: @escaping () -> Content,
+        refreshAction: @escaping (@escaping () -> Void) -> Void
+    ) {
+        self.scrollOffset = scrollOffset
         self.content = content
         self.refreshAction = {
             await withCheckedContinuation { continuation in
@@ -134,7 +148,12 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         }
     }
     
-    init(content: @escaping () -> Content, refreshAction: @escaping () async -> Void) {
+    init(
+        scrollOffset: Binding<CGFloat>,
+        content: @escaping () -> Content,
+        refreshAction: @escaping () async -> Void
+    ) {
+        self.scrollOffset = scrollOffset
         self.content = content
         self.refreshAction = refreshAction
     }
@@ -171,6 +190,8 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         containerView.widthAnchor
             .constraint(equalTo: scrollView.widthAnchor).isActive = true
         
+        scrollView.delegate = context.coordinator
+        
         container.didMove(toParent: controller)
         return controller
     }
@@ -188,19 +209,22 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         return Coordinator(self)
     }
     
-    class Coordinator {
-        
+    class Coordinator: NSObject, UIScrollViewDelegate {
         let parent: iOS14RefreshableScrollView
         
         init(_ parent: iOS14RefreshableScrollView) {
             self.parent = parent
         }
         
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            parent.scrollOffset.wrappedValue = scrollView.contentOffset.y
+        }
+        
         @objc func triggerRefresh(_ control: UIRefreshControl) {
             if let action = parent.refreshAction {
                 Task {
                     await action()
-                    await control.endRefreshing()
+                    control.endRefreshing()
                 }
             }
         }

@@ -29,7 +29,7 @@ public struct ArticleDetailView: View {
     private var shadowOpacity: CGFloat {
         if viewModel.isLoading { return 0 }
         let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
-
+        
         return (-distance/100).clamped(to: 0...0.3)
     }
     
@@ -38,11 +38,12 @@ public struct ArticleDetailView: View {
     @State private var offset: CGFloat = .zero
     @State private var contentHeight: CGFloat = .zero
     @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
-    @State private var navigationBarHidden: Bool = true
-
+    
     public var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
+            backAction: { dismiss.wrappedValue.dismiss() },
+            closeAction: { fatalError() },
             imageHeaderHeight: headerHeight,
             offset: $offset
         ) {
@@ -56,7 +57,7 @@ public struct ArticleDetailView: View {
                             .scaledToFill()
                         
                         LinearGradient(
-                            colors: [.black.opacity(0.35), .clear, .clear], startPoint: .top, endPoint: .bottom
+                            colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
                         )
                     }
                 } else if state.error != nil {
@@ -66,8 +67,14 @@ public struct ArticleDetailView: View {
                             .aspectRatio(contentMode: .fill)
                     )
                 } else {
-                    SFImageLoadingView(feedItem: false)
-                        .scaledToFill()
+                    ZStack {
+                        SFImageLoadingView(feedItem: false)
+                            .scaledToFill()
+                        
+                        LinearGradient(
+                            colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
+                        )
+                    }
                 }
             }
             .processors([.resize(width: UIScreen.main.bounds.width)])
@@ -141,23 +148,6 @@ public struct ArticleDetailView: View {
         )
         .background(Color.sfBackground.ignoresSafeArea())
         .sfNotification(error: $viewModel.actionError)
-        .onChange(of: offset) { new in
-            let reachedThreshold = new > 200
-            if reachedThreshold && navigationBarHidden {
-                print("Helo")
-                withAnimation(.interactiveSpring()) {
-                    navigationBarHidden = false
-                }
-            }
-            
-            if !reachedThreshold && !navigationBarHidden {
-                print("Bye")
-                withAnimation(.interactiveSpring()) {
-                    navigationBarHidden = true
-                }
-            }
-        }
-        .navigationBarHidden(navigationBarHidden)
         .overlay(
             GeometryReader { proxy in
                 Color.clear.onAppear {
@@ -165,6 +155,9 @@ public struct ArticleDetailView: View {
                 }
             }
         )
+        .showNavigationBarOnScroll(scrollOffsetY: offset)
+        .addCloseSDKToNavbar()
+        .navigationTitle(viewModel.heading)
         .task {
             await viewModel.initialLoad()
         }

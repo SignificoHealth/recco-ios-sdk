@@ -57,7 +57,7 @@ public struct SFAlert<Header: View>: View {
             }
             .onEnded { gesture in
                 let velocityY = gesture.predictedEndLocation.y - gesture.location.y
-                if offset > UIScreen.main.bounds.height * 0.15 && velocityY > 500 {
+                if offset > UIScreen.main.bounds.height * 0.15 && velocityY > 300 {
                     withAnimation(alertAnimation) {
                         $isPresent.wrappedValue = false
                     }

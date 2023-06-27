@@ -4,6 +4,21 @@ extension View {
     public func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
+    
+    public func addCloseSDKToNavbar() -> some View {
+        toolbar {
+            ToolbarItem {
+                Button {
+                    currentSDKNavigationController?.dismiss(animated: true)
+                } label: {
+                    Image(resource: "close_ic")
+                        .renderingMode(.template)
+                        .foregroundColor(.sfPrimary)
+                }
+            }
+        }
+
+    }
 }
 
 struct RoundedCorner: Shape {
@@ -15,3 +30,4 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
+
