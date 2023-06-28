@@ -1,12 +1,35 @@
 import SwiftUI
+import Combine
+
+struct CurrentScrollOffsetObservable: EnvironmentKey {
+    static let defaultValue: PassthroughSubject<(String, CGFloat), Never> = .init()
+}
+
+struct CurrentScrollOffsetId: EnvironmentKey {
+    static let defaultValue: String? = nil
+}
+
+extension EnvironmentValues {
+    public var currentScrollObservable: PassthroughSubject<(String, CGFloat), Never> {
+        get { self[CurrentScrollOffsetObservable.self] }
+        set { self[CurrentScrollOffsetObservable.self] = newValue }
+    }
+    
+    public var currentScrollOffsetId: String? {
+        get { self[CurrentScrollOffsetId.self] }
+        set { self[CurrentScrollOffsetId.self] = newValue }
+    }
+}
 
 public struct ScrollAwareNavigationBar<Content: View>: View {
-    @Environment(\.currentScrollObservable) var scrollObservable
     @State private var navigationBarHidden: Bool = true
     
     private var threshold: CGFloat
     private var content: () -> Content
 
+    @Environment(\.currentScrollObservable) var scrollObservable
+    @Environment(\.currentScrollOffsetId) var id
+    
     public init(
         threshold: CGFloat = 200.0,
         @ViewBuilder content: @escaping () -> Content
@@ -18,8 +41,10 @@ public struct ScrollAwareNavigationBar<Content: View>: View {
     public var body: some View {
         content()
             .navigationBarHidden(navigationBarHidden)
-            .onReceive(scrollObservable) { new in
-                let reachedThreshold = new > threshold
+            .onReceive(scrollObservable) { incId, offset in
+                guard let id = self.id, incId == id else { return }
+                
+                let reachedThreshold = offset > threshold
                 if reachedThreshold && navigationBarHidden {
                     withAnimation {
                         navigationBarHidden = false
@@ -41,7 +66,10 @@ extension View {
     ) -> some View {
         ScrollAwareNavigationBar(
             threshold: threshold,
-            content: { self }
+            content: {
+                self
+            }
         )
+        .environment(\.currentScrollOffsetId, "\(self)")
     }
 }

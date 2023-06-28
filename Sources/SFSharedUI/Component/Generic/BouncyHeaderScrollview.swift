@@ -40,6 +40,8 @@ public struct BouncyHeaderScrollview<
     private var closeAction: (() -> Void)?
     
     @Environment(\.currentScrollObservable) var scrollObservable
+    @Environment(\.currentScrollOffsetId) var scrollOffsetId
+
     @State private var scrollOffset: CGFloat = .zero
     
     private var imageHeaderHeight: CGFloat
@@ -113,8 +115,8 @@ public struct BouncyHeaderScrollview<
                 alignment: .top
             )
         }
-        .onReceive(scrollObservable) {
-            scrollOffset = $0
+        .onReceive(scrollObservable) { id, offset in
+            scrollOffset = offset
         }
     }
 }

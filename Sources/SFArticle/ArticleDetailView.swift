@@ -12,11 +12,17 @@ fileprivate struct BoundsPreference: PreferenceKey {
 }
 
 public struct ArticleDetailView: View {
-    public init(
-        viewModel: ArticleDetailViewModel
-    ) {
+    public init(viewModel: ArticleDetailViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
+    
+    @Environment(\.presentationMode) var dismiss
+    @Environment(\.currentScrollObservable) var scrollOffsetObservable
+    @StateObject var viewModel: ArticleDetailViewModel
+    
+    @State private var offset: CGFloat = .zero
+    @State private var contentHeight: CGFloat = .zero
+    @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
     
     private var headerHeight: CGFloat {
         UIScreen.main.bounds.height * 0.4
@@ -33,94 +39,57 @@ public struct ArticleDetailView: View {
         return (-distance/100).clamped(to: 0...0.3)
     }
     
-    @Environment(\.presentationMode) var dismiss
-    @StateObject var viewModel: ArticleDetailViewModel
-    @State private var offset: CGFloat = .zero
-    @State private var contentHeight: CGFloat = .zero
-    @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
-    
     public var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             backAction: { dismiss.wrappedValue.dismiss() },
             closeAction: { fatalError() },
             imageHeaderHeight: headerHeight,
-            offset: $offset
-        ) {
-            LazyImage(
-                url: viewModel.imageUrl
-            ) { state in
-                if let image = state.image {
-                    ZStack {
-                        image
-                            .resizable()
-                            .scaledToFill()
-                        
-                        LinearGradient(
-                            colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
-                        )
-                    }
-                } else if state.error != nil {
-                    Color.sfPrimary20.overlay(
-                        Image(resource: "error_image")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    )
-                } else {
-                    ZStack {
-                        SFImageLoadingView(feedItem: false)
-                            .scaledToFill()
-                        
-                        LinearGradient(
-                            colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
-                        )
-                    }
-                }
-            }
-            .processors([.resize(width: UIScreen.main.bounds.width)])
-            .animation(.linear(duration: 0.3))
-        } content: {
-            VStack(alignment: .leading, spacing: .M) {
-                Text(viewModel.heading)
-                    .h1()
-                    .fixedSize(horizontal: false, vertical: true)
-                
-                Rectangle()
-                    .fill(Color.sfAccent)
-                    .frame(height: 2)
-                    .frame(maxWidth: .infinity)
-                
-                SFLoadingView(viewModel.isLoading) {
-                    if let article = viewModel.article {
-                        VStack(alignment: .leading, spacing: .L) {
-                            if let lead = article.lead {
-                                Text(lead).body1bold()
-                            }
-                            
-                            if let body = article.articleBodyHtml {
-                                HTMLTextView(text: body)
-                                    .isEditable(false)
-                                    .isSelectable(true)
-                                    .autoDetectDataTypes(.all)
+            offset: $offset,
+            header: { articleHeader },
+            content: {
+                VStack(alignment: .leading, spacing: .M) {
+                    Text(viewModel.heading)
+                        .h1()
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    Rectangle()
+                        .fill(Color.sfAccent)
+                        .frame(height: 2)
+                        .frame(maxWidth: .infinity)
+                    
+                    SFLoadingView(viewModel.isLoading) {
+                        if let article = viewModel.article {
+                            VStack(alignment: .leading, spacing: .L) {
+                                if let lead = article.lead {
+                                    Text(lead).body1bold()
+                                }
+                                
+                                if let body = article.articleBodyHtml {
+                                    HTMLTextView(text: body)
+                                        .isEditable(false)
+                                        .isSelectable(true)
+                                        .autoDetectDataTypes(.all)
+                                }
                             }
                         }
                     }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, .L)
+                .padding(.horizontal, .S)
+                .background(Color.sfBackground)
+                .overlay(
+                    GeometryReader { proxy in
+                        Color.clear.preference(key: BoundsPreference.self, value: proxy.size.height)
+                    }
+                )
+                .cornerRadius(.L, corners: [.topLeft, .topRight])
+                .padding(.top, negativePaddingTop)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, .L)
-            .padding(.horizontal, .S)
-            .background(Color.sfBackground)
-            .overlay(
-                GeometryReader { proxy in
-                    Color.clear.preference(key: BoundsPreference.self, value: proxy.size.height)
-                }
-            )
-            .cornerRadius(.L, corners: [.topLeft, .topRight])
-            .padding(.top, negativePaddingTop)
-        }
+        )
         .onPreferenceChange(BoundsPreference.self) { new in
             contentHeight = new
         }
@@ -158,9 +127,48 @@ public struct ArticleDetailView: View {
         .showNavigationBarOnScroll(threshold: headerHeight)
         .addCloseSDKToNavbar()
         .navigationTitle(viewModel.heading)
+        .onReceive(scrollOffsetObservable) { _, newOffset in
+            offset = newOffset
+        }
         .task {
             await viewModel.initialLoad()
         }
+    }
+    
+    @ViewBuilder
+    private var articleHeader: some View {
+        LazyImage(
+            url: viewModel.imageUrl
+        ) { state in
+            if let image = state.image {
+                ZStack {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                    
+                    LinearGradient(
+                        colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
+                    )
+                }
+            } else if state.error != nil {
+                Color.sfPrimary20.overlay(
+                    Image(resource: "error_image")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                )
+            } else {
+                ZStack {
+                    SFImageLoadingView(feedItem: false)
+                        .scaledToFill()
+                    
+                    LinearGradient(
+                        colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
+                    )
+                }
+            }
+        }
+        .processors([.resize(width: UIScreen.main.bounds.width)])
+        .animation(.linear(duration: 0.3))
     }
 }
 

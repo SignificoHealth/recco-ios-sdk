@@ -1,17 +1,6 @@
 import SwiftUI
 import Combine
 
-struct CurrentScrollOffsetObservable: EnvironmentKey {
-    static let defaultValue: PassthroughSubject<CGFloat, Never> = .init()
-}
-
-extension EnvironmentValues {
-    var currentScrollObservable: PassthroughSubject<CGFloat, Never> {
-        get { self[CurrentScrollOffsetObservable.self] }
-        set { self[CurrentScrollOffsetObservable.self] = newValue }
-    }
-}
-
 public struct RefreshableScrollView<Content: View>: View {
     public init(
         refreshAction: @escaping () async -> Void,
@@ -133,6 +122,8 @@ private class ScrollViewController: UIViewController {
 
 private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepresentable {
     @Environment(\.currentScrollObservable) var scrollObservable
+    @Environment(\.currentScrollOffsetId) var scrollOffsetId
+    
     let content: () -> Content
     let refreshAction: (() async -> Void)?
     
@@ -217,7 +208,9 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            parent.scrollObservable.send(scrollView.contentOffset.y)
+            if let id = parent.scrollOffsetId {
+                parent.scrollObservable.send((id, scrollView.contentOffset.y))
+            }
         }
         
         @objc func triggerRefresh(_ control: UIRefreshControl) {

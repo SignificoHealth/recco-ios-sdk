@@ -12,7 +12,8 @@ struct ScrollViewOffsetPreferenceKey: PreferenceKey {
 public struct ObservableScrollView<Content>: View where Content: View {
     @Namespace var scrollSpace
     @Environment(\.currentScrollObservable) var scrollObservable
-    
+    @Environment(\.currentScrollOffsetId) var offsetId
+
     let content: (ScrollViewProxy) -> Content
     var showsIndicators: Bool
     var axis: Axis.Set
@@ -41,7 +42,7 @@ public struct ObservableScrollView<Content>: View where Content: View {
         }
         .coordinateSpace(name: scrollSpace)
         .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
-            scrollObservable.send(value)
+            offsetId.map { scrollObservable.send(($0, value)) }
         }
     }
 }
