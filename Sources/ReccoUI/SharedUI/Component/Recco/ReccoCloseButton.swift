@@ -14,7 +14,7 @@ struct ReccoCloseButton: View {
         Button {
             closeAction()
         } label: {
-            Image(systemName: "xmark")
+            Image(resource: "close_ic")
                 .foregroundColor(.reccoPrimary)
                 .frame(width: .M * 2, height: .M * 2)
                 .background(

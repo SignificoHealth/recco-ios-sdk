@@ -86,7 +86,7 @@ struct ReccoErrorView: View {
     private func closeButtonIfNeeded() -> some View {
         if let onClose = onClose {
             Button(action: onClose, label: {
-                Image(systemName: "xmark")
+                Image(resource: "close_ic")
                     .foregroundColor(.reccoPrimary)
             })
             .padding(.vertical, .M)
