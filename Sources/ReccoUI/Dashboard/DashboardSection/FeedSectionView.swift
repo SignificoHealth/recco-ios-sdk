@@ -13,7 +13,7 @@ struct FeedSectionView: View {
     }
     
     private var hideSection: Bool {
-        items.isEmpty && !section.isLoading && !section.section.locked
+        items.isEmpty && !section.isLoading && !section.section.locked && section.section.state != .partiallyUnlock
     }
     
     private var showLockedSectionView: Bool {
@@ -52,6 +52,16 @@ struct FeedSectionView: View {
                                         FeedItemView(item: item)
                                     }
                                 }
+                                
+                                if section.section.state == .partiallyUnlock {
+                                    Button {
+                                        pressedLockedSection(section.section)
+                                    } label: {
+                                        FinishQuestionnaireButtonView()
+                                    }
+
+                                }
+                                
                                 Spacer(minLength: .M)
                             }
                             .frame(height: .cardSize.height)
@@ -70,7 +80,7 @@ struct FeedSectionView_Previews: PreviewProvider {
         FeedSectionView(
             performedUnlockAnimation: .constant(false),
             section: .init(
-                section: .init(type: .mostPopular, locked: true),
+                section: .init(type: .mostPopular, state: .lock),
                 isLoading: false
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],

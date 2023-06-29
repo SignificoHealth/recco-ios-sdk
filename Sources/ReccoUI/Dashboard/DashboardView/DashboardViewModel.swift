@@ -46,10 +46,16 @@ final class DashboardViewModel: ObservableObject {
     
     @MainActor
     func pressedUnlockSectionStart() {
-        if let topic = lockedSectionAlert?.topic {
+        if let section = lockedSectionAlert,
+           let topic = section.topic{
             nav.navigate(to: .questionnaire(
                 topic,
-                { [unowned self] in unlock(topic: $0) }
+                { [unowned self] answeredAll in
+                    reloadSection(
+                        type: section.type,
+                        nextState: answeredAll ? .unlock : .partiallyUnlock
+                    )
+                }
             ))
         }
         
@@ -101,22 +107,27 @@ final class DashboardViewModel: ObservableObject {
     // MARK: Private
     
     @MainActor
-    private func unlock(topic: SFTopic) {
+    private func reloadSection(
+        type: FeedSectionType,
+        nextState: FeedSectionState
+    ) {
         guard let idx = sections.firstIndex(
-            where: { $0.section.locked && $0.section.topic == topic }
+            where: { $0.section.type == type }
         ) else { return }
         
         let section = sections[idx].section
         
         Task {
             do {
-                sections[idx].section.locked = false
+                sections[idx].section.state = nextState
                 sections[idx].isLoading = true
                 let data = try await recRepo.getFeedSection(section)
                 items[section.type] = data
             } catch {
                 self.initialLoadError = error
             }
+            
+            sections[idx].isLoading = false
         }
     }
     

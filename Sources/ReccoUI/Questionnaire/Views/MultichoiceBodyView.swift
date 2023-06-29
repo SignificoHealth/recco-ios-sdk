@@ -32,7 +32,7 @@ struct MultichoiceBodyView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .XXS) {
             if !question.isSingleChoice {
-                Text("questionnaire.button.multiple".localized(String(question.maxOptions)))
+                Text("questionnaire.button.multiple".localized)
                     .foregroundColor(.reccoPrimary40)
                     .body3()
                     .padding(.bottom, .M)

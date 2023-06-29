@@ -16,7 +16,7 @@ enum Destination {
     case questionnaireOutro
     case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void)
     case dismiss
-    case questionnaire(SFTopic, (SFTopic) -> Void)
+    case questionnaire(SFTopic, (Bool) -> Void)
 }
 
 final class ReccoCoordinator {
@@ -36,7 +36,7 @@ final class ReccoCoordinator {
             navController?.popViewController(animated: true)
         case .onboardingQuestionnaire:
             let viewModel: OnboardingQuestionnaireViewModel = get(
-                argument: { [unowned self] in
+                argument: { [unowned self] (_: Bool) in
                     navigate(to: .questionnaireOutro)
                 }
             )

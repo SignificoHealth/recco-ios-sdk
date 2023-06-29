@@ -15,15 +15,31 @@ public enum FeedSectionType: String, Codable, CaseIterable {
     case startingRecommendations
 }
 
+public enum FeedSectionState: String {
+    case lock = "LOCK"
+    case unlock = "UNLOCK"
+    case partiallyUnlock = "PARTIALLY_UNLOCK"
+}
+
 public struct FeedSection: Equatable, Hashable {
     public var type: FeedSectionType
-    public var locked: Bool
+    public var state: FeedSectionState
     public var topic: SFTopic?
 
-    public init(type: FeedSectionType, locked: Bool, topic: SFTopic? = nil) {
+    public init(type: FeedSectionType, state: FeedSectionState, topic: SFTopic? = nil) {
         self.type = type
-        self.locked = locked
+        self.state = state
         self.topic = topic
+    }
+}
+
+extension FeedSection {
+    public var locked: Bool {
+        get {
+            self.state == .lock
+        } set {
+            self.state = newValue ? .lock : .unlock
+        }
     }
 }
 

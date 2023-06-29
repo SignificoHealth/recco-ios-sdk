@@ -4,14 +4,14 @@ import ReccoHeadless
 final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
     init(
         topic: SFTopic,
-        unlocked: @escaping (SFTopic) -> Void,
+        reloadSection: @escaping (Bool) -> Void,
         nav: ReccoCoordinator,
         repo: QuestionnaireRepository
     ) {
         super.init(
             repo: repo,
-            nextScreen: {
-                unlocked(topic)
+            nextScreen: { answeredAll in
+                reloadSection(answeredAll)
                 nav.navigate(to: .back)
             },
             getQuestions: { repo in

@@ -3,7 +3,7 @@ import ReccoHeadless
 
 final class OnboardingQuestionnaireViewModel: QuestionnaireViewModel {
     init(
-        nextScreen: @escaping () -> Void,
+        nextScreen: @escaping (Bool) -> Void,
         repo: QuestionnaireRepository
     ) {
         super.init(

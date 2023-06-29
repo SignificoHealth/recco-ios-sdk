@@ -42,10 +42,10 @@ final class UIAssembly: ReccoAssembly {
             )
         }
         
-        container.register(type: TopicQuestionnaireViewModel.self) { (r: ReccoResolver, tuple: (SFTopic, (SFTopic) -> Void)) in
+        container.register(type: TopicQuestionnaireViewModel.self) { (r: ReccoResolver, tuple: (SFTopic, (Bool) -> Void)) in
             TopicQuestionnaireViewModel(
                 topic: tuple.0,
-                unlocked: tuple.1,
+                reloadSection: tuple.1,
                 nav: r.get(),
                 repo: r.get()
             )

@@ -42,6 +42,7 @@
 "feedSection.description.rec.nutrition" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
 "feedSection.description.rec.physicalWellbeing" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
 "feedSection.description.rec.sleep" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
+"feedSection.finishButton" = "Finish this area";
 
 // MARK: Questionnaire
 
@@ -51,7 +52,7 @@
 "questionnaire.title.mentalHealth" = "Mental health";
 "questionnaire.button.continue" = "Continue";
 "questionnaire.button.finish" = "Finish";
-"questionnaire.button.multiple" = "Multiple answers possible: %@";
+"questionnaire.button.multiple" = "Multiple answers possible";
 "questionnaire.numeric.label.lb" = "lb.";
 "questionnaire.numeric.label.cm" = "cm.";
 "questionnaire.numeric.label.feet" = "ft.";

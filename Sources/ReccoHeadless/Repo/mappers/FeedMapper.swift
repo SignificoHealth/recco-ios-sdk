@@ -1,5 +1,17 @@
 import Foundation
 
+extension FeedSectionState {
+    init(dto: FeedSectionStateDTO) {
+        switch dto {
+        case .lock:
+            self = .lock
+        case .unlock:
+            self = .unlock
+        case .partiallyUnlock:
+            self = .partiallyUnlock
+        }
+    }
+}
 
 
 extension FeedSectionType {
@@ -67,7 +79,7 @@ extension FeedSection {
     init(dto: FeedSectionDTO) {
         self.init(
             type: .init(dto: dto.type),
-            locked: dto.locked,
+            state: .init(dto: dto.state),
             topic: dto.topic.map(SFTopic.init)
         )
     }

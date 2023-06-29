@@ -4,7 +4,7 @@ import Combine
 
 class QuestionnaireViewModel: ObservableObject {
     private let repo: QuestionnaireRepository
-    private let nextScreen: () -> Void
+    private let nextScreen: (Bool) -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
 
@@ -32,7 +32,7 @@ class QuestionnaireViewModel: ObservableObject {
     
     init(
         repo: QuestionnaireRepository,
-        nextScreen: @escaping () -> Void,
+        nextScreen: @escaping (Bool) -> Void,
         getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question],
         sendQuestions: @escaping (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
     ) {
@@ -41,6 +41,7 @@ class QuestionnaireViewModel: ObservableObject {
         self.getQuestions = getQuestions
         self.mainButtonEnabled = type(of: self) == TopicQuestionnaireViewModel.self
         self.sendQuestions = sendQuestions
+        
         if isOnboarding {
             validateAnswerOnQuestionChange()
         }
@@ -63,7 +64,11 @@ class QuestionnaireViewModel: ObservableObject {
     
     @MainActor
     func answer(_ answer: EitherAnswerType, for question: Question) {
-        let isValid = validate(answer: answer, for: question)
+        let isValid = validate(
+            answer: answer,
+            for: question,
+            mandatoryAnswer: isOnboarding
+        )
         
         answers[question] = .init(
             value: answer,
@@ -73,7 +78,10 @@ class QuestionnaireViewModel: ObservableObject {
         )
         
         if isOnboarding {
-            mainButtonEnabled = validateAll(until: question)
+            mainButtonEnabled = validateAll(
+                until: question,
+                mandatoryAnswer: true
+            )
         }
         
         if question.isSingleChoice,
@@ -86,7 +94,11 @@ class QuestionnaireViewModel: ObservableObject {
         }
         
         if !isOnboarding {
-            mainButtonEnabled = validate(answer: answer, for: question)
+            mainButtonEnabled = validate(
+                answer: answer,
+                for: question,
+                mandatoryAnswer: false
+            )
         }
     }
     
@@ -109,12 +121,14 @@ class QuestionnaireViewModel: ObservableObject {
         }
     }
     
+    // MARK: Private methods
+    
     private func validateAnswerOnQuestionChange() {
         $currentQuestion
             .compactMap { $0 }
             .map { [unowned self] newValue in
                 if isOnboarding {
-                    return validateAll(until: newValue)
+                    return validateAll(until: newValue, mandatoryAnswer: isOnboarding)
                 } else {
                     return true
                 }
@@ -131,7 +145,7 @@ class QuestionnaireViewModel: ObservableObject {
                 let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
                 try await sendQuestions(repo, answers)
                 
-                nextScreen()
+                nextScreen(didAnswerAllQuestions())
             } catch {
                 sendError = error
             }
@@ -140,26 +154,34 @@ class QuestionnaireViewModel: ObservableObject {
         }
     }
     
-    private func validate(answer: EitherAnswerType, for question: Question) -> Bool {
+    private func didAnswerAllQuestions() -> Bool {
+        validateAll(until: questions!.last!, mandatoryAnswer: true)
+    }
+    
+    private func validate(
+        answer: EitherAnswerType,
+        for question: Question,
+        mandatoryAnswer: Bool
+    ) -> Bool {
         switch question.value {
         case let .multiChoice(q):
             guard q.minOptions <= q.maxOptions else { return false }
             guard let count = answer.multichoice.map(\.count), count != 0 else {
-                return !isOnboarding
+                return !mandatoryAnswer
             }
             return (q.minOptions...q.maxOptions).contains(count)
             
         case let .numeric(q):
             guard q.minValue <= q.maxValue else { return false }
             guard let value = answer.numeric, value != 0 else {
-                return !isOnboarding
+                return !mandatoryAnswer
             }
             
             return (Double(q.minValue)...Double(q.maxValue)).contains(value)
         }
     }
     
-    private func validateAll(until q: Question) -> Bool {
+    private func validateAll(until q: Question, mandatoryAnswer: Bool) -> Bool {
         guard let partial = questions?.firstIndex(of: q),
             let partialQuestions = questions?[0...partial] else {
             return false
@@ -167,7 +189,7 @@ class QuestionnaireViewModel: ObservableObject {
         
         return partialQuestions.reduce(true) { partialResult, q in
             if let answer = answers[q]??.value {
-                return partialResult && validate(answer: answer, for: q)
+                return partialResult && validate(answer: answer, for: q, mandatoryAnswer: mandatoryAnswer)
             } else {
                 return false
             }

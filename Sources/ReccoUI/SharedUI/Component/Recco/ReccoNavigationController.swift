@@ -6,7 +6,6 @@ internal var currentSDKNavigationController: ReccoNavigationController?
 final class ReccoNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     override public func viewDidLoad() {
         super.viewDidLoad()
-        currentSDKNavigationController = self
         
         delegate = self
         interactivePopGestureRecognizer?.delegate = self
@@ -35,8 +34,14 @@ final class ReccoNavigationController: UINavigationController, UIGestureRecogniz
         viewController.navigationItem.backButtonDisplayMode = .minimal
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        currentSDKNavigationController = self
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         currentSDKNavigationController = nil
     }
