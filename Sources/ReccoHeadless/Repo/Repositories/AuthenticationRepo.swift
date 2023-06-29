@@ -27,6 +27,7 @@ final class LiveAuthRepository: AuthRepository {
         try keychain.save(key: .clientUserId, clientUserId)
         
         Api.logedIn(newBearer: dto.accessToken)
+        Api.clientIdChanged(clientUserId)
     }
     
     public func logout() async throws {
