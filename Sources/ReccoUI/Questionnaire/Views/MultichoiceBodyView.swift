@@ -99,6 +99,8 @@ struct MultichoiceBodyView: View {
         
         option.wrappedValue.selected.toggle()
         
+        performFeedback(selected: option.wrappedValue.selected)
+        
         let selected = options
             .filter(\.selected)
             .map(\.value)
@@ -108,6 +110,12 @@ struct MultichoiceBodyView: View {
                 selected.isEmpty ? nil : selected
             )
         }
+    }
+    
+    private func performFeedback(selected: Bool) {
+        HapticPlayer
+            .shared
+            .playHaptic(pattern: selected ? .selected : .deselected)
     }
 }
 

@@ -1,14 +1,20 @@
 import CoreHaptics
 
+enum HapticPattern: String {
+    case unlock = "unlock_haptic"
+    case selected = "selected_haptic"
+    case deselected = "deselected_haptic"
+}
 
-public final class HapticPlayer {
-    public static let shared: HapticPlayer = .init()
+final class HapticPlayer {
+    static let shared: HapticPlayer = .init()
     
     private var engine: CHHapticEngine?
     private var player: CHHapticPatternPlayer?
     private var isPlaying: Bool = false
-    public func playUnlockHapticPattern() {
-        guard let url = localBundle.url(forResource: "unlock_haptic", withExtension: "ahap") else { return }
+    
+    func playHaptic(pattern: HapticPattern) {
+        guard let url = localBundle.url(forResource: pattern.rawValue, withExtension: "ahap") else { return }
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         guard !isPlaying else { return }
         

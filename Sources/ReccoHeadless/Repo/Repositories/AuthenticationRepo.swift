@@ -1,8 +1,5 @@
 import Foundation
 
-
-
-
 public protocol AuthRepository {
     func login(clientUserId: String) async throws
     func logout() async throws

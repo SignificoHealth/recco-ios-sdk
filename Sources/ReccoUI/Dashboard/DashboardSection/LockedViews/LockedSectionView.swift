@@ -54,7 +54,7 @@ struct LockedSectionView: View {
                     shouldShake = true
                 }
                 
-                HapticPlayer.shared.playUnlockHapticPattern()
+                HapticPlayer.shared.playHaptic(pattern: .unlock)
             }
             
             try await Task.sleep(nanoseconds: 700 * NSEC_PER_MSEC)
