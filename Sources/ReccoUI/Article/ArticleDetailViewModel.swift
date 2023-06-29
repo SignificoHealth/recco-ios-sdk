@@ -6,6 +6,7 @@ final class ArticleDetailViewModel: ObservableObject {
     private let contentRepo: ContentRepository
     private let contentId: ContentId
     private let updateContentSeen: (ContentId) -> Void
+    private let nav: ReccoCoordinator
     
     let imageUrl: URL?
     let heading: String
@@ -18,7 +19,8 @@ final class ArticleDetailViewModel: ObservableObject {
     init(
         loadedContent: (ContentId, String, URL?, (ContentId) -> Void),
         articleRepo: ArticleRepository,
-        contentRepo: ContentRepository
+        contentRepo: ContentRepository,
+        nav: ReccoCoordinator
     ) {
         self.articleRepo = articleRepo
         self.contentRepo = contentRepo
@@ -26,6 +28,7 @@ final class ArticleDetailViewModel: ObservableObject {
         self.imageUrl = loadedContent.2
         self.heading = loadedContent.1
         self.updateContentSeen = loadedContent.3
+        self.nav = nav
     }
     
     @MainActor
@@ -80,5 +83,13 @@ final class ArticleDetailViewModel: ObservableObject {
             
             isLoading = false
         }
+    }
+    
+    func dismissSDK() {
+        nav.navigate(to: .dismiss)
+    }
+    
+    func back() {
+        nav.navigate(to: .back)
     }
 }

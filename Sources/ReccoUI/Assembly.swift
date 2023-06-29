@@ -20,7 +20,8 @@ final class UIAssembly: ReccoAssembly {
             ArticleDetailViewModel(
                 loadedContent: tuple,
                 articleRepo: r.get(),
-                contentRepo: r.get()
+                contentRepo: r.get(),
+                nav: r.get()
             )
         }
         

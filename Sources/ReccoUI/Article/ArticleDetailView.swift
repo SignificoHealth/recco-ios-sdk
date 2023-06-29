@@ -41,8 +41,8 @@ struct ArticleDetailView: View {
     public var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
-            backAction: { dismiss.wrappedValue.dismiss() },
-            closeAction: { fatalError() },
+            backAction: viewModel.back,
+            closeAction: viewModel.dismissSDK,
             imageHeaderHeight: headerHeight,
             offset: $offset,
             header: { articleHeader },
@@ -112,7 +112,7 @@ struct ArticleDetailView: View {
             onRetry: {
                 await viewModel.initialLoad()
             },
-            onClose: { dismiss.wrappedValue.dismiss() }
+            onClose: viewModel.back
         )
         .background(Color.reccoBackground.ignoresSafeArea())
         .reccoNotification(error: $viewModel.actionError)
