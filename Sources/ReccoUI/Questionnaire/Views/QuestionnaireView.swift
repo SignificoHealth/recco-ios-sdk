@@ -74,6 +74,7 @@ struct QuestionnaireView: View {
         .navigationBarHidden(false)
         .navigationTitle(navTitle)
         .background(Color.reccoBackground.ignoresSafeArea())
+        .addCloseSDKToNavbar()
         .reccoNotification(error: $viewModel.sendError)
         .task {
             if viewModel.questions == nil {

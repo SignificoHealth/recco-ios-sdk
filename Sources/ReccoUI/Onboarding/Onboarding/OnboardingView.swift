@@ -36,6 +36,16 @@ struct OnboardingView: View {
         .background(
             Color.reccoBackground.ignoresSafeArea()
         )
+        .overlay(
+            Button(action: { viewModel.close() }, label: {
+                Image(resource: "close_ic")
+                    .foregroundColor(.reccoPrimary)
+                    .padding(.vertical, .M)
+                    .padding(.horizontal, .S)
+
+            }),
+            alignment: .topTrailing
+        )
         .navigationBarHidden(true)
     }
     

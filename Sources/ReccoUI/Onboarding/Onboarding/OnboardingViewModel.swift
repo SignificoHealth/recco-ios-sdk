@@ -19,6 +19,10 @@ final class OnboardingViewModel: ObservableObject {
         }
     }
     
+    func close() {
+        nav.navigate(to: .dismiss)
+    }
+    
     // MARK: Private
     
     private func goToQuestionnaire() {

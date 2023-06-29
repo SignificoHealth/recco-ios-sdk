@@ -27,7 +27,8 @@ final class UIAssembly: ReccoAssembly {
         
         container.register(type: OnboardingOutroViewModel.self) { r in
             OnboardingOutroViewModel(
-                meRepo: r.get()
+                meRepo: r.get(),
+                nav: r.get()
             )
         }
         

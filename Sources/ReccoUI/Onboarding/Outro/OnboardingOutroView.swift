@@ -39,6 +39,16 @@ struct OnboardingOutroView: View {
             }
         }
         .background(Color.reccoBackground.ignoresSafeArea())
+        .overlay(
+            Button(action: { viewModel.close() }, label: {
+                Image(resource: "close_ic")
+                    .foregroundColor(.reccoPrimary)
+                    .padding(.vertical, .M)
+                    .padding(.horizontal, .S)
+
+            }),
+            alignment: .topTrailing
+        )
         .reccoNotification(error: $viewModel.meError)
         .navigationBarHidden(true)
     }
@@ -48,7 +58,6 @@ struct OnboardingOutroView_Previews: PreviewProvider {
     static var previews: some View {
         withAssembly { r in
             OnboardingOutroView(viewModel: r.get())
-
         }
     }
 }
