@@ -22,6 +22,5 @@ struct LoadingSectionView: View {
         )
         .frame(height: .cardSize.height)
         .redacted(reason: .placeholder)
-        .shimmer(true)
     }
 }

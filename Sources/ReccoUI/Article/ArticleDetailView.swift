@@ -140,30 +140,21 @@ struct ArticleDetailView: View {
             url: viewModel.imageUrl
         ) { state in
             if let image = state.image {
-                ZStack {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                    
-                    LinearGradient(
-                        colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
-                    )
-                }
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .addBlackOpacityOverlay()
             } else if state.error != nil {
                 Color.reccoPrimary20.overlay(
                     Image(resource: "error_image")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                 )
+                .addBlackOpacityOverlay()
             } else {
-                ZStack {
-                    ReccoImageLoadingView(feedItem: false)
-                        .scaledToFill()
-                    
-                    LinearGradient(
-                        colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
-                    )
-                }
+                ReccoImageLoadingView(feedItem: false)
+                    .scaledToFill()
+                    .addBlackOpacityOverlay()
             }
         }
         .processors([.resize(width: UIScreen.main.bounds.width)])

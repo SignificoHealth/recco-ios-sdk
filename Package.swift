@@ -8,8 +8,7 @@ let ReccoHeadless: Target = .target(
     dependencies: [],
     exclude: [
         "Api/sf-backend-open-api.json",
-        "Api/generate-api.sh",
-        "Api/patch-api"
+        "Api/generate-api.sh"
     ]
 )
 

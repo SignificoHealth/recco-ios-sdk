@@ -109,7 +109,7 @@ class QuestionnaireViewModel: ObservableObject {
             questions = data
             answers = data.reduce(into: [:], { answers, question in
                 answers[question] = CreateQuestionnaireAnswer(
-                    value: question.type == .multichoice ? .multiChoice(nil) : .numeric(nil),
+                    value: question.answer,
                     questionId: question.id,
                     type: question.type,
                     questionnaireId: question.questionnaireId

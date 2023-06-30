@@ -70,7 +70,9 @@ extension Question {
             text: dto.text,
             type: .init(dto: dto.type),
             multiChoice: dto.multiChoice.map(MultiChoiceQuestion.init),
-            numeric: dto.numeric.map(NumericQuestion.init)
+            numeric: dto.numeric.map(NumericQuestion.init),
+            numericAnswer: dto.numericSelected,
+            multichoiceAnswer: dto.multiChoiceSelectedIds
         )
     }
 }

@@ -61,6 +61,7 @@ struct QuestionView_Previews: PreviewProvider {
                 )
             ),
             currentAnswer: nil,
-            answerChanged: { _, _ in})
+            answerChanged: { _, _ in}
+        )
     }
 }
