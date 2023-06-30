@@ -238,52 +238,23 @@
         ]
       }
     },
-    "/api/v1/me/metric/session": {
+    "/api/v1/me/metric": {
       "post": {
         "tags": [
           "Metric"
         ],
-        "summary": "Log session duration event.",
-        "operationId": "sessionEvent",
+        "summary": "Log event.",
+        "operationId": "logEvent",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMetricSession"
+                "$ref": "#/components/schemas/AppUserMetricEvent"
               }
             }
           },
           "required": true
         },
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/me/metric/login": {
-      "post": {
-        "tags": [
-          "Metric"
-        ],
-        "summary": "Log session login event.",
-        "operationId": "loginEvent",
         "responses": {
           "401": {
             "description": "Unauthorized",
@@ -707,6 +678,45 @@
         ]
       }
     },
+    "/api/v1/me/recommendations/bookmarked": {
+      "get": {
+        "tags": [
+          "Recommendation"
+        ],
+        "summary": "A list of bookmarked recommendations.",
+        "operationId": "getBookmarkedRecommendations",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppUserRecommendation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/me/recommendations/articles": {
       "get": {
         "tags": [
@@ -1048,15 +1058,36 @@
           "numeric"
         ]
       },
-      "CreateMetricSession": {
+      "AppUserMetricAction": {
+        "type": "string",
+        "enum": [
+          "LOGIN",
+          "DURATION",
+          "VIEW"
+        ]
+      },
+      "AppUserMetricCategory": {
+        "type": "string",
+        "enum": [
+          "USER_SESSION",
+          "DASHBOARD_SCREEN"
+        ]
+      },
+      "AppUserMetricEvent": {
         "required": [
-          "seconds"
+          "action",
+          "category"
         ],
         "type": "object",
         "properties": {
-          "seconds": {
-            "type": "integer",
-            "format": "int32"
+          "category": {
+            "$ref": "#/components/schemas/AppUserMetricCategory"
+          },
+          "action": {
+            "$ref": "#/components/schemas/AppUserMetricAction"
+          },
+          "value": {
+            "type": "string"
           }
         }
       },

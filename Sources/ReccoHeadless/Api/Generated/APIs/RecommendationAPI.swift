@@ -98,6 +98,42 @@ internal class RecommendationAPI {
     }
 
     /**
+     A list of bookmarked recommendations.
+     
+     - returns: [AppUserRecommendationDTO]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    internal class func getBookmarkedRecommendations() async throws -> [AppUserRecommendationDTO] {
+        return try await getBookmarkedRecommendationsWithRequestBuilder().execute().body
+    }
+
+    /**
+     A list of bookmarked recommendations.
+     - GET /api/v1/me/recommendations/bookmarked
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     */
+    internal class func getBookmarkedRecommendationsWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
+        let localVariablePath = "/api/v1/me/recommendations/bookmarked"
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[AppUserRecommendationDTO]>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      A list of most popular content.
      
      - returns: [AppUserRecommendationDTO]
