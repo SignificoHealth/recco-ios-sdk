@@ -74,3 +74,7 @@
 "onboarding.outro.title" = "Great! Glad to get to know you better!";
 "onboarding.outro.description" = "Now let’s see what we have for you";
 "onboarding.outro.button" = "Go to dashboard";
+
+// MARK: Bookmarks
+
+"bookmarks.navTitle" = "Bookmarks";

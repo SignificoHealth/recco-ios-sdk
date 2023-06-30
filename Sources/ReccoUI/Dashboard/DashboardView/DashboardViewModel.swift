@@ -40,6 +40,10 @@ final class DashboardViewModel: ObservableObject {
         ))
     }
     
+    func goToBookmarks() {
+        nav.navigate(to: .bookmarks)
+    }
+    
     func dismiss() {
         nav.navigate(to: .dismiss)
     }

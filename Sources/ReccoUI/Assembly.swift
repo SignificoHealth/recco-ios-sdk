@@ -57,6 +57,13 @@ final class UIAssembly: ReccoAssembly {
                 repo: r.get()
             )
         }
+        
+        container.register(type: BookmarksViewModel.self) { r in
+            BookmarksViewModel(
+                recRepo: r.get(),
+                nav: r.get()
+            )
+        }
     }
 }
 

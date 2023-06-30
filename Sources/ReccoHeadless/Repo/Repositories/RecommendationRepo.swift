@@ -2,6 +2,7 @@ import Foundation
 
 public protocol RecommendationRepository {
     func getFeedSection(_ section: FeedSection) async throws -> [AppUserRecommendation]
+    func getBookmarks() async throws -> [AppUserRecommendation]
 }
 
 final class LiveRecommendationRepository: RecommendationRepository {
@@ -44,5 +45,11 @@ final class LiveRecommendationRepository: RecommendationRepository {
             assertionFailure("This should never happen")
             return []
         }
+    }
+    
+    func getBookmarks() async throws -> [AppUserRecommendation] {
+        return try await RecommendationAPI
+            .getBookmarkedRecommendations()
+            .map(AppUserRecommendation.init)
     }
 }
