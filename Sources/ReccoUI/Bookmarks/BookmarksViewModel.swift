@@ -24,6 +24,13 @@ final class BookmarksViewModel: ObservableObject {
             imageUrl: item.imageUrl,
             seenContent: { [unowned self] id in
                 markContentAsSeen(id: id)
+            },
+            onBookmarkedChange: { [unowned self] bookmarked in
+                if !bookmarked {
+                    Task {
+                        await getBookmarks()
+                    }
+                }
             }
         ))
     }

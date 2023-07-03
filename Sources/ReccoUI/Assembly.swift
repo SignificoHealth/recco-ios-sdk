@@ -16,7 +16,7 @@ final class UIAssembly: ReccoAssembly {
             )
         }
         
-        container.register(type: ArticleDetailViewModel.self) { (r: ReccoResolver, tuple: (ContentId, String, URL?, (ContentId) -> Void)) in
+        container.register(type: ArticleDetailViewModel.self) { (r: ReccoResolver, tuple: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void)) in
             ArticleDetailViewModel(
                 loadedContent: tuple,
                 articleRepo: r.get(),

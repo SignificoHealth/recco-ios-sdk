@@ -14,7 +14,7 @@ enum Destination {
     case back
     case onboardingQuestionnaire
     case questionnaireOutro
-    case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void)
+    case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void, onBookmarkedChange: (Bool) -> Void)
     case questionnaire(SFTopic, (Bool) -> Void)
     case bookmarks
     case dismiss
@@ -66,9 +66,9 @@ final class ReccoCoordinator {
                 animated: true
             )
             
-        case let .article(id, headline, imageUrl, seenContent):
+        case let .article(id, headline, imageUrl, seenContent, onBookmarkedChange):
             navController?.pushViewController(
-                UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl, seenContent)))),
+                UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl, seenContent, onBookmarkedChange)))),
                 animated: true
             )
             
