@@ -11,16 +11,16 @@ import AnyCodable
 #endif
 
 internal enum FeedSectionTypeDTO: String, Codable, CaseIterable {
-    case physicalActivityRecommendations = "PHYSICAL_ACTIVITY_RECOMMENDATIONS"
-    case nutritionRecommendations = "NUTRITION_RECOMMENDATIONS"
-    case physicalWellbeingRecommendations = "PHYSICAL_WELLBEING_RECOMMENDATIONS"
-    case sleepRecommendations = "SLEEP_RECOMMENDATIONS"
-    case preferredRecommendations = "PREFERRED_RECOMMENDATIONS"
-    case mostPopular = "MOST_POPULAR"
-    case newContent = "NEW_CONTENT"
-    case physicalActivityExplore = "PHYSICAL_ACTIVITY_EXPLORE"
-    case nutritionExplore = "NUTRITION_EXPLORE"
-    case physicalWellbeingExplore = "PHYSICAL_WELLBEING_EXPLORE"
-    case sleepExplore = "SLEEP_EXPLORE"
-    case startingRecommendations = "STARTING_RECOMMENDATIONS"
+    case physicalActivityRecommendations = "physical_activity_recommendations"
+    case nutritionRecommendations = "nutrition_recommendations"
+    case mentalWellbeingRecommendations = "mental_wellbeing_recommendations"
+    case sleepRecommendations = "sleep_recommendations"
+    case preferredRecommendations = "preferred_recommendations"
+    case mostPopular = "most_popular"
+    case newContent = "new_content"
+    case physicalActivityExplore = "physical_activity_explore"
+    case nutritionExplore = "nutrition_explore"
+    case mentalWellbeingExplore = "mental_wellbeing_explore"
+    case sleepExplore = "sleep_explore"
+    case startingRecommendations = "starting_recommendations"
 }

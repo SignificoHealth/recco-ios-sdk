@@ -3,14 +3,14 @@ import Foundation
 public enum FeedSectionType: String, Codable, CaseIterable {
     case physicalActivityRecommendations
     case nutritionRecommendations
-    case physicalWellbeingRecommendations
+    case mentalWellbeingRecommendations
     case sleepRecommendations
     case preferredRecommendations
     case mostPopular
     case newContent
     case physicalActivityExplore
     case nutritionExplore
-    case physicalWellbeingExplore
+    case mentalWellbeingExplore
     case sleepExplore
     case startingRecommendations
 }

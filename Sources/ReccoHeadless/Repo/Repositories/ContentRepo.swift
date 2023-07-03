@@ -1,7 +1,6 @@
 import Foundation
 
 public protocol ContentRepository {
-    func setStatus(_ updateStatus: UpdateStatus) async throws
     func setRating(_ updateRating: UpdateRating) async throws
     func setBookmark(_ updateBookmark: UpdateBookmark) async throws
 }
@@ -13,16 +12,6 @@ final class LiveContentRepository: ContentRepository {
                 contentId: .init(entity: updateRating.contentId),
                 contentType: updateRating.contentType == .articles ? .articles : .articles,
                 rating: updateRating.rating == .like ? .like : updateRating.rating == .dislike ? .dislike : .notRated
-            )
-        )
-    }
-    
-    func setStatus(_ updateStatus: UpdateStatus) async throws {
-        try await RecommendationAPI.setStatus(
-            updateStatusDTO: .init(
-                contentId: .init(entity: updateStatus.contentId),
-                contentType: updateStatus.contentType == .articles ? .articles : .articles,
-                status: updateStatus.status == .noInteraction ? .noInteraction : .viewed
             )
         )
     }

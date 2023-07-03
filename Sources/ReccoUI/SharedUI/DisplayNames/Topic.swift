@@ -7,7 +7,7 @@ extension SFTopic {
             return "questionnaire.title.physicalActivity".localized
         case .nutrition:
             return "questionnaire.title.nutrition".localized
-        case .physicalWellbeing:
+        case .mentalWellbeing:
             return "questionnaire.title.mentalHealth".localized
         case .sleep:
             return "questionnaire.title.sleep".localized

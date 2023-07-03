@@ -393,42 +393,4 @@ internal class RecommendationAPI {
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
-
-    /**
-     Set recommendation status.
-     
-     - parameter updateStatusDTO: (body)  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    internal class func setStatus(updateStatusDTO: UpdateStatusDTO) async throws {
-        return try await setStatusWithRequestBuilder(updateStatusDTO: updateStatusDTO).execute().body
-    }
-
-    /**
-     Set recommendation status.
-     - PUT /api/v1/me/recommendations/status
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter updateStatusDTO: (body)  
-     - returns: RequestBuilder<Void> 
-     */
-    internal class func setStatusWithRequestBuilder(updateStatusDTO: UpdateStatusDTO) -> RequestBuilder<Void> {
-        let localVariablePath = "/api/v1/me/recommendations/status"
-        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateStatusDTO)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
 }

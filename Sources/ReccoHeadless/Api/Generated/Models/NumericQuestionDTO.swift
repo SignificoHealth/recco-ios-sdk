@@ -13,10 +13,10 @@ import AnyCodable
 internal struct NumericQuestionDTO: Codable, JSONEncodable, Hashable {
 
     internal enum FormatDTO: String, Codable, CaseIterable {
-        case humanHeight = "HUMAN_HEIGHT"
-        case humanWeight = "HUMAN_WEIGHT"
-        case integer = "INTEGER"
-        case decimal = "DECIMAL"
+        case humanHeight = "human_height"
+        case humanWeight = "human_weight"
+        case integer = "integer"
+        case decimal = "decimal"
     }
     internal var maxValue: Int
     internal var minValue: Int

@@ -13,12 +13,12 @@ import AnyCodable
 internal struct ApiErrorDTO: Codable, JSONEncodable, Hashable {
 
     internal enum ErrorCodeDTO: String, Codable, CaseIterable {
-        case unknown = "UNKNOWN"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case unauthorized = "UNAUTHORIZED"
-        case appDisabled = "APP_DISABLED"
-        case badRequest = "BAD_REQUEST"
-        case conflict = "CONFLICT"
+        case unknown = "unknown"
+        case resourceNotFound = "resource_not_found"
+        case unauthorized = "unauthorized"
+        case appDisabled = "app_disabled"
+        case badRequest = "bad_request"
+        case conflict = "conflict"
     }
     internal var errorCode: ErrorCodeDTO
     internal var message: String

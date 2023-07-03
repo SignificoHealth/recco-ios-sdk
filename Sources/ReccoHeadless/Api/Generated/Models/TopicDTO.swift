@@ -11,8 +11,8 @@ import AnyCodable
 #endif
 
 internal enum TopicDTO: String, Codable, CaseIterable {
-    case physicalActivity = "PHYSICAL_ACTIVITY"
-    case nutrition = "NUTRITION"
-    case physicalWellbeing = "PHYSICAL_WELLBEING"
-    case sleep = "SLEEP"
+    case physicalActivity = "physical_activity"
+    case nutrition = "nutrition"
+    case mentalWellbeing = "mental_wellbeing"
+    case sleep = "sleep"
 }

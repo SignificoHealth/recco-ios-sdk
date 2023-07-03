@@ -19,6 +19,16 @@ extension View {
         }
 
     }
+    
+    func addBlackOpacityOverlay() -> some View {
+        ZStack {
+            self
+            
+            LinearGradient(
+                colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
+            )
+        }
+    }
 }
 
 struct RoundedCorner: Shape {

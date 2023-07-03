@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 internal enum AppUserMetricActionDTO: String, Codable, CaseIterable {
-    case login = "LOGIN"
-    case duration = "DURATION"
-    case view = "VIEW"
+    case login = "login"
+    case duration = "duration"
+    case view = "view"
 }
