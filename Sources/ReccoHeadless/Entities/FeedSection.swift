@@ -16,7 +16,7 @@ public enum FeedSectionType: String, Codable, CaseIterable {
 }
 
 public enum FeedSectionState: String {
-    case lock = "LOCK"
+    case locked = "LOCK"
     case unlock = "UNLOCK"
     case partiallyUnlock = "PARTIALLY_UNLOCK"
 }
@@ -36,9 +36,9 @@ public struct FeedSection: Equatable, Hashable {
 extension FeedSection {
     public var locked: Bool {
         get {
-            self.state == .lock
+            self.state == .locked
         } set {
-            self.state = newValue ? .lock : .unlock
+            self.state = newValue ? .locked : .unlock
         }
     }
 }
