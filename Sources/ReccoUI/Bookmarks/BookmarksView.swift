@@ -15,26 +15,29 @@ struct BookmarksView: View {
     
     var body: some View {
         ReccoLoadingView(viewModel.isLoading) {
-            RefreshableScrollView(
-                refreshAction: viewModel.getBookmarks
-            ) {
-                LazyVGrid(columns: gridLayout, spacing: .S) {
-                    ForEach(viewModel.items, id: \.self) { item in
-                        Button {
-                            viewModel.goToDetail(of: item)
-                        } label: {
-                            FeedItemView(item: item)
+            if viewModel.items.isEmpty {
+                emptyBookmarksView
+            } else {
+                RefreshableScrollView(
+                    refreshAction: viewModel.getBookmarks
+                ) {
+                    LazyVGrid(columns: gridLayout, spacing: .S) {
+                        ForEach(viewModel.items, id: \.self) { item in
+                            Button {
+                                viewModel.goToDetail(of: item)
+                            } label: {
+                                FeedItemView(item: item)
+                            }
                         }
                     }
+                    .padding(.S)
                 }
-                .padding(.S)
             }
         }
         .padding(.top, .M)
         .reccoErrorView(
             error: $viewModel.error,
-            onRetry: { await viewModel.getBookmarks() },
-            onClose: viewModel.dismiss
+            onRetry: { await viewModel.getBookmarks() }
         )
         .background(
             Color.reccoBackground.ignoresSafeArea()
@@ -47,6 +50,16 @@ struct BookmarksView: View {
             if viewModel.items.isEmpty {
                 await viewModel.getBookmarks()
             }
+        }
+    }
+    
+    var emptyBookmarksView: some View {
+        VStack(alignment: .center, spacing: .L) {
+            Spacer()
+            Text("bookmarks.empty".localized)
+                .body1()
+            Image(resource: "no_content_image")
+            Spacer()
         }
     }
 }
