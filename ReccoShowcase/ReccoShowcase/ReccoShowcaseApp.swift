@@ -5,7 +5,7 @@ import ReccoUI
 struct ReccoShowcaseApp: App {
     init() {
         ReccoUI.initialize(
-            clientSecret: "YuJi02IHzJDxe-oiqT1QOptnh9mGMnulPPx5C3xoyBSe0dNha-m1qOjG9DopeSspqR9d6-Y"
+            clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo"
         )
     }
     
