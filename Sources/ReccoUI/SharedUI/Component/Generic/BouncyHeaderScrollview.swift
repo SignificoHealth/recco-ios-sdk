@@ -12,7 +12,6 @@ struct BouncyHeaderScrollview<
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
         shapeHeight: CGFloat?,
-        offset: Binding<CGFloat>? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder overlayHeader: @escaping () -> OverlayHeader,
         @ViewBuilder content: @escaping () -> Content,
@@ -45,19 +44,19 @@ struct BouncyHeaderScrollview<
     
     private var imageHeaderHeight: CGFloat
     
-    var zoomEffect: CGFloat {
+    private var zoomEffect: CGFloat {
         (1 + abs(scrollOffset.clamped(to: -200...0) / imageHeaderHeight * 1.1))
             .clamped(to: 1...1.5)
     }
     
-    var paralaxEffect: CGFloat {
+    private var paralaxEffect: CGFloat {
         -(scrollOffset.clamped(to: 0...200) / 10)
     }
     
-    var navBarThreshold: CGFloat {
-        imageHeaderHeight - imageHeaderHeight * 0.2
+    private var topActionsVisible: Bool {
+        scrollOffset < imageHeaderHeight - 50
     }
-    
+        
     var body: some View {
         ZStack(alignment: .topLeading) {
             ZStack(alignment: .topLeading) {
@@ -97,6 +96,7 @@ struct BouncyHeaderScrollview<
                         })
                         .accentColor(.reccoOnPrimary)
                         .padding(.vertical, .XS)
+                        .opacity(topActionsVisible ? 1 : 0)
                         Spacer()
                     }
                     
@@ -108,6 +108,7 @@ struct BouncyHeaderScrollview<
                         })
                         .accentColor(.reccoOnPrimary)
                         .padding(.vertical, .XS)
+                        .opacity(topActionsVisible ? 1 : 0)
                     }
                 }
                     .padding(.horizontal, .S),
@@ -129,7 +130,6 @@ CTA == EmptyView {
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.height * 0.4,
         shapeHeight: CGFloat? = nil,
-        offset: Binding<CGFloat>? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -139,7 +139,6 @@ CTA == EmptyView {
             closeAction: closeAction,
             imageHeaderHeight: imageHeaderHeight,
             shapeHeight: shapeHeight,
-            offset: offset,
             header: header,
             overlayHeader: { EmptyView() },
             content: content,
@@ -155,7 +154,6 @@ extension BouncyHeaderScrollview where CTA == EmptyView {
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
         shapeHeight: CGFloat? = nil,
-        offset: Binding<CGFloat>? = nil,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder overlayHeader: @escaping () -> OverlayHeader,
         @ViewBuilder content: @escaping () -> Content
@@ -166,7 +164,6 @@ extension BouncyHeaderScrollview where CTA == EmptyView {
             closeAction: closeAction,
             imageHeaderHeight: imageHeaderHeight,
             shapeHeight: shapeHeight,
-            offset: offset,
             header: header,
             overlayHeader: overlayHeader,
             content: content,
