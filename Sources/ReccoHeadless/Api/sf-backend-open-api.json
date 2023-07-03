@@ -37,45 +37,6 @@
     }
   ],
   "paths": {
-    "/api/v1/me/recommendations/status": {
-      "put": {
-        "tags": [
-          "Recommendation"
-        ],
-        "summary": "Set recommendation status.",
-        "operationId": "setStatus",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateStatus"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
     "/api/v1/me/recommendations/rating": {
       "put": {
         "tags": [
@@ -922,59 +883,6 @@
           "articles"
         ]
       },
-      "Status": {
-        "type": "string",
-        "enum": [
-          "no_interaction",
-          "viewed"
-        ]
-      },
-      "UpdateStatus": {
-        "required": [
-          "contentId",
-          "contentType",
-          "status"
-        ],
-        "type": "object",
-        "properties": {
-          "contentId": {
-            "$ref": "#/components/schemas/ContentId"
-          },
-          "contentType": {
-            "$ref": "#/components/schemas/ContentType"
-          },
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          }
-        }
-      },
-      "ApiError": {
-        "required": [
-          "errorCode",
-          "message",
-          "traceId"
-        ],
-        "type": "object",
-        "properties": {
-          "errorCode": {
-            "type": "string",
-            "enum": [
-              "UNKNOWN",
-              "RESOURCE_NOT_FOUND",
-              "UNAUTHORIZED",
-              "APP_DISABLED",
-              "BAD_REQUEST",
-              "CONFLICT"
-            ]
-          },
-          "message": {
-            "type": "string"
-          },
-          "traceId": {
-            "type": "string"
-          }
-        }
-      },
       "Rating": {
         "type": "string",
         "enum": [
@@ -999,6 +907,33 @@
           },
           "rating": {
             "$ref": "#/components/schemas/Rating"
+          }
+        }
+      },
+      "ApiError": {
+        "required": [
+          "errorCode",
+          "message",
+          "traceId"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "resource_not_found",
+              "unauthorized",
+              "app_disabled",
+              "bad_request",
+              "conflict"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
           }
         }
       },
@@ -1061,16 +996,16 @@
       "AppUserMetricAction": {
         "type": "string",
         "enum": [
-          "LOGIN",
-          "DURATION",
-          "VIEW"
+          "login",
+          "duration",
+          "view"
         ]
       },
       "AppUserMetricCategory": {
         "type": "string",
         "enum": [
-          "USER_SESSION",
-          "DASHBOARD_SCREEN"
+          "user_session",
+          "dashboard_screen"
         ]
       },
       "AppUserMetricEvent": {
@@ -1130,12 +1065,16 @@
       },
       "AppUser": {
         "required": [
+          "clientUserId",
           "id",
           "isOnboardingQuestionnaireCompleted"
         ],
         "type": "object",
         "properties": {
           "id": {
+            "type": "string"
+          },
+          "clientUserId": {
             "type": "string"
           },
           "isOnboardingQuestionnaireCompleted": {
@@ -1146,10 +1085,10 @@
       "Topic": {
         "type": "string",
         "enum": [
-          "PHYSICAL_ACTIVITY",
-          "NUTRITION",
-          "PHYSICAL_WELLBEING",
-          "SLEEP"
+          "physical_activity",
+          "nutrition",
+          "mental_wellbeing",
+          "sleep"
         ]
       },
       "AppUserRecommendation": {
@@ -1188,6 +1127,13 @@
             "type": "string"
           }
         }
+      },
+      "Status": {
+        "type": "string",
+        "enum": [
+          "no_interaction",
+          "viewed"
+        ]
       },
       "AppUserArticle": {
         "required": [
@@ -1284,10 +1230,10 @@
           "format": {
             "type": "string",
             "enum": [
-              "HUMAN_HEIGHT",
-              "HUMAN_WEIGHT",
-              "INTEGER",
-              "DECIMAL"
+              "human_height",
+              "human_weight",
+              "integer",
+              "decimal"
             ]
           }
         }
@@ -1339,7 +1285,6 @@
       },
       "FeedSection": {
         "required": [
-          "locked",
           "state",
           "type"
         ],
@@ -1351,9 +1296,6 @@
           "state": {
             "$ref": "#/components/schemas/FeedSectionState"
           },
-          "locked": {
-            "type": "boolean"
-          },
           "topic": {
             "$ref": "#/components/schemas/Topic"
           }
@@ -1362,26 +1304,26 @@
       "FeedSectionState": {
         "type": "string",
         "enum": [
-          "LOCK",
-          "UNLOCK",
-          "PARTIALLY_UNLOCK"
+          "lock",
+          "unlock",
+          "partially_unlock"
         ]
       },
       "FeedSectionType": {
         "type": "string",
         "enum": [
-          "PHYSICAL_ACTIVITY_RECOMMENDATIONS",
-          "NUTRITION_RECOMMENDATIONS",
-          "PHYSICAL_WELLBEING_RECOMMENDATIONS",
-          "SLEEP_RECOMMENDATIONS",
-          "PREFERRED_RECOMMENDATIONS",
-          "MOST_POPULAR",
-          "NEW_CONTENT",
-          "PHYSICAL_ACTIVITY_EXPLORE",
-          "NUTRITION_EXPLORE",
-          "PHYSICAL_WELLBEING_EXPLORE",
-          "SLEEP_EXPLORE",
-          "STARTING_RECOMMENDATIONS"
+          "physical_activity_recommendations",
+          "nutrition_recommendations",
+          "mental_wellbeing_recommendations",
+          "sleep_recommendations",
+          "preferred_recommendations",
+          "most_popular",
+          "new_content",
+          "physical_activity_explore",
+          "nutrition_explore",
+          "mental_wellbeing_explore",
+          "sleep_explore",
+          "starting_recommendations"
         ]
       }
     },

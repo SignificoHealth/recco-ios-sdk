@@ -10,7 +10,7 @@ final class LiveRecommendationRepository: RecommendationRepository {
     func getFeedSection(_ section: FeedSection) async throws -> [AppUserRecommendation] {
         switch (section.type, section.topic) {
         case (.physicalActivityRecommendations, .some(let topic)), (.nutritionRecommendations, .some(let topic)),
-            (.physicalWellbeingRecommendations, .some(let topic)),
+            (.mentalWellbeingRecommendations, .some(let topic)),
             (.sleepRecommendations, .some(let topic)):
             return try await RecommendationAPI
                 .getTailoredRecommendationsByTopic(
@@ -31,7 +31,7 @@ final class LiveRecommendationRepository: RecommendationRepository {
                 .map(AppUserRecommendation.init)
         case (.physicalActivityExplore, .some(let topic)),
             (.nutritionExplore, .some(let topic)),
-            (.physicalWellbeingExplore, .some(let topic)),
+            (.mentalWellbeingExplore, .some(let topic)),
             (.sleepExplore, .some(let topic)):
             return try await RecommendationAPI
                 .exploreContentByTopic(topic: .init(entity: topic))

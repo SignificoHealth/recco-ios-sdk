@@ -8,7 +8,7 @@ extension FeedSectionType {
             return "feedSection.name.rec.physicalActivity".localized
         case .nutritionRecommendations:
             return "feedSection.name.rec.nutrition".localized
-        case .physicalWellbeingRecommendations:
+        case .mentalWellbeingRecommendations:
             return "feedSection.name.rec.physicalWellbeing".localized
         case .sleepRecommendations:
             return "feedSection.name.rec.sleep".localized
@@ -22,7 +22,7 @@ extension FeedSectionType {
             return "feedSection.name.explore.physicalActivity".localized
         case .nutritionExplore:
             return "feedSection.name.explore.nutrition".localized
-        case .physicalWellbeingExplore:
+        case .mentalWellbeingExplore:
             return "feedSection.name.explore.physicalWellbeing".localized
         case .sleepExplore:
             return "feedSection.name.explore.sleep".localized
@@ -37,7 +37,7 @@ extension FeedSectionType {
             return "feedSection.recName.physicalActivity".localized
         case .nutritionRecommendations:
             return "feedSection.recName.nutrition".localized
-        case .physicalWellbeingRecommendations:
+        case .mentalWellbeingRecommendations:
             return "feedSection.recName.physicalWellbeing".localized
         case .sleepRecommendations:
             return "feedSection.recName.sleep".localized
@@ -52,7 +52,7 @@ extension FeedSectionType {
             return "feedSection.description.rec.physicalActivity".localized
         case .nutritionRecommendations:
             return "feedSection.description.rec.nutrition".localized
-        case .physicalWellbeingRecommendations:
+        case .mentalWellbeingRecommendations:
             return "feedSection.description.rec.physicalWellbeing".localized
         case .sleepRecommendations:
             return "feedSection.description.rec.sleep".localized

@@ -11,6 +11,6 @@ import AnyCodable
 #endif
 
 internal enum AppUserMetricCategoryDTO: String, Codable, CaseIterable {
-    case userSession = "USER_SESSION"
-    case dashboardScreen = "DASHBOARD_SCREEN"
+    case userSession = "user_session"
+    case dashboardScreen = "dashboard_screen"
 }

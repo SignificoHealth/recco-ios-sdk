@@ -21,8 +21,8 @@ extension FeedSectionType {
             self = .physicalActivityRecommendations
         case .nutritionRecommendations:
             self = .nutritionRecommendations
-        case .physicalWellbeingRecommendations:
-            self = .physicalWellbeingRecommendations
+        case .mentalWellbeingRecommendations:
+            self = .mentalWellbeingRecommendations
         case .sleepRecommendations:
             self = .sleepRecommendations
         case .preferredRecommendations:
@@ -35,8 +35,8 @@ extension FeedSectionType {
             self = .physicalActivityExplore
         case .nutritionExplore:
             self = .nutritionExplore
-        case .physicalWellbeingExplore:
-            self = .physicalWellbeingExplore
+        case .mentalWellbeingExplore:
+            self = .mentalWellbeingExplore
         case .sleepExplore:
             self = .sleepExplore
         case .startingRecommendations:
@@ -52,8 +52,8 @@ extension SFTopic {
             self = .physicalActivity
         case .nutrition:
             self = .nutrition
-        case .physicalWellbeing:
-            self = .physicalWellbeing
+        case .mentalWellbeing:
+            self = .mentalWellbeing
         case .sleep:
             self = .sleep
         }
@@ -67,8 +67,8 @@ extension TopicDTO {
             self = .physicalActivity
         case .nutrition:
             self = .nutrition
-        case .physicalWellbeing:
-            self = .physicalWellbeing
+        case .mentalWellbeing:
+            self = .mentalWellbeing
         case .sleep:
             self = .sleep
         }

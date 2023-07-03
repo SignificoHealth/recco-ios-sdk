@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 internal enum FeedSectionStateDTO: String, Codable, CaseIterable {
-    case lock = "LOCK"
-    case unlock = "UNLOCK"
-    case partiallyUnlock = "PARTIALLY_UNLOCK"
+    case lock = "lock"
+    case unlock = "unlock"
+    case partiallyUnlock = "partially_unlock"
 }

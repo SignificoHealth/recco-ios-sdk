@@ -13,15 +13,18 @@ import AnyCodable
 internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
 
     internal var id: String
+    internal var clientUserId: String
     internal var isOnboardingQuestionnaireCompleted: Bool
 
-    internal init(id: String, isOnboardingQuestionnaireCompleted: Bool) {
+    internal init(id: String, clientUserId: String, isOnboardingQuestionnaireCompleted: Bool) {
         self.id = id
+        self.clientUserId = clientUserId
         self.isOnboardingQuestionnaireCompleted = isOnboardingQuestionnaireCompleted
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
+        case clientUserId
         case isOnboardingQuestionnaireCompleted
     }
 
@@ -30,6 +33,7 @@ internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
     internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
+        try container.encode(clientUserId, forKey: .clientUserId)
         try container.encode(isOnboardingQuestionnaireCompleted, forKey: .isOnboardingQuestionnaireCompleted)
     }
 }
