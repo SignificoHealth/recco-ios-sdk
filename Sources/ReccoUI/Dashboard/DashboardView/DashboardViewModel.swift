@@ -125,6 +125,10 @@ final class DashboardViewModel: ObservableObject {
             do {
                 sections[idx].section.state = nextState
                 sections[idx].isLoading = true
+                if section.state == .locked {
+                    // animation time, we avoid re-rendering the view while animating
+                    try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 2100)
+                }
                 let data = try await recRepo.getFeedSection(section)
                 items[section.type] = data
             } catch {

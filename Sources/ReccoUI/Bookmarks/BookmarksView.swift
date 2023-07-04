@@ -2,12 +2,8 @@ import SwiftUI
 
 struct BookmarksView: View {
     @StateObject var viewModel: BookmarksViewModel
-    
-    init(viewModel: BookmarksViewModel) {
-        self._viewModel = .init(wrappedValue: viewModel)
-    }
-    
-    let gridLayout = [
+
+    private let gridLayout = [
         GridItem(.flexible(), spacing: .XXS, alignment: .top),
         GridItem(.flexible(), spacing: .XXS, alignment: .top),
         GridItem(.flexible(), spacing: .XXS, alignment: .top)
@@ -42,7 +38,6 @@ struct BookmarksView: View {
         .background(
             Color.reccoBackground.ignoresSafeArea()
         )
-        .showNavigationBarOnScroll()
         .addCloseSDKToNavbar()
         .navigationTitle("bookmarks.navTitle".localized)
         .navigationBarHidden(false)
@@ -61,6 +56,7 @@ struct BookmarksView: View {
             Image(resource: "no_content_image")
             Spacer()
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

@@ -43,7 +43,7 @@ struct FeedSectionView: View {
                         }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: .XS) {
+                            LazyHStack(spacing: .XS) {
                                 Spacer(minLength: .S)
                                 ForEach(items, id: \.self) { item in
                                     Button {
@@ -80,7 +80,7 @@ struct FeedSectionView_Previews: PreviewProvider {
         FeedSectionView(
             performedUnlockAnimation: .constant(false),
             section: .init(
-                section: .init(type: .mostPopular, state: .lock),
+                section: .init(type: .mostPopular, state: .locked),
                 isLoading: false
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],

@@ -11,11 +11,6 @@ fileprivate struct BoundsPreference: PreferenceKey {
 }
 
 struct ArticleDetailView: View {
-    init(viewModel: ArticleDetailViewModel) {
-        self._viewModel = .init(wrappedValue: viewModel)
-    }
-    
-    @Environment(\.presentationMode) var dismiss
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
     @StateObject var viewModel: ArticleDetailViewModel
     
@@ -38,13 +33,12 @@ struct ArticleDetailView: View {
         return (-distance/100).clamped(to: 0...0.3)
     }
     
-    public var body: some View {
+    var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             backAction: viewModel.back,
             closeAction: viewModel.dismissSDK,
             imageHeaderHeight: headerHeight,
-            offset: $offset,
             header: { articleHeader },
             content: {
                 VStack(alignment: .leading, spacing: .M) {
@@ -127,7 +121,9 @@ struct ArticleDetailView: View {
         .addCloseSDKToNavbar()
         .navigationTitle(viewModel.heading)
         .onReceive(scrollOffsetObservable) { _, newOffset in
-            offset = newOffset
+            withAnimation(.interactiveSpring()) {
+                offset = newOffset
+            }
         }
         .task {
             await viewModel.initialLoad()

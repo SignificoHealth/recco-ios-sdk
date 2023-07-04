@@ -4,7 +4,7 @@ extension FeedSectionState {
     init(dto: FeedSectionStateDTO) {
         switch dto {
         case .lock:
-            self = .lock
+            self = .locked
         case .unlock:
             self = .unlock
         case .partiallyUnlock:

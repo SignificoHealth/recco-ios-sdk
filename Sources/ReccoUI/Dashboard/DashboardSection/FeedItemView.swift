@@ -15,6 +15,7 @@ struct FeedItemView: View {
                     .opacity(
                         item.status == .viewed ? 0.4 : 1
                     )
+
             } else if state.error != nil {
                 Color.reccoPrimary20.overlay(
                     Image(resource: "error_image")
@@ -26,7 +27,6 @@ struct FeedItemView: View {
             }
         }
         .processors([.resize(width: .cardSize.width)])
-        .animation(.linear(duration: 0.1))
         .frame(
             minWidth: .minCardWidth, idealWidth: .cardSize.width, maxWidth: .cardSize.width,
             minHeight: .cardSize.height, maxHeight: .cardSize.height
