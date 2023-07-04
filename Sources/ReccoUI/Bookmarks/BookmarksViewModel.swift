@@ -41,17 +41,16 @@ final class BookmarksViewModel: ObservableObject {
     
     @MainActor
     func getBookmarks() async {
-        isLoading = true
         error = nil
         
         do {
             let items = try await recRepo.getBookmarks()
             self.items = items
-            self.error = nil
         } catch {
             self.error = error
         }
-        self.isLoading = false
+        
+        isLoading = false
     }
     
     // MARK: Private
