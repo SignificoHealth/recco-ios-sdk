@@ -21,12 +21,15 @@ struct MultichoiceBodyView: View {
         self.question = question
         self.answers = answers
         self.selectedAnswers = selectedAnswers
-        self.options = question.options.map {
-            Selectable(
-                selected: answers?.contains($0.id) ?? false,
-                value: $0
-            )
-        }
+        self._options = .init(
+            initialValue:
+                question.options.map {
+                    Selectable(
+                        selected: answers?.contains($0.id) ?? false,
+                        value: $0
+                    )
+                }
+        )
     }
     
     var body: some View {
