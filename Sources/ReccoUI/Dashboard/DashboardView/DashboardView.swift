@@ -14,7 +14,10 @@ struct DashboardView: View {
                 refreshAction: viewModel.getFeedItems
             ) {
                 LazyVStack(alignment: .leading, spacing: .XXS) {
-                    DashboardHeader(dismiss: viewModel.dismiss)
+                    DashboardHeader(
+                        dismiss: viewModel.dismiss,
+                        onBookmarks: viewModel.goToBookmarks
+                    )
                     
                     ForEach(viewModel.sections, id: \.self) { section in
                         FeedSectionView(
@@ -47,6 +50,17 @@ struct DashboardView: View {
         )
         .showNavigationBarOnScroll()
         .addCloseSDKToNavbar()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    viewModel.goToBookmarks()
+                } label: {
+                    Image(resource: "bookmark_filled")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.reccoAccent)
+                }
+            }
+        }
         .navigationTitle("dashboard.title".localized)
         .task {
             if viewModel.items.isEmpty {
@@ -72,18 +86,30 @@ struct DashboardView: View {
 
 struct DashboardHeader: View {
     var dismiss: () -> Void
+    var onBookmarks: () -> Void
+    
     var body: some View {
-        VStack {
-            Button {
-                dismiss()
-            } label: {
-                Image(resource: "close_ic")
-                    .renderingMode(.template)
-                    .foregroundColor(.reccoPrimary)
+        VStack(spacing: 0) {
+            HStack {
+                Button {
+                    onBookmarks()
+                } label: {
+                    Image(resource: "bookmark_filled")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.reccoAccent)
+                }
+
+                Spacer()
+
+                Button {
+                    dismiss()
+                } label: {
+                    Image(resource: "close_ic")
+                        .renderingMode(.template)
+                        .foregroundColor(.reccoPrimary)
+                }
             }
-            .padding(.trailing, .M)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding(.vertical, .M)
+            .padding(.M)
             
             HStack(alignment: .top, spacing: .XS) {
                 VStack(alignment: .leading) {
@@ -107,7 +133,7 @@ struct DashboardHeader: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardHeader(dismiss: {})
+        DashboardHeader(dismiss: {}, onBookmarks: {})
         
         withAssembly { r in
             DashboardView(viewModel: r.get())

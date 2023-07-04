@@ -36,8 +36,12 @@ final class DashboardViewModel: ObservableObject {
             imageUrl: item.imageUrl,
             seenContent: { [unowned self] id in
                 markContentAsSeen(id: id)
-            }
+            }, onBookmarkedChange: { _ in }
         ))
+    }
+    
+    func goToBookmarks() {
+        nav.navigate(to: .bookmarks)
     }
     
     func dismiss() {

@@ -17,6 +17,9 @@ extension CGFloat {
     static var cardSize: CGSize {
         .init(width: 144, height: 256)
     }
+    
+    static var minCardWidth: CGFloat = 110
+    
     /// 4 pt
     static var XXXS: CGFloat {
         Spacing.xxxs.rawValue

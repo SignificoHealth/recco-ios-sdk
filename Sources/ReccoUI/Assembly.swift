@@ -16,7 +16,7 @@ final class UIAssembly: ReccoAssembly {
             )
         }
         
-        container.register(type: ArticleDetailViewModel.self) { (r: ReccoResolver, tuple: (ContentId, String, URL?, (ContentId) -> Void)) in
+        container.register(type: ArticleDetailViewModel.self) { (r: ReccoResolver, tuple: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void)) in
             ArticleDetailViewModel(
                 loadedContent: tuple,
                 articleRepo: r.get(),
@@ -55,6 +55,13 @@ final class UIAssembly: ReccoAssembly {
             OnboardingQuestionnaireViewModel(
                 nextScreen: next,
                 repo: r.get()
+            )
+        }
+        
+        container.register(type: BookmarksViewModel.self) { r in
+            BookmarksViewModel(
+                recRepo: r.get(),
+                nav: r.get()
             )
         }
     }

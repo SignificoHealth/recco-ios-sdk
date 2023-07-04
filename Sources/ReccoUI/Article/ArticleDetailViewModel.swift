@@ -6,6 +6,7 @@ final class ArticleDetailViewModel: ObservableObject {
     private let contentRepo: ContentRepository
     private let contentId: ContentId
     private let updateContentSeen: (ContentId) -> Void
+    private let onBookmarkChanged: (Bool) -> Void
     private let nav: ReccoCoordinator
     
     let imageUrl: URL?
@@ -17,7 +18,7 @@ final class ArticleDetailViewModel: ObservableObject {
     @Published var actionError: Error?
     
     init(
-        loadedContent: (ContentId, String, URL?, (ContentId) -> Void),
+        loadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void),
         articleRepo: ArticleRepository,
         contentRepo: ContentRepository,
         nav: ReccoCoordinator
@@ -28,6 +29,7 @@ final class ArticleDetailViewModel: ObservableObject {
         self.imageUrl = loadedContent.2
         self.heading = loadedContent.1
         self.updateContentSeen = loadedContent.3
+        self.onBookmarkChanged = loadedContent.4
         self.nav = nav
     }
     
@@ -47,16 +49,17 @@ final class ArticleDetailViewModel: ObservableObject {
     
     func toggleBookmark() {
         guard let article = article else { return }
-        
+
         Task { @MainActor in
             do {
                 try await contentRepo.setBookmark(.init(
                     contentId: article.id,
                     contentType: .articles,
-                    bookmarked: article.bookmarked
+                    bookmarked: !article.bookmarked
                 ))
                 
                 self.article?.bookmarked.toggle()
+                self.onBookmarkChanged(!article.bookmarked)
             } catch {
                 actionError = error
             }
