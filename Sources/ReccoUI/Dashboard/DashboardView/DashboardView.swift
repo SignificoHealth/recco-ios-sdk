@@ -62,11 +62,6 @@ struct DashboardView: View {
             }
         }
         .navigationTitle("dashboard.title".localized)
-        .task {
-            if viewModel.items.isEmpty {
-                await viewModel.getFeedItems()
-            }
-        }
     }
     
     private func unlockAlert(for section: FeedSection) -> ReccoAlert<some View> {

@@ -41,8 +41,6 @@ final class BookmarksViewModel: ObservableObject {
     
     @MainActor
     func getBookmarks() async {
-        error = nil
-        
         do {
             let items = try await recRepo.getBookmarks()
             self.items = items
