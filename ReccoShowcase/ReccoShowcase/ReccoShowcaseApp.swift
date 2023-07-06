@@ -3,6 +3,7 @@ import ReccoUI
 
 @main
 struct ReccoShowcaseApp: App {
+    
     init() {
         ReccoUI.initialize(
             clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo"
@@ -11,7 +12,44 @@ struct ReccoShowcaseApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+           AppView()
         }
+    }
+}
+
+struct CompanyView: View {
+    var body: some View {
+        VStack {
+            HStack {
+                Image("recco_logo")
+                Text("by")
+                    .bodySmallLight()
+            }
+            Image("significo_logo")
+        }
+        .padding(.vertical, 32)
+    }
+}
+
+struct AppView: View {
+    @AppStorage("username") var username: String = ""
+    
+    var window: UIWindow? {
+        UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .first(where: { $0 is UIWindowScene })
+            .flatMap({ $0 as? UIWindowScene })?.windows
+            .first(where: \.isKeyWindow)
+    }
+    
+    var body: some View {
+        ZStack {
+            if username.isEmpty {
+                SignInView()
+            } else {
+                WellcomeView()
+            }
+        }
+        .background(Color.lightGray.ignoresSafeArea())
     }
 }
