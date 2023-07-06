@@ -33,6 +33,9 @@ struct SignInView: View {
     
     var body: some View {
         VStack(spacing: 32) {
+            CompanyView()
+                .padding(.top, 75)
+
             Text("Please create any User ID you want to be able to identify you as a User in the SDK.")
                 .bodySmall()
                 .multilineTextAlignment(.leading)
@@ -69,86 +72,6 @@ struct SignInView: View {
         }
     }
 }
-
-/*
-struct SignInView: View {
-    
-    @AppStorage("username") var username: String = ""
-    @State private var input: String = ""
-    @State var loginLoading: Bool = false
-    @State var loginError: Bool = false
-    
-    var body: some View {
-
-        VStack(spacing: 32) {
-            companyView
-                .padding(.top, 70)
-            
-            Text("Please create any User ID you want to be able to identify you as a User in the SDK.")
-              .font(
-                Font.custom("Poppins", size: 15)
-                  .weight(.medium)
-              )
-              .foregroundColor(Color.warmBrown)
-              .frame(maxWidth: .infinity)
-            
-            inputView
-            
-            Spacer()
-            
-            if loginLoading {
-                ProgressView()
-            } else {
-                Button("Login") {
-                    hideKeyboard()
-                    loginLoading = true
-                    Task {
-                        do {
-                            try await ReccoUI.login(user: input)
-                            username = input
-                        } catch {
-                            loginError = true
-                        }
-                        loginLoading = false
-                    }
-                }
-                .buttonStyle(CallToActionPrimaryStyle())
-                .disabled(input.isEmpty)
-            }
-        }
-        .padding(24)
-        .background(Color.lightGray)
-        .alert(isPresented: $loginError) {
-            Alert(title: Text("An error ocurred"))
-        }
-    }
-    
-    var companyView: some View {
-        VStack {
-            HStack {
-                Image("recco_logo")
-                Text("by")
-            }
-            Image("significo_logo")
-        }
-        .padding(.vertical, 32)
-    }
-    
-    var inputView: some View {
-        VStack(alignment: .leading) {
-            Text("User ID")
-                .bold()
-                .foregroundColor(Color.warmBrown)
-            
-            TextField("Username", text: $input)
-                .keyboardType(.alphabet)
-                .autocorrectionDisabled(true)
-                .cornerRadius(8)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-        }
-    }
-}
- */
 
 #if canImport(UIKit)
 extension View {

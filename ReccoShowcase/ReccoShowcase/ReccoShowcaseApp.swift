@@ -17,6 +17,20 @@ struct ReccoShowcaseApp: App {
     }
 }
 
+struct CompanyView: View {
+    var body: some View {
+        VStack {
+            HStack {
+                Image("recco_logo")
+                Text("by")
+                    .bodySmallLight()
+            }
+            Image("significo_logo")
+        }
+        .padding(.vertical, 32)
+    }
+}
+
 struct AppView: View {
     @AppStorage("username") var username: String = ""
     
@@ -28,33 +42,14 @@ struct AppView: View {
             .first(where: \.isKeyWindow)
     }
     
-    var companyView: some View {
-        VStack {
-            HStack {
-                Image("recco_logo")
-                Text("by")
-                    .bodySmallLight()
-            }
-            Image("significo_logo")
-        }
-        .padding(.vertical, 32)
-    }
-    
     var body: some View {
         ZStack {
-            Color.lightGray
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                companyView
-                    .padding(.top, 75)
-                
-                if username.isEmpty {
-                    SignInView()
-                } else {
-                    WellcomeView()
-                }
+            if username.isEmpty {
+                SignInView()
+            } else {
+                WellcomeView()
             }
         }
+        .background(Color.lightGray.ignoresSafeArea())
     }
 }
