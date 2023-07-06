@@ -33,15 +33,7 @@ struct CompanyView: View {
 
 struct AppView: View {
     @AppStorage("username") var username: String = ""
-    
-    var window: UIWindow? {
-        UIApplication.shared.connectedScenes
-            .filter { $0.activationState == .foregroundActive }
-            .first(where: { $0 is UIWindowScene })
-            .flatMap({ $0 as? UIWindowScene })?.windows
-            .first(where: \.isKeyWindow)
-    }
-    
+        
     var body: some View {
         ZStack {
             if username.isEmpty {
