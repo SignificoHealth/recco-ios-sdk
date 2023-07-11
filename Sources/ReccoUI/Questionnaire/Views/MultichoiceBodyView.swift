@@ -88,16 +88,8 @@ struct MultichoiceBodyView: View {
     
     private func performLogicOnSelecting(option: Binding<Selectable<MultiChoiceAnswerOption>>) {
         // if it is not already selected
-        if !option.wrappedValue.selected {
-            if question.isSingleChoice {
+        if !option.wrappedValue.selected, question.isSingleChoice {
                 options.indices.forEach { options[$0].selected = false }
-            }
-            
-            if question.maxOptions <= options.filter(\.selected).count {
-                options
-                    .firstIndex(where: \.selected)
-                    .map { options[$0].selected = false  }
-            }
         }
         
         option.wrappedValue.selected.toggle()
