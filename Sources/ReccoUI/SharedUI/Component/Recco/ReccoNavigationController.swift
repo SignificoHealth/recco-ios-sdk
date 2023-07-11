@@ -1,8 +1,6 @@
 import SwiftUI
 import UIKit
 
-internal var currentSDKNavigationController: ReccoNavigationController?
-
 final class ReccoNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -32,18 +30,6 @@ final class ReccoNavigationController: UINavigationController, UIGestureRecogniz
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         viewController.navigationItem.backButtonDisplayMode = .minimal
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        currentSDKNavigationController = self
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        currentSDKNavigationController = nil
     }
 }
 
