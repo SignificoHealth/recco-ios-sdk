@@ -4,10 +4,12 @@ import ReccoHeadless
 final class OnboardingQuestionnaireViewModel: QuestionnaireViewModel {
     init(
         nextScreen: @escaping (Bool) -> Void,
-        repo: QuestionnaireRepository
+        repo: QuestionnaireRepository,
+        nav: ReccoCoordinator
     ) {
         super.init(
             repo: repo,
+            nav: nav,
             nextScreen: nextScreen,
             getQuestions: { repo in
                 try await repo.getOnboardingQuestionnaire()

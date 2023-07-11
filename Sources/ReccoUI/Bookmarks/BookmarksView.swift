@@ -38,7 +38,7 @@ struct BookmarksView: View {
         .background(
             Color.reccoBackground.ignoresSafeArea()
         )
-        .addCloseSDKToNavbar()
+        .addCloseSDKToNavbar(viewModel.dismiss)
         .navigationTitle("bookmarks.navTitle".localized)
         .navigationBarHidden(false)
         .task {

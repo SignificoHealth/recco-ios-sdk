@@ -5,11 +5,11 @@ extension View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
     
-    func addCloseSDKToNavbar() -> some View {
+    func addCloseSDKToNavbar(_ dismissAction: @escaping () -> Void) -> some View {
         toolbar {
             ToolbarItem {
                 Button {
-                    currentSDKNavigationController?.dismiss(animated: true)
+                    dismissAction()
                 } label: {
                     Image(resource: "close_ic")
                         .renderingMode(.template)

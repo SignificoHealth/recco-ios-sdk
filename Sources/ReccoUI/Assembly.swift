@@ -54,7 +54,8 @@ final class UIAssembly: ReccoAssembly {
         container.register(type: OnboardingQuestionnaireViewModel.self) { r, next in
             OnboardingQuestionnaireViewModel(
                 nextScreen: next,
-                repo: r.get()
+                repo: r.get(),
+                nav: r.get()
             )
         }
         

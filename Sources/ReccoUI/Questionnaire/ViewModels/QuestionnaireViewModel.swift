@@ -3,6 +3,7 @@ import ReccoHeadless
 import Combine
 
 class QuestionnaireViewModel: ObservableObject {
+    private let nav: ReccoCoordinator
     private let repo: QuestionnaireRepository
     private let nextScreen: (Bool) -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
@@ -32,6 +33,7 @@ class QuestionnaireViewModel: ObservableObject {
     
     init(
         repo: QuestionnaireRepository,
+        nav: ReccoCoordinator,
         nextScreen: @escaping (Bool) -> Void,
         getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question],
         sendQuestions: @escaping (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
@@ -41,6 +43,7 @@ class QuestionnaireViewModel: ObservableObject {
         self.getQuestions = getQuestions
         self.mainButtonEnabled = type(of: self) == TopicQuestionnaireViewModel.self
         self.sendQuestions = sendQuestions
+        self.nav = nav
         
         if isOnboarding {
             validateAnswerOnQuestionChange()
@@ -121,6 +124,10 @@ class QuestionnaireViewModel: ObservableObject {
         }
     }
     
+    func dismiss() {
+        nav.navigate(to: .dismiss)
+    }
+    
     // MARK: Private methods
     
     private func validateAnswerOnQuestionChange() {
@@ -173,7 +180,7 @@ class QuestionnaireViewModel: ObservableObject {
             
         case let .numeric(q):
             guard q.minValue <= q.maxValue else { return false }
-            guard let value = answer.numeric, value != 0 else {
+            guard let value = answer.numeric else {
                 return !mandatoryAnswer
             }
             

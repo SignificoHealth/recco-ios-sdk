@@ -49,7 +49,7 @@ struct DashboardView: View {
             Color.reccoBackground.ignoresSafeArea()
         )
         .showNavigationBarOnScroll()
-        .addCloseSDKToNavbar()
+        .addCloseSDKToNavbar(viewModel.dismiss)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {

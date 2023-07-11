@@ -10,6 +10,7 @@ final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
     ) {
         super.init(
             repo: repo,
+            nav: nav,
             nextScreen: { answeredAll in
                 reloadSection(answeredAll)
                 nav.navigate(to: .back)

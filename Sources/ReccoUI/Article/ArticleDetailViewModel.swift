@@ -88,7 +88,7 @@ final class ArticleDetailViewModel: ObservableObject {
         }
     }
     
-    func dismissSDK() {
+    func dismiss() {
         nav.navigate(to: .dismiss)
     }
     

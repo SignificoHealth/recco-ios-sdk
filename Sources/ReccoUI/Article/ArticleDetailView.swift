@@ -37,7 +37,7 @@ struct ArticleDetailView: View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             backAction: viewModel.back,
-            closeAction: viewModel.dismissSDK,
+            closeAction: viewModel.dismiss,
             imageHeaderHeight: headerHeight,
             header: { articleHeader },
             content: {
@@ -118,7 +118,7 @@ struct ArticleDetailView: View {
             }
         )
         .showNavigationBarOnScroll(threshold: headerHeight)
-        .addCloseSDKToNavbar()
+        .addCloseSDKToNavbar(viewModel.dismiss)
         .navigationTitle(viewModel.heading)
         .onReceive(scrollOffsetObservable) { _, newOffset in
             withAnimation(.interactiveSpring()) {
