@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SFTopic: String, Codable, CaseIterable {
+public enum ReccoTopic: String, Codable, CaseIterable {
     case physicalActivity
     case nutrition
     case mentalWellbeing

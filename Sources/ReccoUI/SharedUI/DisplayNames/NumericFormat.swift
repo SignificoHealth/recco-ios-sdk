@@ -28,16 +28,15 @@ extension NumericQuestionFormat {
     func label(_ locale: Locale) -> (String, String?)? {
         switch (locale.getUnitSystem(), self) {
         case (.metric, .humanHeight):
-            return ("questionnaire.numeric.label.cm".localized, nil)
+            return ("recco_questionnaire_numeric_label_cm".localized, nil)
         case (.imperialGB, .humanHeight), (.imperialUS, .humanHeight):
-            return ("questionnaire.numeric.label.feet".localized, "questionnaire.numeric.label.inches".localized)
-
+            return ("recco_questionnaire_numeric_label_ft".localized, "recco_questionnaire_numeric_label_in".localized)
         case (.metric, .humanWeight):
-            return ("questionnaire.numeric.label.kg".localized, nil)
+            return ("recco_questionnaire_numeric_label_kg".localized, nil)
         case (.imperialUS, .humanWeight):
-            return ("questionnaire.numeric.label.lb".localized, nil)
+            return ("recco_questionnaire_numeric_label_lb".localized, nil)
         case (.imperialGB, .humanWeight):
-            return ("questionnaire.numeric.label.stones".localized, nil)
+            return ("recco_questionnaire_numeric_label_st".localized, nil)
         case (_, .integer):
             return nil
         case (_, .decimal):

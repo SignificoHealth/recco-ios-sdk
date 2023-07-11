@@ -7,9 +7,9 @@ extension View {
         duration: Int = 2
     ) -> Self {
         if error.isPresent().wrappedValue {
-            let data: SFNotificationData = .error(
-                "error.notification.title".localized,
-                subtitle: "error.notification.subtitle".localized
+            let data: ReccoNotificationData = .error(
+                "recco_error_generic_title".localized,
+                subtitle: "recco_error_generic_body".localized
             )
             
             UIApplication.shared.windows.first?
@@ -28,7 +28,7 @@ extension View {
     }
     
     func reccoNotification(
-        data: Binding<SFNotificationData?>,
+        data: Binding<ReccoNotificationData?>,
         duration: Int = 2
     ) -> Self {
         if data.isPresent().wrappedValue, let note = data.wrappedValue {
@@ -48,7 +48,7 @@ extension View {
     }
 }
 
-extension SFNotificationStyle {
+extension ReccoNotificationStyle {
     var imageName: String {
         switch self {
         case .error:
@@ -209,7 +209,7 @@ final class SFNotificationView: UIView {
     }
     
     fileprivate func show(
-        style: SFNotificationStyle = .confirmation,
+        style: ReccoNotificationStyle = .confirmation,
         title: String,
         subtitle: String? = nil,
         duration: Int = 3,

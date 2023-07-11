@@ -15,7 +15,7 @@ enum Destination {
     case onboardingQuestionnaire
     case questionnaireOutro
     case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void, onBookmarkedChange: (Bool) -> Void)
-    case questionnaire(SFTopic, (Bool) -> Void)
+    case questionnaire(ReccoTopic, (Bool) -> Void)
     case bookmarks
     case dismiss
 }
@@ -45,7 +45,7 @@ final class ReccoCoordinator {
             let vc = UIHostingController(
                 rootView: QuestionnaireView(
                     viewModel: viewModel,
-                    navTitle: "onboarding.navTitle".localized
+                    navTitle: "recco_questionnaire_about_you".localized
                 )
             )
             

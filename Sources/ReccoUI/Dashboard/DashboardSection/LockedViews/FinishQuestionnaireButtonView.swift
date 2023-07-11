@@ -10,7 +10,7 @@ struct FinishQuestionnaireButtonView: View {
                     .renderingMode(.template)
                     .foregroundColor(.reccoOnPrimary)
                 
-                Text("feedSection.finishButton".localized)
+                Text("recco_dashboard_review_area".localized)
                     .foregroundColor(.reccoOnPrimary)
                     .h3()
                     .multilineTextAlignment(.center)

@@ -4,7 +4,7 @@ struct OnboardingView: View {
     @StateObject var viewModel: OnboardingViewModel
     
     var buttonText: String {
-        viewModel.currentPage == viewModel.totalPages ? "onboarding.button.start".localized : "onboarding.button.next".localized
+        viewModel.currentPage == viewModel.totalPages ? "recco_start".localized : "recco_next".localized
     }
     
     var body: some View {
@@ -76,10 +76,10 @@ struct OnboardingView: View {
                     .frame(height: proxy.size.height * 0.45)
                     
                     VStack(spacing: .M) {
-                        Text("onboarding.page\(n).title".localized)
+                        Text("recco_onboarding_page\(n)_title".localized)
                             .h1()
                         
-                        Text("onboarding.page\(n).description".localized)
+                        Text("recco_onboarding_page\(n)_body".localized)
                             .body2()
                             .multilineTextAlignment(.center)
                     }

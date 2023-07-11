@@ -18,7 +18,7 @@ struct LockedFeedItem: View {
                 Image(resource: lockIcon)
                     .foregroundColor(.reccoPrimary)
                 
-                Text("dashboard.unlock".localized)
+                Text("recco_dashboard_unlock".localized)
                     .h3()
             }
         }

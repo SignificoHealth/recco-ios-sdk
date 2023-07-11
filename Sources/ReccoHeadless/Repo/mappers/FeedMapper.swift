@@ -45,7 +45,7 @@ extension FeedSectionType {
     }
 }
 
-extension SFTopic {
+extension ReccoTopic {
     init(dto: TopicDTO) {
         switch dto {
         case .physicalActivity:
@@ -61,7 +61,7 @@ extension SFTopic {
 }
 
 extension TopicDTO {
-    init(entity: SFTopic) {
+    init(entity: ReccoTopic) {
         switch entity {
         case .physicalActivity:
             self = .physicalActivity
@@ -80,7 +80,7 @@ extension FeedSection {
         self.init(
             type: .init(dto: dto.type),
             state: .init(dto: dto.state),
-            topic: dto.topic.map(SFTopic.init)
+            topic: dto.topic.map(ReccoTopic.init)
         )
     }
 }

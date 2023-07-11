@@ -18,11 +18,11 @@ struct OnboardingOutroView: View {
                         .frame(height: proxy.size.height * 0.45)
                         
                         VStack(spacing: .M) {
-                            Text("onboarding.outro.title".localized)
+                            Text("recco_questionnaire_outro_title".localized)
                                 .h1()
                                 .multilineTextAlignment(.center)
 
-                            Text("onboarding.outro.description".localized)
+                            Text("recco_onboarding_outro_body".localized)
                                 .body2()
                                 .multilineTextAlignment(.center)
                         }
@@ -31,7 +31,7 @@ struct OnboardingOutroView: View {
                 }
                 
                 ReccoButtonView(
-                    text: "onboarding.outro.button".localized,
+                    text: "recco_onboarding_go_to_dashboard".localized,
                     isLoading: viewModel.isLoading,
                     action: viewModel.goToDashboardPressed
                 )

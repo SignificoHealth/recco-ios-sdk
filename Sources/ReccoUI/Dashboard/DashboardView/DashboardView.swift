@@ -61,7 +61,7 @@ struct DashboardView: View {
                 }
             }
         }
-        .navigationTitle("dashboard.title".localized)
+        .navigationTitle("recco_dashboard_welcome_back_title".localized)
     }
     
     private func unlockAlert(for section: FeedSection) -> ReccoAlert<some View> {
@@ -69,7 +69,7 @@ struct DashboardView: View {
             isPresent: $viewModel.lockedSectionAlert.isPresent(),
             title: section.type.recName,
             text: section.type.description,
-            buttonText: "dashboard.unlockSection.button".localized,
+            buttonText: "recco_start".localized,
             header: {
                 Image(resource: "digital_people")
                     .frame(minHeight: 238, alignment: .bottom)
@@ -108,9 +108,9 @@ struct DashboardHeader: View {
             
             HStack(alignment: .top, spacing: .XS) {
                 VStack(alignment: .leading) {
-                    Text("dashboard.title".localized)
+                    Text("recco_dashboard_welcome_back_title".localized)
                         .h1()
-                    Text("dashboard.subtitle".localized)
+                    Text("recco_dashboard_welcome_back_body".localized)
                         .body1()
                 }
                 .padding(.leading, .M)

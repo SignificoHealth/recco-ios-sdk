@@ -53,7 +53,7 @@ struct QuestionnaireView: View {
                     }
                                     
                     ReccoButtonView(
-                        text: viewModel.isOnLastQuestion ? "questionnaire.button.finish".localized : "questionnaire.button.continue".localized,
+                        text: viewModel.isOnLastQuestion ? "recco_finish_button".localized : "recco_continue_button".localized,
                         isLoading: viewModel.sendLoading,
                         action: {
                             withAnimation(.interactiveSpring()) {
@@ -117,7 +117,7 @@ struct QuestionnaireView_Previews: PreviewProvider {
         withAssembly { r in
             QuestionnaireView(
                 viewModel: r.get(
-                    argument: SFTopic.physicalActivity
+                    argument: ReccoTopic.physicalActivity
                 ),
                 navTitle: "Title"
             )

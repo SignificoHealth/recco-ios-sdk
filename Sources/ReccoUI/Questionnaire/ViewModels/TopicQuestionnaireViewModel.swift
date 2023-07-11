@@ -3,7 +3,7 @@ import ReccoHeadless
 
 final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
     init(
-        topic: SFTopic,
+        topic: ReccoTopic,
         reloadSection: @escaping (Bool) -> Void,
         nav: ReccoCoordinator,
         repo: QuestionnaireRepository

@@ -1,81 +1,50 @@
-// MARK: Error screen
-
-"error.noInternet.title" = "No connection";
-"error.generic.title" = "Ups! There has been an error";
-"error.generic.subtitle" = "Please try again later";
-"error.reload" = "Reload";
-
-// MARK: Notification
-
-"error.notification.title" = "Sorry!";
-"error.notification.subtitle" = "Something went wrong";
-
-// MARK: Dashboard
-
-"dashboard.title" = "Welcome back";
-"dashboard.subtitle" = "Let's make today even better than yesterday!";
-"dashboard.unlock" = "Unlock";
-"dashboard.unlockSection.button" = "Start";
-
-// MARK: Feed section name
-
-"feedSection.name.rec.physicalActivity" = "Recommended for you: Physical Activity";
-"feedSection.name.rec.nutrition" = "Recommended for you: Nutrition";
-"feedSection.name.rec.physicalWellbeing" = "Recommended for you: Mental Health";
-"feedSection.name.rec.sleep" = "Recommended for you: Sleep";
-"feedSection.name.rec.preferred" = "Your preferred recomendations";
-"feedSection.name.rec.start" = "To start";
-"feedSection.name.mostPopular" = "Trending";
-"feedSection.name.newContent" = "New for You";
-"feedSection.name.explore.physicalActivity" = "Explore Physical Activity";
-"feedSection.name.explore.nutrition" = "Explore & Improve Nutrition";
-"feedSection.name.explore.physicalWellbeing" = "Explore & Improve Your Mental Health";
-"feedSection.name.explore.sleep" = "Explore & Improve Your Sleep";
-
-// MARK: Feed section description
-
-"feedSection.recName.physicalActivity" = "Physical Activity";
-"feedSection.recName.nutrition" = "Nutrition";
-"feedSection.recName.physicalWellbeing" = "Mental health";
-"feedSection.recName.sleep" = "Sleep";
-"feedSection.description.rec.physicalActivity" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
-"feedSection.description.rec.nutrition" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
-"feedSection.description.rec.physicalWellbeing" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
-"feedSection.description.rec.sleep" = "Mental health encompasses emotional, psychological, and social well-being, influencing cognition, perception, and behavior. It likewise determines how an individual handles stress, interpersonal relationships, and decision-making.";
-"feedSection.finishButton" = "Finish this area";
-
-// MARK: Questionnaire
-
-"questionnaire.title.nutrition" = "Nutrition";
-"questionnaire.title.sleep" = "Sleep";
-"questionnaire.title.physicalActivity" = "Physical Activity";
-"questionnaire.title.mentalHealth" = "Mental health";
-"questionnaire.button.continue" = "Continue";
-"questionnaire.button.finish" = "Finish";
-"questionnaire.button.multiple" = "Multiple answers possible";
-"questionnaire.numeric.label.lb" = "lb.";
-"questionnaire.numeric.label.cm" = "cm.";
-"questionnaire.numeric.label.feet" = "ft.";
-"questionnaire.numeric.label.inches" = "in.";
-"questionnaire.numeric.label.kg" = "kg.";
-"questionnaire.numeric.label.stones" = "st.";
-
-// MARK: Onboarding
-
-"onboarding.navTitle" = "About you";
-"onboarding.button.next" = "Next";
-"onboarding.button.start" = "Start";
-"onboarding.page1.title" = "Well hello there!";
-"onboarding.page1.description" = "Welcome to Shadowflight.We’ll give you customized health advice for a better life.\n\nAll advice will be stored here. Come back every time you want!";
-"onboarding.page2.title" = "Cool content";
-"onboarding.page2.description" = "We´ll give you health advice, recipes, and exercise to help you live your life at it’s fullest.\n\nWe’ll give you some questions to fine-tune the content you want to see";
-"onboarding.page3.title" = "About you";
-"onboarding.page3.description" = "Who are you? What are your health interests? What’s your health status?\n\nWe want to know you!";
-"onboarding.outro.title" = "Great! Glad to get to know you better!";
-"onboarding.outro.description" = "Now let’s see what we have for you";
-"onboarding.outro.button" = "Go to dashboard";
-
-// MARK: Bookmarks
-
-"bookmarks.navTitle" = "Bookmarks";
-"bookmarks.empty" = "You have no bookmarks yet";
+"recco_bookmarks_empty_state_title" = "You have no bookmarks yet";
+"recco_bookmarks_title" = "Bookmarks";
+"recco_continue_button" = "Continue";
+"recco_dashboard_alert_mental_wellbeing_body" = "Your mental health includes your emotional, psychological, and social well-being. \n\nHow you feel influences your thoughts and your behaviors, so let's help you feel good more often!";
+"recco_dashboard_alert_mental_wellbeing_title" = "Mental Health";
+"recco_dashboard_alert_nutrition_body" = "How you eat the majority of the time affects your long-term health, so let's make health eating easier!";
+"recco_dashboard_alert_nutrition_title" = "Eating behavior";
+"recco_dashboard_alert_physical_activity_body" = "Your activity levels affect your mood and body, so let's get you moving in ways that are fun and sustainable!";
+"recco_dashboard_alert_physical_activity_title" = "Physical Activity";
+"recco_dashboard_alert_sleep_body" = "Optimal sleep balances your hormones and improves your mental and physical health. Let's help you sleep better each night!";
+"recco_dashboard_alert_sleep_title" = "Sleep";
+"recco_dashboard_explore_topic" = "Explore & Learn";
+"recco_dashboard_new_for_you" = "New for You";
+"recco_dashboard_recommended_for_you_topic" = "Recommended For You: %@";
+"recco_dashboard_review_area" = "Review this area";
+"recco_dashboard_start_here" = "Quick Wins!";
+"recco_dashboard_trending" = "Popular Articles";
+"recco_dashboard_unlock" = "Unlock it";
+"recco_dashboard_welcome_back_body" = "Let's see how we can improve your health today!";
+"recco_dashboard_welcome_back_title" = "Great to see you";
+"recco_dashboard_you_may_also_like" = "Totally You";
+"recco_error_connection_body" = "Take a breath and try again later";
+"recco_error_connection_title" = "No connection";
+"recco_error_generic_body" = "Something went wrong";
+"recco_error_generic_title" = "Sorry!";
+"recco_error_reload" = "Reload";
+"recco_finish_button" = "Finish";
+"recco_next" = "Next";
+"recco_onboarding_go_to_dashboard" = "Go to dashboard";
+"recco_onboarding_outro_body" = "Now let’s see what we have for you";
+"recco_onboarding_outro_title" = "Great! Glad to get to know you better!";
+"recco_onboarding_page1_body" = "Welcome to Recco, the personalized health improvement app. \n\nComplete surveys to get customized health advice for improving your life all around!";
+"recco_onboarding_page1_title" = "Well hello there!";
+"recco_onboarding_page2_body" = "Enough about Recco – let's talk about you! \nWhat's important to you? What are your health goals? And how are you doing right now?";
+"recco_onboarding_page2_title" = "All About You";
+"recco_onboarding_page3_body" = "The more surveys you complete, the more accurate your health score and customized health recommendations will be. \nYou'll also get fun and interesting content to help you make positive changes right away!";
+"recco_onboarding_page3_title" = "Let's Grow Together";
+"recco_questionnaire_about_you" = "About you";
+"recco_questionnaire_go_to_dashboard" = "Go to dashboard";
+"recco_questionnaire_multiple_answers" = "Multiple answers possible";
+"recco_questionnaire_numeric_label_cm" = "cm.";
+"recco_questionnaire_numeric_label_ft" = "ft.";
+"recco_questionnaire_numeric_label_in" = "in.";
+"recco_questionnaire_numeric_label_kg" = "kg.";
+"recco_questionnaire_numeric_label_lb" = "lb.";
+"recco_questionnaire_numeric_label_min" = "min.";
+"recco_questionnaire_numeric_label_st" = "st.";
+"recco_questionnaire_outro_body" = "Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.";
+"recco_questionnaire_outro_title" = "Great! We’re done with the first part!";
+"recco_start" = "Start";

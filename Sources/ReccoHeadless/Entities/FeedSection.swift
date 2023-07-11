@@ -24,9 +24,9 @@ public enum FeedSectionState: String {
 public struct FeedSection: Equatable, Hashable {
     public var type: FeedSectionType
     public var state: FeedSectionState
-    public var topic: SFTopic?
+    public var topic: ReccoTopic?
 
-    public init(type: FeedSectionType, state: FeedSectionState, topic: SFTopic? = nil) {
+    public init(type: FeedSectionType, state: FeedSectionState, topic: ReccoTopic? = nil) {
         self.type = type
         self.state = state
         self.topic = topic

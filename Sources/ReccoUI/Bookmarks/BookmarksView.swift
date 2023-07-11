@@ -39,7 +39,7 @@ struct BookmarksView: View {
             Color.reccoBackground.ignoresSafeArea()
         )
         .addCloseSDKToNavbar(viewModel.dismiss)
-        .navigationTitle("bookmarks.navTitle".localized)
+        .navigationTitle("recco_bookmarks_title".localized)
         .navigationBarHidden(false)
         .task {
             if viewModel.items.isEmpty {
@@ -51,7 +51,7 @@ struct BookmarksView: View {
     var emptyBookmarksView: some View {
         VStack(alignment: .center, spacing: .L) {
             Spacer()
-            Text("bookmarks.empty".localized)
+            Text("recco_bookmarks_empty_state_title".localized)
                 .body1()
             Image(resource: "no_content_image")
             Spacer()

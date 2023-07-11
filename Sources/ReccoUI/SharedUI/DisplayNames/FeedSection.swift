@@ -4,43 +4,31 @@ import ReccoHeadless
 extension FeedSectionType {
     var displayName: String {
         switch self {
-        case .physicalActivityRecommendations:
-            return "feedSection.name.rec.physicalActivity".localized
-        case .nutritionRecommendations:
-            return "feedSection.name.rec.nutrition".localized
-        case .mentalWellbeingRecommendations:
-            return "feedSection.name.rec.physicalWellbeing".localized
-        case .sleepRecommendations:
-            return "feedSection.name.rec.sleep".localized
+        case .physicalActivityRecommendations, .nutritionRecommendations, .mentalWellbeingRecommendations, .sleepRecommendations:
+            return "recco_dashboard_recommended_for_you_topic".localized(recName)
         case .preferredRecommendations:
-            return "feedSection.name.rec.preferred".localized
+            return "recco_dashboard_you_may_also_like".localized
         case .mostPopular:
-            return "feedSection.name.mostPopular".localized
+            return "recco_dashboard_trending".localized
         case .newContent:
-            return "feedSection.name.newContent".localized
-        case .physicalActivityExplore:
-            return "feedSection.name.explore.physicalActivity".localized
-        case .nutritionExplore:
-            return "feedSection.name.explore.nutrition".localized
-        case .mentalWellbeingExplore:
-            return "feedSection.name.explore.physicalWellbeing".localized
-        case .sleepExplore:
-            return "feedSection.name.explore.sleep".localized
+            return "recco_dashboard_new_for_you".localized
+        case .physicalActivityExplore, .nutritionExplore, .mentalWellbeingExplore, .sleepExplore:
+            return "recco_dashboard_explore_topic".localized
         case .startingRecommendations:
-            return "feedSection.name.rec.start".localized
+            return "recco_dashboard_start_here".localized
         }
     }
     
     var recName: String {
         switch self {
         case .physicalActivityRecommendations:
-            return "feedSection.recName.physicalActivity".localized
+            return "recco_dashboard_alert_physical_activity_title".localized
         case .nutritionRecommendations:
-            return "feedSection.recName.nutrition".localized
+            return "recco_dashboard_alert_nutrition_title".localized
         case .mentalWellbeingRecommendations:
-            return "feedSection.recName.physicalWellbeing".localized
+            return "recco_dashboard_alert_mental_wellbeing_title".localized
         case .sleepRecommendations:
-            return "feedSection.recName.sleep".localized
+            return "recco_dashboard_alert_sleep_title".localized
         default:
             fatalError()
         }
@@ -49,13 +37,13 @@ extension FeedSectionType {
     var description: String? {
         switch self {
         case .physicalActivityRecommendations:
-            return "feedSection.description.rec.physicalActivity".localized
+            return "recco_dashboard_alert_nutrition_body".localized
         case .nutritionRecommendations:
-            return "feedSection.description.rec.nutrition".localized
+            return "recco_dashboard_alert_physical_activity_body".localized
         case .mentalWellbeingRecommendations:
-            return "feedSection.description.rec.physicalWellbeing".localized
+            return "recco_dashboard_alert_mental_wellbeing_body".localized
         case .sleepRecommendations:
-            return "feedSection.description.rec.sleep".localized
+            return "recco_dashboard_alert_sleep_body".localized
         default:
             return nil
         }

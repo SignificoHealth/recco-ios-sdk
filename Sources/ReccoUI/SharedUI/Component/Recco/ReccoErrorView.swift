@@ -20,18 +20,18 @@ enum ReccoErrorType {
     var title: String {
         switch self {
         case .generic:
-            return "error.generic.title".localized
+            return "recco_error_generic_title".localized
         case .noInternet:
-            return "error.noInternet.title".localized
+            return "recco_error_connection_title".localized
         }
     }
 
     var description: String {
         switch self {
         case .generic:
-            return "error.generic.subtitle".localized
+            return "recco_error_generic_body".localized
         case .noInternet:
-            return "error.generic.subtitle".localized
+            return "recco_error_connection_body".localized
         }
     }
 }
@@ -67,7 +67,7 @@ struct ReccoErrorView: View {
                 if let onRetry = onRetry {
                     ReccoButtonView(
                         style: .primary,
-                        text: "error.reload".localized,
+                        text: "recco_error_reload".localized,
                         leadingImage: Image(resource: "reload_ic")
                     ) {
                         error.wrappedValue = nil

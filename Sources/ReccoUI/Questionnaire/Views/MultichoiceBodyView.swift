@@ -35,7 +35,7 @@ struct MultichoiceBodyView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .XXS) {
             if !question.isSingleChoice {
-                Text("questionnaire.button.multiple".localized)
+                Text("recco_questionnaire_multiple_answers".localized)
                     .foregroundColor(.reccoPrimary40)
                     .body3()
                     .padding(.bottom, .M)

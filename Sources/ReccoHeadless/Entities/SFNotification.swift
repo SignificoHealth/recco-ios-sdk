@@ -1,12 +1,12 @@
 import Foundation
 
-public enum SFNotificationStyle: Equatable {
+public enum ReccoNotificationStyle: Equatable {
     case error
     case confirmation
 }
 
-public struct SFNotificationData: Equatable {
-    public init(title: String, subtitle: String? = nil, style: SFNotificationStyle) {
+public struct ReccoNotificationData: Equatable {
+    public init(title: String, subtitle: String? = nil, style: ReccoNotificationStyle) {
         self.title = title
         self.subtitle = subtitle
         self.style = style
@@ -14,15 +14,15 @@ public struct SFNotificationData: Equatable {
     
     public var title: String
     public var subtitle: String?
-    public var style: SFNotificationStyle
+    public var style: ReccoNotificationStyle
 }
 
-extension SFNotificationData {
-    public static func confirmation(_ title: String, subtitle: String? = nil) -> SFNotificationData {
-        return SFNotificationData(title: title, subtitle: subtitle, style: .confirmation)
+extension ReccoNotificationData {
+    public static func confirmation(_ title: String, subtitle: String? = nil) -> ReccoNotificationData {
+        return ReccoNotificationData(title: title, subtitle: subtitle, style: .confirmation)
     }
     
-    public static func error(_ title: String, subtitle: String? = nil) -> SFNotificationData {
-        return SFNotificationData(title: title, subtitle: subtitle, style: .error)
+    public static func error(_ title: String, subtitle: String? = nil) -> ReccoNotificationData {
+        return ReccoNotificationData(title: title, subtitle: subtitle, style: .error)
     }
 }
