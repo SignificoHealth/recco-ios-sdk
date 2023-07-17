@@ -12,6 +12,13 @@ let ReccoHeadless: Target = .target(
     ]
 )
 
+let ReccoHeadlessTests: Target = .testTarget(
+    name: "ReccoHeadlessTests",
+    dependencies: [
+        "ReccoHeadless"
+    ]
+)
+
 let ReccoUI: Target = .target(
     name: "ReccoUI",
     dependencies: [
@@ -20,6 +27,13 @@ let ReccoUI: Target = .target(
         .product(name: "NukeUI", package: "Nuke")
     ],
     resources: [.process("Resources/Haptics")]
+)
+
+let ReccoUITests: Target = .testTarget(
+    name: "ReccoUITests",
+    dependencies: [
+        "ReccoUI"
+    ]
 )
 
 let package = Package(
@@ -41,6 +55,8 @@ let package = Package(
     ],
     targets: [
         ReccoHeadless,
-        ReccoUI
+        ReccoHeadlessTests,
+        ReccoUI,
+        ReccoUITests
     ]
 )
