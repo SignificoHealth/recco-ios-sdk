@@ -39,7 +39,7 @@ struct AppView: View {
             if username.isEmpty {
                 SignInView()
             } else {
-                WellcomeView()
+                WelcomeView()
             }
         }
         .background(Color.lightGray.ignoresSafeArea())

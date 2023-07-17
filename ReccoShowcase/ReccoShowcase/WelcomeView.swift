@@ -8,7 +8,7 @@
 import SwiftUI
 import ReccoUI
 
-struct WellcomeView: View {
+struct WelcomeView: View {
     
     @AppStorage("username") var username: String = ""
     @State var displayRecco: Bool = false
@@ -76,9 +76,9 @@ struct WellcomeView: View {
     }
 }
 
-struct WellcomeView_Previews: PreviewProvider {
+struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WellcomeView()
+        WelcomeView()
     }
 }
 
