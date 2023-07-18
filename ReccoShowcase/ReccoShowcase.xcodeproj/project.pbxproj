@@ -11,7 +11,7 @@
 		6E6EB0382A4C89FA00ABD918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */; };
 		6E6EB03B2A4C89FA00ABD918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EB03A2A4C89FA00ABD918 /* Preview Assets.xcassets */; };
 		6E6EB0482A4C8D8600ABD918 /* ReccoUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6E6EB0472A4C8D8600ABD918 /* ReccoUI */; };
-		95EF414F2A5595780012BF94 /* WellcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EF414E2A5595780012BF94 /* WellcomeView.swift */; };
+		95EF414F2A5595780012BF94 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EF414E2A5595780012BF94 /* WelcomeView.swift */; };
 		95EF41512A55BF1F0012BF94 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EF41502A55BF1F0012BF94 /* SignInView.swift */; };
 		95EF41532A56A6860012BF94 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EF41522A56A6860012BF94 /* Styling.swift */; };
 /* End PBXBuildFile section */
@@ -23,7 +23,7 @@
 		6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E6EB03A2A4C89FA00ABD918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6E6EB0452A4C8D7500ABD918 /* recco-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "recco-ios"; path = ..; sourceTree = "<group>"; };
-		95EF414E2A5595780012BF94 /* WellcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellcomeView.swift; sourceTree = "<group>"; };
+		95EF414E2A5595780012BF94 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		95EF41502A55BF1F0012BF94 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		95EF41522A56A6860012BF94 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,7 +64,7 @@
 				6E3FB3742A56C99D00CFFEA9 /* Info.plist */,
 				6E6EB0332A4C89F900ABD918 /* ReccoShowcaseApp.swift */,
 				95EF41502A55BF1F0012BF94 /* SignInView.swift */,
-				95EF414E2A5595780012BF94 /* WellcomeView.swift */,
+				95EF414E2A5595780012BF94 /* WelcomeView.swift */,
 				95EF41522A56A6860012BF94 /* Styling.swift */,
 				6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */,
 				6E6EB0392A4C89FA00ABD918 /* Preview Content */,
@@ -160,7 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95EF414F2A5595780012BF94 /* WellcomeView.swift in Sources */,
+				95EF414F2A5595780012BF94 /* WelcomeView.swift in Sources */,
 				6E6EB0342A4C89F900ABD918 /* ReccoShowcaseApp.swift in Sources */,
 				95EF41512A55BF1F0012BF94 /* SignInView.swift in Sources */,
 				95EF41532A56A6860012BF94 /* Styling.swift in Sources */,
