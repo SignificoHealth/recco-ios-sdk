@@ -1,7 +1,6 @@
 import XCTest
 import Combine
 @testable import ReccoHeadless
-@testable import ReccoUI
 
 final class MockMeRepository: MeRepo {
 
