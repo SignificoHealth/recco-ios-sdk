@@ -18,11 +18,12 @@ public func initialize(clientSecret: String) {
 }
 
 public func login(user: String) async throws {
-    let authRepo: AuthRepository = get()
-    let meRepo: MeRepo = get()
-    
-    try await authRepo.login(clientUserId: user)
-    try await meRepo.getMe()
+    try await login(user: user, authRepository: get(), meRepository: get())
+}
+
+func login(user: String, authRepository: AuthRepository, meRepository: MeRepo) async throws {
+    try await authRepository.login(clientUserId: user)
+    try await meRepository.getMe()
 }
 
 public func logout() async throws {
