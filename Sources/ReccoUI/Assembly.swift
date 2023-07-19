@@ -5,7 +5,7 @@ final class UIAssembly: ReccoAssembly {
     init() {}
     func assemble(container: ReccoContainer) {
         container.register(type: ReccoCoordinator.self) { r in
-            ReccoCoordinator(window: r.get())
+            DefaultReccoCoordinator(window: r.get())
         }
         
         container.register(type: DashboardViewModel.self) { r in

@@ -1,6 +1,5 @@
 import XCTest
 @testable import ReccoHeadless
-@testable import ReccoUI
 
 final class MockAuthRepository: AuthRepository {
 
@@ -9,8 +8,8 @@ final class MockAuthRepository: AuthRepository {
         case logout
     }
 
-    var expectedClientUserId = ""
     var expectations: [ExpectationType: XCTestExpectation] = [:]
+    var expectedClientUserId = ""
 
     func login(clientUserId: String) async throws {
         XCTAssertEqual(expectedClientUserId, clientUserId)

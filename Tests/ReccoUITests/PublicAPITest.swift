@@ -1,5 +1,4 @@
 import XCTest
-@testable import ReccoHeadless
 @testable import ReccoUI
 
 final class PublicAPITest: XCTestCase {
@@ -8,11 +7,10 @@ final class PublicAPITest: XCTestCase {
         MockAssembly.assemble()
     }
 
-    func testLogin() async throws {
+    func test_login_callsLoginAndGetMe() async throws {
         let mockAuthRepository = MockAssembly.mockAuthRepository
         let mockMeRepository = MockAssembly.mockMeRepository
         let user = "user"
-
         let loginExpectation = expectation(description: "Login was not called")
         mockAuthRepository.expectations[.login] = loginExpectation
         mockAuthRepository.expectedClientUserId = user
@@ -24,9 +22,8 @@ final class PublicAPITest: XCTestCase {
         await fulfillment(of: [loginExpectation, getMeExpectation])
     }
 
-    func testLogout() async throws {
+    func test_logout_callsLogout() async throws {
         let mockAuthRepository = MockAssembly.mockAuthRepository
-
         let logoutExpectation = expectation(description: "Login was not called")
         mockAuthRepository.expectations[.logout] = logoutExpectation
 

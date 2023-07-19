@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 import ReccoHeadless
 
-enum Destination {
+enum Destination: Equatable {
     case back
     case onboardingQuestionnaire
     case questionnaireOutro
@@ -18,9 +18,30 @@ enum Destination {
     case questionnaire(ReccoTopic, (Bool) -> Void)
     case bookmarks
     case dismiss
+
+    static func == (lhs: Destination, rhs: Destination) -> Bool {
+        switch (lhs, rhs) {
+        case (.back, .back),
+            (.onboardingQuestionnaire, .onboardingQuestionnaire),
+            (.questionnaireOutro, .questionnaireOutro),
+            (.bookmarks, .bookmarks),
+            (.dismiss, .dismiss):
+            return true
+        case (let .article(id1, headline1, imageUrl1, _, _), let .article(id2, headline2, imageUrl2, _, _)):
+            return id1 == id2 && headline1 == headline2 && imageUrl1 == imageUrl2
+        case (let .questionnaire(topic1, _), let .questionnaire(topic2, _)):
+            return topic1 == topic2
+        default:
+            return false
+        }
+    }
 }
 
-final class ReccoCoordinator {
+protocol ReccoCoordinator {
+    func navigate(to destination: Destination)
+}
+
+final class DefaultReccoCoordinator: ReccoCoordinator {
     private weak var window: UIWindow?
     
     init(window: UIWindow?) {
