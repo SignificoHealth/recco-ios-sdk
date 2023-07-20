@@ -1,0 +1,8 @@
+"sign_in_text" = "Please create any User ID you want to be able to identify you as a User in the SDK.";
+"login" = "Login";
+"error" = "An error ocurred";
+"hello_text_%@" = "Hello __%@__! We are __Significo__ and we want to share with you our exciting new product: __Recco!__";
+"logout" = "Logout";
+"user_id" = "User ID";
+"username" = "Username";
+"go_to_sdk" = "Go to Recco";
