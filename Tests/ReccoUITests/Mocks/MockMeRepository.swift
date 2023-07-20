@@ -8,8 +8,10 @@ final class MockMeRepository: MeRepo {
         case getMe
     }
 
-    var expectations: [ExpectationType: XCTestExpectation] = [:]
     var _currentUser: CurrentValueSubject<AppUser?, Never> = .init(.none)
+
+    var expectations: [ExpectationType: XCTestExpectation] = [:]
+
     var getMeError: NSError?
 
     public var currentUser: AnyPublisher<AppUser?, Never> {

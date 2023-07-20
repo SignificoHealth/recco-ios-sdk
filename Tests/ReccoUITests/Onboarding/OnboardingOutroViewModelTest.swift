@@ -6,9 +6,9 @@ final class OnboardingOutroViewModelTest: XCTestCase {
     func test_goToDashboardPressed_whenGetMeFails_throwsAnError() async throws {
         let mockMeRepository = MockMeRepository()
         let viewModel = OnboardingOutroViewModel(meRepo: mockMeRepository, nav: MockRecoCoordinator())
-        let getMeError = NSError(domain: "GetMeError", code: 0)
+        let getMeError = NSError(domain: "getMeError", code: 0)
         mockMeRepository.getMeError = getMeError
-        let getMeExpectation = expectation(description: "GetMe was not called")
+        let getMeExpectation = expectation(description: "getMe was not called")
         mockMeRepository.expectations[.getMe] = getMeExpectation
 
         viewModel.goToDashboardPressed()
@@ -17,10 +17,10 @@ final class OnboardingOutroViewModelTest: XCTestCase {
         XCTAssertEqual(getMeError, viewModel.meError as? NSError)
     }
 
-    func test_goToDashboardPressed_whenGetMeSuccess_doesNotThrowsAnError() async throws {
+    func test_goToDashboardPressed_whenGetMeSucceeds_doesNotThrowsAnError() async throws {
         let mockMeRepository = MockMeRepository()
         let viewModel = OnboardingOutroViewModel(meRepo: mockMeRepository, nav: MockRecoCoordinator())
-        let getMeExpectation = expectation(description: "GetMe was not called")
+        let getMeExpectation = expectation(description: "getMe was not called")
         mockMeRepository.expectations[.getMe] = getMeExpectation
 
         viewModel.goToDashboardPressed()
@@ -34,7 +34,7 @@ final class OnboardingOutroViewModelTest: XCTestCase {
         let viewModel = OnboardingOutroViewModel(meRepo: MockMeRepository(), nav: mockCoordinator)
         let expectedDestination = Destination.dismiss
         mockCoordinator.expectedDestination = expectedDestination
-        let navigateExpectation = expectation(description: "Navigate was not called with: \(expectedDestination)")
+        let navigateExpectation = expectation(description: "navigate was not called with: \(expectedDestination)")
         mockCoordinator.expectations[.navigate] = navigateExpectation
 
         viewModel.close()

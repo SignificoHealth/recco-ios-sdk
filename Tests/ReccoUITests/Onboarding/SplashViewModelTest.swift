@@ -15,10 +15,8 @@ final class SplashViewModelTest: XCTestCase {
         // TODO: Improve me
         // Workaround to test ".receive(on: DispatchQueue.main)". We  need a way to pass that Scheduler from outside
         let expectation = self.expectation(description: "Test")
-        DispatchQueue.main.async {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1, handler: nil)
+        DispatchQueue.main.async { expectation.fulfill() }
+        wait(for: [expectation], timeout: 1)
 
 
         XCTAssertEqual(user, viewModel.user)
