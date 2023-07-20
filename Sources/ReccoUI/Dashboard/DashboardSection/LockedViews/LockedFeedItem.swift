@@ -16,6 +16,7 @@ struct LockedFeedItem: View {
             
             VStack(spacing: .XXS) {
                 Image(resource: lockIcon)
+                    .renderingMode(.template)
                     .foregroundColor(.reccoPrimary)
                 
                 Text("recco_dashboard_unlock".localized)

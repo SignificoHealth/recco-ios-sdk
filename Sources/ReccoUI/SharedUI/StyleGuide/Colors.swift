@@ -4,75 +4,155 @@ import SwiftUI
 // MARK: Main
 
 extension UIColor {
-    static let reccoPrimary: UIColor = .init(resource: "sfPrimary")!
-    static let reccoAccent: UIColor = .init(resource: "sfAccent")!
-    static let reccoBackground: UIColor = .init(resource: "sfBackground")!
-    static let reccoIllustration: UIColor = .init(resource: "sfIllustration")!
-    static let reccoOnAccent: UIColor = .init(resource: "sfOnAccent")!
-    static let reccoOnBackground: UIColor = .init(resource: "sfOnBackground")!
-    static let reccoOnPrimary: UIColor = .init(resource: "sfOnPrimary")!
-    static let reccoIllustrationLine: UIColor = .init(resource: "sfIllustrationLine")!
+    static var reccoPrimary: UIColor { Theme.color.primary
+    }
+    
+    static var reccoAccent: UIColor { Theme.color.accent
+    }
+    
+    static var reccoBackground: UIColor { Theme.color.background
+    }
+    
+    static var reccoIllustration: UIColor { Theme.color.illustration
+    }
+    
+    static var reccoOnAccent: UIColor { Theme.color.onAccent
+    }
+    
+    static var reccoOnBackground: UIColor { Theme.color.onBackground
+    }
+    
+    static var reccoOnPrimary: UIColor { Theme.color.onPrimary
+    }
+    
+    static var reccoIllustrationLine: UIColor { Theme.color.illustrationLine
+    }
+    
     static let reccoLightGray: UIColor = .init(resource: "sfLightGray")!
+    static let reccoWhite: UIColor = .init(resource: "sfWhite")!
+    static let reccoStaticDark: UIColor = .init(resource: "sfStaticDark")!
+
 }
 
 extension Color {
-    static let reccoPrimary: Color = .init(.reccoPrimary)
-    static let reccoAccent: Color = .init(.reccoAccent)
-    static let reccoBackground: Color = .init(.reccoBackground)
-    static let reccoIllustration: Color = .init(.reccoIllustration)
-    static let reccoOnAccent: Color = .init(.reccoOnAccent)
-    static let reccoOnBackground: Color = .init(.reccoOnBackground)
-    static let reccoOnPrimary: Color = .init(.reccoOnPrimary)
-    static let reccoIllustrationLine: Color = .init(.reccoIllustrationLine)
-    static let reccoLightGray: Color = .init(.reccoLightGray)
+    static var reccoPrimary: Color { .init(.reccoPrimary) }
+    static var reccoAccent: Color { .init(.reccoAccent) }
+    static var reccoBackground: Color { .init(.reccoBackground) }
+    static var reccoIllustration: Color { .init(.reccoIllustration) }
+    static var reccoOnAccent: Color { .init(.reccoOnAccent) }
+    static var reccoOnBackground: Color { .init(.reccoOnBackground) }
+    static var reccoOnPrimary: Color { .init(.reccoOnPrimary) }
+    static var reccoIllustrationLine: Color { .init(.reccoIllustrationLine) }
+    static var reccoWhite: Color { .init(.reccoWhite) }
+    static var reccoStaticDark: Color { .init(.reccoStaticDark) }
+    static var reccoLightGray: Color { .init(.reccoLightGray) }
 }
 
 // MARK: Derivation
 
 extension UIColor {
-    static var reccoIllustration80: UIColor =
+    static var reccoIllustration80: UIColor {
         .reccoIllustration.withAlphaComponent(0.8)
-    static var reccoIllustration40: UIColor =
+    }
+    
+    static var reccoIllustration40: UIColor {
         .reccoIllustration.withAlphaComponent(0.4)
-    static var reccoPrimary10: UIColor =
+    }
+    
+    static var reccoPrimary10: UIColor {
         .reccoPrimary.withAlphaComponent(0.1)
-    static var reccoPrimary20: UIColor =
+    }
+    
+    static var reccoPrimary20: UIColor {
         .reccoPrimary.withAlphaComponent(0.2)
-    static var reccoPrimary40: UIColor =
+    }
+    
+    static var reccoPrimary40: UIColor {
         .reccoPrimary.withAlphaComponent(0.4)
-    static var reccoPrimary60: UIColor =
+    }
+    
+    static var reccoPrimary60: UIColor {
         .reccoPrimary.withAlphaComponent(0.6)
-    static let reccoPrimary80: UIColor =
+    }
+    
+    static var reccoPrimary80: UIColor {
         .reccoPrimary.withAlphaComponent(0.8)
-    static let reccoOnBackground60 = UIColor.reccoOnBackground.withAlphaComponent(0.6)
-    static let reccoOnBackground20 = UIColor.reccoOnBackground.withAlphaComponent(0.2)
-    static let reccoAccent10 = UIColor.reccoAccent.withAlphaComponent(0.1)
-    static let reccoAccent20 = UIColor.reccoAccent.withAlphaComponent(0.2)
-    static let reccoAccent40 = UIColor.reccoAccent.withAlphaComponent(0.4)
-    static let reccoAccent60 = UIColor.reccoAccent.withAlphaComponent(0.6)
+    }
+    
+    static var reccoOnBackground60: UIColor { UIColor.reccoOnBackground.withAlphaComponent(0.6)
+    }
+    
+    static var reccoOnBackground20: UIColor { UIColor.reccoOnBackground.withAlphaComponent(0.2)
+    }
+    
+    static var reccoAccent10: UIColor { UIColor.reccoAccent.withAlphaComponent(0.1)
+    }
+    
+    static var reccoAccent20: UIColor { UIColor.reccoAccent.withAlphaComponent(0.2)
+    }
+    
+    static var reccoAccent40: UIColor { UIColor.reccoAccent.withAlphaComponent(0.4)
+    }
+    
+    static var reccoAccent60: UIColor { UIColor.reccoAccent.withAlphaComponent(0.6)
+    }
+    
+    static var reccoStaticDark60: UIColor { UIColor.reccoStaticDark.withAlphaComponent(0.6)
+    }
 }
 
 extension Color {
-    static var reccoIllustration80: Color = Color(.reccoIllustration80)
-    static var reccoIllustration40: Color = Color(.reccoIllustration40)
-    static let reccoPrimary10: Color = Color(.reccoPrimary10)
-    static let reccoPrimary20: Color = Color(.reccoPrimary20)
-    static let reccoPrimary40: Color = Color(.reccoPrimary40)
-    static let reccoPrimary60: Color = Color(.reccoPrimary60)
-    static let reccoPrimary80: Color = Color(.reccoPrimary80)
-    static let reccoOnBackground60 = Color(.reccoOnBackground60)
-    static let reccoOnBackground20 = Color(.reccoOnBackground20)
-    static let reccoAccent10 = Color(.reccoAccent10)
-    static let reccoAccent20 = Color(.reccoAccent20)
-    static let reccoAccent40 = Color(.reccoAccent40)
-    static let reccoAccent60 = Color(.reccoAccent60)
+    static var reccoIllustration80: Color { Color(.reccoIllustration80)
+    }
+    
+    static var reccoIllustration40: Color { Color(.reccoIllustration40)
+    }
+    
+    static var reccoPrimary10: Color { Color(.reccoPrimary10)
+    }
+    
+    static var reccoPrimary20: Color { Color(.reccoPrimary20)
+    }
+    
+    static var reccoPrimary40: Color { Color(.reccoPrimary40)
+    }
+    
+    static var reccoPrimary60: Color { Color(.reccoPrimary60)
+    }
+    
+    static var reccoPrimary80: Color { Color(.reccoPrimary80)
+    }
+    
+    static var reccoOnBackground60: Color { Color(.reccoOnBackground60)
+    }
+    
+    static var reccoOnBackground20: Color { Color(.reccoOnBackground20)
+    }
+    
+    static var reccoAccent10: Color { Color(.reccoAccent10)
+    }
+    
+    static var reccoAccent20: Color { Color(.reccoAccent20)
+    }
+    
+    static var reccoAccent40: Color { Color(.reccoAccent40)
+    }
+    
+    static var reccoAccent60: Color { Color(.reccoAccent60)
+    }
+    
+    static var reccoStaticDark60: Color { Color(.reccoStaticDark60)
+    }
 }
 
 struct ColorsName_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             VStack {
-                ForEach([Color.reccoPrimary, .reccoPrimary10, .reccoPrimary20, .reccoPrimary40, .reccoPrimary60, .reccoPrimary80, .reccoAccent, .reccoAccent10, .reccoAccent20, .reccoAccent40, .reccoAccent60, .reccoLightGray, .reccoBackground, .reccoIllustration, .reccoOnAccent, .reccoOnPrimary, .reccoIllustrationLine, .reccoOnBackground, .reccoOnBackground20, .reccoOnBackground60], id: \.self) { color in
+                ForEach([Color.reccoPrimary, .reccoPrimary10, .reccoPrimary20, .reccoPrimary40, .reccoPrimary60, .reccoPrimary80, .reccoAccent, .reccoAccent10, .reccoAccent20, .reccoAccent40, .reccoAccent60, .reccoLightGray, .reccoBackground, .reccoIllustration, .reccoOnAccent, .reccoOnPrimary, .reccoIllustrationLine, .reccoOnBackground, .reccoOnBackground20, .reccoOnBackground60,
+                    .reccoStaticDark,
+                    .reccoStaticDark60
+                ], id: \.self) { color in
                         Rectangle()
                             .fill(color)
                             .frame(width: 20, height: 20)
@@ -81,6 +161,7 @@ struct ColorsName_Previews: PreviewProvider {
                 
             }
         }
+        .background(Color.red)
         .padding()
     }
 }
