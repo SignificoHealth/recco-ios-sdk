@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "1CF4D6FB-C33F-493F-A47E-1F82CF8E731C",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ReccoUITests",
+        "name" : "ReccoUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

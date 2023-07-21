@@ -16,7 +16,7 @@ final class OnboardingViewModelTest: XCTestCase {
         let viewModel = OnboardingViewModel(nav: mockCoordinator)
         let expectedDestination = Destination.onboardingQuestionnaire
         mockCoordinator.expectedDestination = expectedDestination
-        let navigateExpectation = expectation(description: "Navigate was not called with: \(expectedDestination)")
+        let navigateExpectation = expectation(description: "navigate was not called with: \(expectedDestination)")
         mockCoordinator.expectations[.navigate] = navigateExpectation
 
         XCTAssertEqual(viewModel.currentPage, 1)
@@ -35,7 +35,7 @@ final class OnboardingViewModelTest: XCTestCase {
         let viewModel = OnboardingViewModel(nav: mockCoordinator)
         let expectedDestination = Destination.dismiss
         mockCoordinator.expectedDestination = expectedDestination
-        let navigateExpectation = expectation(description: "Navigate was not called with: \(expectedDestination)")
+        let navigateExpectation = expectation(description: "navigate was not called with: \(expectedDestination)")
         mockCoordinator.expectations[.navigate] = navigateExpectation
 
         viewModel.close()
