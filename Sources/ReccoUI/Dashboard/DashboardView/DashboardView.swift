@@ -35,6 +35,7 @@ struct DashboardView: View {
                 }
                 .padding(.bottom, .M)
             }
+            .accentColor(.reccoPrimary)
             .reccoAlert(
                 showWhenPresent: $viewModel.lockedSectionAlert,
                 body: unlockAlert
@@ -119,7 +120,7 @@ struct DashboardHeader: View {
                 
                 Image(resource: "flower_fill")
                     .renderingMode(.template)
-                    .foregroundColor(Color.reccoIllustration80)
+                    .foregroundColor(Color.reccoIllustration)
                     .overlay(Image(resource: "flower_outline"))
             }
         }
@@ -128,8 +129,10 @@ struct DashboardHeader: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardHeader(dismiss: {}, onBookmarks: {})
-        
+        ZStack {
+            Color.reccoBackground
+            DashboardHeader(dismiss: {}, onBookmarks: {})
+        }
         withAssembly { r in
             DashboardView(viewModel: r.get())
         }

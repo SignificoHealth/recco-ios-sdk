@@ -12,10 +12,11 @@ struct LockedFeedItem: View {
         ZStack {
             Image(resource: imageName)
                 .resizable()
-                .blur(radius: 10)
+                .blur(radius: 5)
             
             VStack(spacing: .XXS) {
                 Image(resource: lockIcon)
+                    .renderingMode(.template)
                     .foregroundColor(.reccoPrimary)
                 
                 Text("recco_dashboard_unlock".localized)

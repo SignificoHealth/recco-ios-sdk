@@ -94,7 +94,7 @@ struct BouncyHeaderScrollview<
                             Image(resource: "chevron_back")
                                 .renderingMode(.template)
                         })
-                        .accentColor(.reccoOnPrimary)
+                        .accentColor(.reccoWhite)
                         .padding(.vertical, .XS)
                         .opacity(topActionsVisible ? 1 : 0)
                         Spacer()
@@ -106,7 +106,7 @@ struct BouncyHeaderScrollview<
                             Image(resource: "close_ic")
                                 .renderingMode(.template)
                         })
-                        .accentColor(.reccoOnPrimary)
+                        .accentColor(.reccoWhite)
                         .padding(.vertical, .XS)
                         .opacity(topActionsVisible ? 1 : 0)
                     }

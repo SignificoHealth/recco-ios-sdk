@@ -10,6 +10,7 @@ struct QuestionView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: .S) {
                 Text(item.text)
+                    .foregroundColor(.reccoOnBackground)
                     .cta()
                 
                 switch item.value {

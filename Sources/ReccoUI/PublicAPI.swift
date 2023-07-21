@@ -2,7 +2,10 @@ import Foundation
 import ReccoHeadless
 import SwiftUI
 
-public func initialize(clientSecret: String) {
+public func initialize(
+    clientSecret: String,
+    theme: ReccoTheme = .fresh
+) {
     assemble([
         HeadlessAssembly(clientSecret: clientSecret),
         UIAssembly()
@@ -14,7 +17,9 @@ public func initialize(clientSecret: String) {
         clientSecret: clientSecret,
         baseUrl: "http://api.sf-dev.significo.dev",
         keychain: keychain
-    )    
+    )
+    
+    Theme = theme
 }
 
 public func login(user: String) async throws {
