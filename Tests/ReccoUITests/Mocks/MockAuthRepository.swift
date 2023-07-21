@@ -12,8 +12,8 @@ final class MockAuthRepository: AuthRepository {
     var expectedClientUserId = ""
 
     func login(clientUserId: String) async throws {
-        XCTAssertEqual(expectedClientUserId, clientUserId)
         expectations[.login]?.fulfill()
+        XCTAssertEqual(expectedClientUserId, clientUserId)
     }
 
     func logout() async throws {

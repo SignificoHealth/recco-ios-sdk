@@ -29,6 +29,7 @@
 		95EF414E2A5595780012BF94 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		95EF41502A55BF1F0012BF94 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		95EF41522A56A6860012BF94 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
+		A211E18F2A67C803004E5BB0 /* ReccoUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReccoUITests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +47,7 @@
 		6E6EB0272A4C89F900ABD918 = {
 			isa = PBXGroup;
 			children = (
+				A211E18F2A67C803004E5BB0 /* ReccoUITests.xctestplan */,
 				6E6EB0452A4C8D7500ABD918 /* recco-ios */,
 				6E6EB0322A4C89F900ABD918 /* ReccoShowcase */,
 				6E6EB0312A4C89F900ABD918 /* Products */,
