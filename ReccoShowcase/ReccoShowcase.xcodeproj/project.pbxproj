@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E220A4D2A695A96006A7825 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E220A4F2A695A96006A7825 /* Localizable.strings */; };
 		6E6EB0342A4C89F900ABD918 /* ReccoShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6EB0332A4C89F900ABD918 /* ReccoShowcaseApp.swift */; };
 		6E6EB0382A4C89FA00ABD918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */; };
 		6E6EB03B2A4C89FA00ABD918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EB03A2A4C89FA00ABD918 /* Preview Assets.xcassets */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E220A4E2A695A96006A7825 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6E220A502A695A9C006A7825 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E3FB3742A56C99D00CFFEA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6E6EB0302A4C89F900ABD918 /* ReccoShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReccoShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E6EB0332A4C89F900ABD918 /* ReccoShowcaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReccoShowcaseApp.swift; sourceTree = "<group>"; };
@@ -70,6 +73,7 @@
 				95EF41522A56A6860012BF94 /* Styling.swift */,
 				6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */,
 				6E6EB0392A4C89FA00ABD918 /* Preview Content */,
+				6E220A4F2A695A96006A7825 /* Localizable.strings */,
 			);
 			path = ReccoShowcase;
 			sourceTree = "<group>";
@@ -134,6 +138,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 6E6EB0272A4C89F900ABD918;
 			productRefGroup = 6E6EB0312A4C89F900ABD918 /* Products */;
@@ -151,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E6EB03B2A4C89FA00ABD918 /* Preview Assets.xcassets in Resources */,
+				6E220A4D2A695A96006A7825 /* Localizable.strings in Resources */,
 				6E6EB0382A4C89FA00ABD918 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +176,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6E220A4F2A695A96006A7825 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E220A4E2A695A96006A7825 /* en */,
+				6E220A502A695A9C006A7825 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6E6EB03C2A4C89FA00ABD918 /* Debug */ = {

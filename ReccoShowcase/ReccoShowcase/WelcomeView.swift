@@ -22,7 +22,7 @@ struct WelcomeView: View {
             }
             .buttonStyle(CallToActionPrimaryStyle())
             
-            Button("Logout") {
+            Button("logout") {
                 logoutLoading = true
                 Task {
                     do {
@@ -53,7 +53,7 @@ struct WelcomeView: View {
                         Image("welcome_image3")
                     }
                     
-                    Text("Hello __\(username)__! We are the __Significo__ and we want to share with you our exciting new product: __Recco!__")
+                    Text("hello_text_\(username)")
                         .bodyBig()
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)

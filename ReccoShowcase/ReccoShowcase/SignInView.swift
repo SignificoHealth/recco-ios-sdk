@@ -17,10 +17,10 @@ struct SignInView: View {
     
     var inputView: some View {
         VStack(alignment: .leading) {
-            Text("User ID")
+            Text("user_id")
                 .inputTitle()
             
-            TextField("Username", text: $input)
+            TextField("username", text: $input)
                 .font(.system(size: 15, weight: .light))
                 .foregroundColor(.warmBrown)
                 .keyboardType(.alphabet)
@@ -36,8 +36,8 @@ struct SignInView: View {
             CompanyView()
                 .padding(.top, 75)
 
-            Text("Please create any User ID you want to be able to identify you as a User in the SDK.")
-                .bodySmall()
+            Text("sign_in_text")
+                .bodySmall() 
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
             
@@ -48,7 +48,7 @@ struct SignInView: View {
             if loginLoading {
                 ProgressView()
             } else {
-                Button("Login") {
+                Button("login") {
                     hideKeyboard()
                     loginLoading = true
                     Task {
@@ -68,7 +68,7 @@ struct SignInView: View {
         .padding(24)
         .background(Color.lightGray)
         .alert(isPresented: $loginError) {
-            Alert(title: Text("An error ocurred"))
+            Alert(title: Text("error"))
         }
     }
 }

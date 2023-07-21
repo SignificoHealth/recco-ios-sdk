@@ -37,9 +37,9 @@ extension FeedSectionType {
     var description: String? {
         switch self {
         case .physicalActivityRecommendations:
-            return "recco_dashboard_alert_nutrition_body".localized
-        case .nutritionRecommendations:
             return "recco_dashboard_alert_physical_activity_body".localized
+        case .nutritionRecommendations:
+            return "recco_dashboard_alert_nutrition_body".localized
         case .mentalWellbeingRecommendations:
             return "recco_dashboard_alert_mental_wellbeing_body".localized
         case .sleepRecommendations:

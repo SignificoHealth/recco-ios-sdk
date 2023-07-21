@@ -9,7 +9,7 @@ public enum Api {
         OpenAPIClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()
         OpenAPIClientAPI.basePath = baseUrl
         BearerTokenHandler.clientSecret = "Bearer \(clientSecret)"
-        OpenAPIClientAPI.customHeaders["Accept-Language"] = "en-US"
+        OpenAPIClientAPI.customHeaders["Accept-Language"] =  Locale.current.identifier.contains("de") ? "de-DE": "en-US"
         OpenAPIClientAPI.customHeaders["Client-Platform"] = "iOS"
         BearerTokenHandler.keychain = keychain
         
