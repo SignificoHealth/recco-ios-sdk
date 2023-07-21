@@ -11,7 +11,22 @@ import UIKit
 var Theme = ReccoTheme.fresh
 
 public struct ReccoTheme {
+    public init(color: ReccoTheme.Color) {
+        self.color = color
+    }
+    
     public struct Color {
+        public init(primary: UIColor, onPrimary: UIColor, background: UIColor, onBackground: UIColor, accent: UIColor, onAccent: UIColor, illustration: UIColor, illustrationLine: UIColor) {
+            self.primary = primary
+            self.onPrimary = onPrimary
+            self.background = background
+            self.onBackground = onBackground
+            self.accent = accent
+            self.onAccent = onAccent
+            self.illustration = illustration
+            self.illustrationLine = illustrationLine
+        }
+        
         public var primary: UIColor
         public var onPrimary: UIColor
         public var background: UIColor
@@ -26,6 +41,54 @@ public struct ReccoTheme {
 }
 
 extension ReccoTheme {
+    public static var summer: ReccoTheme {
+        ReccoTheme(
+            color: .init(
+                primary: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#125e85FF")! :
+                        .init(hex: "#ceeeffFF")!
+                        
+                }),
+                onPrimary: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#FFFFFFFF")! :
+                        .init(hex: "#263743FF")!
+                }),
+                background: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#ecf8feFF")! :
+                        .init(hex: "#263743FF")!
+                }),
+                onBackground: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#0c5175FF")! :
+                        .init(hex: "#e4f6ffFF")!
+                }),
+                accent: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#35b9ffFF")! :
+                        .init(hex: "#35b9ffFF")!
+                }),
+                onAccent: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#17445bFF")! :
+                        .init(hex: "#e4f6ffFF")!
+                }),
+                illustration: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#f5a08cFF")! :
+                        .init(hex: "#35b9ffFF")!
+                }),
+                illustrationLine: .init(dynamicProvider: { traits in
+                    traits.userInterfaceStyle == .light ?
+                        .init(hex: "#105a81FF")! :
+                        .init(hex: "#1e8cc7FF")!
+                })
+            )
+        )
+    }
+    
     public static var fresh: ReccoTheme {
         ReccoTheme(
             color: .init(
@@ -72,33 +135,5 @@ extension ReccoTheme {
                 })
             )
         )
-    }
-}
-
-extension UIColor {
-    public convenience init?(hex: String) {
-        let r, g, b, a: CGFloat
-
-        if hex.hasPrefix("#") {
-            let start = hex.uppercased().index(hex.startIndex, offsetBy: 1)
-            let hexColor = String(hex[start...])
-
-            if hexColor.count == 8 {
-                let scanner = Scanner(string: hexColor)
-                var hexNumber: UInt64 = 0
-
-                if scanner.scanHexInt64(&hexNumber) {
-                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-                    a = CGFloat(hexNumber & 0x000000ff) / 255
-
-                    self.init(red: r, green: g, blue: b, alpha: a)
-                    return
-                }
-            }
-        }
-
-        return nil
     }
 }

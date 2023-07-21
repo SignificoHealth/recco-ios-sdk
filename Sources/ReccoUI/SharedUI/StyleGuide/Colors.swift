@@ -4,10 +4,12 @@ import SwiftUI
 // MARK: Main
 
 extension UIColor {
-    static var reccoPrimary: UIColor { Theme.color.primary
+    static var reccoPrimary: UIColor {
+        Theme.color.primary
     }
     
-    static var reccoAccent: UIColor { Theme.color.accent
+    static var reccoAccent: UIColor {
+        Theme.color.accent
     }
     
     static var reccoBackground: UIColor { Theme.color.background

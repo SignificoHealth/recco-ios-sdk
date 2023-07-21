@@ -28,6 +28,7 @@ struct SignInView: View {
                 .cornerRadius(8)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 5)
+                .preferredColorScheme(.light)
         }
     }
     

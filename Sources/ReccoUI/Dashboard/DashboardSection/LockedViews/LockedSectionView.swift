@@ -91,6 +91,10 @@ struct LockedSectionView_Previews: PreviewProvider {
         }
     }
     static var previews: some View {
-        Wrapped(isLocked: true)
+        ZStack {
+            Color.reccoBackground
+            
+            Wrapped(isLocked: true)
+        }
     }
 }

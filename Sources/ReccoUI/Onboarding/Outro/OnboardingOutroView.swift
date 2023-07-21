@@ -42,6 +42,7 @@ struct OnboardingOutroView: View {
         .overlay(
             Button(action: { viewModel.close() }, label: {
                 Image(resource: "close_ic")
+                    .renderingMode(.template)
                     .foregroundColor(.reccoPrimary)
                     .padding(.vertical, .M)
                     .padding(.horizontal, .S)

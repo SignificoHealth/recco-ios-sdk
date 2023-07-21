@@ -64,6 +64,7 @@ struct WelcomeView: View {
             
             if logoutLoading {
                 ProgressView()
+                    .preferredColorScheme(.light)
             } else {
                 buttonsView
             }
