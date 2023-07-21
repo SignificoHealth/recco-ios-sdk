@@ -14,6 +14,7 @@ struct WelcomeView: View {
     @State var displayRecco: Bool = false
     @State var logoutLoading: Bool = false
     @State var logoutError: Bool = false
+    @State var showPaletteSelector = false
         
     var buttonsView: some View {
         VStack(spacing: 16) {
@@ -42,8 +43,22 @@ struct WelcomeView: View {
         VStack(spacing: 42) {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .center, spacing: 24) {
-                    CompanyView()
+                    HStack(alignment: .top) {
+                        Button(action: {
+                            withAnimation(.linear(duration: 0.3)) {
+                                showPaletteSelector.toggle()
+                            }
+                        }, label: {
+                            Image("palette_ic")
+                        })
 
+                        Spacer()
+                        
+                        CompanyView()
+                        
+                        Spacer()
+                        Spacer()
+                    }
                     HStack(spacing: 0) {
                         VStack {
                             Image("welcome_image1")
@@ -71,6 +86,22 @@ struct WelcomeView: View {
         }
         .padding(24)
         .background(Color.lightGray)
+        .overlay(
+            ZStack {
+                if showPaletteSelector {
+                    ChangeReccoThemeView(onTap: { theme in
+                        ReccoUI.initialize(clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo", theme: theme)
+                        withAnimation(.linear(duration: 0.3)) {
+                            showPaletteSelector.toggle()
+                        }
+                    })
+                    .padding(.leading, 66)
+                    .padding(.top, 23)
+                }
+            }
+            .transition(.opacity),
+            alignment: .topLeading
+        )
         .sheet(isPresented: $displayRecco) {
             SFRootView()
         }

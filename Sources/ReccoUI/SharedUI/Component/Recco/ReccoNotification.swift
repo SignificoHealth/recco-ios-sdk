@@ -223,7 +223,8 @@ final class SFNotificationView: UIView {
         subtitleLb.text = subtitle
         subtitleLb.textColor = style.foreGroundColor
         subtitleLb.isHidden = subtitle == nil
-        image.image = UIImage(resource: style.imageName)
+        image.image = UIImage(resource: style.imageName)?.withRenderingMode(.alwaysTemplate)
+        image.tintColor = .reccoPrimary
         
         if isShowing {
             hideWorkItem?.cancel()

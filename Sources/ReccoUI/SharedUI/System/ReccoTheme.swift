@@ -10,12 +10,13 @@ import UIKit
 
 var Theme = ReccoTheme.fresh
 
-public struct ReccoTheme {
-    public init(color: ReccoTheme.Color) {
+public struct ReccoTheme: Equatable, Hashable {
+    public init(name: String, color: ReccoTheme.Color) {
         self.color = color
+        self.name = name
     }
     
-    public struct Color {
+    public struct Color: Equatable, Hashable {
         public init(primary: UIColor, onPrimary: UIColor, background: UIColor, onBackground: UIColor, accent: UIColor, onAccent: UIColor, illustration: UIColor, illustrationLine: UIColor) {
             self.primary = primary
             self.onPrimary = onPrimary
@@ -37,12 +38,14 @@ public struct ReccoTheme {
         public var illustrationLine: UIColor
     }
     
+    public let name: String
     public var color: ReccoTheme.Color
 }
 
 extension ReccoTheme {
     public static var summer: ReccoTheme {
         ReccoTheme(
+            name: "Summer",
             color: .init(
                 primary: .init(dynamicProvider: { traits in
                     traits.userInterfaceStyle == .light ?
@@ -91,6 +94,7 @@ extension ReccoTheme {
     
     public static var fresh: ReccoTheme {
         ReccoTheme(
+            name: "Fresh",
             color: .init(
                 primary: .init(dynamicProvider: { traits in
                     traits.userInterfaceStyle == .light ?
