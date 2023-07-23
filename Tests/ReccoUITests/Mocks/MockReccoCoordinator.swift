@@ -9,9 +9,13 @@ final class MockRecoCoordinator: ReccoCoordinator {
 
     var expectations: [ExpectationType: XCTestExpectation] = [:]
     var expectedDestination: Destination?
+    var lastDestination: Destination?
 
     func navigate(to destination: Destination) {
         expectations[.navigate]?.fulfill()
-        XCTAssertEqual(expectedDestination, destination)
+        if let expectedDestination = expectedDestination {
+            XCTAssertEqual(expectedDestination, destination)
+        }
+        lastDestination = destination
     }
 }
