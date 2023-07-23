@@ -4,8 +4,8 @@ import XCTest
 
 final class BookmarksViewModelTest: XCTestCase {
 
-    let appUserRecommendation = Mocks.appUserRecommendation
-    lazy var articleDestination: Destination = {
+    private let appUserRecommendation = Mocks.appUserRecommendation
+    private lazy var articleDestination: Destination = {
         .article(
             id: appUserRecommendation.id,
             headline: appUserRecommendation.headline,

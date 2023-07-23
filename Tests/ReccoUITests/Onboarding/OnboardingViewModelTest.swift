@@ -3,6 +3,8 @@ import XCTest
 
 final class OnboardingViewModelTest: XCTestCase {
 
+    // MARK: - next
+
     func test_next_whenCalledOneTime_incrementsCurrentPage() {
         let viewModel = OnboardingViewModel(nav: MockRecoCoordinator())
 
@@ -29,6 +31,8 @@ final class OnboardingViewModelTest: XCTestCase {
 
         wait(for: [navigateExpectation], timeout: 1)
     }
+
+    // MARK: - close
 
     func test_close_navigatesToDismiss() {
         let mockCoordinator = MockRecoCoordinator()
