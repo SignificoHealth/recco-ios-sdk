@@ -36,4 +36,18 @@ final class Mocks {
         )
     }
 
+    static let feedSectionWithTopic = FeedSection(
+        type: .mostPopular,
+        state: .unlock,
+        topic: .nutrition
+    )
+
+    static let feedSections: [FeedSection] = [
+        FeedSection(type: .mentalWellbeingExplore, state: .unlock),
+        FeedSection(type: .mentalWellbeingRecommendations, state: .unlock),
+        FeedSection(type: .mostPopular, state: .unlock),
+        FeedSection(type: .newContent, state: .unlock),
+        FeedSection(type: .nutritionExplore, state: .unlock),
+    ]
+
 }

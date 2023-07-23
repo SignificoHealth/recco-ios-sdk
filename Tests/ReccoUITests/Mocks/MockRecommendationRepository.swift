@@ -9,29 +9,29 @@ final class MockRecommendationRepository: RecommendationRepository {
     }
 
     var expectations: [ExpectationType: XCTestExpectation] = [:]
-    var expectedContentId: ContentId?
+    var expectedGetFeedSection: [AppUserRecommendation] = Mocks.appUserRecommendations
 
     var getFeedSectionError: NSError?
     var getBookmarksError: NSError?
 
-    func getFeedSection(_ section: ReccoHeadless.FeedSection) async throws -> [ReccoHeadless.AppUserRecommendation] {
+    func getFeedSection(_ section: ReccoHeadless.FeedSection) async throws -> [AppUserRecommendation] {
         expectations[.getFeedSection]?.fulfill()
 
         if let getFeedSectionError = getFeedSectionError {
             throw getFeedSectionError
         }
 
-        return Mocks.appUserRecommendations
+        return expectedGetFeedSection
     }
 
-    func getBookmarks() async throws -> [ReccoHeadless.AppUserRecommendation] {
+    func getBookmarks() async throws -> [AppUserRecommendation] {
         expectations[.getBookmarks]?.fulfill()
 
         if let getBookmarksError = getBookmarksError {
             throw getBookmarksError
         }
 
-        return Mocks.appUserRecommendations
+        return expectedGetFeedSection
     }
 
 }

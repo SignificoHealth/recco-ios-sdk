@@ -89,11 +89,7 @@ final class DashboardViewModel: ObservableObject {
     
     func load(sections: [FeedSection]) async  {
         return await withTaskGroup(of: Void.self) { @MainActor [unowned self] group in
-            for section in sections where !section.locked {
-                guard let idx = sections.firstIndex(where: { $0 == section }) else {
-                    return
-                }
-                
+            for (idx, section) in sections.enumerated() where !section.locked {
                 self.sections[idx].isLoading = true
                 
                 group.addTask { @MainActor [unowned self] in
