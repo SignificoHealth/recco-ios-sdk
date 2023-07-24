@@ -40,68 +40,83 @@ struct WelcomeView: View {
     }
     
     var body: some View {
-        VStack(spacing: 42) {
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .center, spacing: 24) {
-                    HStack(alignment: .top) {
-                        Button(action: {
-                            withAnimation(.linear(duration: 0.3)) {
+        ZStack {
+            VStack(spacing: 42) {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .center, spacing: 24) {
+                        HStack(alignment: .top) {
+                            Button(action: {
                                 showPaletteSelector.toggle()
-                            }
-                        }, label: {
+                            }, label: {
+                                Image("palette_ic")
+                                    .rotationEffect(.radians(showPaletteSelector ? .pi * 0.5 : 0))
+                            })
+                            .frame(
+                                width: 60,
+                                height: 60,
+                                alignment: .leading
+                            )
+                            .contentShape(Rectangle())
+                            
+                            Spacer()
+                            
+                            CompanyView()
+                            
+                            Spacer()
+                            
                             Image("palette_ic")
-                        })
-
-                        Spacer()
-                        
-                        CompanyView()
-                        
-                        Spacer()
-                        Spacer()
-                    }
-                    HStack(spacing: 0) {
-                        VStack {
-                            Image("welcome_image1")
-                                .padding(.leading, 40)
-                            Image("welcome_image2")
+                                .hidden()
+                                .frame(
+                                    width: 60,
+                                    height: 60,
+                                    alignment: .leading
+                                )
                         }
-                        Image("welcome_image3")
+                        
+                        HStack(spacing: 0) {
+                            VStack {
+                                Image("welcome_image1")
+                                    .padding(.leading, 40)
+                                Image("welcome_image2")
+                            }
+                            Image("welcome_image3")
+                        }
+                        
+                        Text("hello_text_\(username)")
+                            .bodyBig()
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        Spacer()
                     }
-                    
-                    Text("hello_text_\(username)")
-                        .bodyBig()
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    Spacer()
+                }
+                
+                if logoutLoading {
+                    ProgressView()
+                        .preferredColorScheme(.light)
+                } else {
+                    buttonsView
                 }
             }
             
-            if logoutLoading {
-                ProgressView()
-                    .preferredColorScheme(.light)
-            } else {
-                buttonsView
+            if showPaletteSelector {
+                ChangeReccoThemeView(onTap: { theme in
+                    ReccoUI.initialize(clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo", theme: theme)
+                    
+                    showPaletteSelector.toggle()
+                })
+                .padding(.trailing, 66)
+                .zIndex(10)
+                .transition(.move(edge: .top))
             }
         }
         .padding(24)
-        .background(Color.lightGray)
-        .overlay(
-            ZStack {
-                if showPaletteSelector {
-                    ChangeReccoThemeView(onTap: { theme in
-                        ReccoUI.initialize(clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo", theme: theme)
-                        withAnimation(.linear(duration: 0.3)) {
-                            showPaletteSelector.toggle()
-                        }
-                    })
-                    .padding(.leading, 66)
-                    .padding(.top, 23)
-                }
-            }
-            .transition(.opacity),
-            alignment: .topLeading
+        .background(
+            Color.black.opacity(showPaletteSelector ? 0.2 : 0)
+                .ignoresSafeArea()
         )
+        .background(Color.lightGray)
+        .animation(.easeInOut(duration: 0.3), value: showPaletteSelector)
         .sheet(isPresented: $displayRecco) {
             SFRootView()
         }
