@@ -3,6 +3,8 @@ import XCTest
 
 final class OnboardingOutroViewModelTest: XCTestCase {
 
+    // MARK: - goToDashboardPressed
+
     func test_goToDashboardPressed_whenGetMeFails_throwsAnError() async throws {
         let mockMeRepository = MockMeRepository()
         let viewModel = OnboardingOutroViewModel(meRepo: mockMeRepository, nav: MockRecoCoordinator())
@@ -28,6 +30,8 @@ final class OnboardingOutroViewModelTest: XCTestCase {
         await fulfillment(of: [getMeExpectation], timeout: 1)
         XCTAssertNil(viewModel.meError)
     }
+
+    // MARK: - close
 
     func test_close_navigatesToDismiss() {
         let mockCoordinator = MockRecoCoordinator()

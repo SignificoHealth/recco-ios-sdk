@@ -7,6 +7,8 @@ final class PublicAPITest: XCTestCase {
         MockAssembly.assemble()
     }
 
+    // MARK: - login
+
     func test_login_callsLoginAndGetMe() async throws {
         let mockAuthRepository = MockAssembly.mockAuthRepository
         let mockMeRepository = MockAssembly.mockMeRepository
@@ -21,6 +23,8 @@ final class PublicAPITest: XCTestCase {
 
         await fulfillment(of: [loginExpectation, getMeExpectation])
     }
+
+    // MARK: - logout
 
     func test_logout_callsLogout() async throws {
         let mockAuthRepository = MockAssembly.mockAuthRepository

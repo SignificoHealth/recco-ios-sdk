@@ -4,6 +4,8 @@ import XCTest
 
 final class SplashViewModelTest: XCTestCase {
 
+    // MARK: - init
+
     func test_init_whenCurrentUserChanges_itUpdatesUser() {
         let mockMeRepository = MockMeRepository()
         let viewModel = SplashViewModel(repo: mockMeRepository)

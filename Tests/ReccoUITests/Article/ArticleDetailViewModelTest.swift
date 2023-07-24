@@ -27,6 +27,8 @@ final class ArticleDetailViewModelTest: XCTestCase {
         )
     }
 
+    // MARK: - initialLoad
+
     func test_initialLoad_whenGetArticleFails_throwsAnError() async {
         let mockArticleRepository = MockArticleRepository()
         let getArticleError = NSError(domain: "getArticleError", code: 0)
@@ -72,6 +74,8 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertEqual(viewModel.article, expectedArticle)
         XCTAssertNil(viewModel.initialLoadError)
     }
+
+    // MARK: - toggleBookmark
 
     func test_toggleBookmark_whenArticleIsNil_doesNotCallSetBookmark() async {
         let mockContentRepository = MockContentRepository()
@@ -136,6 +140,8 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.actionError)
     }
 
+    // MARK: - rate
+
     func test_rate_whenArticleIsNil_doesNotCallSetRating() async {
         let mockContentRepository = MockContentRepository()
         let setRatingExpectation = expectation(description: "setRating was called")
@@ -189,6 +195,8 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.actionError)
     }
 
+    // MARK: - dismiss
+
     func test_dismiss_navigatesToDismiss() {
         let mockCoordinator = MockRecoCoordinator()
         let expectedDestination = Destination.dismiss
@@ -201,6 +209,8 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         wait(for: [navigateExpectation], timeout: 1)
     }
+
+    // MARK: - back
 
     func test_back_navigatesToBack() {
         let mockCoordinator = MockRecoCoordinator()
