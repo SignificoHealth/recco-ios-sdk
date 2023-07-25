@@ -50,4 +50,42 @@ final class Mocks {
         FeedSection(type: .nutritionExplore, state: .unlock),
     ]
 
+    static let createQuestionnaireAnswers: [CreateQuestionnaireAnswer] = (0...4).map { index in
+        CreateQuestionnaireAnswer(
+            value: .numeric(0),
+            questionId: "question-\(index)",
+            type: .numeric,
+            questionnaireId: "questionnaire-\(index)"
+        )
+    }
+
+    static let numericQuestion: Question = try! Question(
+        id: "question-0",
+        questionnaireId: "questionnaire-0",
+        index: 0,
+        text: "Question 0",
+        type: .numeric,
+        numeric: NumericQuestion(
+            maxValue: 4,
+            minValue: 0,
+            format: .decimal
+        ),
+        numericAnswer: 2
+    )
+
+    static let numericQuestions: [Question] = (0...4).map { index in
+        try! Question(
+            id: "question-\(index)",
+            questionnaireId: "questionnaire-\(index)",
+            index: index,
+            text: "Question \(index)",
+            type: .numeric,
+            numeric: NumericQuestion(
+                maxValue: 4,
+                minValue: 0,
+                format: .decimal
+            ),
+            numericAnswer: 2
+        )
+    }
 }
