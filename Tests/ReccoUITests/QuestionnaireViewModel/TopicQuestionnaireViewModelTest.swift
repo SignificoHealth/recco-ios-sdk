@@ -7,14 +7,14 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
     private func getViewModel(
         topic: ReccoTopic,
         reloadSection: ((Bool) -> Void)? = nil,
-        nav: ReccoCoordinator? = nil,
-        repo: QuestionnaireRepository? = nil
+        repo: QuestionnaireRepository? = nil,
+        nav: ReccoCoordinator? = nil
     ) -> TopicQuestionnaireViewModel {
         return TopicQuestionnaireViewModel(
             topic: topic,
             reloadSection: reloadSection ?? { _ in },
-            nav: nav ?? MockRecoCoordinator(),
-            repo: repo ?? MockQuestionnaireRepository()
+            repo: repo ?? MockQuestionnaireRepository(),
+            nav: nav ?? MockRecoCoordinator()
         )
     }
 
@@ -65,8 +65,8 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
         let viewModel = getViewModel(
             topic: topic,
             reloadSection: reloadSection,
-            nav: mockCoordinator,
-            repo: mockQuestionnaireRepository
+            repo: mockQuestionnaireRepository,
+            nav: mockCoordinator
         )
         let questions = Mocks.numericQuestions
         viewModel.questions = questions
