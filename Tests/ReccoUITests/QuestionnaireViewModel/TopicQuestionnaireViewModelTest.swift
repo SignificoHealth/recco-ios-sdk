@@ -47,4 +47,35 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
 
         await fulfillment(of: [sendQuestionnaireExpectation], timeout: 1)
     }
+
+    func test_init_whenSendQuestionsSucceeds_callsReloadSectionAndNavigatesToBack() async {
+        let mockQuestionnaireRepository = MockQuestionnaireRepository()
+        let topic = ReccoTopic.nutrition
+        let sendQuestionnaireExpectation = expectation(description: "sendQuestionnaire was not called with")
+        mockQuestionnaireRepository.expectations[.sendQuestionnaire] = sendQuestionnaireExpectation
+        let mockCoordinator = MockRecoCoordinator()
+        let expectedDestination = Destination.back
+        mockCoordinator.expectedDestination = expectedDestination
+        let navigateExpectation = expectation(description: "Navigate was not called with: \(expectedDestination)")
+        mockCoordinator.expectations[.navigate] = navigateExpectation
+        let reloadSectionExpectation = expectation(description: "reloadSection was not called with")
+        let reloadSection: (Bool) -> Void = { didAnswerAllQuestions in
+            reloadSectionExpectation.fulfill()
+        }
+        let viewModel = getViewModel(
+            topic: topic,
+            reloadSection: reloadSection,
+            nav: mockCoordinator,
+            repo: mockQuestionnaireRepository
+        )
+        let questions = Mocks.numericQuestions
+        viewModel.questions = questions
+        // Place it in the last question
+        viewModel.currentQuestion = questions.last
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        await viewModel.next()
+
+        await fulfillment(of: [sendQuestionnaireExpectation, reloadSectionExpectation, navigateExpectation], timeout: 1)
+    }
 }
