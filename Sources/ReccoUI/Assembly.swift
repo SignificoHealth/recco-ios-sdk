@@ -46,8 +46,8 @@ final class UIAssembly: ReccoAssembly {
             TopicQuestionnaireViewModel(
                 topic: tuple.0,
                 reloadSection: tuple.1,
-                nav: r.get(),
-                repo: r.get()
+                repo: r.get(),
+                nav: r.get()
             )
         }
         

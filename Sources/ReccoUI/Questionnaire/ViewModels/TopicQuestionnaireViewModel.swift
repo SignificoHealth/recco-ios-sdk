@@ -5,8 +5,8 @@ final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
     init(
         topic: ReccoTopic,
         reloadSection: @escaping (Bool) -> Void,
-        nav: ReccoCoordinator,
-        repo: QuestionnaireRepository
+        repo: QuestionnaireRepository,
+        nav: ReccoCoordinator
     ) {
         super.init(
             repo: repo,
