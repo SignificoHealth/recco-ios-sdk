@@ -222,7 +222,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
     // MARK: - validate - numeric
 
-    func test_validate_numericQuestionWithNotNumericAnswerAndMandatory_returnsFalse() throws {
+    func test_validate_numericQuestionWithNotNumericAnswerAndMandatory_returnsFalse() {
         let question = Mocks.numericQuestion
         let answer = EitherAnswerType.multiChoice([])
         let viewModel = getViewModel()
@@ -232,7 +232,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_numericQuestionWithNotNumericAnswerAndNotMandatory_returnsTrue() throws {
+    func test_validate_numericQuestionWithNotNumericAnswerAndNotMandatory_returnsTrue() {
         let question = Mocks.numericQuestion
         let answer = EitherAnswerType.multiChoice([])
         let viewModel = getViewModel()
@@ -242,7 +242,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_numericQuestionWithCorrectNumericAnswer_returnsTrue() throws {
+    func test_validate_numericQuestionWithCorrectNumericAnswer_returnsTrue() {
         let question = Mocks.numericQuestion
         let answer = Mocks.numericCorrectAnswer
         let viewModel = getViewModel()
@@ -252,7 +252,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_numericQuestionWithIncorrectNumericAnswer_returnsFalse() throws {
+    func test_validate_numericQuestionWithIncorrectNumericAnswer_returnsFalse() {
         let question = Mocks.numericQuestion
         let answer = Mocks.numericIncorrectAnswer
         let viewModel = getViewModel()
@@ -262,7 +262,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_numericQuestionWithInvalidNumericAnswer_returnsFalse() throws {
+    func test_validate_numericQuestionWithInvalidNumericAnswer_returnsFalse() {
         let question = Mocks.numericQuestion
         let answer = Mocks.numericInvalidAnswer
         let viewModel = getViewModel()
@@ -274,7 +274,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
     // MARK: - validate - multiChoice
 
-    func test_validate_multiChoiceQuestionWithNotNumericAnswerAndMandatory_returnsFalse() throws {
+    func test_validate_multiChoiceQuestionWithNotNumericAnswerAndMandatory_returnsFalse() {
         let question = Mocks.multiChoiceQuestion
         let answer = EitherAnswerType.numeric(1)
         let viewModel = getViewModel()
@@ -284,7 +284,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithNotNumericAnswerAndNotMandatory_returnsTrue() throws {
+    func test_validate_multiChoiceQuestionWithNotNumericAnswerAndNotMandatory_returnsTrue() {
         let question = Mocks.multiChoiceQuestion
         let answer = EitherAnswerType.numeric(1)
         let viewModel = getViewModel()
@@ -294,7 +294,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithCorrectNumericAnswer_returnsTrue() throws {
+    func test_validate_multiChoiceQuestionWithCorrectNumericAnswer_returnsTrue() {
         let question = Mocks.multiChoiceQuestion
         let answer = Mocks.multiChoiceCorrectAnswer
         let viewModel = getViewModel()
@@ -304,7 +304,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithIncorrectNumericAnswer_returnsFalse() throws {
+    func test_validate_multiChoiceQuestionWithIncorrectNumericAnswer_returnsFalse() {
         let question = Mocks.multiChoiceQuestion
         let answer = Mocks.multiChoiceIncorrectAnswer
         let viewModel = getViewModel()
@@ -314,7 +314,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithInvalidNumericAnswer_returnsFalse() throws {
+    func test_validate_multiChoiceQuestionWithInvalidNumericAnswer_returnsFalse() {
         let question = Mocks.multiChoiceQuestion
         let answer = Mocks.multiChoiceInvalidAnswer
         let viewModel = getViewModel()
