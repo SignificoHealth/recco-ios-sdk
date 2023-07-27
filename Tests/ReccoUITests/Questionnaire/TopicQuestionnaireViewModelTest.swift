@@ -28,6 +28,7 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
         let viewModel = getViewModel(topic: topic, repo: mockQuestionnaireRepository)
 
         await viewModel.getQuestionnaire()
+
         await fulfillment(of: [getQuestionnaireExpectation], timeout: 1)
     }
 

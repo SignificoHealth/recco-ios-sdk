@@ -18,6 +18,14 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
 
     // MARK: - init
 
+    func test_init_whenIsOnboardingIsTrue_callsValidateAnswerOnQuestionChange() {
+        let viewModel = getViewModel()
+
+        XCTAssertTrue(viewModel.isOnboarding)
+        // By default this is true, and is set to false after validating
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+    }
+
     func test_init_getQuestionnaire_callsGetOnboardingQuestionnaire() async {
         let mockQuestionnaireRepository = MockQuestionnaireRepository()
         let getOnboardingQuestionnaireExpectation = expectation(description: "getOnboardingQuestionnaire was not called")
@@ -25,6 +33,7 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
         let viewModel = getViewModel(repo: mockQuestionnaireRepository)
 
         await viewModel.getQuestionnaire()
+        
         await fulfillment(of: [getOnboardingQuestionnaireExpectation], timeout: 1)
     }
 
