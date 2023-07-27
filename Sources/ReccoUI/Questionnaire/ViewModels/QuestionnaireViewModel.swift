@@ -27,7 +27,7 @@ class QuestionnaireViewModel: ObservableObject {
         return currentIndex == (questions?.count ?? 0) - 1
     }
     
-    private var isOnboarding: Bool {
+    internal var isOnboarding: Bool {
         type(of: self) == OnboardingQuestionnaireViewModel.self
     }
     
@@ -165,7 +165,7 @@ class QuestionnaireViewModel: ObservableObject {
         validateAll(until: questions!.last!, mandatoryAnswer: true)
     }
     
-    private func validate(
+    internal func validate(
         answer: EitherAnswerType,
         for question: Question,
         mandatoryAnswer: Bool
@@ -188,7 +188,7 @@ class QuestionnaireViewModel: ObservableObject {
         }
     }
     
-    private func validateAll(until q: Question, mandatoryAnswer: Bool) -> Bool {
+    internal func validateAll(until q: Question, mandatoryAnswer: Bool) -> Bool {
         guard let partial = questions?.firstIndex(of: q),
             let partialQuestions = questions?[0...partial] else {
             return false
