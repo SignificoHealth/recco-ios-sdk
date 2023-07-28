@@ -13,7 +13,7 @@ extension FeedSectionType {
         case .newContent:
             return "recco_dashboard_new_for_you".localized
         case .physicalActivityExplore, .nutritionExplore, .mentalWellbeingExplore, .sleepExplore:
-            return "recco_dashboard_explore_topic".localized
+            return "recco_dashboard_explore_topic".localized(recName)
         case .startingRecommendations:
             return "recco_dashboard_start_here".localized
         }
@@ -21,13 +21,13 @@ extension FeedSectionType {
     
     var recName: String {
         switch self {
-        case .physicalActivityRecommendations:
+        case .physicalActivityRecommendations, .physicalActivityExplore:
             return "recco_dashboard_alert_physical_activity_title".localized
-        case .nutritionRecommendations:
+        case .nutritionRecommendations, .nutritionExplore:
             return "recco_dashboard_alert_nutrition_title".localized
-        case .mentalWellbeingRecommendations:
+        case .mentalWellbeingRecommendations, .mentalWellbeingExplore:
             return "recco_dashboard_alert_mental_wellbeing_title".localized
-        case .sleepRecommendations:
+        case .sleepRecommendations, .sleepExplore:
             return "recco_dashboard_alert_sleep_title".localized
         default:
             fatalError()

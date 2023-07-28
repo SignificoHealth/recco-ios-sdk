@@ -18,7 +18,7 @@ struct OnboardingOutroView: View {
                         .frame(height: proxy.size.height * 0.45)
                         
                         VStack(spacing: .M) {
-                            Text("recco_questionnaire_outro_title".localized)
+                            Text("recco_onboarding_outro_title".localized)
                                 .h1()
                                 .multilineTextAlignment(.center)
 
