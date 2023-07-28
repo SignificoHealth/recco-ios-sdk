@@ -1,13 +1,14 @@
 import SwiftUI
 import ReccoUI
 
+let clientSecret = "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo"
+
 @main
 struct ReccoShowcaseApp: App {
-    
     init() {
         ReccoUI.initialize(
-            clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo",
-            theme: .summer
+            clientSecret: clientSecret,
+            theme: PaletteStorageObservable.shared.storage.selectedTheme
         )
     }
     

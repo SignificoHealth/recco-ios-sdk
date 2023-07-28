@@ -29,6 +29,7 @@ struct ChangeReccoThemeView: View {
     @Binding var editingThemeKey: String?
 
     var onTap: (ReccoTheme) -> Void
+    var dismiss: () -> Void
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -36,7 +37,7 @@ struct ChangeReccoThemeView: View {
                 HStack(spacing: 0) {
                     ForEach([ColorScheme.light, .dark], id: \.self) { colorScheme in
                         Image(colorScheme.icon)
-                            .padding(.vertical, 4)
+                            .padding(.vertical, 8)
                             .frame(maxWidth: .infinity)
                             .background(colorScheme.bgColor)
                     }
@@ -45,7 +46,7 @@ struct ChangeReccoThemeView: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach([ReccoTheme.ocean, .summer, .spring, .tech], id: \.self) { theme in
-                        editableThemeItem(theme, editable: false, key: "")
+                        editableThemeItem(theme, editable: false, key: theme.name)
                     }
                     
                     ForEach(Array(storageObsevable.storage.palettes.keys), id: \.self) { key in
@@ -60,7 +61,7 @@ struct ChangeReccoThemeView: View {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.warmBrown)
                         
-                        Text("New palette")
+                        Text("new_theme")
                             .bold()
                             .bodyBig()
                             .padding(.vertical)
@@ -72,24 +73,46 @@ struct ChangeReccoThemeView: View {
                 .frame(width: 210, alignment: .leading)
             }
             .frame(width: 260, alignment: .leading)
+            .background(
+                Color.black.opacity(0.0001)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            )
         }
     }
     
     @ViewBuilder
     private func editableThemeItem(_ theme: ReccoTheme, editable: Bool, key: String) -> some View {
         HStack(spacing: 0) {
-            HStack(spacing: 0) {
-                ForEach([ColorScheme.light, .dark], id: \.self) { colorScheme in
-                    themeItem(theme, scheme: colorScheme)
-                        .padding(12)
-                        .background(colorScheme.bgColor)
-                        .environment(\.colorScheme, colorScheme)
+            Button {
+                withAnimation {
+                    storageObsevable.storage.selectedKeyOrName = key
+                    storageObsevable.storage.store()
                 }
-            }
-            .frame(width: 210, alignment: .leading)
-            .onTapGesture {
                 onTap(theme)
+            } label: {
+                HStack(spacing: 0) {
+                    ForEach([ColorScheme.light, .dark], id: \.self) { colorScheme in
+                        themeItem(theme, scheme: colorScheme)
+                            .padding(12)
+                            .background(colorScheme.bgColor)
+                            .environment(\.colorScheme, colorScheme)
+                    }
+                }
+                .frame(width: 210, alignment: .leading)
             }
+            .overlay(
+                Group {
+                    if storageObsevable.storage.selectedKeyOrName == key {
+                        Rectangle()
+                            .stroke(lineWidth: 4)
+                            .fill(Color.softYellow)
+                            .padding(2)
+                    }
+                }
+            )
+            .background(Color.white)
             
             if editable {
                 Button {
@@ -102,7 +125,10 @@ struct ChangeReccoThemeView: View {
                 }
                 
                 Button {
-                    storageObsevable.storage.palettes[key] = nil
+                    withAnimation {
+                        storageObsevable.storage.palettes[key] = nil
+                    }
+                    
                     storageObsevable.storage.store()
                 } label: {
                     Image(systemName: "trash.circle.fill")
@@ -155,7 +181,8 @@ struct ChangeReccoThemeView_Previews: PreviewProvider {
         ChangeReccoThemeView(
             showingPaletteEditor: .constant(false),
             editingThemeKey: .constant(nil),
-            onTap: { theme in }
+            onTap: { theme in },
+            dismiss: {}
         )
         .background(Color.gray)
     }

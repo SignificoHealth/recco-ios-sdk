@@ -17,7 +17,7 @@ enum PalleteType: Hashable {
 extension PalleteType {
     var name: String {
         return self == .light ?
-            "Light" : "Dark"
+            "light" : "dark"
     }
     
     var colorScheme: ColorScheme {
@@ -82,6 +82,11 @@ struct CreatePaletteView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
+                Text(themeKey == nil ? "new_theme" : "edit_theme")
+                    .font(.system(.title))
+                    .bold()
+                    .foregroundColor(.warmBrown)
+
                 VStack(alignment: .leading) {
                     Text("theme_name")
                         .inputTitle()
@@ -101,8 +106,8 @@ struct CreatePaletteView: View {
                     "",
                     selection: $tabSelection
                 ) {
-                    Text(PalleteType.light.name).tag(PalleteType.light)
-                    Text(PalleteType.dark.name).tag(PalleteType.dark)
+                    Text(.init(PalleteType.light.name)).tag(PalleteType.light)
+                    Text(.init(PalleteType.dark.name)).tag(PalleteType.dark)
                 }
                 .pickerStyle(.segmented)
                 
@@ -123,7 +128,7 @@ struct CreatePaletteView: View {
             .padding()
             .font(.body)
             
-            Button("Save Theme") {
+            Button("save_theme") {
                 let key = themeKey ?? UUID().uuidString
                 storageState.storage.palettes[key] = ReccoTheme(
                     name: themeName,
@@ -163,7 +168,7 @@ struct CreatePaletteView: View {
                     )
                 )
                 
-                storageState.storage.store()                
+                storageState.storage.store()
                 shouldShow = false
             }
             .buttonStyle(CallToActionPrimaryStyle())
@@ -179,30 +184,30 @@ struct CreatePaletteView: View {
     var lightPaletteView: some View {
         VStack(spacing: 32) {
             colorPairView(
-                colorName: "Primary",
+                colorName: "color_primary",
                 $primaryLight,
-                onColorName: "On Primary",
+                onColorName: "color_on_primary",
                 $onPrimaryLight
             )
             
             colorPairView(
-                colorName: "Background",
+                colorName: "color_background",
                 $backgroundLight,
-                onColorName: "On Background",
+                onColorName: "color_on_background",
                 $onBackgroundLight
             )
             
             colorPairView(
-                colorName: "Accent",
+                colorName: "color_accent",
                 $accentLight,
-                onColorName: "On Accent",
+                onColorName: "color_on_accent",
                 $onAccentLight
             )
             
             colorPairView(
-                colorName: "Illustration Outline",
+                colorName: "color_illustration_outline",
                 $illustrationOutlineLight,
-                onColorName: "Illustration",
+                onColorName: "color_illustration",
                 $illustrationLight
             )
         }
@@ -213,30 +218,30 @@ struct CreatePaletteView: View {
     var darkPaletteView: some View {
         VStack(spacing: 32) {
             colorPairView(
-                colorName: "Primary",
+                colorName: "color_primary",
                 $primaryDark,
-                onColorName: "On Primary",
+                onColorName: "color_on_primary",
                 $onPrimaryDark
             )
             
             colorPairView(
-                colorName: "Background",
+                colorName: "color_background",
                 $backgroundDark,
-                onColorName: "On Background",
+                onColorName: "color_on_background",
                 $onBackgroundDark
             )
             
             colorPairView(
-                colorName: "Accent",
+                colorName: "color_accent",
                 $accentDark,
-                onColorName: "On Accent",
+                onColorName: "color_on_accent",
                 $onAccentDark
             )
             
             colorPairView(
-                colorName: "Illustration Outline",
+                colorName: "color_illustration_outline",
                 $illustrationOutlineDark,
-                onColorName: "Illustration",
+                onColorName: "color_illustration",
                 $illustrationDark
             )
         }
@@ -253,12 +258,12 @@ struct CreatePaletteView: View {
         HStack {
             VStack {
                 ColorPicker(selection: color) {
-                    Text(colorName)
+                    Text(.init(colorName))
                         .foregroundColor(.black)
                 }
                 
                 ColorPicker(selection: onColor) {
-                    Text(onColorName)
+                    Text(.init(onColorName))
                         .foregroundColor(.black)
                 }
             }

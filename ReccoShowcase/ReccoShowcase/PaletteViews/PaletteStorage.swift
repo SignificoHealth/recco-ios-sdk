@@ -10,7 +10,7 @@ import ReccoUI
 
 final class PaletteStorageObservable: ObservableObject {
     @Published var storage: PaletteStorage
-    
+
     private init() {
         storage = .get()
     }
@@ -20,8 +20,12 @@ final class PaletteStorageObservable: ObservableObject {
 
 struct PaletteStorage: Codable {
     var palettes: [String: ReccoTheme]
+    var selectedKeyOrName: String = ReccoTheme.summer.name
+    
+    var selectedTheme: ReccoTheme {
+        palettes[selectedKeyOrName] ?? [ReccoTheme.summer, .tech, .ocean, .spring].first { $0.name == selectedKeyOrName } ?? .summer
+    }
 }
-
 
 extension PaletteStorage {
     static let key = "palettesStorageKey"

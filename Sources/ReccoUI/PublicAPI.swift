@@ -4,7 +4,7 @@ import SwiftUI
 
 public func initialize(
     clientSecret: String,
-    theme: ReccoTheme = .fresh
+    theme: ReccoTheme = .summer
 ) {
     assemble([
         HeadlessAssembly(clientSecret: clientSecret),

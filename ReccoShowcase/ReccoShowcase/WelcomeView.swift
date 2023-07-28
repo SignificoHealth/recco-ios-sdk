@@ -9,8 +9,8 @@ import SwiftUI
 import ReccoUI
 
 struct WelcomeView: View {
-    
     @AppStorage("username") var username: String = ""
+    
     @State var displayRecco: Bool = false
     @State var logoutLoading: Bool = false
     @State var logoutError: Bool = false
@@ -20,7 +20,7 @@ struct WelcomeView: View {
 
     var buttonsView: some View {
         VStack(spacing: 16) {
-            Button("Go to Recco") {
+            Button("go_to_sdk") {
                 displayRecco = true
             }
             .buttonStyle(CallToActionPrimaryStyle())
@@ -94,20 +94,29 @@ struct WelcomeView: View {
                     showingPaletteEditor: $showingPaletteEditor,
                     editingThemeKey: $editingThemeKey,
                     onTap: { theme in
-                        ReccoUI.initialize(clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo", theme: theme)
+                        ReccoUI.initialize(clientSecret: clientSecret, theme: theme)
                         
                         showPaletteSelector.toggle()
-                    }
+                    },
+                    dismiss: { showPaletteSelector = false }
                 )
                 .zIndex(10)
                 .transition(.move(edge: .top))
                 .padding(.leading, 20)
+                .background(
+                    Color.black.opacity(0.0001).onTapGesture {
+                        showPaletteSelector = false
+                    }
+                )
             }
         }
         .padding(24)
         .background(
             Color.black.opacity(showPaletteSelector ? 0.4 : 0)
                 .ignoresSafeArea()
+                .onTapGesture {
+                    showPaletteSelector = false
+                }
         )
         .background(Color.lightGray)
         .animation(.easeInOut(duration: 0.3), value: showPaletteSelector)
