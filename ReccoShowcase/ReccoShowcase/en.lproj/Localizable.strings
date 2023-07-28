@@ -6,3 +6,5 @@
 "user_id" = "User ID";
 "username" = "Username";
 "go_to_sdk" = "Go to Recco";
+"theme_name" = "Theme name";
+"theme_name_placeholder" = "Pink dust";

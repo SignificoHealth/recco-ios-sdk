@@ -14,7 +14,6 @@ extension Color {
 }
 
 extension Text {
-    
     func bodyBig() -> some View {
         return self
             .font(.system(size: 18, weight: .regular))

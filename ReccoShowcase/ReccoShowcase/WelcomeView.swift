@@ -15,7 +15,9 @@ struct WelcomeView: View {
     @State var logoutLoading: Bool = false
     @State var logoutError: Bool = false
     @State var showPaletteSelector = false
-        
+    @State var showingPaletteEditor = false
+    @State var editingThemeKey: String? = nil
+
     var buttonsView: some View {
         VStack(spacing: 16) {
             Button("Go to Recco") {
@@ -44,34 +46,7 @@ struct WelcomeView: View {
             VStack(spacing: 42) {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .center, spacing: 24) {
-                        HStack(alignment: .top) {
-                            Button(action: {
-                                showPaletteSelector.toggle()
-                            }, label: {
-                                Image("palette_ic")
-                                    .rotationEffect(.radians(showPaletteSelector ? .pi * 0.5 : 0))
-                            })
-                            .frame(
-                                width: 60,
-                                height: 60,
-                                alignment: .leading
-                            )
-                            .contentShape(Rectangle())
-                            
-                            Spacer()
-                            
-                            CompanyView()
-                            
-                            Spacer()
-                            
-                            Image("palette_ic")
-                                .hidden()
-                                .frame(
-                                    width: 60,
-                                    height: 60,
-                                    alignment: .leading
-                                )
-                        }
+                        CompanyView()
                         
                         HStack(spacing: 0) {
                             VStack {
@@ -98,27 +73,55 @@ struct WelcomeView: View {
                     buttonsView
                 }
             }
+            .overlay(
+                Button(action: {
+                    showPaletteSelector.toggle()
+                }, label: {
+                    Image("palette_ic")
+                        .rotationEffect(.radians(showPaletteSelector ? .pi * 0.5 : 0))
+                })
+                .frame(
+                    width: 60,
+                    height: 60,
+                    alignment: .leading
+                )
+                .contentShape(Rectangle()),
+                alignment: .topLeading
+            )
             
             if showPaletteSelector {
-                ChangeReccoThemeView(onTap: { theme in
-                    ReccoUI.initialize(clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo", theme: theme)
-                    
-                    showPaletteSelector.toggle()
-                })
-                .padding(.trailing, 66)
+                ChangeReccoThemeView(
+                    showingPaletteEditor: $showingPaletteEditor,
+                    editingThemeKey: $editingThemeKey,
+                    onTap: { theme in
+                        ReccoUI.initialize(clientSecret: "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo", theme: theme)
+                        
+                        showPaletteSelector.toggle()
+                    }
+                )
                 .zIndex(10)
                 .transition(.move(edge: .top))
+                .padding(.leading, 20)
             }
         }
         .padding(24)
         .background(
-            Color.black.opacity(showPaletteSelector ? 0.2 : 0)
+            Color.black.opacity(showPaletteSelector ? 0.4 : 0)
                 .ignoresSafeArea()
         )
         .background(Color.lightGray)
         .animation(.easeInOut(duration: 0.3), value: showPaletteSelector)
+        .onChange(of: showingPaletteEditor, perform: { newValue in
+            if newValue == false { editingThemeKey = nil }
+        })
         .sheet(isPresented: $displayRecco) {
             SFRootView()
+        }
+        .sheet(isPresented: $showingPaletteEditor) {
+            CreatePaletteView(
+                themeKey: editingThemeKey,
+                shouldShow: $showingPaletteEditor
+            )
         }
     }
 }

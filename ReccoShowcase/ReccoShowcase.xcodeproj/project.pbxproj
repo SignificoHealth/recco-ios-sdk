@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E05DB2D2A72B6FA0085F1DF /* CreatePaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05DB2C2A72B6FA0085F1DF /* CreatePaletteView.swift */; };
+		6E05DB2F2A72CCE10085F1DF /* PaletteStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E05DB2E2A72CCE10085F1DF /* PaletteStorage.swift */; };
 		6E220A4D2A695A96006A7825 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E220A4F2A695A96006A7825 /* Localizable.strings */; };
 		6E6B47A92A6AD3E5007A41CE /* ChangeReccoThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B47A82A6AD3E5007A41CE /* ChangeReccoThemeView.swift */; };
 		6E6EB0342A4C89F900ABD918 /* ReccoShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6EB0332A4C89F900ABD918 /* ReccoShowcaseApp.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E05DB2C2A72B6FA0085F1DF /* CreatePaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaletteView.swift; sourceTree = "<group>"; };
+		6E05DB2E2A72CCE10085F1DF /* PaletteStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteStorage.swift; sourceTree = "<group>"; };
 		6E220A4E2A695A96006A7825 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E220A502A695A9C006A7825 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E3FB3742A56C99D00CFFEA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +50,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E05DB2B2A72B6980085F1DF /* PaletteViews */ = {
+			isa = PBXGroup;
+			children = (
+				6E6B47A82A6AD3E5007A41CE /* ChangeReccoThemeView.swift */,
+				6E05DB2C2A72B6FA0085F1DF /* CreatePaletteView.swift */,
+				6E05DB2E2A72CCE10085F1DF /* PaletteStorage.swift */,
+			);
+			path = PaletteViews;
+			sourceTree = "<group>";
+		};
 		6E6EB0272A4C89F900ABD918 = {
 			isa = PBXGroup;
 			children = (
@@ -68,12 +82,12 @@
 		6E6EB0322A4C89F900ABD918 /* ReccoShowcase */ = {
 			isa = PBXGroup;
 			children = (
+				6E05DB2B2A72B6980085F1DF /* PaletteViews */,
 				6E3FB3742A56C99D00CFFEA9 /* Info.plist */,
 				6E6EB0332A4C89F900ABD918 /* ReccoShowcaseApp.swift */,
 				95EF41502A55BF1F0012BF94 /* SignInView.swift */,
 				95EF414E2A5595780012BF94 /* WelcomeView.swift */,
 				95EF41522A56A6860012BF94 /* Styling.swift */,
-				6E6B47A82A6AD3E5007A41CE /* ChangeReccoThemeView.swift */,
 				6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */,
 				6E6EB0392A4C89FA00ABD918 /* Preview Content */,
 				6E220A4F2A695A96006A7825 /* Localizable.strings */,
@@ -174,7 +188,9 @@
 				95EF414F2A5595780012BF94 /* WelcomeView.swift in Sources */,
 				6E6B47A92A6AD3E5007A41CE /* ChangeReccoThemeView.swift in Sources */,
 				6E6EB0342A4C89F900ABD918 /* ReccoShowcaseApp.swift in Sources */,
+				6E05DB2F2A72CCE10085F1DF /* PaletteStorage.swift in Sources */,
 				95EF41512A55BF1F0012BF94 /* SignInView.swift in Sources */,
+				6E05DB2D2A72B6FA0085F1DF /* CreatePaletteView.swift in Sources */,
 				95EF41532A56A6860012BF94 /* Styling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

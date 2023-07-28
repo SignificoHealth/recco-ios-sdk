@@ -8,16 +8,41 @@
 import Foundation
 import UIKit
 
-var Theme = ReccoTheme.fresh
+var Theme = ReccoTheme.summer
 
-public struct ReccoTheme: Equatable, Hashable {
+public struct ReccoHexColor: Hashable, Equatable, Codable {
+    public init(uiColor: UIColor) {
+        self.lightModeHex = uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)).hexString!
+        self.darkModeHex = uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)).hexString!
+    }
+    
+    public init(lightModeHex: String, darkModeHex: String) {
+        self.darkModeHex = darkModeHex
+        self.lightModeHex = lightModeHex
+    }
+    
+    var darkModeHex: String
+    var lightModeHex: String
+}
+
+extension ReccoHexColor {
+    public var uiColor: UIColor {
+        .init(dynamicProvider: { traits in
+            traits.userInterfaceStyle == .light ?
+                .init(hex: lightModeHex)! :
+                .init(hex: darkModeHex)!
+        })
+    }
+}
+
+public struct ReccoTheme: Equatable, Hashable, Codable {
     public init(name: String, color: ReccoTheme.Color) {
         self.color = color
         self.name = name
     }
     
-    public struct Color: Equatable, Hashable {
-        public init(primary: UIColor, onPrimary: UIColor, background: UIColor, onBackground: UIColor, accent: UIColor, onAccent: UIColor, illustration: UIColor, illustrationLine: UIColor) {
+    public struct Color: Equatable, Hashable, Codable {
+        public init(primary: ReccoHexColor, onPrimary: ReccoHexColor, background: ReccoHexColor, onBackground: ReccoHexColor, accent: ReccoHexColor, onAccent: ReccoHexColor, illustration: ReccoHexColor, illustrationLine: ReccoHexColor) {
             self.primary = primary
             self.onPrimary = onPrimary
             self.background = background
@@ -28,14 +53,14 @@ public struct ReccoTheme: Equatable, Hashable {
             self.illustrationLine = illustrationLine
         }
         
-        public var primary: UIColor
-        public var onPrimary: UIColor
-        public var background: UIColor
-        public var onBackground: UIColor
-        public var accent: UIColor
-        public var onAccent: UIColor
-        public var illustration: UIColor
-        public var illustrationLine: UIColor
+        public var primary: ReccoHexColor
+        public var onPrimary: ReccoHexColor
+        public var background: ReccoHexColor
+        public var onBackground: ReccoHexColor
+        public var accent: ReccoHexColor
+        public var onAccent: ReccoHexColor
+        public var illustration: ReccoHexColor
+        public var illustrationLine: ReccoHexColor
     }
     
     public let name: String
@@ -43,100 +68,66 @@ public struct ReccoTheme: Equatable, Hashable {
 }
 
 extension ReccoTheme {
-    public static var summer: ReccoTheme {
+    public static var ocean: ReccoTheme {
         ReccoTheme(
-            name: "Summer",
+            name: "Ocean",
             color: .init(
-                primary: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#125e85FF")! :
-                        .init(hex: "#ceeeffFF")!
-                        
-                }),
-                onPrimary: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#FFFFFFFF")! :
-                        .init(hex: "#263743FF")!
-                }),
-                background: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#ecf8feFF")! :
-                        .init(hex: "#263743FF")!
-                }),
-                onBackground: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#0c5175FF")! :
-                        .init(hex: "#e4f6ffFF")!
-                }),
-                accent: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#35b9ffFF")! :
-                        .init(hex: "#35b9ffFF")!
-                }),
-                onAccent: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#17445bFF")! :
-                        .init(hex: "#e4f6ffFF")!
-                }),
-                illustration: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#f5a08cFF")! :
-                        .init(hex: "#35b9ffFF")!
-                }),
-                illustrationLine: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#105a81FF")! :
-                        .init(hex: "#1e8cc7FF")!
-                })
+                primary: .init(lightModeHex: "#125e85FF", darkModeHex: "#ceeeffFF"),
+                onPrimary: .init(lightModeHex: "#FFFFFFFF", darkModeHex: "#263743FF"),
+                background: .init(lightModeHex: "#ecf8feFF", darkModeHex: "#263743FF"),
+                onBackground: .init(lightModeHex: "#0c5175FF", darkModeHex: "#e4f6ffFF"),
+                accent: .init(lightModeHex: "#35b9ffFF", darkModeHex: "#35b9ffFF"),
+                onAccent: .init(lightModeHex: "#17445bFF", darkModeHex: "#e4f6ffFF"),
+                illustration: .init(lightModeHex: "#f5a08cFF", darkModeHex: "#35b9ffFF"),
+                illustrationLine: .init(lightModeHex: "#105a81FF", darkModeHex: "#1e8cc7FF")
             )
         )
     }
     
-    public static var fresh: ReccoTheme {
+    public static var summer: ReccoTheme {
         ReccoTheme(
-            name: "Fresh",
+            name: "Summer",
             color: .init(
-                primary: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#383B45FF")! :
-                        .init(hex: "#FFE6B0FF")!
-                        
-                }),
-                onPrimary: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#FFFFFFFF")! :
-                        .init(hex: "#383b45FF")!
-                }),
-                background: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#fcfcfcFF")! :
-                        .init(hex: "#383b45FF")!
-                }),
-                onBackground: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#383b45FF")! :
-                        .init(hex: "#ffffffff")!
-                }),
-                accent: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#7b61ffff")! :
-                        .init(hex: "#7b61ffff")!
-                }),
-                onAccent: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#2c2783ff")! :
-                        .init(hex: "#ffe5aeff")!
-                }),
-                illustration: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#f5b731ff")! :
-                        .init(hex: "#f5b731ff")!
-                }),
-                illustrationLine: .init(dynamicProvider: { traits in
-                    traits.userInterfaceStyle == .light ?
-                        .init(hex: "#454138ff")! :
-                        .init(hex: "#454138ff")!
-                })
+                primary: .init(lightModeHex: "#383B45FF", darkModeHex: "#FFE6B0FF"),
+                onPrimary: .init(lightModeHex: "#FFFFFFFF", darkModeHex: "#383b45FF"),
+                background: .init(lightModeHex: "#fcfcfcFF", darkModeHex: "#383b45FF"),
+                onBackground: .init(lightModeHex: "#383b45FF", darkModeHex: "#ffffffff"),
+                accent: .init(lightModeHex: "#7b61ffff", darkModeHex: "#7b61ffff"),
+                onAccent: .init(lightModeHex: "#2c2783ff", darkModeHex: "#ffe5aeff"),
+                illustration: .init(lightModeHex: "#f5b731ff", darkModeHex: "#f5b731ff"),
+                illustrationLine: .init(lightModeHex: "#454138ff", darkModeHex: "#454138ff")
+            )
+        )
+    }
+    
+    public static var spring: ReccoTheme {
+        ReccoTheme(
+            name: "Spring",
+            color: .init(
+                primary: .init(lightModeHex: "#2c956dFF", darkModeHex: "#ffddbeFF"),
+                onPrimary: .init(lightModeHex: "#ffffffFF", darkModeHex: "#383b45FF"),
+                background: .init(lightModeHex: "#fcfcfcFF", darkModeHex: "#383b45FF"),
+                onBackground: .init(lightModeHex: "#383b45FF", darkModeHex: "#ffffffFF"),
+                accent: .init(lightModeHex: "#ea8822FF", darkModeHex: "#3ba17aFF"),
+                onAccent: .init(lightModeHex: "#2c2783FF", darkModeHex: "#ffe5aeFF"),
+                illustration: .init(lightModeHex: "#ffc188FF", darkModeHex: "#ffc188FF"),
+                illustrationLine: .init(lightModeHex: "#306d49FF", darkModeHex: "#926500FF")
+            )
+        )
+    }
+    
+    public static var tech: ReccoTheme {
+        ReccoTheme(
+            name: "Tech",
+            color: .init(
+                primary: .init(lightModeHex: "#2c956dFF", darkModeHex: "#e5e4a3FF"),
+                onPrimary: .init(lightModeHex: "#ffffffFF", darkModeHex: "#373733FF"),
+                background: .init(lightModeHex: "#f8f9f4FF", darkModeHex: "#242422FF"),
+                onBackground: .init(lightModeHex: "#383b45FF", darkModeHex: "#e5e4a3FF"),
+                accent: .init(lightModeHex: "#bab714FF", darkModeHex: "#e6e452FF"),
+                onAccent: .init(lightModeHex: "#6a6d65FF", darkModeHex: "#ffffffFF"),
+                illustration: .init(lightModeHex: "#f5b731FF", darkModeHex: "#f5b731FF"),
+                illustrationLine: .init(lightModeHex: "#403f15FF", darkModeHex: "#403f15FF")
             )
         )
     }
