@@ -162,7 +162,9 @@ class QuestionnaireViewModel: ObservableObject {
     }
     
     private func didAnswerAllQuestions() -> Bool {
-        validateAll(until: questions!.last!, mandatoryAnswer: true)
+        guard let lastQuestion = questions?.last else { return false }
+
+        return validateAll(until: lastQuestion, mandatoryAnswer: true)
     }
     
     internal func validate(

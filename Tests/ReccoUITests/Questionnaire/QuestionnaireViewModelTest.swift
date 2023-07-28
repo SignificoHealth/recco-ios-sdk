@@ -222,7 +222,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
     // MARK: - validate - numeric
 
-    func test_validate_numericQuestionWithNotNumericAnswerAndMandatory_returnsFalse() {
+    func test_validate_numericQuestionWithMultiChoiceAnswerAndMandatory_returnsFalse() {
         let question = Mocks.numericQuestion
         let answer = EitherAnswerType.multiChoice([])
         let viewModel = getViewModel()
@@ -232,7 +232,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_numericQuestionWithNotNumericAnswerAndNotMandatory_returnsTrue() {
+    func test_validate_numericQuestionWithMultiChoiceAnswerAndNotMandatory_returnsTrue() {
         let question = Mocks.numericQuestion
         let answer = EitherAnswerType.multiChoice([])
         let viewModel = getViewModel()
@@ -252,16 +252,6 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_numericQuestionWithIncorrectNumericAnswer_returnsFalse() {
-        let question = Mocks.numericQuestion
-        let answer = Mocks.numericIncorrectAnswer
-        let viewModel = getViewModel()
-
-        let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
-
-        XCTAssertFalse(isValid)
-    }
-
     func test_validate_numericQuestionWithInvalidNumericAnswer_returnsFalse() {
         let question = Mocks.numericQuestion
         let answer = Mocks.numericInvalidAnswer
@@ -274,7 +264,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
     // MARK: - validate - multiChoice
 
-    func test_validate_multiChoiceQuestionWithNotNumericAnswerAndMandatory_returnsFalse() {
+    func test_validate_multiChoiceQuestionWithNumericAnswerAndMandatory_returnsFalse() {
         let question = Mocks.multiChoiceQuestion
         let answer = EitherAnswerType.numeric(1)
         let viewModel = getViewModel()
@@ -284,7 +274,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithNotNumericAnswerAndNotMandatory_returnsTrue() {
+    func test_validate_multiChoiceQuestionWithNumericAnswerAndNotMandatory_returnsTrue() {
         let question = Mocks.multiChoiceQuestion
         let answer = EitherAnswerType.numeric(1)
         let viewModel = getViewModel()
@@ -294,7 +284,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithCorrectNumericAnswer_returnsTrue() {
+    func test_validate_multiChoiceQuestionWithCorrectMultiChoiceAnswer_returnsTrue() {
         let question = Mocks.multiChoiceQuestion
         let answer = Mocks.multiChoiceCorrectAnswer
         let viewModel = getViewModel()
@@ -304,9 +294,9 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithIncorrectNumericAnswer_returnsFalse() {
+    func test_validate_multiChoiceQuestionWithEmptyMultiChoiceAnswer_returnsFalse() {
         let question = Mocks.multiChoiceQuestion
-        let answer = Mocks.multiChoiceIncorrectAnswer
+        let answer = EitherAnswerType.multiChoice([])
         let viewModel = getViewModel()
 
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
@@ -314,9 +304,9 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertFalse(isValid)
     }
 
-    func test_validate_multiChoiceQuestionWithInvalidNumericAnswer_returnsFalse() {
+    func test_validate_multiChoiceQuestionWithNilMultiChoiceAnswer_returnsFalse() {
         let question = Mocks.multiChoiceQuestion
-        let answer = Mocks.multiChoiceInvalidAnswer
+        let answer = EitherAnswerType.multiChoice(nil)
         let viewModel = getViewModel()
 
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
@@ -326,15 +316,49 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
     // MARK: - validateAll
 
-    func test_validateAll_whenAllAnswersAreValidAndMandatory_returnsTrue() {
-        // TBI
+    func test_validateAll_whenAllAnswersAreValidAndMandatory_returnsTrue() throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer
+        ])
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.answers = answers
+
+        let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: true)
+
+        XCTAssertTrue(isValid)
     }
 
-    func test_validateAll_whenSomeAnswersAreValidAndMandatory_returnsFalse() {
-        // TBI
+    func test_validateAll_whenSomeAnswersAreValidAndMandatory_returnsFalse() throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericInvalidAnswer,
+            Mocks.numericInvalidAnswer
+        ])
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.answers = answers
+
+        let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: true)
+
+        XCTAssertFalse(isValid)
     }
 
-    func test_validateAll_whenSomeAnswersAreValidAndNotMandatory_returnsTrue() {
-        // TBI
+    func test_validateAll_whenSomeAnswersAreValidAndNotMandatory_returnsTrue() throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericInvalidAnswer,
+            Mocks.numericInvalidAnswer
+        ])
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.answers = answers
+
+        let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: false)
+        
+        XCTAssertTrue(isValid)
     }
+
 }
