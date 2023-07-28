@@ -11,9 +11,9 @@ enum ReccoErrorType {
     var imageName: String {
         switch self {
         case .generic:
-            return "no_conection_image"
+            return "no_connection"
         case .noInternet:
-            return "no_conection_image"
+            return "no_connection"
         }
     }
 
@@ -51,7 +51,7 @@ struct ReccoErrorView: View {
         VStack(spacing: .S) {
             if let wrappedError = error.wrappedValue {
                 let sfError = ReccoErrorType(error: wrappedError)
-                Image(resource: sfError.imageName)
+                ReccoThemeImage(name: sfError.imageName)
 
                 VStack(spacing: .XXS) {
                     Text(sfError.title)

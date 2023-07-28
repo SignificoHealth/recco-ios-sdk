@@ -132,29 +132,37 @@ struct ArticleDetailView: View {
     
     @ViewBuilder
     private var articleHeader: some View {
-        LazyImage(
-            url: viewModel.imageUrl
-        ) { state in
-            if let image = state.image {
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            } else if state.error != nil {
-                Color.reccoPrimary20.overlay(
-                    Image(resource: "error_image")
+        if let imageUrl = viewModel.imageUrl {
+            LazyImage(
+                url: imageUrl
+            ) { state in
+                if let image = state.image {
+                    image
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
-                )
-                .addBlackOpacityOverlay()
-            } else {
-                ReccoImageLoadingView(feedItem: false)
-                    .scaledToFill()
+                        .scaledToFill()
+                        .addBlackOpacityOverlay()
+                } else if state.error != nil {
+                    Color.reccoPrimary20.overlay(
+                        Image(resource: "error_image")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    )
                     .addBlackOpacityOverlay()
+                } else {
+                    ReccoImageLoadingView(feedItem: false)
+                        .scaledToFill()
+                        .addBlackOpacityOverlay()
+                }
+            }
+            .processors([.resize(width: UIScreen.main.bounds.width)])
+            .animation(.linear(duration: 0.3))
+        } else {
+            ZStack {
+                Color.reccoIllustration
+                ReccoThemeImage(name: "default_image", resizable: true)
+                    .scaledToFill()
             }
         }
-        .processors([.resize(width: UIScreen.main.bounds.width)])
-        .animation(.linear(duration: 0.3))
     }
 }
 
@@ -162,10 +170,11 @@ struct ArticleDetailView_Previews: PreviewProvider {
     static var previews: some View {
         withAssembly { r in
             ArticleDetailView(viewModel: r.get(argument: (
-                ContentId(itemId: "", catalogId: "")
-                , "This is a header",
-                URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"),
-                { (asdf: ContentId) in }
+                    ContentId(itemId: "", catalogId: ""),
+                    "This is a header",
+                    URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"),
+                    { (asdf: ContentId) in },
+                    { (bool: Bool) in }
             )))
         }
     }

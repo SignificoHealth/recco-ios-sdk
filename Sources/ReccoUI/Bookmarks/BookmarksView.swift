@@ -53,7 +53,10 @@ struct BookmarksView: View {
             Spacer()
             Text("recco_bookmarks_empty_state_title".localized)
                 .body1()
-            Image(resource: "no_content_image")
+            ReccoThemeImage(name: "empty", resizable: true)
+                .scaledToFit()
+                .frame(maxHeight: 200)
+            
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -63,7 +66,7 @@ struct BookmarksView: View {
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
         withAssembly { r in
-            BookmarksView(viewModel: r.get())
+            BookmarksView(viewModel: r.get()).emptyBookmarksView
         }
     }
 }

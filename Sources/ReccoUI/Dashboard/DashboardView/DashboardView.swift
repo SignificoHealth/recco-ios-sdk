@@ -72,8 +72,9 @@ struct DashboardView: View {
             text: section.type.description,
             buttonText: "recco_start".localized,
             header: {
-                Image(resource: "digital_people")
-                    .frame(minHeight: 238, alignment: .bottom)
+                ReccoThemeImage(name: "people_digital", resizable: true)
+                    .aspectRatio(1, contentMode: .fit)
+                    .padding(.horizontal, .XL)
             },
             action: viewModel.pressedUnlockSectionStart
         )
@@ -118,10 +119,7 @@ struct DashboardHeader: View {
                 
                 Spacer()
                 
-                Image(resource: "flower_fill")
-                    .renderingMode(.template)
-                    .foregroundColor(Color.reccoIllustration)
-                    .overlay(Image(resource: "flower_outline"))
+                ReccoThemeImage(name: "potted_plant")
             }
         }
     }
