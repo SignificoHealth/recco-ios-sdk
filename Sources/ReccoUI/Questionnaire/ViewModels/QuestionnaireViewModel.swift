@@ -5,6 +5,7 @@ import Combine
 class QuestionnaireViewModel: ObservableObject {
     private let nav: ReccoCoordinator
     private let repo: QuestionnaireRepository
+    private let shouldValidateAnswerOnQuestionChange: Bool
     private let nextScreen: (Bool) -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
@@ -26,8 +27,6 @@ class QuestionnaireViewModel: ObservableObject {
     var isOnLastQuestion: Bool {
         return currentIndex == (questions?.count ?? 0) - 1
     }
-
-    private var shouldValidateAnswerOnQuestionChange: Bool
 
     init(
         repo: QuestionnaireRepository,
