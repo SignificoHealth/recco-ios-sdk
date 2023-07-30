@@ -16,6 +16,8 @@ final class QuestionnaireViewModelTest: XCTestCase {
     private func getViewModel(
         repo: QuestionnaireRepository? = nil,
         nav: ReccoCoordinator? = nil,
+        shouldValidateAnswerOnQuestionChange: Bool? = nil,
+        mainButtonEnabledByDefault: Bool? = nil,
         nextScreen: ((Bool) -> Void)? = nil,
         getQuestions: ((QuestionnaireRepository) async throws -> [Question])? = nil,
         sendQuestions: ((QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void)? = nil
@@ -23,10 +25,42 @@ final class QuestionnaireViewModelTest: XCTestCase {
         return QuestionnaireViewModel(
             repo: repo ?? MockQuestionnaireRepository(),
             nav: nav ?? MockRecoCoordinator(),
+            shouldValidateAnswerOnQuestionChange: shouldValidateAnswerOnQuestionChange ?? false,
+            mainButtonEnabledByDefault: mainButtonEnabledByDefault ?? false,
             nextScreen: nextScreen ?? { _ in },
             getQuestions: getQuestions ?? { repo in try await repo.getOnboardingQuestionnaire() },
             sendQuestions: sendQuestions ?? { repo, answers in try await repo.sendQuestionnaire(answers) }
         )
+    }
+
+    // MARK: - init
+
+    func test_init_whenShouldValidateAnswerOnQuestionChangeIsFalse_doesNotCallsValidateAnswerOnQuestionChange() throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(
+            answers: [Mocks.numericCorrectAnswer, Mocks.numericCorrectAnswer]
+        )
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: true, mainButtonEnabledByDefault: false)
+        viewModel.questions = questions
+        viewModel.answers = answers
+
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        viewModel.currentQuestion = questions.first
+
+        XCTAssertTrue(viewModel.mainButtonEnabled)
+    }
+
+    func test_init_whenShouldValidateAnswerOnQuestionChangeIsTrue_callsValidateAnswerOnQuestionChange() throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(
+            answers: [Mocks.numericCorrectAnswer, Mocks.numericCorrectAnswer]
+        )
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: false, mainButtonEnabledByDefault: false)
+        viewModel.questions = questions
+        viewModel.answers = answers
+
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        viewModel.currentQuestion = questions.first
+
+        XCTAssertFalse(viewModel.mainButtonEnabled)
     }
 
     // MARK: - previousQuestion
@@ -73,7 +107,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
     }
 
     func test_next_whenInLastQuestion_callsSendQuestions() async {
-        let sendQuestionsExpectation = expectation(description: "reloadSection was not called with")
+        let sendQuestionsExpectation = expectation(description: "sendQuestions was not called")
         let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void = { _, _ in
             sendQuestionsExpectation.fulfill()
         }
@@ -98,13 +132,13 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions[0])
+        await viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.first!)
 
         XCTAssertEqual(viewModel.currentIndex, 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
     }
 
-    func test_answer_whenIsValidSingleChoiceAndNotLastQuestion_enablesMainButton() async throws {
+    func test_answer_whenIsValidSingleChoiceAndLastQuestion_enablesMainButtonAndDoesNotCallsNext() async throws {
         let questions = Mocks.singleChoiceQuestions
         let viewModel = getViewModel()
         viewModel.questions = questions
@@ -118,34 +152,147 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertTrue(viewModel.mainButtonEnabled)
     }
 
-    func test_answer_whenIsValidNumericAndNotLastQuestion_enablesMainButton() async throws {
+    func test_answer_whenIsValidNumericAndNotLastQuestion_enablesMainButtonAndDoesNotCallsNext() async throws {
+        let questions = Mocks.numericQuestions
         let viewModel = getViewModel()
         viewModel.questions = questions
         viewModel.currentQuestion = questions.first
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions[0])
+        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertTrue(viewModel.mainButtonEnabled)
     }
 
-    func test_answer_whenIsOnboardingIsTrueAndAllAnswersAreValid_enablesMainButton() {
-        // TBI
+    func test_answer_whenIsLastQuestionAndShouldValidateAnswerOnQuestionChangeIsTrueAndAllAnswersAreValid_enablesMainButton() async throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer,
+            Mocks.numericInvalidAnswer
+        ])
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: true)
+        viewModel.questions = questions
+        viewModel.currentQuestion = questions.last
+        viewModel.answers = answers
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertTrue(viewModel.mainButtonEnabled)
     }
 
-    func test_answer_whenIsOnboardingIsTrueAndNotAllAnswersAreValid_disablesMainButton() {
-        // TBI
+    func test_answer_whenIsLastQuestionAndShouldValidateAnswerOnQuestionChangeIsTrueAndNotAllAnswersAreValid_disablesMainButton() async throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericInvalidAnswer,
+            Mocks.numericInvalidAnswer,
+            Mocks.numericInvalidAnswer
+        ])
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: true)
+        viewModel.questions = questions
+        viewModel.currentQuestion = questions.last
+        viewModel.answers = answers
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
     }
 
-    func test_answer_whenIsLastQuestionAndOnboardingIsFalseAndAllAnswersAreValid_enablesMainButton() {
-        // TBI
+    func test_answer_whenIsLastQuestionAndShouldValidateAnswerOnQuestionChangeIsFalseAndAllAnswersAreValid_enablesMainButton() async throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer
+        ])
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: false)
+        viewModel.questions = questions
+        viewModel.currentQuestion = questions.last
+        viewModel.answers = answers
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertTrue(viewModel.mainButtonEnabled)
     }
 
-    func test_answer_whenIsLastQuestionAndIsOnboardingIsFalseAndNotAllAnswersAreValid_disablesMainButton() {
-        // TBI
+    func test_answer_whenIsLastQuestionAndIsShouldValidateAnswerOnQuestionChangeIsFalseAndNotAllAnswersAreValid_disablesMainButton() async throws {
+        let invalidAnswer = EitherAnswerType.numeric(20)
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer,
+            invalidAnswer
+        ])
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: false)
+        viewModel.questions = questions
+        viewModel.currentQuestion = questions.last
+        viewModel.answers = answers
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        await viewModel.answer(invalidAnswer, for: questions.last!)
+
+        XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
     }
+
+    func test_answer_whenIsSingleChoiceQuestionAndAnswerIsValid_enablesMainButtonAndCallsNext() async throws {
+        let (questions, answers) = try Mocks.getSingleChoiceQuestionsWithAnswers(answers: [
+            Mocks.singleChoiceCorrectAnswer,
+            Mocks.singleChoiceCorrectAnswer,
+            Mocks.singleChoiceCorrectAnswer
+        ])
+        let sendQuestionsExpectation = expectation(description: "sendQuestions was called")
+        sendQuestionsExpectation.isInverted = true
+        let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void = { _, _ in
+            sendQuestionsExpectation.fulfill()
+        }
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: false, sendQuestions: sendQuestions)
+        viewModel.questions = questions
+        viewModel.currentQuestion = questions.first
+        viewModel.answers = answers
+
+        XCTAssertEqual(viewModel.currentIndex, 0)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        await viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.first!)
+        await fulfillment(of: [sendQuestionsExpectation], timeout: 1)
+
+        XCTAssertEqual(viewModel.currentIndex, 1)
+        XCTAssertTrue(viewModel.mainButtonEnabled)
+    }
+
+    func test_answer_whenIsNotLastSingleChoiceQuestionAndAllAnswersAreValid_enablesMainButtonAndDoesNotCallsNext() async throws {
+        let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer,
+            Mocks.numericCorrectAnswer
+        ])
+        let sendQuestionsExpectation = expectation(description: "sendQuestions was called")
+        sendQuestionsExpectation.isInverted = true
+        let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void = { _, _ in
+            sendQuestionsExpectation.fulfill()
+        }
+        let viewModel = getViewModel(shouldValidateAnswerOnQuestionChange: false, sendQuestions: sendQuestions)
+        viewModel.questions = questions
+        viewModel.currentQuestion = questions.first
+        viewModel.answers = answers
+
+        XCTAssertEqual(viewModel.currentIndex, 0)
+        XCTAssertFalse(viewModel.mainButtonEnabled)
+        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
+        await fulfillment(of: [sendQuestionsExpectation], timeout: 1)
+
+        XCTAssertEqual(viewModel.currentIndex, 0)
+        XCTAssertTrue(viewModel.mainButtonEnabled)
+    }
+
 
     // MARK: - getQuestionnaire
 

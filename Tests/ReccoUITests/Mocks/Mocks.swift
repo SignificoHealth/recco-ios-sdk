@@ -90,6 +90,38 @@ final class Mocks {
         )
     }
 
+    static func getSingleChoiceQuestionsWithAnswers(answers: [EitherAnswerType]) throws -> ([Question], [Question: CreateQuestionnaireAnswer]) {
+        let count = answers.count
+        var questions = [Question]()
+        var answersMap = [Question: CreateQuestionnaireAnswer]()
+
+        try (0..<count).forEach { index in
+            let question = try Question(
+                id: "question-\(index)",
+                questionnaireId: "questionnaire-\(index)",
+                index: index,
+                text: "Question \(index)",
+                type: .multichoice,
+                multiChoice: MultiChoiceQuestion(
+                    maxOptions: 1,
+                    minOptions: 1,
+                    options: (1...5).map { MultiChoiceAnswerOption(id: $0, text: "\($0)") }
+                ),
+                multichoiceAnswer: [1]
+            )
+            let answer = CreateQuestionnaireAnswer(
+                value: answers[index],
+                questionId: question.id,
+                type: question.type,
+                questionnaireId: question.questionnaireId
+            )
+            questions.append(question)
+            answersMap[question] = answer
+        }
+
+        return (questions, answersMap)
+    }
+
     static let multiChoiceQuestion: Question = try! Question(
         id: "question-0",
         questionnaireId: "questionnaire-0",
