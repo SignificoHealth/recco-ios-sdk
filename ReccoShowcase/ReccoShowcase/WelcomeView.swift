@@ -94,7 +94,7 @@ struct WelcomeView: View {
                     showingPaletteEditor: $showingPaletteEditor,
                     editingThemeKey: $editingThemeKey,
                     onTap: { theme in
-                        ReccoUI.initialize(clientSecret: clientSecret, theme: theme)
+                        ReccoUI.initialize(apiSecret: apiSecret, theme: theme)
                         
                         showPaletteSelector.toggle()
                     },

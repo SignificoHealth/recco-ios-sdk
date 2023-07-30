@@ -12,14 +12,14 @@ final class PublicAPITest: XCTestCase {
     func test_login_callsLoginAndGetMe() async throws {
         let mockAuthRepository = MockAssembly.mockAuthRepository
         let mockMeRepository = MockAssembly.mockMeRepository
-        let user = "user"
+        let userId = "userId"
         let loginExpectation = expectation(description: "login was not called")
         mockAuthRepository.expectations[.login] = loginExpectation
-        mockAuthRepository.expectedClientUserId = user
+        mockAuthRepository.expectedClientUserId = userId
         let getMeExpectation = expectation(description: "getMe was not called")
         mockMeRepository.expectations[.getMe] = getMeExpectation
 
-        try await ReccoUI.login(user: user)
+        try await ReccoUI.login(userId: userId)
 
         await fulfillment(of: [loginExpectation, getMeExpectation])
     }
