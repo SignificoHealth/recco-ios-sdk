@@ -83,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				6E05DB2B2A72B6980085F1DF /* PaletteViews */,
+				A24209452A78F5380012C5A9 /* art */,
 				6E3FB3742A56C99D00CFFEA9 /* Info.plist */,
 				6E6EB0332A4C89F900ABD918 /* ReccoShowcaseApp.swift */,
 				95EF41502A55BF1F0012BF94 /* SignInView.swift */,
@@ -108,6 +109,13 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A24209452A78F5380012C5A9 /* art */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = art;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
