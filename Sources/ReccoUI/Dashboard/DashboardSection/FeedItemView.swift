@@ -1,32 +1,29 @@
 import SwiftUI
 import ReccoHeadless
-import NukeUI
 
 struct FeedItemView: View {
     let item: AppUserRecommendation
     
     var body: some View {
-        LazyImage(
-            url: item.imageUrl
-        ) { state in
-            if let image = state.image {
-                image.resizable()
-                    .scaledToFill()
-                    .opacity(
-                        item.status == .viewed ? 0.4 : 1
-                    )
-
-            } else if state.error != nil {
-                Color.reccoPrimary20.overlay(
-                    Image(resource: "error_image")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
+        ReccoURLImageView(
+            url: item.imageUrl,
+            downSampleSize: .size(CGFloat.cardSize)
+        ) {
+            Color.reccoPrimary20.overlay(
+                Image(resource: "error_image")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            )
+        } loadingView: {
+            ReccoImageLoadingView(feedItem: true)
+        } transformView: { image in
+            image
+                .resizable()
+                .scaledToFill()
+                .opacity(
+                    item.status == .viewed ? 0.4 : 1
                 )
-            } else {
-                ReccoImageLoadingView(feedItem: true)
-            }
         }
-        .processors([.resize(width: .cardSize.width)])
         .frame(
             minWidth: .minCardWidth, idealWidth: .cardSize.width, maxWidth: .cardSize.width,
             minHeight: .cardSize.height, maxHeight: .cardSize.height
