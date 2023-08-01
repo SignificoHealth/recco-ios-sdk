@@ -23,12 +23,12 @@ extension ColorScheme {
     }
 }
 
-struct ChangeReccoThemeView: View {
+struct ChangeReccoStyleView: View {
     @ObservedObject var storageObsevable: PaletteStorageObservable = .shared
     @Binding var showingPaletteEditor: Bool
-    @Binding var editingThemeKey: String?
+    @Binding var editingStyleKey: String?
 
-    var onTap: (ReccoTheme) -> Void
+    var onTap: (ReccoStyle) -> Void
     var dismiss: () -> Void
     
     var body: some View {
@@ -45,12 +45,12 @@ struct ChangeReccoThemeView: View {
                 .frame(width: 210, alignment: .leading)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    ForEach([ReccoTheme.ocean, .summer, .spring, .tech], id: \.self) { theme in
-                        editableThemeItem(theme, editable: false, key: theme.name)
+                    ForEach([ReccoStyle.ocean, .summer, .spring, .tech], id: \.self) { style in
+                        editableStyleItem(style, editable: false, key: style.name)
                     }
                     
                     ForEach(Array(storageObsevable.storage.palettes.keys), id: \.self) { key in
-                        editableThemeItem(storageObsevable.storage.palettes[key]!, editable: true, key: key)
+                        editableStyleItem(storageObsevable.storage.palettes[key]!, editable: true, key: key)
                     }
                 }
                 
@@ -83,18 +83,18 @@ struct ChangeReccoThemeView: View {
     }
     
     @ViewBuilder
-    private func editableThemeItem(_ theme: ReccoTheme, editable: Bool, key: String) -> some View {
+    private func editableStyleItem(_ style: ReccoStyle, editable: Bool, key: String) -> some View {
         HStack(spacing: 0) {
             Button {
                 withAnimation {
                     storageObsevable.storage.selectedKeyOrName = key
                     storageObsevable.storage.store()
                 }
-                onTap(theme)
+                onTap(style)
             } label: {
                 HStack(spacing: 0) {
                     ForEach([ColorScheme.light, .dark], id: \.self) { colorScheme in
-                        themeItem(theme, scheme: colorScheme)
+                        styleItem(style, scheme: colorScheme)
                             .padding(12)
                             .background(colorScheme.bgColor)
                             .environment(\.colorScheme, colorScheme)
@@ -116,7 +116,7 @@ struct ChangeReccoThemeView: View {
             
             if editable {
                 Button {
-                    editingThemeKey = key
+                    editingStyleKey = key
                     showingPaletteEditor = true
                 } label: {
                     Image(systemName: "pencil.circle.fill")
@@ -140,27 +140,27 @@ struct ChangeReccoThemeView: View {
     }
     
     @ViewBuilder
-    private func themeItem(_ theme: ReccoTheme, scheme: ColorScheme) -> some View {
+    private func styleItem(_ style: ReccoStyle, scheme: ColorScheme) -> some View {
         VStack {
-            Text(theme.name)
+            Text(style.name)
                 .textCase(.uppercase)
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundColor(scheme.fgColor)
             
-            themeItemColors(theme, scheme: scheme)
+            styleItemColors(style, scheme: scheme)
         }
     }
     
     @ViewBuilder
-    private func themeItemColors(_ theme: ReccoTheme, scheme: ColorScheme) -> some View {
+    private func styleItemColors(_ style: ReccoStyle, scheme: ColorScheme) -> some View {
         LazyVGrid(columns: gridLayout, spacing: 0) {
             ForEach([
-                theme.color.primary,
-                theme.color.onPrimary,
-                theme.color.accent,
-                theme.color.onAccent,
-                theme.color.background,
-                theme.color.onBackground
+                style.color.primary,
+                style.color.onPrimary,
+                style.color.accent,
+                style.color.onAccent,
+                style.color.background,
+                style.color.onBackground
             ], id: \.self) { item in
                 Rectangle()
                     .fill(Color(item.uiColor))
@@ -176,11 +176,11 @@ struct ChangeReccoThemeView: View {
     ]
 }
 
-struct ChangeReccoThemeView_Previews: PreviewProvider {
+struct ChangeReccoStyleView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeReccoThemeView(
+        ChangeReccoStyleView(
             showingPaletteEditor: .constant(false),
-            editingThemeKey: .constant(nil),
+            editingStyleKey: .constant(nil),
             onTap: { theme in },
             dismiss: {}
         )

@@ -5,29 +5,29 @@ import SwiftUI
 
 extension UIColor {
     static var reccoPrimary: UIColor {
-        Theme.color.primary.uiColor
+        CurrentReccoStyle.color.primary.uiColor
     }
     
     static var reccoAccent: UIColor {
-        Theme.color.accent.uiColor
+        CurrentReccoStyle.color.accent.uiColor
     }
     
-    static var reccoBackground: UIColor { Theme.color.background.uiColor
+    static var reccoBackground: UIColor { CurrentReccoStyle.color.background.uiColor
     }
     
-    static var reccoIllustration: UIColor { Theme.color.illustration.uiColor
+    static var reccoIllustration: UIColor { CurrentReccoStyle.color.illustration.uiColor
     }
     
-    static var reccoOnAccent: UIColor { Theme.color.onAccent.uiColor
+    static var reccoOnAccent: UIColor { CurrentReccoStyle.color.onAccent.uiColor
     }
     
-    static var reccoOnBackground: UIColor { Theme.color.onBackground.uiColor
+    static var reccoOnBackground: UIColor { CurrentReccoStyle.color.onBackground.uiColor
     }
     
-    static var reccoOnPrimary: UIColor { Theme.color.onPrimary.uiColor
+    static var reccoOnPrimary: UIColor { CurrentReccoStyle.color.onPrimary.uiColor
     }
     
-    static var reccoIllustrationLine: UIColor { Theme.color.illustrationLine.uiColor
+    static var reccoIllustrationLine: UIColor { CurrentReccoStyle.color.illustrationLine.uiColor
     }
     
     static let reccoLightGray: UIColor = .init(resource: "sfLightGray")!

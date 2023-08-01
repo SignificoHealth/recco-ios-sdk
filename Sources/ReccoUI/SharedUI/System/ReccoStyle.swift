@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-var Theme = ReccoTheme.summer
+var CurrentReccoStyle = ReccoStyle.summer
 
 public struct ReccoHexColor: Hashable, Equatable, Codable {
     public init(uiColor: UIColor) {
@@ -35,8 +35,8 @@ extension ReccoHexColor {
     }
 }
 
-public struct ReccoTheme: Equatable, Hashable, Codable {
-    public init(name: String, color: ReccoTheme.Color) {
+public struct ReccoStyle: Equatable, Hashable, Codable {
+    public init(name: String, color: ReccoStyle.Color) {
         self.color = color
         self.name = name
     }
@@ -64,12 +64,12 @@ public struct ReccoTheme: Equatable, Hashable, Codable {
     }
     
     public let name: String
-    public var color: ReccoTheme.Color
+    public var color: ReccoStyle.Color
 }
 
-extension ReccoTheme {
-    public static var ocean: ReccoTheme {
-        ReccoTheme(
+extension ReccoStyle {
+    public static var ocean: ReccoStyle {
+        ReccoStyle(
             name: "Ocean",
             color: .init(
                 primary: .init(lightModeHex: "#125e85FF", darkModeHex: "#ceeeffFF"),
@@ -84,8 +84,8 @@ extension ReccoTheme {
         )
     }
     
-    public static var summer: ReccoTheme {
-        ReccoTheme(
+    public static var summer: ReccoStyle {
+        ReccoStyle(
             name: "Summer",
             color: .init(
                 primary: .init(lightModeHex: "#383B45FF", darkModeHex: "#FFE6B0FF"),
@@ -100,8 +100,8 @@ extension ReccoTheme {
         )
     }
     
-    public static var spring: ReccoTheme {
-        ReccoTheme(
+    public static var spring: ReccoStyle {
+        ReccoStyle(
             name: "Spring",
             color: .init(
                 primary: .init(lightModeHex: "#2c956dFF", darkModeHex: "#ffddbeFF"),
@@ -116,8 +116,8 @@ extension ReccoTheme {
         )
     }
     
-    public static var tech: ReccoTheme {
-        ReccoTheme(
+    public static var tech: ReccoStyle {
+        ReccoStyle(
             name: "Tech",
             color: .init(
                 primary: .init(lightModeHex: "#2c956dFF", darkModeHex: "#e5e4a3FF"),

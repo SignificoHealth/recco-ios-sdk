@@ -51,7 +51,7 @@ struct ReccoErrorView: View {
         VStack(spacing: .S) {
             if let wrappedError = error.wrappedValue {
                 let sfError = ReccoErrorType(error: wrappedError)
-                ReccoThemeImage(name: sfError.imageName)
+                ReccoStyleImage(name: sfError.imageName)
 
                 VStack(spacing: .XXS) {
                     Text(sfError.title)

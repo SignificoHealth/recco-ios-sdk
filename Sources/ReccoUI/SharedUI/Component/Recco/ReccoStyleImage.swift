@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReccoThemeImage: View {
+struct ReccoStyleImage: View {
     var name: String
     var resizable: Bool = false
     
@@ -43,7 +43,7 @@ struct ReccoThemeImage: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        ReccoThemeImage(
+        ReccoStyleImage(
             name: "potted_plant"
         )
     }

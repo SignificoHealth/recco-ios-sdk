@@ -53,7 +53,7 @@ struct BookmarksView: View {
             Spacer()
             Text("recco_bookmarks_empty_state_title".localized)
                 .body1()
-            ReccoThemeImage(name: "empty", resizable: true)
+            ReccoStyleImage(name: "empty", resizable: true)
                 .scaledToFit()
                 .frame(maxHeight: 200)
             

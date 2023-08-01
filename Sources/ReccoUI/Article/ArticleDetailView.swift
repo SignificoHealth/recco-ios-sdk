@@ -155,7 +155,7 @@ struct ArticleDetailView: View {
         } else {
             ZStack {
                 Color.reccoIllustration
-                ReccoThemeImage(name: "default_image", resizable: true)
+                ReccoStyleImage(name: "default_image", resizable: true)
                     .scaledToFill()
             }
         }

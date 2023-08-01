@@ -19,11 +19,11 @@ final class PaletteStorageObservable: ObservableObject {
 }
 
 struct PaletteStorage: Codable {
-    var palettes: [String: ReccoTheme]
-    var selectedKeyOrName: String = ReccoTheme.summer.name
+    var palettes: [String: ReccoStyle]
+    var selectedKeyOrName: String = ReccoStyle.summer.name
     
-    var selectedTheme: ReccoTheme {
-        palettes[selectedKeyOrName] ?? [ReccoTheme.summer, .tech, .ocean, .spring].first { $0.name == selectedKeyOrName } ?? .summer
+    var selectedStyle: ReccoStyle {
+        palettes[selectedKeyOrName] ?? [ReccoStyle.summer, .tech, .ocean, .spring].first { $0.name == selectedKeyOrName } ?? .summer
     }
 }
 
