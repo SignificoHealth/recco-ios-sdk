@@ -4,7 +4,7 @@ Pod::Spec.new do |spec|
   spec.license       = { :type => 'Significo 2023 ©' }
   spec.homepage      = 'https://github.com/viluahealthcare/recco-ios-sdk'
   spec.authors       = { 'Significo' => 'recco@significo.com' }
-  spec.summary       = 'ARC and GCD Compatible Reachability Class for iOS and OS X.'
+  spec.summary       = 'Recco description'
   spec.source        = { :git => 'https://github.com/viluahealthcare/recco-ios-sdk.git', :branch => 'develop' }
   spec.module_name   = 'ReccoUI'
   
