@@ -3,14 +3,14 @@ import ReccoHeadless
 import SwiftUI
 
 /**
- Configures Recco SDK given a clientSecret and a theme (optional)
+ Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
     - clietSecret: Credential required to identify and authenticate the application.
-    - theme: Provides the style configuration the application will use; the default is ReccoTheme.summer.
+    - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
     clientSecret: String,
-    theme: ReccoTheme = .summer
+    style: ReccoStyle = .summer
 ) {
     assemble([
         HeadlessAssembly(clientSecret: clientSecret),
@@ -25,7 +25,7 @@ public func initialize(
         keychain: keychain
     )
     
-    Theme = theme
+    CurrentReccoStyle = style
 }
 
 /**
@@ -54,7 +54,7 @@ public func logout() async throws {
 /**
  Root UIViewController for Recco's full experience journey.
  */
-public func sfRootViewController() -> UIViewController {
+public func reccoRootViewController() -> UIViewController {
     UIHostingController(
         rootView: SplashView(
             viewModel: get()
@@ -65,12 +65,12 @@ public func sfRootViewController() -> UIViewController {
 /**
  Root View for Recco's full experience journey..
  */
-public struct SFRootView: View {
+public struct ReccoRootView: View {
     public init() {}
     
     public var body: some View {
         ToSwiftUI {
-            sfRootViewController()
+            reccoRootViewController()
         }
         .ignoresSafeArea()
     }

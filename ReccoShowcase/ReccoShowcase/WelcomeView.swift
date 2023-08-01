@@ -16,7 +16,7 @@ struct WelcomeView: View {
     @State var logoutError: Bool = false
     @State var showPaletteSelector = false
     @State var showingPaletteEditor = false
-    @State var editingThemeKey: String? = nil
+    @State var editingStyleKey: String? = nil
 
     var buttonsView: some View {
         VStack(spacing: 16) {
@@ -90,11 +90,11 @@ struct WelcomeView: View {
             )
             
             if showPaletteSelector {
-                ChangeReccoThemeView(
+                ChangeReccoStyleView(
                     showingPaletteEditor: $showingPaletteEditor,
-                    editingThemeKey: $editingThemeKey,
-                    onTap: { theme in
-                        ReccoUI.initialize(apiSecret: apiSecret, theme: theme)
+                    editingStyleKey: $editingStyleKey,
+                    onTap: { style in
+                        ReccoUI.initialize(clientSecret: clientSecret, style: style)
                         
                         showPaletteSelector.toggle()
                     },
@@ -121,14 +121,14 @@ struct WelcomeView: View {
         .background(Color.lightGray)
         .animation(.easeInOut(duration: 0.3), value: showPaletteSelector)
         .onChange(of: showingPaletteEditor, perform: { newValue in
-            if newValue == false { editingThemeKey = nil }
+            if newValue == false { editingStyleKey = nil }
         })
         .sheet(isPresented: $displayRecco) {
-            SFRootView()
+            ReccoRootView()
         }
         .sheet(isPresented: $showingPaletteEditor) {
             CreatePaletteView(
-                themeKey: editingThemeKey,
+                styleKey: editingStyleKey,
                 shouldShow: $showingPaletteEditor
             )
         }

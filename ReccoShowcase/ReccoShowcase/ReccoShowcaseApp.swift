@@ -8,7 +8,7 @@ struct ReccoShowcaseApp: App {
     init() {
         ReccoUI.initialize(
             clientSecret: clientSecret,
-            theme: PaletteStorageObservable.shared.storage.selectedTheme
+            style: PaletteStorageObservable.shared.storage.selectedStyle
         )
     }
     
