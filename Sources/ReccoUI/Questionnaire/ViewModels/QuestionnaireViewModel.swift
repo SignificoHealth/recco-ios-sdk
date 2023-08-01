@@ -5,7 +5,7 @@ import Combine
 class QuestionnaireViewModel: ObservableObject {
     private let nav: ReccoCoordinator
     private let repo: QuestionnaireRepository
-    private let shouldValidateAnswerOnQuestionChange: Bool
+    private let shouldValidateAllAnswersOnQuestionChange: Bool
     private let nextScreen: (Bool) -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
@@ -31,7 +31,7 @@ class QuestionnaireViewModel: ObservableObject {
     init(
         repo: QuestionnaireRepository,
         nav: ReccoCoordinator,
-        shouldValidateAnswerOnQuestionChange: Bool,
+        shouldValidateAllAnswersOnQuestionChange: Bool,
         mainButtonEnabledByDefault: Bool,
         nextScreen: @escaping (Bool) -> Void,
         getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question],
@@ -43,9 +43,9 @@ class QuestionnaireViewModel: ObservableObject {
         self.mainButtonEnabled = mainButtonEnabledByDefault
         self.sendQuestions = sendQuestions
         self.nav = nav
-        self.shouldValidateAnswerOnQuestionChange = shouldValidateAnswerOnQuestionChange
+        self.shouldValidateAllAnswersOnQuestionChange = shouldValidateAllAnswersOnQuestionChange
 
-        if shouldValidateAnswerOnQuestionChange {
+        if shouldValidateAllAnswersOnQuestionChange {
             validateAnswerOnQuestionChange()
         }
     }
@@ -70,7 +70,7 @@ class QuestionnaireViewModel: ObservableObject {
         let isValid = validate(
             answer: answer,
             for: question,
-            mandatoryAnswer: shouldValidateAnswerOnQuestionChange
+            mandatoryAnswer: shouldValidateAllAnswersOnQuestionChange
         )
         
         answers[question] = .init(
@@ -80,7 +80,7 @@ class QuestionnaireViewModel: ObservableObject {
             questionnaireId: question.questionnaireId
         )
         
-        if shouldValidateAnswerOnQuestionChange {
+        if shouldValidateAllAnswersOnQuestionChange {
             mainButtonEnabled = validateAll(
                 until: question,
                 mandatoryAnswer: true
@@ -96,7 +96,7 @@ class QuestionnaireViewModel: ObservableObject {
             next()
         }
         
-        if !shouldValidateAnswerOnQuestionChange {
+        if !shouldValidateAllAnswersOnQuestionChange {
             mainButtonEnabled = validate(
                 answer: answer,
                 for: question,
@@ -134,7 +134,7 @@ class QuestionnaireViewModel: ObservableObject {
         $currentQuestion
             .compactMap { $0 }
             .map { [unowned self] newValue in
-                if shouldValidateAnswerOnQuestionChange {
+                if shouldValidateAllAnswersOnQuestionChange {
                     return validateAll(until: newValue, mandatoryAnswer: true)
                 } else {
                     return true

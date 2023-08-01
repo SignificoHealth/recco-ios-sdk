@@ -10,7 +10,7 @@ final class OnboardingQuestionnaireViewModel: QuestionnaireViewModel {
         super.init(
             repo: repo,
             nav: nav,
-            shouldValidateAnswerOnQuestionChange: true,
+            shouldValidateAllAnswersOnQuestionChange: true,
             mainButtonEnabledByDefault: false,
             nextScreen: nextScreen,
             getQuestions: { repo in

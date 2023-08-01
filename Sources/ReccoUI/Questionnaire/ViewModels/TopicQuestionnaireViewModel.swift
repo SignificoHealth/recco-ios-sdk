@@ -11,7 +11,7 @@ final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
         super.init(
             repo: repo,
             nav: nav,
-            shouldValidateAnswerOnQuestionChange: false,
+            shouldValidateAllAnswersOnQuestionChange: false,
             mainButtonEnabledByDefault: true,
             nextScreen: { answeredAll in
                 reloadSection(answeredAll)
