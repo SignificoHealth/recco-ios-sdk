@@ -134,7 +134,7 @@ struct ArticleDetailView: View {
         if let imageUrl = viewModel.imageUrl {
             ReccoURLImageView(
                 url: imageUrl,
-                downSampleSize: .width(UIScreen.main.bounds.width)
+                downSampleSize: .size(.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.7))
             ) {
                 Color.reccoPrimary20.overlay(
                     Image(resource: "error_image")
