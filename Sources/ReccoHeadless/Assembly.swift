@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public final class HeadlessAssembly: ReccoAssembly {
+public final class ReccoHeadlessAssembly: ReccoAssembly {
     private let clientSecret: String
     
     public init(clientSecret: String) {

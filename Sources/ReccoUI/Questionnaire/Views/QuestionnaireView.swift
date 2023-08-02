@@ -61,7 +61,7 @@ struct QuestionnaireView: View {
                             }
                         }
                     )
-                    .disabled(!viewModel.mainButtonEnabled)
+                    .disabled(!viewModel.mainButtonEnabled || viewModel.sendLoading)
                 }
                 .padding(.M)
             }
