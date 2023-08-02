@@ -22,7 +22,7 @@ Enabling products to provide their users with a wealth of knowledge, tips, and e
 
 |                                      |                                      |                                       |
 |--------------------------------------|--------------------------------------|---------------------------------------|
-| <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-onboarding-dark.gif"><img alt="onboarding" src="./art/recco-onboarding-light.gif"></picture>| ![feed](.art/recco_feed_loaded.png) | ![overview](.art/recco_overview.png) |
+| <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-onboarding-dark.gif"><img alt="onboarding" src="./art/recco-onboarding-light.gif"></picture>| <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-questionnaire-dark.gif"><img alt="questionnaire" src="./art/recco-questionnaire-light.gif"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-dashboard-dark.gif"><img alt="darshboard" src="./art/recco-dashboard-light.gif"></picture> |
 
 
 ## Key features
