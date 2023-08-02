@@ -5,6 +5,7 @@ import Combine
 class QuestionnaireViewModel: ObservableObject {
     private let nav: ReccoCoordinator
     private let repo: QuestionnaireRepository
+    private let shouldValidateAllAnswersOnQuestionChange: Bool
     private let nextScreen: (Bool) -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
@@ -26,14 +27,12 @@ class QuestionnaireViewModel: ObservableObject {
     var isOnLastQuestion: Bool {
         return currentIndex == (questions?.count ?? 0) - 1
     }
-    
-    internal var isOnboarding: Bool {
-        type(of: self) == OnboardingQuestionnaireViewModel.self
-    }
-    
+
     init(
         repo: QuestionnaireRepository,
         nav: ReccoCoordinator,
+        shouldValidateAllAnswersOnQuestionChange: Bool,
+        mainButtonEnabledByDefault: Bool,
         nextScreen: @escaping (Bool) -> Void,
         getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question],
         sendQuestions: @escaping (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
@@ -41,11 +40,12 @@ class QuestionnaireViewModel: ObservableObject {
         self.repo = repo
         self.nextScreen = nextScreen
         self.getQuestions = getQuestions
-        self.mainButtonEnabled = type(of: self) == TopicQuestionnaireViewModel.self
+        self.mainButtonEnabled = mainButtonEnabledByDefault
         self.sendQuestions = sendQuestions
         self.nav = nav
-        
-        if isOnboarding {
+        self.shouldValidateAllAnswersOnQuestionChange = shouldValidateAllAnswersOnQuestionChange
+
+        if shouldValidateAllAnswersOnQuestionChange {
             validateAnswerOnQuestionChange()
         }
     }
@@ -70,7 +70,7 @@ class QuestionnaireViewModel: ObservableObject {
         let isValid = validate(
             answer: answer,
             for: question,
-            mandatoryAnswer: isOnboarding
+            mandatoryAnswer: shouldValidateAllAnswersOnQuestionChange
         )
         
         answers[question] = .init(
@@ -80,7 +80,7 @@ class QuestionnaireViewModel: ObservableObject {
             questionnaireId: question.questionnaireId
         )
         
-        if isOnboarding {
+        if shouldValidateAllAnswersOnQuestionChange {
             mainButtonEnabled = validateAll(
                 until: question,
                 mandatoryAnswer: true
@@ -96,7 +96,7 @@ class QuestionnaireViewModel: ObservableObject {
             next()
         }
         
-        if !isOnboarding {
+        if !shouldValidateAllAnswersOnQuestionChange {
             mainButtonEnabled = validate(
                 answer: answer,
                 for: question,
@@ -104,7 +104,7 @@ class QuestionnaireViewModel: ObservableObject {
             )
         }
     }
-    
+
     @MainActor
     func getQuestionnaire() async {
         do {
@@ -134,8 +134,8 @@ class QuestionnaireViewModel: ObservableObject {
         $currentQuestion
             .compactMap { $0 }
             .map { [unowned self] newValue in
-                if isOnboarding {
-                    return validateAll(until: newValue, mandatoryAnswer: isOnboarding)
+                if shouldValidateAllAnswersOnQuestionChange {
+                    return validateAll(until: newValue, mandatoryAnswer: true)
                 } else {
                     return true
                 }
@@ -162,7 +162,9 @@ class QuestionnaireViewModel: ObservableObject {
     }
     
     private func didAnswerAllQuestions() -> Bool {
-        validateAll(until: questions!.last!, mandatoryAnswer: true)
+        guard let lastQuestion = questions?.last else { return false }
+
+        return validateAll(until: lastQuestion, mandatoryAnswer: true)
     }
     
     internal func validate(
