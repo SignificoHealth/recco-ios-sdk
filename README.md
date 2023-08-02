@@ -22,7 +22,7 @@ Enabling products to provide their users with a wealth of knowledge, tips, and e
 
 |                                      |                                      |                                       |
 |--------------------------------------|--------------------------------------|---------------------------------------|
-| <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-onboarding-dark.gif"><img alt="onboarding" src="./art/recco-onboarding-light.gif"></picture>| <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-questionnaire-dark.gif"><img alt="questionnaire" src="./art/recco-questionnaire-light.gif"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-dashboard-dark.gif"><img alt="darshboard" src="./art/recco-dashboard-light.gif"></picture> |
+| <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-onboarding-dark.gif"><source media="(prefers-color-scheme: light)" srcset=".art/recco-onboarding-light.gif"><img alt="onboarding" src="./art/recco-onboarding-light.gif"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-questionnaire-dark.gif"><source media="(prefers-color-scheme: light)" srcset=".art/recco-questionnaire-light.gif"><img alt="questionnaire" src="./art/recco-questionnaire-light.gif"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset=".art/recco-dashboard-dark.gif"><source media="(prefers-color-scheme: light)" srcset=".art/recco-dashboard-light.gif"><img alt="darshboard" src="./art/recco-dashboard-light.gif"></picture> |
 
 
 ## Key features
