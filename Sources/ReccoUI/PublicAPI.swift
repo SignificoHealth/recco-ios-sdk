@@ -13,8 +13,8 @@ public func initialize(
     style: ReccoStyle = .summer
 ) {
     assemble([
-        HeadlessAssembly(clientSecret: clientSecret),
-        UIAssembly()
+        ReccoHeadlessAssembly(clientSecret: clientSecret),
+        ReccoUIAssembly()
     ])
     
     let keychain: KeychainProxy = get()

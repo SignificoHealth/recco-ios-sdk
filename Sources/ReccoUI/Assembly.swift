@@ -1,7 +1,7 @@
 import ReccoHeadless
 import SwiftUI
 
-final class UIAssembly: ReccoAssembly {
+final class ReccoUIAssembly: ReccoAssembly {
     init() {}
     func assemble(container: ReccoContainer) {
         container.register(type: ReccoCoordinator.self) { r in
@@ -71,5 +71,5 @@ final class UIAssembly: ReccoAssembly {
 import SwiftUI
 
 func withAssembly<Content>(@ViewBuilder content: @escaping (ReccoResolver) -> Content) -> Assembling<Content> {
-    Assembling(HeadlessAssembly(clientSecret: ""), UIAssembly(), content: content)
+    Assembling(ReccoHeadlessAssembly(clientSecret: ""), ReccoUIAssembly(), content: content)
 }
