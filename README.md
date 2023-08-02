@@ -47,7 +47,7 @@ __Personalized content__
 
 Our engine learns to recommend content for each topic that motivates the user to improve their health behavior. The recommendations will change based on the path the user chooses, and will always recommend content, which will help the user to move forward.
 
-__Recco__ once integrated, will be part of your product, and can be experienced as a __full interactive journey__ for your users. 
+Once integrated, __Recco__ will be part of your product, and can be experienced as a __full interactive journey__ for your users. 
 
 ## Setup
 
@@ -100,14 +100,14 @@ __Be mindful that if you don't initialize the SDK before using it, everything wi
 
 ### Logging in and out
 
-The SDK focuses on providing tailored content to each of you users. For this matter, everytime you app logs a user in or out, you will need to tell Recco that it has happened. 
+The SDK focuses on providing tailored content to each of your users. For this reason, everytime your app logs a user in or out, you will need to tell Recco that it has happened. 
 
 Logging your user in on Recco will just require you to pass along a __unique identifier__ for that user. We recommend you don't use any critical piece of information to do this, but in any case, our backend hashes and stores that unique ID for good measure. Calling login in the SDK then, will work like this: 
 
 ```swift
 import ReccoUI
 
-// ideally we would call this method after a successful login into your own system
+// ideally you would call this method after a successful login into your own system
 // ReccoUI.login(userId:) is an async function, be sure to run it in an async context.
 
 do {
@@ -117,7 +117,7 @@ do {
 }
 ```
 
-And when your user logs out of your app successfully just call: 
+And when your user logs out of your app successfully, just call: 
 
 ```swift
 import ReccoUI
@@ -133,11 +133,11 @@ do {
 
 ### Entry point to Recco
 
-After initialization and login in, you just need to provide an entry point in your app to show Recco. You can use any kind of button or view to achieve this, but once you want to open Recco, you will need to present our `UIViewController`, or our `SwiftUI` view. You can do this like so:
+After initialization and loging in, you just need to provide an entry point in your app to show Recco. You can use any kind of button or view to achieve this, but once you want to open Recco, you will need to present our `UIViewController`, or our `SwiftUI` view. You can do this like so:
 
 ```swift
 // using UIKit
-// ie. after the user taps a button:
+// i.e. after the user taps a button:
 
 let reccoViewController = ReccoUI.reccoRootViewController()
 yourAppCurrentViewController.present(reccoViewController, animated: true)
@@ -153,7 +153,7 @@ YourAwesomeView()
 
 ## Releases
 
-Our [CHANGELOG.md](./CHANGELOG.md) contains all releases information.
+Our [CHANGELOG.md](./CHANGELOG.md) contains information on all releases.
 
 [PAT]:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 [Github-Recco]:https://github.com/orgs/viluahealthcare/packages?repo_name=recco-ios-sdk
