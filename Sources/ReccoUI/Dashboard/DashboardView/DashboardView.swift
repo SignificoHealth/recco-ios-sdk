@@ -72,7 +72,7 @@ struct DashboardView: View {
             text: section.type.description,
             buttonText: "recco_start".localized,
             header: {
-                ReccoThemeImage(name: "people_digital", resizable: true)
+                ReccoStyleImage(name: "people_digital", resizable: true)
                     .aspectRatio(1, contentMode: .fit)
                     .padding(.horizontal, .XL)
             },
@@ -119,7 +119,7 @@ struct DashboardHeader: View {
                 
                 Spacer()
                 
-                ReccoThemeImage(name: "potted_plant")
+                ReccoStyleImage(name: "potted_plant")
             }
         }
     }

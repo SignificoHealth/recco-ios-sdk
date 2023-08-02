@@ -54,7 +54,7 @@ struct SignInView: View {
                     loginLoading = true
                     Task {
                         do {
-                            try await ReccoUI.login(user: input)
+                            try await ReccoUI.login(userId: input)
                             username = input
                         } catch {
                             loginError = true

@@ -2,9 +2,15 @@ import Foundation
 import ReccoHeadless
 import SwiftUI
 
+/**
+ Configures Recco SDK given a clientSecret and a style (optional)
+ - Parameters:
+    - clietSecret: Credential required to identify and authenticate the application.
+    - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
+ */
 public func initialize(
     clientSecret: String,
-    theme: ReccoTheme = .summer
+    style: ReccoStyle = .summer
 ) {
     assemble([
         HeadlessAssembly(clientSecret: clientSecret),
@@ -19,24 +25,36 @@ public func initialize(
         keychain: keychain
     )
     
-    Theme = theme
+    CurrentReccoStyle = style
 }
 
-public func login(user: String) async throws {
-    try await login(user: user, authRepository: get(), meRepository: get())
+/**
+ Performs login operation given a user identifier
+ - Parameters:
+    - userId: User to be consuming the SDK and to be creating its own experience.
+ */
+public func login(userId: String) async throws {
+    try await login(userId: userId, authRepository: get(), meRepository: get())
 }
 
-func login(user: String, authRepository: AuthRepository, meRepository: MeRepo) async throws {
-    try await authRepository.login(clientUserId: user)
+func login(userId: String, authRepository: AuthRepository, meRepository: MeRepo) async throws {
+    try await authRepository.login(clientUserId: userId)
     try await meRepository.getMe()
 }
 
+/**
+ Performs logout operation
+ */
 public func logout() async throws {
     let repo: AuthRepository = get()
     try await repo.logout()
 }
 
-public func sfRootViewController() -> UIViewController {
+
+/**
+ Root UIViewController for Recco's full experience journey.
+ */
+public func reccoRootViewController() -> UIViewController {
     UIHostingController(
         rootView: SplashView(
             viewModel: get()
@@ -44,12 +62,15 @@ public func sfRootViewController() -> UIViewController {
     )
 }
 
-public struct SFRootView: View {
+/**
+ Root View for Recco's full experience journey..
+ */
+public struct ReccoRootView: View {
     public init() {}
     
     public var body: some View {
         ToSwiftUI {
-            sfRootViewController()
+            reccoRootViewController()
         }
         .ignoresSafeArea()
     }

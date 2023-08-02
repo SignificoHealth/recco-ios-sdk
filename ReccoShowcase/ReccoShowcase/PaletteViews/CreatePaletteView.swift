@@ -29,10 +29,10 @@ struct CreatePaletteView: View {
     @ObservedObject var storageState: PaletteStorageObservable = .shared
     @Binding var shouldShow: Bool
     
-    private var themeKey: String?
+    private var styleKey: String?
     
     @State var tabSelection: PalleteType = .light
-    @State var themeName: String
+    @State var styleName: String
     @State var primaryLight: Color
     @State var onPrimaryLight: Color
     @State var accentLight: Color
@@ -51,38 +51,38 @@ struct CreatePaletteView: View {
     @State var illustrationOutlineDark: Color
 
     internal init(
-        themeKey: String? = nil,
+        styleKey: String? = nil,
         shouldShow: Binding<Bool>
     ) {
-        let theme = themeKey.flatMap {
+        let style = styleKey.flatMap {
             PaletteStorageObservable.shared.storage.palettes[$0]
         } ?? .summer
                 
-        self.themeKey = themeKey
+        self.styleKey = styleKey
         self._shouldShow = shouldShow
-        self._themeName = .init(initialValue: theme.name == ReccoTheme.summer.name ? "" : theme.name)
-        self.primaryLight = Color(theme.color.primary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.onPrimaryLight = Color(theme.color.onPrimary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.accentLight = Color(theme.color.accent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.onAccentLight = Color(theme.color.onAccent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.backgroundLight = Color(theme.color.background.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.onBackgroundLight = Color(theme.color.onBackground.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.illustrationLight = Color(theme.color.illustration.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.illustrationOutlineLight = Color(theme.color.illustrationLine.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
-        self.primaryDark = Color(theme.color.primary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.onPrimaryDark = Color(theme.color.onPrimary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.accentDark = Color(theme.color.accent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.onAccentDark = Color(theme.color.onAccent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.backgroundDark = Color(theme.color.background.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.onBackgroundDark = Color(theme.color.onBackground.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.illustrationDark = Color(theme.color.illustration.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
-        self.illustrationOutlineDark = Color(theme.color.illustrationLine.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self._styleName = .init(initialValue: style.name == ReccoStyle.summer.name ? "" : style.name)
+        self.primaryLight = Color(style.color.primary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.onPrimaryLight = Color(style.color.onPrimary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.accentLight = Color(style.color.accent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.onAccentLight = Color(style.color.onAccent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.backgroundLight = Color(style.color.background.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.onBackgroundLight = Color(style.color.onBackground.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.illustrationLight = Color(style.color.illustration.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.illustrationOutlineLight = Color(style.color.illustrationLine.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
+        self.primaryDark = Color(style.color.primary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.onPrimaryDark = Color(style.color.onPrimary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.accentDark = Color(style.color.accent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.onAccentDark = Color(style.color.onAccent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.backgroundDark = Color(style.color.background.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.onBackgroundDark = Color(style.color.onBackground.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.illustrationDark = Color(style.color.illustration.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
+        self.illustrationOutlineDark = Color(style.color.illustrationLine.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
     }
     
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                Text(themeKey == nil ? "new_theme" : "edit_theme")
+                Text(styleKey == nil ? "new_theme" : "edit_theme")
                     .font(.system(.title))
                     .bold()
                     .foregroundColor(.warmBrown)
@@ -91,7 +91,7 @@ struct CreatePaletteView: View {
                     Text("theme_name")
                         .inputTitle()
                     
-                    TextField("theme_name_placeholder", text: $themeName)
+                    TextField("theme_name_placeholder", text: $styleName)
                         .font(.system(size: 15, weight: .light))
                         .foregroundColor(.warmBrown)
                         .keyboardType(.alphabet)
@@ -129,9 +129,9 @@ struct CreatePaletteView: View {
             .font(.body)
             
             Button("save_theme") {
-                let key = themeKey ?? UUID().uuidString
-                storageState.storage.palettes[key] = ReccoTheme(
-                    name: themeName,
+                let key = styleKey ?? UUID().uuidString
+                storageState.storage.palettes[key] = ReccoStyle(
+                    name: styleName,
                     color: .init(
                         primary: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(primaryLight) : UIColor(primaryDark)
@@ -173,7 +173,7 @@ struct CreatePaletteView: View {
             }
             .buttonStyle(CallToActionPrimaryStyle())
             .padding()
-            .disabled(themeName.isEmpty)
+            .disabled(styleName.isEmpty)
         }
         .background(
             Color.lightGray.ignoresSafeArea()

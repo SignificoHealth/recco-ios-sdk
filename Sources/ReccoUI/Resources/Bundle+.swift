@@ -13,7 +13,7 @@ public let localBundle = Bundle.resourcesBundle
 
 private final class CurrentBundleFinder {}
 
-private let packageName: String = "ReccoUI"
+private let packageName: String = "Recco"
 private let targetName: String = "ReccoUI"
 
 extension Foundation.Bundle {

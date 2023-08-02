@@ -59,6 +59,69 @@ final class Mocks {
         )
     }
 
+    static let singleChoiceQuestion: Question = try! Question(
+        id: "question-0",
+        questionnaireId: "questionnaire-0",
+        index: 0,
+        text: "Question 0",
+        type: .multichoice,
+        multiChoice: MultiChoiceQuestion(
+            maxOptions: 1,
+            minOptions: 1,
+            options: (1...5).map { MultiChoiceAnswerOption(id: $0, text: "\($0)") }
+        ),
+        multichoiceAnswer: [1]
+    )
+    static let singleChoiceCorrectAnswer = EitherAnswerType.multiChoice([1])
+
+    static let singleChoiceQuestions: [Question] = (0...4).map { index in
+        try! Question(
+            id: "question-\(index)",
+            questionnaireId: "questionnaire-\(index)",
+            index: index,
+            text: "Question \(index)",
+            type: .multichoice,
+            multiChoice: MultiChoiceQuestion(
+                maxOptions: 1,
+                minOptions: 1,
+                options: (1...5).map { MultiChoiceAnswerOption(id: $0, text: "\($0)") }
+            ),
+            multichoiceAnswer: [1]
+        )
+    }
+
+    static func getSingleChoiceQuestionsWithAnswers(answers: [EitherAnswerType]) throws -> ([Question], [Question: CreateQuestionnaireAnswer]) {
+        let count = answers.count
+        var questions = [Question]()
+        var answersMap = [Question: CreateQuestionnaireAnswer]()
+
+        try (0..<count).forEach { index in
+            let question = try Question(
+                id: "question-\(index)",
+                questionnaireId: "questionnaire-\(index)",
+                index: index,
+                text: "Question \(index)",
+                type: .multichoice,
+                multiChoice: MultiChoiceQuestion(
+                    maxOptions: 1,
+                    minOptions: 1,
+                    options: (1...5).map { MultiChoiceAnswerOption(id: $0, text: "\($0)") }
+                ),
+                multichoiceAnswer: [1]
+            )
+            let answer = CreateQuestionnaireAnswer(
+                value: answers[index],
+                questionId: question.id,
+                type: question.type,
+                questionnaireId: question.questionnaireId
+            )
+            questions.append(question)
+            answersMap[question] = answer
+        }
+
+        return (questions, answersMap)
+    }
+
     static let multiChoiceQuestion: Question = try! Question(
         id: "question-0",
         questionnaireId: "questionnaire-0",
@@ -73,8 +136,7 @@ final class Mocks {
         multichoiceAnswer: [1, 2]
     )
     static let multiChoiceCorrectAnswer = EitherAnswerType.multiChoice([1, 2])
-    static let multiChoiceIncorrectAnswer = EitherAnswerType.multiChoice([1, 2, 3, 4, 5])
-    static let multiChoiceInvalidAnswer = EitherAnswerType.multiChoice(nil)
+    static let multiChoiceInvalidAnswer = EitherAnswerType.multiChoice([])
 
     static let numericQuestion: Question = try! Question(
         id: "question-0",
@@ -89,8 +151,7 @@ final class Mocks {
         ),
         numericAnswer: 2
     )
-    static let numericCorrectAnswer = EitherAnswerType.numeric(2)
-    static let numericIncorrectAnswer = EitherAnswerType.numeric(10)
+    static let numericCorrectAnswer = EitherAnswerType.numeric(1)
     static let numericInvalidAnswer = EitherAnswerType.numeric(nil)
 
     static let numericQuestions: [Question] = (0...4).map { index in
@@ -107,5 +168,37 @@ final class Mocks {
             ),
             numericAnswer: 2
         )
+    }
+
+    static func getNumericQuestionsWithAnswers(answers: [EitherAnswerType]) throws -> ([Question], [Question: CreateQuestionnaireAnswer]) {
+        let count = answers.count
+        var questions = [Question]()
+        var answersMap = [Question: CreateQuestionnaireAnswer]()
+
+        try (0..<count).forEach { index in
+            let question = try Question(
+                id: "question-\(index)",
+                questionnaireId: "questionnaire-\(index)",
+                index: index,
+                text: "Question \(index)",
+                type: .numeric,
+                numeric: NumericQuestion(
+                    maxValue: 4,
+                    minValue: 0,
+                    format: .decimal
+                ),
+                numericAnswer: 2
+            )
+            let answer = CreateQuestionnaireAnswer(
+                value: answers[index],
+                questionId: question.id,
+                type: question.type,
+                questionnaireId: question.questionnaireId
+            )
+            questions.append(question)
+            answersMap[question] = answer
+        }
+
+        return (questions, answersMap)
     }
 }

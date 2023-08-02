@@ -10,7 +10,7 @@ struct OnboardingOutroView: View {
                     VStack(spacing: .L) {
                         ZStack(alignment: .bottom) {
                             Color.reccoAccent20
-                            ReccoThemeImage(name: "onboarding_image_3", resizable: true)
+                            ReccoStyleImage(name: "onboarding_image_3", resizable: true)
                                 .scaledToFit()
                                 .frame(height: proxy.size.height * 0.4)
                         }

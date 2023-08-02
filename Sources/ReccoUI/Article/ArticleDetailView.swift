@@ -1,5 +1,4 @@
 import SwiftUI
-import NukeUI
 import ReccoHeadless
 
 fileprivate struct BoundsPreference: PreferenceKey {
@@ -133,33 +132,30 @@ struct ArticleDetailView: View {
     @ViewBuilder
     private var articleHeader: some View {
         if let imageUrl = viewModel.imageUrl {
-            LazyImage(
-                url: imageUrl
-            ) { state in
-                if let image = state.image {
-                    image
+            ReccoURLImageView(
+                url: imageUrl,
+                downSampleSize: .size(.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.7))
+            ) {
+                Color.reccoPrimary20.overlay(
+                    Image(resource: "error_image")
                         .resizable()
-                        .scaledToFill()
-                        .addBlackOpacityOverlay()
-                } else if state.error != nil {
-                    Color.reccoPrimary20.overlay(
-                        Image(resource: "error_image")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    )
+                        .aspectRatio(contentMode: .fill)
+                )
+                .addBlackOpacityOverlay()
+            } loadingView: {
+                ReccoImageLoadingView(feedItem: false)
+                    .scaledToFill()
                     .addBlackOpacityOverlay()
-                } else {
-                    ReccoImageLoadingView(feedItem: false)
-                        .scaledToFill()
-                        .addBlackOpacityOverlay()
-                }
+            } transformView: { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .addBlackOpacityOverlay()
             }
-            .processors([.resize(width: UIScreen.main.bounds.width)])
-            .animation(.linear(duration: 0.3))
         } else {
             ZStack {
                 Color.reccoIllustration
-                ReccoThemeImage(name: "default_image", resizable: true)
+                ReccoStyleImage(name: "default_image", resizable: true)
                     .scaledToFill()
             }
         }
