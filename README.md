@@ -4,19 +4,19 @@
 
 This repository holds the codebase for the Recco iOS SDK. Instructions on how to add and use this iOS library can be found in the [Usage](#usage) section.
 
-You are more than welcome to clone the repository and compile it on your own to run the Showcase app. You can also [write us](mailto:recco@significo.com) requesting direct access to a Testflight build of our showcase application, for those members of your team who may be less tech savvy.
+You are more than welcome to clone the repository and compile it yourself to run the Showcase app. You can also [write to us](mailto:recco@significo.com) requesting direct access to a Testflight build of our showcase application, for those members of your team who may be less tech savvy.
 
 However, please be aware that in order to actually integrate it into your own application, you will first need to contact our sales team to initiate the license acquisition process. For that purpose, please send an email to recco@significo.com.
 
 ## Overview
 
-Personalized, and user-friendly approach to health and wellness recommendations based on users' unique interests, motivations, and health behaviors. Whether they are looking to improve their fitness, manage their stress, or simply lead a more fulfilling life. __`Recco` is designed to help them reach their full potential.__
+Personalized and user-friendly approach to health and wellness recommendations based on users' unique interests, motivations, and health behaviors. Whether they are looking to improve their fitness, manage their stress, or simply lead a more fulfilling life, __`Recco` is designed to help them reach their full potential.__
 
-_We believe that everyone deserves to live their best life, and we are committed to making that vision a reality through our cutting-edge technology and unwavering dedication to scientific accuracy._
+_We believe that everyone deserves to live their best life, and we are committed to making that vision a reality, through our cutting-edge technology and unwavering dedication to scientific accuracy._
 
 ## Mission
 
-Allow experiencing firsthand the effectiveness of our `recommendation engine`. Empower users to achieve their best selves through personalized recommendations that are grounded in the latest scientific research. 
+We want you to experience firsthand the effectiveness of our `recommendation engine`. Empower users to achieve their best selves through personalized recommendations that are grounded in the latest scientific research. 
 
 Enabling products to provide their users with a wealth of knowledge, tips, and exercises to help them improve their behavior and achieve their goals.
 
@@ -33,25 +33,25 @@ We believe in open communication and encourage individuals to take ownership and
 
 __Seamless integration__
 
-This product has a special focus on working smoothly with existing products. With very few steps Recco can be configured and fully operational.
+This product has a special focus on working smoothly with existing products. Recco can be configured and fully operational in just a few steps.
 
 __Technological trend__
 
-Recco aims to be in line with modern solutions and development trends, best practices and official guidelines are followed to keep quality at is highest level.
+Recco aims to be in line with modern solutions and development trends. We followed the best practices and official guidelines to keep quality at is highest level.
 
 __Analytics & Reporting__ 
 
-Monitor the utilization and impact of the recommendation engine. You can track key metrics like user engagement, satisfaction levels, and health outcomes to evaluate the effectiveness of our solution.
+Monitor the utilization and impact of the recommendation engine. You can track key metrics, such as user engagement, satisfaction levels, and health outcomes to evaluate the effectiveness of our solution.
 
 __Personalized content__ 
 
-Our engine learns to recommend the user content for each topic that the user motivate to improve their health behavior. The recommendations will change on the path of the user and will recommend always the content which the user helps to go forward in the specific time.
+Our engine learns to recommend content for each topic that motivates the user to improve their health behavior. The recommendations will change based on the path the user chooses, and will always recommend content, which will help the user to move forward.
+
+__Recco__ once integrated, will be part of your product, and can be experienced as a __full interactive journey__ for your users. 
 
 ## Setup
 
-__Recco__ can be integrated and be part of your product the whole product experience, is brought in the shape of a a __full user interactive journey__ having all features included.
-
-Following this approach, integration brings access to services in which the UI solution leans, so consumers can develop __their own experiences__.
+You can install the Recco SDK using several methods:
 
 ### Swift Package Manager
 
@@ -61,7 +61,7 @@ Using Xcode:
 + Add `https://github.com/sf-recco/ios-sdk.git`
 + Select "Up to Next Major" with "1.0.0"
 
-To integrate using Apple's Swift package manager, without Xcode integration, add the following as a dependency to your `Package.swift`:
+To integrate using Apple's Swift package manager, without Xcode integration, add the following dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
@@ -79,13 +79,13 @@ pod 'ReccoUI'
 
 ## Usage
 
-This section aims to explain how Recco integration in iOS projects is accomplished. Make sure, you also check out [Flutter][Recco-Flutter] and [Android][Recco-Android] counterparts!
+This section aims to explain how Recco integration in iOS projects is accomplished. Make sure you also check out [Flutter][Recco-Flutter] and [Android][Recco-Android] counterparts!
 
 To integrate the SDK into your application, you will need to follow the following steps:
 
 ### Initialization
 
-Initialization serves the purpouse of establishing your `clientSecret`, and loading the appropiate resources for the SDK to function. It also allows you to set up any styling that suits your application. To do this, add to you `AppDelegate.willFinishLaunchingWithOptions` or `App.init` instance the following code:
+Initialization serves the purpose of establishing your `clientSecret`, and loading the appropiate resources for the SDK to function. It also allows you to set up any styling that suits your application. To do this, add the following code to your `AppDelegate.willFinishLaunchingWithOptions` or `App.init` instance:
 
 ```swift
 import ReccoUI
