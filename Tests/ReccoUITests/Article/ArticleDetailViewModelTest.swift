@@ -86,7 +86,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
-        viewModel.toggleBookmark()
+        await viewModel.toggleBookmark()
 
         await fulfillment(of: [setBookmarkExpectation], timeout: 1)
         XCTAssertTrue(viewModel.isLoading)
@@ -108,7 +108,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, false)
-        viewModel.toggleBookmark()
+        await viewModel.toggleBookmark()
 
         await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
@@ -132,7 +132,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, false)
-        viewModel.toggleBookmark()
+        await viewModel.toggleBookmark()
 
         await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
@@ -151,7 +151,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
-        viewModel.rate(.like)
+        await viewModel.rate(.like)
 
         await fulfillment(of: [setRatingExpectation], timeout: 1)
         XCTAssertTrue(viewModel.isLoading)
@@ -169,7 +169,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, .notRated)
-        viewModel.rate(.like)
+        await viewModel.rate(.like)
 
         await fulfillment(of: [setRatingExpectation], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
@@ -187,7 +187,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, .notRated)
-        viewModel.rate(expectedRating)
+        await viewModel.rate(expectedRating)
 
         await fulfillment(of: [setRatingExpectation], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)

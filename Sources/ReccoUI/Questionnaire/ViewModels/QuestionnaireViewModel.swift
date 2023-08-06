@@ -59,7 +59,9 @@ class QuestionnaireViewModel: ObservableObject {
     @MainActor
     func next() {
         if isOnLastQuestion {
-            sendQuestionnaire()
+            Task {
+                await sendQuestionnaire()
+            }
         } else {
             currentQuestion = questions?[safe: currentIndex + 1]
         }
@@ -144,21 +146,19 @@ class QuestionnaireViewModel: ObservableObject {
     }
     
     @MainActor
-    private func sendQuestionnaire() {
-        Task {
-            sendLoading = true
-            
-            do {
-                let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
-                try await sendQuestions(repo, answers)
-                
-                nextScreen(didAnswerAllQuestions())
-            } catch {
-                sendError = error
-            }
-            
-            sendLoading = false
+    private func sendQuestionnaire() async {
+        sendLoading = true
+
+        do {
+            let answers: [CreateQuestionnaireAnswer] = answers.values.compactMap { $0 }
+            try await sendQuestions(repo, answers)
+
+            nextScreen(didAnswerAllQuestions())
+        } catch {
+            sendError = error
         }
+
+        sendLoading = false
     }
     
     private func didAnswerAllQuestions() -> Bool {
@@ -192,7 +192,7 @@ class QuestionnaireViewModel: ObservableObject {
     
     internal func validateAll(until q: Question, mandatoryAnswer: Bool) -> Bool {
         guard let partial = questions?.firstIndex(of: q),
-            let partialQuestions = questions?[0...partial] else {
+              let partialQuestions = questions?[0...partial] else {
             return false
         }
         
