@@ -2,7 +2,7 @@ import SwiftUI
 import ReccoHeadless
 
 struct ReccoContentInteractionView: View {
-    init(rating: ContentRating, bookmark: Bool, toggleBookmark: @escaping () -> Void, rate: @escaping (ContentRating) -> Void) {
+    init(rating: ContentRating, bookmark: Bool, toggleBookmark: @escaping () async -> Void, rate: @escaping (ContentRating) async -> Void) {
         self.rating = rating
         self.bookmark = bookmark
         self.toggleBookmark = toggleBookmark
@@ -11,13 +11,15 @@ struct ReccoContentInteractionView: View {
     
     var rating: ContentRating
     var bookmark: Bool
-    var toggleBookmark: () -> Void
-    var rate: (ContentRating) -> Void
+    var toggleBookmark: () async -> Void
+    var rate: (ContentRating) async -> Void
     
     var body: some View {
         HStack(spacing: .XS) {
             Button {
-                toggleBookmark()
+                Task {
+                    await toggleBookmark()
+                }
             } label: {
                 Image(resource: bookmark ? "bookmark_filled" : "bookmark_outline")
                     .renderingMode(.template)
@@ -31,7 +33,9 @@ struct ReccoContentInteractionView: View {
                 .frame(width: 2)
             
             Button {
-                rate(rating == .like ? .notRated : .like)
+                Task {
+                    await rate(rating == .like ? .notRated : .like)
+                }
             } label: {
                 Image(resource: rating == .like ? "like_filled" : "like_outline")
                     .renderingMode(.template)
@@ -41,7 +45,9 @@ struct ReccoContentInteractionView: View {
             }
             
             Button {
-                rate(rating == .dislike ? .notRated : .dislike)
+                Task {
+                    await rate(rating == .dislike ? .notRated : .dislike)
+                }
             } label: {
                 Image(resource: rating == .dislike ? "dislike_filled" : "dislike_outline")
                     .renderingMode(.template)

@@ -32,7 +32,10 @@ struct OnboardingOutroView: View {
                 ReccoButtonView(
                     text: "recco_onboarding_go_to_dashboard".localized,
                     isLoading: viewModel.isLoading,
-                    action: viewModel.goToDashboardPressed
+                    action: {
+                        Task { 
+                            await viewModel.goToDashboardPressed() }
+                    }
                 )
                 .padding(.M)
             }

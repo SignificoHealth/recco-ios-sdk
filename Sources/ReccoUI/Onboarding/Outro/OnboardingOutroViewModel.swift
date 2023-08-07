@@ -19,16 +19,15 @@ final class OnboardingOutroViewModel: ObservableObject {
     func close() {
         nav.navigate(to: .dismiss)
     }
-    
-    func goToDashboardPressed() {
-        Task { @MainActor in
-            isLoading = true
-            do {
-                try await meRepo.getMe()
-            } catch {
-                meError = error
-            }
-            isLoading = false
+
+    @MainActor
+    func goToDashboardPressed() async {
+        isLoading = true
+        do {
+            try await meRepo.getMe()
+        } catch {
+            meError = error
         }
+        isLoading = false
     }
 }

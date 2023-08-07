@@ -46,46 +46,44 @@ final class ArticleDetailViewModel: ObservableObject {
         
         isLoading = false
     }
-    
-    func toggleBookmark() {
+
+    @MainActor
+    func toggleBookmark() async {
         guard let article = article else { return }
 
-        Task { @MainActor in
-            do {
-                try await contentRepo.setBookmark(.init(
-                    contentId: article.id,
-                    contentType: .articles,
-                    bookmarked: !article.bookmarked
-                ))
-                
-                self.article?.bookmarked.toggle()
-                self.onBookmarkChanged(!article.bookmarked)
-            } catch {
-                actionError = error
-            }
-            
-            isLoading = false
+        do {
+            try await contentRepo.setBookmark(.init(
+                contentId: article.id,
+                contentType: .articles,
+                bookmarked: !article.bookmarked
+            ))
+
+            self.article?.bookmarked.toggle()
+            self.onBookmarkChanged(!article.bookmarked)
+        } catch {
+            actionError = error
         }
+
+        isLoading = false
     }
-    
-    func rate(_ rating: ContentRating) {
+
+    @MainActor
+    func rate(_ rating: ContentRating) async {
         guard let article = article else { return }
-        
-        Task { @MainActor in
-            do {
-                try await contentRepo.setRating(.init(
-                    contentId: article.id,
-                    contentType: .articles,
-                    rating: rating
-                ))
-                
-                self.article?.rating = rating
-            } catch {
-                actionError = error
-            }
-            
-            isLoading = false
+
+        do {
+            try await contentRepo.setRating(.init(
+                contentId: article.id,
+                contentType: .articles,
+                rating: rating
+            ))
+
+            self.article?.rating = rating
+        } catch {
+            actionError = error
         }
+
+        isLoading = false
     }
     
     func dismiss() {

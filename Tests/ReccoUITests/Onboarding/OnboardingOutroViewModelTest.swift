@@ -13,7 +13,7 @@ final class OnboardingOutroViewModelTest: XCTestCase {
         let getMeExpectation = expectation(description: "getMe was not called")
         mockMeRepository.expectations[.getMe] = getMeExpectation
 
-        viewModel.goToDashboardPressed()
+        await viewModel.goToDashboardPressed()
 
         await fulfillment(of: [getMeExpectation], timeout: 1)
         XCTAssertEqual(getMeError, viewModel.meError as? NSError)
@@ -25,7 +25,7 @@ final class OnboardingOutroViewModelTest: XCTestCase {
         let getMeExpectation = expectation(description: "getMe was not called")
         mockMeRepository.expectations[.getMe] = getMeExpectation
 
-        viewModel.goToDashboardPressed()
+        await viewModel.goToDashboardPressed()
 
         await fulfillment(of: [getMeExpectation], timeout: 1)
         XCTAssertNil(viewModel.meError)

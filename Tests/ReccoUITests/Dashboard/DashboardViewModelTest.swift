@@ -289,7 +289,7 @@ final class DashboardViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.initialLoadError)
         XCTAssertTrue(viewModel.sections.isEmpty)
         XCTAssertTrue(viewModel.items.isEmpty)
-        viewModel.getFeedItems()
+        await viewModel.getFeedItems()
 
         await fulfillment(of: [getFeedExpectation2, getFeedSectionExpectation], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
@@ -316,7 +316,7 @@ final class DashboardViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.initialLoadError)
         XCTAssertTrue(viewModel.sections.isEmpty)
         XCTAssertTrue(viewModel.items.isEmpty)
-        viewModel.getFeedItems()
+        await viewModel.getFeedItems()
 
         await fulfillment(of: [getFeedExpectation2], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)

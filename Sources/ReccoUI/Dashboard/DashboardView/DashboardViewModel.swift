@@ -28,7 +28,9 @@ final class DashboardViewModel: ObservableObject {
         self.feedRepo = feedRepo
         self.nav = nav
         
-        getFeedItems()
+        Task {
+            await getFeedItems()
+        }
     }
     
     func goToDetail(of item: AppUserRecommendation) {
@@ -71,19 +73,18 @@ final class DashboardViewModel: ObservableObject {
     func pressedLocked(section: FeedSection) {
         lockedSectionAlert = section
     }
-    
-    func getFeedItems() {
-        Task { @MainActor in
-            initialLoadError = nil
-            
-            do {
-                let data = try await feedRepo.getFeed()
-                setView(sections: data)
-                await load(sections: data)
-            } catch {
-                initialLoadError = error
-                isLoading = false
-            }
+
+    @MainActor
+    func getFeedItems() async {
+        initialLoadError = nil
+
+        do {
+            let data = try await feedRepo.getFeed()
+            setView(sections: data)
+            await load(sections: data)
+        } catch {
+            initialLoadError = error
+            isLoading = false
         }
     }
     
