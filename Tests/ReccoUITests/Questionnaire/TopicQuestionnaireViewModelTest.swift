@@ -2,6 +2,7 @@ import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
 
+@MainActor
 final class TopicQuestionnaireViewModelTest: XCTestCase {
 
     private func getViewModel(

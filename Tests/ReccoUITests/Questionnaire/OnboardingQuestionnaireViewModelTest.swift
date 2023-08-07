@@ -2,6 +2,7 @@ import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
 
+@MainActor
 final class OnboardingQuestionnaireViewModelTest: XCTestCase {
 
     private func getViewModel(
@@ -40,7 +41,7 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.last
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendOnboardingQuestionnaireExpectation], timeout: 1)
     }
@@ -60,7 +61,7 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.last
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendOnboardingQuestionnaireExpectation, nextScreenExpectation], timeout: 1)
     }

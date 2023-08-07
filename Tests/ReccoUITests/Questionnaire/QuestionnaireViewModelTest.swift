@@ -2,6 +2,7 @@ import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
 
+@MainActor
 final class QuestionnaireViewModelTest: XCTestCase {
 
     let questions = Mocks.numericQuestions
@@ -72,7 +73,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
-        await viewModel.previousQuestion()
+        viewModel.previousQuestion()
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
@@ -85,7 +86,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 1)
         XCTAssertEqual(viewModel.currentQuestion, questions[1])
-        await viewModel.previousQuestion()
+        viewModel.previousQuestion()
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
@@ -100,7 +101,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
-        await viewModel.next()
+        viewModel.next()
 
         XCTAssertEqual(viewModel.currentIndex, 1)
         XCTAssertEqual(viewModel.currentQuestion, questions[1])
@@ -117,7 +118,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertEqual(viewModel.currentQuestion, questions.last)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendQuestionsExpectation], timeout: 1)
     }
@@ -132,7 +133,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.first!)
+        viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.first!)
 
         XCTAssertEqual(viewModel.currentIndex, 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
@@ -146,7 +147,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.last!)
+        viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.last!)
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
@@ -160,7 +161,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
+        viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertTrue(viewModel.mainButtonEnabled)
@@ -179,7 +180,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
+        viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
@@ -198,7 +199,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
+        viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
@@ -217,7 +218,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
+        viewModel.answer(Mocks.numericCorrectAnswer, for: questions.last!)
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
@@ -237,7 +238,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(invalidAnswer, for: questions.last!)
+        viewModel.answer(invalidAnswer, for: questions.last!)
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
@@ -261,7 +262,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.first!)
+        viewModel.answer(Mocks.singleChoiceCorrectAnswer, for: questions.first!)
         await fulfillment(of: [sendQuestionsExpectation], timeout: 1)
 
         XCTAssertEqual(viewModel.currentIndex, 1)
@@ -286,7 +287,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        await viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
+        viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
         await fulfillment(of: [sendQuestionsExpectation], timeout: 1)
 
         XCTAssertEqual(viewModel.currentIndex, 0)
@@ -370,7 +371,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.last
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendQuestionsExpectation, nextScreenExpectation], timeout: 1)
         XCTAssertEqual(sendQuestionsError, viewModel.sendError as? NSError)
@@ -398,7 +399,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.last
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendQuestionsExpectation, nextScreenExpectation], timeout: 1)
         XCTAssertNil(viewModel.sendError)
