@@ -124,7 +124,6 @@ class QuestionnaireViewModel: ObservableObject {
     /**
      Should change to the next question if the following conditions are met:
      - Question is a single choice question (multi choice with just 1 possible answer)
-     - Question is not numeric
      - Question is not the last question
      - Answer is not a multi choice
      - Answer is valid
@@ -135,7 +134,6 @@ class QuestionnaireViewModel: ObservableObject {
         isAnswerValid: Bool
     ) -> Bool {
         return question.isSingleChoice
-        && question.type != .numeric
         && !isOnLastQuestion
         && answer.multichoice != nil
         && isAnswerValid
