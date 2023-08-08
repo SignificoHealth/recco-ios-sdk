@@ -2,8 +2,8 @@ import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
 
+@MainActor
 final class DashboardViewModelTest: XCTestCase {
-
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(

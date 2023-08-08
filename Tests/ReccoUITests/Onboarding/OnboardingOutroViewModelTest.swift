@@ -1,6 +1,7 @@
 import XCTest
 @testable import ReccoUI
 
+@MainActor
 final class OnboardingOutroViewModelTest: XCTestCase {
 
     // MARK: - goToDashboardPressed

@@ -2,6 +2,7 @@ import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
 
+@MainActor
 final class BookmarksViewModelTest: XCTestCase {
 
     private let appUserRecommendation = Mocks.appUserRecommendation
