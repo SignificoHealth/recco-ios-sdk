@@ -346,6 +346,72 @@ final class QuestionnaireViewModelTest: XCTestCase {
         wait(for: [navigateExpectation], timeout: 1)
     }
 
+    // MARK: - shouldChangeToNextQuestion
+
+    func test_shouldChangeToNextQuestion_whenQuestionIsSingleChoiceAndAnswerIsValidAndIsNotLastQuestion_shouldReturnTrue() {
+        let questions = Mocks.singleChoiceQuestions
+        let currentQuestion = questions.first!
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.currentQuestion = currentQuestion
+
+        let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: true)
+
+        XCTAssertTrue(result)
+    }
+
+    func test_shouldChangeToNextQuestion_whenQuestionIsSingleChoiceAndAnswerIsValidAndIsLastQuestion_shouldReturnFalse() {
+        let questions = Mocks.singleChoiceQuestions
+        let currentQuestion = questions.last!
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.currentQuestion = currentQuestion
+
+        let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: true)
+
+
+        XCTAssertFalse(result)
+    }
+
+    func test_shouldChangeToNextQuestion_whenQuestionIsSingleChoiceAndAnswerIsNotValidAndIsNotLastQuestion_shouldReturnFalse() {
+        let questions = Mocks.singleChoiceQuestions
+        let currentQuestion = questions.first!
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.currentQuestion = currentQuestion
+
+        let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: false)
+
+
+        XCTAssertFalse(result)
+    }
+
+    func test_shouldChangeToNextQuestion_whenQuestionIsMultiChoiceAndAnswerIsValidAndIsNotLastQuestion_shouldReturnFalse() {
+        let questions = Mocks.multiChoiceQuestions
+        let currentQuestion = questions.first!
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.currentQuestion = currentQuestion
+
+        let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.multiChoiceCorrectAnswer, isAnswerValid: true)
+
+
+        XCTAssertFalse(result)
+    }
+
+    func test_shouldChangeToNextQuestion_whenQuestionIsNumericAndAnswerIsValidAndIsNotLastQuestion_shouldReturnFalse() {
+        let questions = Mocks.numericQuestions
+        let currentQuestion = questions.first!
+        let viewModel = getViewModel()
+        viewModel.questions = questions
+        viewModel.currentQuestion = currentQuestion
+
+        let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.numericCorrectAnswer, isAnswerValid: true)
+
+
+        XCTAssertFalse(result)
+    }
+
     // MARK: - sendQuestionnaire
 
     func test_init_whenSendQuestionsFails_doesNotCallsNextScreenAndUpdatesError() async {
