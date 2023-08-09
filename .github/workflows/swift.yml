@@ -22,6 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_$XCODE_VERSION.app
+      run: sudo xcode-select -switch "/Applications/Xcode_$XCODE_VERSION.app"
     - name: Run tests
-      run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination 'platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME' | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" | xcpretty && exit ${PIPESTATUS[0]}
