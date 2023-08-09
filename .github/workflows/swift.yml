@@ -22,6 +22,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Select Xcode
-      run: sudo xcode-select -switch "/Applications/Xcode_$XCODE_VERSION.app"
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: $XCODE_VERSION
     - name: Run tests
       run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" | xcpretty && exit ${PIPESTATUS[0]}
