@@ -24,5 +24,14 @@ jobs:
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: '14.3.1'
+    - name: Test Print env vars 1
+      run: 
+        echo 1 $TEST_SCHEME $DEVICE_NAME $DEVICE_OS
+    - name: Test Print env vars 2
+      run: 
+        echo "2 $TEST_SCHEME $DEVICE_NAME $DEVICE_OS"
+    - name: Test Print env vars 3
+      run: 
+        echo '2 $TEST_SCHEME $DEVICE_NAME $DEVICE_OS'
     - name: Run tests
       run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination 'platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME' | xcpretty && exit ${PIPESTATUS[0]}
