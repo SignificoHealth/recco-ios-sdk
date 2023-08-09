@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 env:
-  XCODE_VERSION: 14.2.0
+  XCODE_VERSION: '14.2.0'
   TEST_SCHEME: ReccoUITests
   DEVICE_NAME: iPhone 14
   DEVICE_OS: 16.4
@@ -24,6 +24,6 @@ jobs:
     - name: Select Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '$XCODE_VERSION'
+        xcode-version: $XCODE_VERSION
     - name: Run tests
       run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination 'platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME' | xcpretty && exit ${PIPESTATUS[0]}
