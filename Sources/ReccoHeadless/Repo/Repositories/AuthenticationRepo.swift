@@ -23,8 +23,8 @@ final class LiveAuthRepository: AuthRepository {
         try keychain.save(key: .currentPat, PAT(dto: dto))
         try keychain.save(key: .clientUserId, clientUserId)
         
-        Api.logedIn(newBearer: dto.accessToken)
-        Api.clientIdChanged(clientUserId)
+        Api.setAccessToken(dto.accessToken)
+        Api.setClientId(clientUserId)
     }
     
     public func logout() async throws {
@@ -48,7 +48,7 @@ final class LiveAuthRepository: AuthRepository {
         keychain.remove(key: .currentUser)
         keychain.remove(key: .clientUserId)
 
-        Api.logedOut()
-        Api.clientIdChanged(nil)
+        Api.setAccessToken(nil)
+        Api.setClientId(nil)
     }
 }

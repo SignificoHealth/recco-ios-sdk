@@ -14,18 +14,15 @@ public enum Api {
         BearerTokenHandler.keychain = keychain
         
         let clientId: String? = try? keychain.read(key: .clientUserId)
-        clientId.map(clientIdChanged)
+        clientId.map(setClientId)
     }
     
-    static public func clientIdChanged(_ newValue: String?) {
+    static public func setClientId(_ newValue: String?) {
         BearerTokenHandler.clientId = newValue
     }
-    
-    static public func logedIn(newBearer: String) {
+
+    static public func setAccessToken(_ newBearer: String?) {
         BearerTokenHandler.bearerToken = newBearer
     }
     
-    static public func logedOut() {
-        BearerTokenHandler.bearerToken = nil
-    }
 }
