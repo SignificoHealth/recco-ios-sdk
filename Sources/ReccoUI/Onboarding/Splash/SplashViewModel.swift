@@ -4,12 +4,12 @@ import Combine
 
 final class SplashViewModel: ObservableObject {
     var cancellable: AnyCancellable?
-    private let repo: MeRepo
+    private let repo: MeRepository
     
     @Published var user: AppUser?
     
     init(
-        repo: MeRepo
+        repo: MeRepository
     ) {
         self.repo = repo
         bind()

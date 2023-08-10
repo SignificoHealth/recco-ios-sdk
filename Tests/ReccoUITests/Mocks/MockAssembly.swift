@@ -14,6 +14,6 @@ final class MockAssembly {
 
         // Register dependencies
         container.register(type: AuthRepository.self, service: { _ in mockAuthRepository })
-        container.register(type: MeRepo.self, service: { _ in mockMeRepository})
+        container.register(type: MeRepository.self, service: { _ in mockMeRepository})
     }
 }

@@ -1,12 +1,12 @@
 import Foundation
 import Combine
 
-public protocol MeRepo {
+public protocol MeRepository {
     var currentUser: AnyPublisher<AppUser?, Never> { get }
     func getMe() async throws 
 }
 
-final class LiveMeRepo: MeRepo {
+final class LiveMeRepository: MeRepository {
     let keychain: KeychainProxy
     let _currentUser: CurrentValueSubject<AppUser?, Never>
     
