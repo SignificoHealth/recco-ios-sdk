@@ -26,11 +26,6 @@ cp -R ./output/OpenAPIClient/Classes/OpenAPIs/ ./Generated
 # Remove output folder
 rm -rf ./output
 
-echo "\nPatching APIHelper.swift file...to handle rawRepresentable enums in path"
-echo "-> Patching APIHelper.swift extension..."
-
-./patch-api
-
 echo ""
 echo "#########################################"
 echo "# Swift client created successfully! :) #"
