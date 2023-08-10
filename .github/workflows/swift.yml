@@ -4,10 +4,8 @@
 name: Swift
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 env:
   TEST_SCHEME: ReccoUITests
