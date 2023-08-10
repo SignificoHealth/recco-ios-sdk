@@ -45,7 +45,7 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.last
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendQuestionnaireExpectation], timeout: 1)
     }
@@ -76,7 +76,7 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.last
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
-        await viewModel.next()
+        viewModel.next()
 
         await fulfillment(of: [sendQuestionnaireExpectation, reloadSectionExpectation, navigateExpectation], timeout: 1)
     }
