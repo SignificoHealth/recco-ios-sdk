@@ -16,4 +16,8 @@ final class MockAssembly {
         container.register(type: AuthRepository.self, service: { _ in mockAuthRepository })
         container.register(type: MeRepository.self, service: { _ in mockMeRepository})
     }
+
+    static func reset() {
+        container.reset()
+    }
 }

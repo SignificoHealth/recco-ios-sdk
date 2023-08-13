@@ -17,6 +17,14 @@ public func get<T>() -> T {
     ReccoSharedContainer.shared.resolve(type: T.self)!
 }
 
+public func tget<T>() throws -> T {
+    guard let result: T = ReccoSharedContainer.shared.resolve(type: T.self) else {
+        throw NSError(domain: "\(T.self) was not previously registered", code: 0)
+    }
+
+    return result
+}
+
 public func get<T, Arg1>(argument: Arg1) -> T {
     ReccoSharedContainer.shared.resolve(type: T.self, argument: argument)!
 }
@@ -95,6 +103,12 @@ extension ReccoSharedContainer: ReccoContainer {
         services[params] = { resolver, params in
             service(resolver, params[0] as! Arg1)
         }
+    }
+
+    func reset() {
+        services = [:]
+        singletons = [:]
+        rememberedSingletons = [:]
     }
 }
 

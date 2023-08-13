@@ -4,13 +4,21 @@ import XCTest
 @MainActor
 final class PublicAPITest: XCTestCase {
 
-    override class func setUp() {
-        MockAssembly.assemble()
+    // MARK: - login
+    
+    func test_login_whenCalledBeforeInitializeSDK_throwsError() async throws {
+        MockAssembly.reset()
+        do {
+            try await ReccoUI.login(userId: "userId")
+            XCTFail("Should have thrown an error")
+        } catch (let error) {
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error as? ReccoError, ReccoError.notInitialized)
+        }
     }
 
-    // MARK: - login
-
     func test_login_callsLoginAndGetMe() async throws {
+        MockAssembly.assemble()
         let mockAuthRepository = MockAssembly.mockAuthRepository
         let mockMeRepository = MockAssembly.mockMeRepository
         let userId = "userId"
@@ -27,7 +35,19 @@ final class PublicAPITest: XCTestCase {
 
     // MARK: - logout
 
+    func test_logout_whenCalledBeforeInitializeSDK_throwsError() async throws {
+        MockAssembly.reset()
+        do {
+            try await ReccoUI.logout()
+            XCTFail("Should have thrown an error")
+        } catch (let error) {
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error as? ReccoError, ReccoError.notInitialized)
+        }
+    }
+
     func test_logout_callsLogout() async throws {
+        MockAssembly.assemble()
         let mockAuthRepository = MockAssembly.mockAuthRepository
         let logoutExpectation = expectation(description: "login was not called")
         mockAuthRepository.expectations[.logout] = logoutExpectation

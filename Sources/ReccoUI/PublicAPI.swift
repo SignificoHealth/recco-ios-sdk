@@ -2,11 +2,15 @@ import Foundation
 import ReccoHeadless
 import SwiftUI
 
+enum ReccoError: Error {
+    case notInitialized
+}
+
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
-    - clietSecret: Credential required to identify and authenticate the application.
-    - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
+ - clietSecret: Credential required to identify and authenticate the application.
+ - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
     clientSecret: String,
@@ -31,25 +35,30 @@ public func initialize(
 /**
  Performs login operation given a user identifier
  - Parameters:
-    - userId: User to be consuming the SDK and to be creating its own experience.
+ - userId: User to be consuming the SDK and to be creating its own experience.
  */
 public func login(userId: String) async throws {
-    try await login(userId: userId, authRepository: get(), meRepository: get())
-}
-
-func login(userId: String, authRepository: AuthRepository, meRepository: MeRepository) async throws {
-    try await authRepository.login(clientUserId: userId)
-    try await meRepository.getMe()
+    do {
+        let authRepository: AuthRepository = try tget()
+        let meRepository: MeRepository = try tget()
+        try await authRepository.login(clientUserId: userId)
+        try await meRepository.getMe()
+    } catch {
+        throw ReccoError.notInitialized
+    }
 }
 
 /**
  Performs logout operation
  */
 public func logout() async throws {
-    let repo: AuthRepository = get()
-    try await repo.logout()
+    do {
+        let repo: AuthRepository = try tget()
+        try await repo.logout()
+    } catch {
+        throw ReccoError.notInitialized
+    }
 }
-
 
 /**
  Root UIViewController for Recco's full experience journey.
