@@ -37,7 +37,7 @@ public func login(userId: String) async throws {
     try await login(userId: userId, authRepository: get(), meRepository: get())
 }
 
-func login(userId: String, authRepository: AuthRepository, meRepository: MeRepo) async throws {
+func login(userId: String, authRepository: AuthRepository, meRepository: MeRepository) async throws {
     try await authRepository.login(clientUserId: userId)
     try await meRepository.getMe()
 }

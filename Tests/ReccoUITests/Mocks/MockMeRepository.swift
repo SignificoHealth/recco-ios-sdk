@@ -2,7 +2,7 @@ import XCTest
 import Combine
 @testable import ReccoHeadless
 
-final class MockMeRepository: MeRepo {
+final class MockMeRepository: MeRepository {
 
     enum ExpectationType {
         case getMe

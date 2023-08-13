@@ -43,8 +43,8 @@ public final class ReccoHeadlessAssembly: ReccoAssembly {
             LiveQuestionnaireRepository()
         }
         
-        container.register(type: MeRepo.self, singleton: true) { r in
-            LiveMeRepo(keychain: r.get())
+        container.register(type: MeRepository.self, singleton: true) { r in
+            LiveMeRepository(keychain: r.get())
         }
         
         container.register(type: Calendar.self) { _ in
