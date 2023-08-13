@@ -1,8 +1,28 @@
 import XCTest
+@testable import ReccoHeadless
 @testable import ReccoUI
 
 @MainActor
 final class PublicAPITest: XCTestCase {
+
+    // MARK: - initialize
+
+    func test_initialize_registersDependenciesAndInitializesAPI() throws {
+        MockAssembly.reset()
+        let clientSecret = "clientSecret"
+        let reccoStyle: ReccoStyle = .ocean
+
+        XCTAssertThrowsError(try tget() as AuthRepository)
+        XCTAssertThrowsError(try tget() as OnboardingViewModel)
+        ReccoUI.initialize(clientSecret: clientSecret, style: reccoStyle)
+
+        XCTAssertNoThrow(try tget() as AuthRepository)
+        XCTAssertNoThrow(try tget() as OnboardingViewModel)
+        XCTAssertEqual(BearerTokenHandler.clientSecret, "Bearer \(clientSecret)")
+        XCTAssertEqual(OpenAPIClientAPI.basePath, "http://api.sf-dev.significo.dev")
+        XCTAssertEqual(OpenAPIClientAPI.customHeaders["Accept-Language"], "en-US")
+        XCTAssertEqual(OpenAPIClientAPI.customHeaders["Client-Platform"], "iOS")
+    }
 
     // MARK: - login
     
