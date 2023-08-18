@@ -2,6 +2,10 @@ import Foundation
 import ReccoHeadless
 import SwiftUI
 
+enum ReccoError: Error {
+    case notInitialized
+}
+
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
@@ -34,10 +38,15 @@ public func initialize(
     - userId: User to be consuming the SDK and to be creating its own experience.
  */
 public func login(userId: String) async throws {
-    try await login(userId: userId, authRepository: get(), meRepository: get())
-}
+    let authRepository: AuthRepository
+    let meRepository: MeRepository
+    do {
+        authRepository = try tget()
+        meRepository = try tget()
+    } catch {
+        throw ReccoError.notInitialized
+    }
 
-func login(userId: String, authRepository: AuthRepository, meRepository: MeRepository) async throws {
     try await authRepository.login(clientUserId: userId)
     try await meRepository.getMe()
 }
@@ -46,10 +55,14 @@ func login(userId: String, authRepository: AuthRepository, meRepository: MeRepos
  Performs logout operation
  */
 public func logout() async throws {
-    let repo: AuthRepository = get()
-    try await repo.logout()
+    let authRepository: AuthRepository
+    do {
+        authRepository = try tget()
+    } catch {
+        throw ReccoError.notInitialized
+    }
+    try await authRepository.logout()
 }
-
 
 /**
  Root UIViewController for Recco's full experience journey.
