@@ -10,6 +10,33 @@ import UIKit
 
 var CurrentReccoStyle = ReccoStyle.summer
 
+public enum ReccoFont: String, CaseIterable, Equatable, Hashable, Codable {
+    case sfPro = "SF Pro"
+    case helveticaNeue = "Helvetica Neue"
+    case avenirNext = "Avenir Next"
+    case appleSdGothicNeo = "Apple SD Gothic Neo"
+    case georgia = "Georgia"
+}
+
+extension ReccoFont {
+    public func uiFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
+        let sfPro = UIFont.systemFont(ofSize: size, weight: weight)
+        
+        switch self {
+        case .sfPro:
+            return sfPro
+        case .helveticaNeue:
+            return .mimicProperties(of: sfPro, in: "HelveticaNeue", size: size)
+        case .avenirNext:
+            return .mimicProperties(of: sfPro, in: "AvenirNext-Regular", size: size)
+        case .appleSdGothicNeo:
+            return .mimicProperties(of: sfPro, in: "AppleSDGothicNeo-Regular", size: size)
+        case .georgia:
+            return .mimicProperties(of: sfPro, in: "Georgia", size: size)
+        }
+    }
+}
+
 public struct ReccoHexColor: Hashable, Equatable, Codable {
     public init(uiColor: UIColor) {
         self.lightModeHex = uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)).hexString!
@@ -36,11 +63,6 @@ extension ReccoHexColor {
 }
 
 public struct ReccoStyle: Equatable, Hashable, Codable {
-    public init(name: String, color: ReccoStyle.Color) {
-        self.color = color
-        self.name = name
-    }
-    
     public struct Color: Equatable, Hashable, Codable {
         public init(primary: ReccoHexColor, onPrimary: ReccoHexColor, background: ReccoHexColor, onBackground: ReccoHexColor, accent: ReccoHexColor, onAccent: ReccoHexColor, illustration: ReccoHexColor, illustrationLine: ReccoHexColor) {
             self.primary = primary
@@ -62,8 +84,19 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
         public var illustration: ReccoHexColor
         public var illustrationLine: ReccoHexColor
     }
+   
+    public init(
+        name: String,
+        font: ReccoFont = .sfPro,
+        color: ReccoStyle.Color
+    ) {
+        self.font = font
+        self.name = name
+        self.color = color
+    }
     
     public let name: String
+    public var font: ReccoFont
     public var color: ReccoStyle.Color
 }
 

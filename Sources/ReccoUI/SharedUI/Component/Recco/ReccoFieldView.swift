@@ -82,7 +82,7 @@ fileprivate struct UIKitTextField: UIViewRepresentable {
     
     func makeUIView(context: Context) -> ModifiedTextField {
         let textField = ModifiedTextField(frame: .zero)
-        textField.font = .systemFont(ofSize: 15, weight: .medium)
+        textField.font = CurrentReccoStyle.font.uiFont(size: 15, weight: .medium)
         textField.textColor = .reccoPrimary
         textField.delegate = context.coordinator
         textField.keyboardType = .decimalPad
