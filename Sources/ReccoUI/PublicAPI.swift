@@ -38,26 +38,30 @@ public func initialize(
     - userId: User to be consuming the SDK and to be creating its own experience.
  */
 public func login(userId: String) async throws {
+    let authRepository: AuthRepository
+    let meRepository: MeRepository
     do {
-        let authRepository: AuthRepository = try tget()
-        let meRepository: MeRepository = try tget()
-        try await authRepository.login(clientUserId: userId)
-        try await meRepository.getMe()
+        authRepository = try tget()
+        meRepository = try tget()
     } catch {
         throw ReccoError.notInitialized
     }
+
+    try await authRepository.login(clientUserId: userId)
+    try await meRepository.getMe()
 }
 
 /**
  Performs logout operation
  */
 public func logout() async throws {
+    let authRepository: AuthRepository
     do {
-        let repo: AuthRepository = try tget()
-        try await repo.logout()
+        authRepository = try tget()
     } catch {
         throw ReccoError.notInitialized
     }
+    try await authRepository.logout()
 }
 
 /**
