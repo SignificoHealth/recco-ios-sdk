@@ -73,21 +73,6 @@ struct WelcomeView: View {
                     buttonsView
                 }
             }
-            .overlay(
-                Button(action: {
-                    showPaletteSelector.toggle()
-                }, label: {
-                    Image("palette_ic")
-                        .rotationEffect(.radians(showPaletteSelector ? .pi * 0.5 : 0))
-                })
-                .frame(
-                    width: 60,
-                    height: 60,
-                    alignment: .leading
-                )
-                .contentShape(Rectangle()),
-                alignment: .topLeading
-            )
             
             if showPaletteSelector {
                 ChangeReccoStyleView(
@@ -103,26 +88,26 @@ struct WelcomeView: View {
                 .zIndex(10)
                 .transition(.move(edge: .top))
                 .padding(.leading, 20)
-                .background(
-                    Color.black.opacity(0.0001).onTapGesture {
-                        showPaletteSelector = false
-                    }
-                )
             }
         }
         .padding(24)
-        .background(
-            Color.black.opacity(showPaletteSelector ? 0.4 : 0)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    showPaletteSelector = false
-                }
-        )
+        .navigationBarHidden(false)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    showPaletteSelector.toggle()
+                }, label: {
+                    Image("palette_ic")
+                        .rotationEffect(.radians(showPaletteSelector ? .pi * 0.5 : 0))
+                })
+            }
+        }
         .background(Color.lightGray)
         .animation(.easeInOut(duration: 0.3), value: showPaletteSelector)
         .onChange(of: showingPaletteEditor, perform: { newValue in
             if newValue == false { editingStyleKey = nil }
         })
+        .ignoresSafeArea()
         .sheet(isPresented: $displayRecco) {
             ReccoRootView()
         }

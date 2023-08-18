@@ -9,7 +9,7 @@ enum ReccoError: Error {
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
-    - clietSecret: Credential required to identify and authenticate the application.
+    - clientSecret: Credential required to identify and authenticate the application.
     - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
@@ -25,7 +25,7 @@ public func initialize(
     
     Api.initialize(
         clientSecret: clientSecret,
-        baseUrl: "http://api.sf-dev.significo.dev",
+        baseUrl: "https://recco-api.significo.app",
         keychain: keychain
     )
     
