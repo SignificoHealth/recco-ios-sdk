@@ -9,8 +9,8 @@ enum ReccoError: Error {
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
-     - clietSecret: Credential required to identify and authenticate the application.
-     - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
+    - clietSecret: Credential required to identify and authenticate the application.
+    - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
     clientSecret: String,
