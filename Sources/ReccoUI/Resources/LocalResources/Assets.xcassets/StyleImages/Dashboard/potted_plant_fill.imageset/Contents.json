@@ -1,15 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "potted-plant 2-1.svg",
-      "idiom" : "universal"
+      "filename" : "potted-plant 2-1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "potted-plant 2@2x-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "potted-plant 2@3x-1.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }
