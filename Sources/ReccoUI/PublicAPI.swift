@@ -14,7 +14,7 @@ enum ReccoError: Error {
  */
 public func initialize(
     clientSecret: String,
-    style: ReccoStyle = .summer
+    style: ReccoStyle = .fresh
 ) {
     assemble([
         ReccoHeadlessAssembly(clientSecret: clientSecret),

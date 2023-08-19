@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-var CurrentReccoStyle = ReccoStyle.summer
+var CurrentReccoStyle = ReccoStyle.fresh
 
 public enum ReccoFont: String, CaseIterable, Equatable, Hashable, Codable {
     case sfPro = "SF Pro"
@@ -112,14 +112,14 @@ extension ReccoStyle {
                 accent: .init(lightModeHex: "#35b9ffFF", darkModeHex: "#35b9ffFF"),
                 onAccent: .init(lightModeHex: "#17445bFF", darkModeHex: "#e4f6ffFF"),
                 illustration: .init(lightModeHex: "#f5a08cFF", darkModeHex: "#35b9ffFF"),
-                illustrationLine: .init(lightModeHex: "#105a81FF", darkModeHex: "#1e8cc7FF")
+                illustrationLine: .init(lightModeHex: "#105a81FF", darkModeHex: "#88493fFF")
             )
         )
     }
     
-    public static var summer: ReccoStyle {
+    public static var fresh: ReccoStyle {
         ReccoStyle(
-            name: "Summer",
+            name: "Fresh",
             color: .init(
                 primary: .init(lightModeHex: "#383B45FF", darkModeHex: "#FFE6B0FF"),
                 onPrimary: .init(lightModeHex: "#FFFFFFFF", darkModeHex: "#383b45FF"),
@@ -128,7 +128,7 @@ extension ReccoStyle {
                 accent: .init(lightModeHex: "#7b61ffff", darkModeHex: "#7b61ffff"),
                 onAccent: .init(lightModeHex: "#2c2783ff", darkModeHex: "#ffe5aeff"),
                 illustration: .init(lightModeHex: "#f5b731ff", darkModeHex: "#f5b731ff"),
-                illustrationLine: .init(lightModeHex: "#454138ff", darkModeHex: "#454138ff")
+                illustrationLine: .init(lightModeHex: "#454138FF", darkModeHex: "#7b61ffFF")
             )
         )
     }
