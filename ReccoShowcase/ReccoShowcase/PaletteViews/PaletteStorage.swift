@@ -20,10 +20,10 @@ final class PaletteStorageObservable: ObservableObject {
 
 struct PaletteStorage: Codable {
     var palettes: [String: ReccoStyle]
-    var selectedKeyOrName: String = ReccoStyle.summer.name
+    var selectedKeyOrName: String = ReccoStyle.fresh.name
     
     var selectedStyle: ReccoStyle {
-        palettes[selectedKeyOrName] ?? [ReccoStyle.summer, .tech, .ocean, .spring].first { $0.name == selectedKeyOrName } ?? .summer
+        palettes[selectedKeyOrName] ?? [ReccoStyle.fresh, .tech, .ocean, .spring].first { $0.name == selectedKeyOrName } ?? .fresh
     }
 }
 

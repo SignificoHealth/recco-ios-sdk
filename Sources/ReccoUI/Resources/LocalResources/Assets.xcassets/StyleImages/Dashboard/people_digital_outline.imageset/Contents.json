@@ -1,15 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "people digital-2.svg",
-      "idiom" : "universal"
+      "filename" : "people digital-2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "people digital@2x-2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "people digital@3x-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

@@ -1,15 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "no connection-2.svg",
-      "idiom" : "universal"
+      "filename" : "no connection-2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "no connection@2x-2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "no connection@3x-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

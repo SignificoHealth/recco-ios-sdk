@@ -56,11 +56,11 @@ struct CreatePaletteView: View {
     ) {
         let style = styleKey.flatMap {
             PaletteStorageObservable.shared.storage.palettes[$0]
-        } ?? .summer
+        } ?? .fresh
                 
         self.styleKey = styleKey
         self._shouldShow = shouldShow
-        self._styleName = .init(initialValue: style.name == ReccoStyle.summer.name ? "" : style.name)
+        self._styleName = .init(initialValue: style.name == ReccoStyle.fresh.name ? "" : style.name)
         self.primaryLight = Color(style.color.primary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
         self.onPrimaryLight = Color(style.color.onPrimary.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))
         self.accentLight = Color(style.color.accent.uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)))

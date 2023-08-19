@@ -38,12 +38,12 @@ func createNavAppearance() -> UINavigationBarAppearance {
     let tint = UIColor.reccoPrimary
         
     appearance.titleTextAttributes = [
-        .font: UIFont.systemFont(ofSize: 17, weight: .semibold),
+        .font: CurrentReccoStyle.font.uiFont(size: 17, weight: .semibold),
         .foregroundColor: tint
     ]
     
     appearance.largeTitleTextAttributes = [
-        .font: UIFont.systemFont(ofSize: 17, weight: .semibold),
+        .font: CurrentReccoStyle.font.uiFont(size: 17, weight: .semibold),
         .foregroundColor: tint
     ]
 

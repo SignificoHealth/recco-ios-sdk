@@ -45,7 +45,7 @@ struct ChangeReccoStyleView: View {
                 .frame(width: 210, alignment: .leading)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    ForEach([ReccoStyle.ocean, .summer, .spring, .tech], id: \.self) { style in
+                    ForEach([ReccoStyle.ocean, .fresh, .spring, .tech], id: \.self) { style in
                         editableStyleItem(style, editable: false, key: style.name)
                     }
                     

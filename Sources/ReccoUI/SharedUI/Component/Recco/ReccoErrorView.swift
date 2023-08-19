@@ -87,6 +87,7 @@ struct ReccoErrorView: View {
         if let onClose = onClose {
             Button(action: onClose, label: {
                 Image(resource: "close_ic")
+                    .renderingMode(.template)
                     .foregroundColor(.reccoPrimary)
             })
             .padding(.vertical, .M)
