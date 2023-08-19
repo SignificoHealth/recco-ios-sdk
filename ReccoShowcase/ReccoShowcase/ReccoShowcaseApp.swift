@@ -1,11 +1,16 @@
 import SwiftUI
 import ReccoUI
 
-let clientSecret = "yvU5m39iXgVtOOKSQqz8neU5mP5HkOamKKMhcX5FDdBE6s6lmrdkC87XQr5dApi5r-vVOFo"
+let clientSecret = "_20_0iKompsh-xy0Pc2YAYLHFimFV0qCZVSPobB982K1dIhhkYwbhutnBsSQsNqV0aludu8"
 
 @main
 struct ReccoShowcaseApp: App {
     init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().standardAppearance = appearance
+
+        
         ReccoUI.initialize(
             clientSecret: clientSecret,
             style: PaletteStorageObservable.shared.storage.selectedStyle

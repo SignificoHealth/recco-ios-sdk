@@ -131,7 +131,7 @@ final class DashboardViewModelTest: XCTestCase {
         let viewModel = getViewModel(nav: mockCoordinator)
         viewModel.lockedSectionAlert = feedSection
 
-        await viewModel.pressedUnlockSectionStart()
+        viewModel.pressedUnlockSectionStart()
 
         await fulfillment(of: [navigateExpectation], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
@@ -166,7 +166,7 @@ final class DashboardViewModelTest: XCTestCase {
         )]
 
         XCTAssertTrue(viewModel.items.isEmpty)
-        await viewModel.pressedUnlockSectionStart()
+        viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, questionnaireDestination)
         guard case .questionnaire(_, let reloadSections) = mockCoordinator.lastDestination else {
@@ -208,7 +208,7 @@ final class DashboardViewModelTest: XCTestCase {
             isLoading: false
         )]
 
-        await viewModel.pressedUnlockSectionStart()
+        viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, questionnaireDestination)
         guard case .questionnaire(_, let reloadSections) = mockCoordinator.lastDestination else {
@@ -230,7 +230,7 @@ final class DashboardViewModelTest: XCTestCase {
         let viewModel = getViewModel(nav: mockCoordinator)
 
         XCTAssertNil(viewModel.lockedSectionAlert)
-        await viewModel.pressedUnlockSectionStart()
+        viewModel.pressedUnlockSectionStart()
 
         await fulfillment(of: [navigateExpectation], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
@@ -246,7 +246,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         XCTAssertNotNil(viewModel.lockedSectionAlert)
         XCTAssertNil(viewModel.lockedSectionAlert?.topic)
-        await viewModel.pressedUnlockSectionStart()
+        viewModel.pressedUnlockSectionStart()
 
         await fulfillment(of: [navigateExpectation], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)

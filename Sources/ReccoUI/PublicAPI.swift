@@ -2,15 +2,19 @@ import Foundation
 import ReccoHeadless
 import SwiftUI
 
+enum ReccoError: Error {
+    case notInitialized
+}
+
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
-    - clietSecret: Credential required to identify and authenticate the application.
+    - clientSecret: Credential required to identify and authenticate the application.
     - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
     clientSecret: String,
-    style: ReccoStyle = .summer
+    style: ReccoStyle = .fresh
 ) {
     assemble([
         ReccoHeadlessAssembly(clientSecret: clientSecret),
@@ -21,7 +25,7 @@ public func initialize(
     
     Api.initialize(
         clientSecret: clientSecret,
-        baseUrl: "http://api.sf-dev.significo.dev",
+        baseUrl: "https://recco-api.significo.app",
         keychain: keychain
     )
     
@@ -34,10 +38,15 @@ public func initialize(
     - userId: User to be consuming the SDK and to be creating its own experience.
  */
 public func login(userId: String) async throws {
-    try await login(userId: userId, authRepository: get(), meRepository: get())
-}
+    let authRepository: AuthRepository
+    let meRepository: MeRepository
+    do {
+        authRepository = try tget()
+        meRepository = try tget()
+    } catch {
+        throw ReccoError.notInitialized
+    }
 
-func login(userId: String, authRepository: AuthRepository, meRepository: MeRepo) async throws {
     try await authRepository.login(clientUserId: userId)
     try await meRepository.getMe()
 }
@@ -46,10 +55,14 @@ func login(userId: String, authRepository: AuthRepository, meRepository: MeRepo)
  Performs logout operation
  */
 public func logout() async throws {
-    let repo: AuthRepository = get()
-    try await repo.logout()
+    let authRepository: AuthRepository
+    do {
+        authRepository = try tget()
+    } catch {
+        throw ReccoError.notInitialized
+    }
+    try await authRepository.logout()
 }
-
 
 /**
  Root UIViewController for Recco's full experience journey.

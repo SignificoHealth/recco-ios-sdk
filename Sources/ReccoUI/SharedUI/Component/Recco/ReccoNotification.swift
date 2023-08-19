@@ -142,7 +142,7 @@ final class SFNotificationView: UIView {
         let titleLb = UILabel()
         titleLb.translatesAutoresizingMaskIntoConstraints = false
         titleLb.textColor = .reccoPrimary
-        titleLb.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        titleLb.font = CurrentReccoStyle.font.uiFont(size: 16, weight: .semibold)
         titleLb.lineBreakMode = .byWordWrapping
         titleLb.numberOfLines = 2
         titleLb.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -153,7 +153,7 @@ final class SFNotificationView: UIView {
         let subtitleLb = UILabel()
         subtitleLb.translatesAutoresizingMaskIntoConstraints = false
         subtitleLb.textColor = .reccoPrimary
-        subtitleLb.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        subtitleLb.font = CurrentReccoStyle.font.uiFont(size: 15, weight: .medium)
         subtitleLb.lineBreakMode = .byWordWrapping
         subtitleLb.numberOfLines = 2
         subtitleLb.setContentCompressionResistancePriority(.required, for: .vertical)

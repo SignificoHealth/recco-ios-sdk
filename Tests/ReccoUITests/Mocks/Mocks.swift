@@ -138,6 +138,22 @@ final class Mocks {
     static let multiChoiceCorrectAnswer = EitherAnswerType.multiChoice([1, 2])
     static let multiChoiceInvalidAnswer = EitherAnswerType.multiChoice([])
 
+    static let multiChoiceQuestions: [Question] = (0...4).map { index in
+        try! Question(
+            id: "question-\(index)",
+            questionnaireId: "questionnaire-\(index)",
+            index: index,
+            text: "Question \(index)",
+            type: .multichoice,
+            multiChoice: MultiChoiceQuestion(
+                maxOptions: 3,
+                minOptions: 1,
+                options: (1...5).map { MultiChoiceAnswerOption(id: $0, text: "\($0)") }
+            ),
+            multichoiceAnswer: [1, 2]
+        )
+    }
+
     static let numericQuestion: Question = try! Question(
         id: "question-0",
         questionnaireId: "questionnaire-0",

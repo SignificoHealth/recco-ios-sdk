@@ -2,14 +2,14 @@ import Foundation
 import ReccoHeadless
 
 final class OnboardingOutroViewModel: ObservableObject {
-    private let meRepo: MeRepo
+    private let meRepo: MeRepository
     private let nav: ReccoCoordinator
     
     @Published var isLoading: Bool = false
     @Published var meError: Error?
 
     init(
-        meRepo: MeRepo,
+        meRepo: MeRepository,
         nav: ReccoCoordinator
     ) {
         self.meRepo = meRepo

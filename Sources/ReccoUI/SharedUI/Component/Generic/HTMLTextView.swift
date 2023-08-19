@@ -12,7 +12,7 @@ import SwiftUI
 extension String {
     fileprivate func htmlText(
         color: UIColor = .reccoPrimary,
-        reference: UIFont = .systemFont(ofSize: 15),
+        reference: UIFont = CurrentReccoStyle.font.uiFont(size: 15, weight: .regular),
         completion: @escaping (NSAttributedString) -> Void
     ) {
         DispatchQueue.global().async {

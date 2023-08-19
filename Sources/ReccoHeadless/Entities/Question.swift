@@ -45,6 +45,8 @@ extension MultiChoiceQuestion {
 
 extension Question {
     public var isSingleChoice: Bool {
+        guard type == .multichoice else { return false }
+        
         switch value {
         case .numeric:
             return false
