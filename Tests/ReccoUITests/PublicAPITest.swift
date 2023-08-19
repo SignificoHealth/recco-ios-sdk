@@ -19,7 +19,7 @@ final class PublicAPITest: XCTestCase {
         XCTAssertNoThrow(try tget() as AuthRepository)
         XCTAssertNoThrow(try tget() as OnboardingViewModel)
         XCTAssertEqual(BearerTokenHandler.clientSecret, "Bearer \(clientSecret)")
-        XCTAssertEqual(OpenAPIClientAPI.basePath, "http://api.sf-dev.significo.dev")
+        XCTAssertEqual(OpenAPIClientAPI.basePath, "https://recco-api.significo.app")
         XCTAssertEqual(OpenAPIClientAPI.customHeaders["Accept-Language"], "en-US")
         XCTAssertEqual(OpenAPIClientAPI.customHeaders["Client-Platform"], "iOS")
     }
