@@ -11,3 +11,5 @@
 APP_NAME = Showcase
 PRODUCT_BUNDLE_IDENTIFIER = com.significo.recco_showcase
 RELEASE_PROFILE_NAME = empty
+VERSION_STRING = 0.8.5
+BUILD_VERSION = 17
