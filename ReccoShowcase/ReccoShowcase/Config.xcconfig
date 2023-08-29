@@ -1,0 +1,13 @@
+//
+//  Config.xcconfig
+//  ReccoShowcase
+//
+//  Created by Adrián R on 29/8/23.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APP_NAME = Showcase
+PRODUCT_BUNDLE_IDENTIFIER = com.significo.recco_showcase
+RELEASE_PROFILE_NAME = empty
