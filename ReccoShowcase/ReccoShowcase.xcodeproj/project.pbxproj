@@ -32,6 +32,7 @@
 		6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E6EB03A2A4C89FA00ABD918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6E6EB0452A4C8D7500ABD918 /* recco-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "recco-ios"; path = ..; sourceTree = "<group>"; };
+		6E7EC6382A9E2FD600871EDE /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		95EF414E2A5595780012BF94 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		95EF41502A55BF1F0012BF94 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		95EF41522A56A6860012BF94 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 				6E6EB0372A4C89FA00ABD918 /* Assets.xcassets */,
 				6E6EB0392A4C89FA00ABD918 /* Preview Content */,
 				6E220A4F2A695A96006A7825 /* Localizable.strings */,
+				6E7EC6382A9E2FD600871EDE /* Config.xcconfig */,
 			);
 			path = ReccoShowcase;
 			sourceTree = "<group>";
@@ -326,17 +328,20 @@
 		};
 		6E6EB03F2A4C89FA00ABD918 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E7EC6382A9E2FD600871EDE /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"ReccoShowcase/Preview Content\"";
-				DEVELOPMENT_TEAM = 38CFAJD8KT;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 38CFAJD8KT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ReccoShowcase/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Showcase;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -349,8 +354,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.8.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.significo.SFTestApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -359,17 +366,20 @@
 		};
 		6E6EB0402A4C89FA00ABD918 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E7EC6382A9E2FD600871EDE /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"ReccoShowcase/Preview Content\"";
-				DEVELOPMENT_TEAM = 38CFAJD8KT;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 38CFAJD8KT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ReccoShowcase/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Showcase;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_NAME)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -382,8 +392,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.8.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.significo.SFTestApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "$(RELEASE_PROFILE_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
