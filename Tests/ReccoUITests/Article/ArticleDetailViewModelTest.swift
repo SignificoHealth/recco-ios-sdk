@@ -4,7 +4,15 @@ import XCTest
 
 @MainActor
 final class ArticleDetailViewModelTest: XCTestCase {
-
+    private var loggerLogError: XCTestExpectation!
+    
+    override func setUp() async throws {
+        loggerLogError = expectation(description: "Logger received an error")
+        loggerLogError.isInverted = true
+    }
+    
+    private func expectErrorLogging() { loggerLogError.isInverted = false }
+    
     private let mockArticle = Mocks.article
     private let mockLoadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void) = (
         ContentId(itemId: "itemId", catalogId: "catalogId"),
@@ -24,7 +32,8 @@ final class ArticleDetailViewModelTest: XCTestCase {
             loadedContent: loadedContent ?? mockLoadedContent,
             articleRepo: articleRepo ?? MockArticleRepository(),
             contentRepo: contentRepo ?? MockContentRepository(),
-            nav: nav ?? MockRecoCoordinator()
+            nav: nav ?? MockRecoCoordinator(),
+            logger: Logger { [unowned self] _ in loggerLogError.fulfill() }
         )
     }
 
@@ -40,13 +49,19 @@ final class ArticleDetailViewModelTest: XCTestCase {
         var mockLoadedContent = mockLoadedContent
         updateContentSeenExpectation.isInverted = true
         mockLoadedContent.3 = { _ in updateContentSeenExpectation.fulfill() }
-        let viewModel = getViewModel(loadedContent: mockLoadedContent, articleRepo: mockArticleRepository)
+        expectErrorLogging()
+
+        let viewModel = getViewModel(
+            loadedContent: mockLoadedContent,
+            articleRepo: mockArticleRepository
+        )
 
         XCTAssertNil(viewModel.article)
         XCTAssertTrue(viewModel.isLoading)
+        
         await viewModel.initialLoad()
-
-        await fulfillment(of: [getArticleExpectation, updateContentSeenExpectation], timeout: 1)
+        await fulfillment(of: [getArticleExpectation, updateContentSeenExpectation, loggerLogError], timeout: 1)
+        
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
         XCTAssertEqual(mockArticleRepository.getArticleError, viewModel.initialLoadError as? NSError)
@@ -64,13 +79,16 @@ final class ArticleDetailViewModelTest: XCTestCase {
             XCTAssertEqual(contentId, expectedArticle.id)
             updateContentSeenExpectation.fulfill()
         }
-        let viewModel = getViewModel(loadedContent: mockLoadedContent, articleRepo: mockArticleRepository)
+        let viewModel = getViewModel(
+            loadedContent: mockLoadedContent,
+            articleRepo: mockArticleRepository
+        )
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
         await viewModel.initialLoad()
-
-        await fulfillment(of: [getArticleExpectation, updateContentSeenExpectation], timeout: 1)
+        await fulfillment(of: [getArticleExpectation, updateContentSeenExpectation, loggerLogError], timeout: 1)
+        
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article, expectedArticle)
         XCTAssertNil(viewModel.initialLoadError)
@@ -89,7 +107,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.article)
         await viewModel.toggleBookmark()
 
-        await fulfillment(of: [setBookmarkExpectation], timeout: 1)
+        await fulfillment(of: [setBookmarkExpectation, loggerLogError], timeout: 1)
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
     }
@@ -106,12 +124,14 @@ final class ArticleDetailViewModelTest: XCTestCase {
         mockLoadedContent.4 = { _ in onBookmarkChangedExpectation.fulfill() }
         let viewModel = getViewModel(loadedContent: mockLoadedContent, contentRepo: mockContentRepository)
         viewModel.article = mockArticle
+        expectErrorLogging()
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, false)
+        
         await viewModel.toggleBookmark()
-
-        await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation], timeout: 1)
+        await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation, loggerLogError], timeout: 1)
+        
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, false)
         XCTAssertEqual(mockContentRepository.setBookmarkError, viewModel.actionError as? NSError)
@@ -135,7 +155,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertEqual(viewModel.article?.bookmarked, false)
         await viewModel.toggleBookmark()
 
-        await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation], timeout: 1)
+        await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation, loggerLogError], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, true)
         XCTAssertNil(viewModel.actionError)
@@ -154,7 +174,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.article)
         await viewModel.rate(.like)
 
-        await fulfillment(of: [setRatingExpectation], timeout: 1)
+        await fulfillment(of: [setRatingExpectation, loggerLogError], timeout: 1)
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
     }
@@ -167,12 +187,13 @@ final class ArticleDetailViewModelTest: XCTestCase {
         mockContentRepository.expectations[.setRating] = setRatingExpectation
         let viewModel = getViewModel(contentRepo: mockContentRepository)
         viewModel.article = mockArticle
+        expectErrorLogging()
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, .notRated)
         await viewModel.rate(.like)
 
-        await fulfillment(of: [setRatingExpectation], timeout: 1)
+        await fulfillment(of: [setRatingExpectation, loggerLogError], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, .notRated)
         XCTAssertEqual(setRatingError, viewModel.actionError as? NSError)
@@ -188,9 +209,10 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, .notRated)
+        
         await viewModel.rate(expectedRating)
-
-        await fulfillment(of: [setRatingExpectation], timeout: 1)
+        await fulfillment(of: [setRatingExpectation, loggerLogError], timeout: 1)
+        
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, expectedRating)
         XCTAssertNil(viewModel.actionError)
@@ -208,7 +230,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         viewModel.dismiss()
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 
     // MARK: - back
@@ -223,6 +245,6 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         viewModel.back()
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 }

@@ -4,16 +4,19 @@ import ReccoHeadless
 final class OnboardingOutroViewModel: ObservableObject {
     private let meRepo: MeRepository
     private let nav: ReccoCoordinator
+    private let logger: Logger
     
     @Published var isLoading: Bool = false
     @Published var meError: Error?
 
     init(
         meRepo: MeRepository,
-        nav: ReccoCoordinator
+        nav: ReccoCoordinator,
+        logger: Logger
     ) {
         self.meRepo = meRepo
         self.nav = nav
+        self.logger = logger
     }
     
     func close() {
@@ -26,6 +29,7 @@ final class OnboardingOutroViewModel: ObservableObject {
         do {
             try await meRepo.getMe()
         } catch {
+            logger.log(error)
             meError = error
         }
         isLoading = false

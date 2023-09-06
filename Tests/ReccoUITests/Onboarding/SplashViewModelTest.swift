@@ -21,7 +21,6 @@ final class SplashViewModelTest: XCTestCase {
         DispatchQueue.main.async { expectation.fulfill() }
         wait(for: [expectation], timeout: 1)
 
-
         XCTAssertEqual(user, viewModel.user)
     }
 }

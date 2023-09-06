@@ -8,7 +8,8 @@ final class ArticleDetailViewModel: ObservableObject {
     private let updateContentSeen: (ContentId) -> Void
     private let onBookmarkChanged: (Bool) -> Void
     private let nav: ReccoCoordinator
-    
+    private let logger: Logger
+
     let imageUrl: URL?
     let heading: String
     
@@ -21,7 +22,8 @@ final class ArticleDetailViewModel: ObservableObject {
         loadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void),
         articleRepo: ArticleRepository,
         contentRepo: ContentRepository,
-        nav: ReccoCoordinator
+        nav: ReccoCoordinator,
+        logger: Logger
     ) {
         self.articleRepo = articleRepo
         self.contentRepo = contentRepo
@@ -31,6 +33,7 @@ final class ArticleDetailViewModel: ObservableObject {
         self.updateContentSeen = loadedContent.3
         self.onBookmarkChanged = loadedContent.4
         self.nav = nav
+        self.logger = logger
     }
     
     @MainActor
@@ -41,6 +44,7 @@ final class ArticleDetailViewModel: ObservableObject {
             self.article?.status = .viewed
             self.updateContentSeen(article.id)
         } catch {
+            logger.log(error)
             initialLoadError = error
         }
         
@@ -61,6 +65,7 @@ final class ArticleDetailViewModel: ObservableObject {
             self.article?.bookmarked.toggle()
             self.onBookmarkChanged(!article.bookmarked)
         } catch {
+            logger.log(error)
             actionError = error
         }
 
@@ -80,6 +85,7 @@ final class ArticleDetailViewModel: ObservableObject {
 
             self.article?.rating = rating
         } catch {
+            logger.log(error)
             actionError = error
         }
 

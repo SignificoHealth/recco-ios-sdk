@@ -5,11 +5,13 @@ final class OnboardingQuestionnaireViewModel: QuestionnaireViewModel {
     init(
         nextScreen: @escaping (Bool) -> Void,
         repo: QuestionnaireRepository,
-        nav: ReccoCoordinator
+        nav: ReccoCoordinator,
+        logger: Logger
     ) {
         super.init(
             repo: repo,
             nav: nav,
+            logger: logger,
             shouldValidateAllAnswersOnQuestionChange: true,
             mainButtonEnabledByDefault: false,
             nextScreen: nextScreen,

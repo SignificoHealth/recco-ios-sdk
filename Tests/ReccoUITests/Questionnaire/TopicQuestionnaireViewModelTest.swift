@@ -9,13 +9,15 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
         topic: ReccoTopic,
         reloadSection: ((Bool) -> Void)? = nil,
         repo: QuestionnaireRepository? = nil,
-        nav: ReccoCoordinator? = nil
+        nav: ReccoCoordinator? = nil,
+        logger: Logger? = nil
     ) -> TopicQuestionnaireViewModel {
         return TopicQuestionnaireViewModel(
             topic: topic,
             reloadSection: reloadSection ?? { _ in },
             repo: repo ?? MockQuestionnaireRepository(),
-            nav: nav ?? MockRecoCoordinator()
+            nav: nav ?? MockRecoCoordinator(),
+            logger: logger ?? Logger { _ in }
         )
     }
 
