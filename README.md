@@ -96,6 +96,10 @@ ReccoUI.initialize(
 )
 ```
 
+As part of the initialize setup, you have the option to supply an optional `ReccoStyle` instance to configure some customization entry points:
+* `ReccoFont`: This defines the set of available predefined fonts.
+* `ReccoStyle.Color`: Defines the available colors to be customized as part of the palette. There already existing palettes to choose from, such as fresh or ocean.
+
 __Be mindful that if you don't initialize the SDK before using it, everything will just error out.__
 
 ### Logging in and out
