@@ -68,7 +68,7 @@ only_rules:
   - multiline_literal_brackets
   - multiline_parameters
   - nimble_operator
-  - no_extension_access_modifier
+  # - no_extension_access_modifier
   - no_fallthrough_only
   - notification_center_detachment
   - nsobject_prefer_isequal
@@ -85,7 +85,7 @@ only_rules:
   - protocol_property_accessors_order
   - quick_discouraged_focused_test
   - quick_discouraged_pending_test
-  - raw_value_for_camel_cased_codable_enum
+  # - raw_value_for_camel_cased_codable_enum
   - reduce_boolean
   - reduce_into
   - redundant_discardable_let
@@ -229,12 +229,17 @@ identifier_name:
     - a
     - t
     - v
+    - q
     - on
     - no
     - qa
     - to
     - ui
     - tv
+    - ml
+    - kg
+    - cm
+    - m
     - CurrentReccoStyle
     - r1
     - g1
