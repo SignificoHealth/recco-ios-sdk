@@ -4,6 +4,8 @@
 name: Swift
 
 on:
+  push:
+    branches: [ "chore/swiftlint" ]
   pull_request:
     branches: [ "main" ]
 
