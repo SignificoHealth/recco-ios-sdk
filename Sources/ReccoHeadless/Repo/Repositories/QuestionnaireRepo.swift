@@ -12,15 +12,15 @@ final class LiveQuestionnaireRepository: QuestionnaireRepository {
         try await QuestionnaireAPI.getQuestionnaireByTopic(
             topic: .init(entity: topic)
         )
-		.map(Question.init)
+        .map(Question.init)
     }
-    
+
     func sendQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws {
         try await QuestionnaireAPI.answers(
             createQuestionnaireAnswerDTO: answers.map(CreateQuestionnaireAnswerDTO.init)
         )
     }
-    
+
     func getOnboardingQuestionnaire() async throws -> [Question] {
         try await QuestionnaireAPI
             .onboarding()

@@ -111,7 +111,7 @@ struct BouncyHeaderScrollview<
                         .opacity(topActionsVisible ? 1 : 0)
                     }
                 }
-                    .padding(.horizontal, .S),
+                .padding(.horizontal, .S),
                 alignment: .top
             )
         }
@@ -122,8 +122,8 @@ struct BouncyHeaderScrollview<
 }
 
 extension BouncyHeaderScrollview where
-OverlayHeader == EmptyView,
-CTA == EmptyView {
+    OverlayHeader == EmptyView,
+    CTA == EmptyView {
     init(
         navTitle: String? = nil,
         backAction: (() -> Void)? = nil,

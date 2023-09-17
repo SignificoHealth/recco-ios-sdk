@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Adrián R on 8/6/23.
 //
@@ -182,11 +182,11 @@ extension HTMLTextView {
         var view = self
         switch mode {
         case .head:
-			view.truncationMode = .byTruncatingHead
+            view.truncationMode = .byTruncatingHead
         case .tail:
-			view.truncationMode = .byTruncatingTail
+            view.truncationMode = .byTruncatingTail
         case .middle:
-			view.truncationMode = .byTruncatingMiddle
+            view.truncationMode = .byTruncatingMiddle
         @unknown default:
             fatalError("Unknown text truncation mode")
         }

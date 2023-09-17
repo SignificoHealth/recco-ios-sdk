@@ -7,4 +7,3 @@ public struct PATReferenceDelete: Equatable, Hashable {
         self.tokenId = tokenId
     }
 }
-

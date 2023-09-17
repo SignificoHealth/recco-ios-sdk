@@ -4,7 +4,7 @@ import ReccoHeadless
 final class OnboardingOutroViewModel: ObservableObject {
     private let meRepo: MeRepository
     private let nav: ReccoCoordinator
-    
+
     @Published var isLoading = false
     @Published var meError: Error?
 
@@ -15,7 +15,7 @@ final class OnboardingOutroViewModel: ObservableObject {
         self.meRepo = meRepo
         self.nav = nav
     }
-    
+
     func close() {
         nav.navigate(to: .dismiss)
     }

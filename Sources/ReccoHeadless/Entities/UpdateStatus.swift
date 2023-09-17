@@ -11,4 +11,3 @@ public struct UpdateStatus: Equatable, Hashable {
         self.status = status
     }
 }
-

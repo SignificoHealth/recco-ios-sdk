@@ -93,11 +93,11 @@ extension Text {
 }
 
 struct Typography_Previews: PreviewProvider {
-//	swiftlint:disable opening_brace
+    //	swiftlint:disable opening_brace
     static var fonts: [(Text) -> AnyView] = [
-		{ AnyView($0.h1()) }, { AnyView($0.h2()) }, { AnyView($0.h3()) }, { AnyView($0.h4()) }, { AnyView($0.body1()) },
-		{ AnyView($0.body1bold()) }, { AnyView($0.body2()) }, { AnyView($0.body2bold()) }, { AnyView($0.body3()) },
-		{ AnyView($0.cta()) }, { AnyView($0.labelSmall()) }, { AnyView($0.contentTitle()) },
+        { AnyView($0.h1()) }, { AnyView($0.h2()) }, { AnyView($0.h3()) }, { AnyView($0.h4()) }, { AnyView($0.body1()) },
+        { AnyView($0.body1bold()) }, { AnyView($0.body2()) }, { AnyView($0.body2bold()) }, { AnyView($0.body3()) },
+        { AnyView($0.cta()) }, { AnyView($0.labelSmall()) }, { AnyView($0.contentTitle()) },
     ]
     static var previews: some View {
         _ = { CurrentReccoStyle.font = .sfPro }()

@@ -11,4 +11,3 @@ public struct Questionnaire: Equatable, Hashable {
         self.questions = questions
     }
 }
-

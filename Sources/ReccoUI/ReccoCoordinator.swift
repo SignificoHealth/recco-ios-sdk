@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Adrián R on 19/6/23.
 //
@@ -22,10 +22,10 @@ enum Destination: Equatable {
     static func == (lhs: Destination, rhs: Destination) -> Bool {
         switch (lhs, rhs) {
         case (.back, .back),
-            (.onboardingQuestionnaire, .onboardingQuestionnaire),
-            (.questionnaireOutro, .questionnaireOutro),
-            (.bookmarks, .bookmarks),
-            (.dismiss, .dismiss):
+             (.onboardingQuestionnaire, .onboardingQuestionnaire),
+             (.questionnaireOutro, .questionnaireOutro),
+             (.bookmarks, .bookmarks),
+             (.dismiss, .dismiss):
             return true
         case (let .article(id1, headline1, imageUrl1, _, _), let .article(id2, headline2, imageUrl2, _, _)):
             return id1 == id2 && headline1 == headline2 && imageUrl1 == imageUrl2

@@ -8,7 +8,7 @@ public enum EitherQuestionType: Hashable, Equatable {
 public struct Question: Equatable, Hashable {
     struct NoNumericQuestion: Error {}
     struct NoMultichoiceQuestion: Error {}
-    
+
     public var questionnaireId: String
     public var id: String
     public var index: Int
@@ -16,14 +16,14 @@ public struct Question: Equatable, Hashable {
     public var type: QuestionType
     public var value: EitherQuestionType
     public var answer: EitherAnswerType
-    
+
     public init(id: String, questionnaireId: String, index: Int, text: String, type: QuestionType, multiChoice: MultiChoiceQuestion? = nil, numeric: NumericQuestion? = nil, numericAnswer: Double? = nil, multichoiceAnswer: [Int]? = nil) throws {
         self.id = id
         self.index = index
         self.text = text
         self.type = type
         self.questionnaireId = questionnaireId
-        
+
         switch type {
         case .numeric:
             guard let numeric else { throw NoNumericQuestion() }
@@ -46,7 +46,7 @@ extension MultiChoiceQuestion {
 extension Question {
     public var isSingleChoice: Bool {
         guard type == .multichoice else { return false }
-        
+
         switch value {
         case .numeric:
             return false
@@ -55,4 +55,3 @@ extension Question {
         }
     }
 }
-

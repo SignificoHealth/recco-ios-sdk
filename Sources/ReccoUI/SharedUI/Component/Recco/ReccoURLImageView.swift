@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Adrián R on 1/8/23.
 //
@@ -43,7 +43,7 @@ struct ReccoURLImageView<
     var errorView: () -> ErrorView
     var loadingView: () -> LoadingView
 
-#if canImport(NukeUI)
+    #if canImport(NukeUI)
     var body: some View {
         LazyImage(
             url: url
@@ -59,17 +59,17 @@ struct ReccoURLImageView<
         .processors(
             downSampleSize.map { type in
                 switch type {
-                    //                case let .height(height):
-                    //                    return [.resize(height: height)]
-                    //                case let .width(width):
-                    //                    return [.resize(width: width)]
+                //                case let .height(height):
+                //                    return [.resize(height: height)]
+                //                case let .width(width):
+                //                    return [.resize(width: width)]
                 case let .size(size):
                     return [.resize(size: size)]
                 }
             }
         )
     }
-#elseif canImport(Kingfisher)
+    #elseif canImport(Kingfisher)
     var body: some View {
         KFImage
             .url(url)
@@ -88,7 +88,7 @@ struct ReccoURLImageView<
             }
             .scaledToFill()
     }
-#endif
+    #endif
 }
 
 struct ReccoURLImageView_Previews: PreviewProvider {

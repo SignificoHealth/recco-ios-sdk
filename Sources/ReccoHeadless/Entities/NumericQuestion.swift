@@ -18,4 +18,3 @@ public struct NumericQuestion: Equatable, Hashable {
         self.format = format
     }
 }
-

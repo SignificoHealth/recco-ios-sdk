@@ -5,8 +5,7 @@ public struct AppUser: Equatable, Hashable, Codable {
         self.id = id
         self.isOnboardingQuestionnaireCompleted = isOnboardingQuestionnaireCompleted
     }
-    
+
     public var id: String
     public var isOnboardingQuestionnaireCompleted: Bool
 }
-

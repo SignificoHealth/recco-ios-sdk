@@ -8,15 +8,15 @@ final class ArticleDetailViewModel: ObservableObject {
     private let updateContentSeen: (ContentId) -> Void
     private let onBookmarkChanged: (Bool) -> Void
     private let nav: ReccoCoordinator
-    
+
     let imageUrl: URL?
     let heading: String
-    
+
     @Published var isLoading = true
     @Published var article: AppUserArticle?
     @Published var initialLoadError: Error?
     @Published var actionError: Error?
-    
+
     init(
         loadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void),
         articleRepo: ArticleRepository,
@@ -32,7 +32,7 @@ final class ArticleDetailViewModel: ObservableObject {
         self.onBookmarkChanged = loadedContent.4
         self.nav = nav
     }
-    
+
     @MainActor
     func initialLoad() async {
         do {
@@ -43,7 +43,7 @@ final class ArticleDetailViewModel: ObservableObject {
         } catch {
             initialLoadError = error
         }
-        
+
         isLoading = false
     }
 
@@ -85,11 +85,11 @@ final class ArticleDetailViewModel: ObservableObject {
 
         isLoading = false
     }
-    
+
     func dismiss() {
         nav.navigate(to: .dismiss)
     }
-    
+
     func back() {
         nav.navigate(to: .back)
     }

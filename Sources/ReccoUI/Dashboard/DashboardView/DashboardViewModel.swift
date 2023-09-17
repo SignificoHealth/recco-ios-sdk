@@ -10,7 +10,7 @@ final class DashboardViewModel: ObservableObject {
     private let feedRepo: FeedRepository
     private let recRepo: RecommendationRepository
     private let nav: ReccoCoordinator
-    
+
     @Published var lockedSectionAlert: FeedSection?
     @Published var isLoading = true
     @Published var initialLoadError: Error?
@@ -18,7 +18,7 @@ final class DashboardViewModel: ObservableObject {
     @Published var sections: [FeedSectionViewState] = []
     @Published var items: [FeedSectionType: [AppUserRecommendation]] = [:]
     @Published var errors: [FeedSection: Error?] = [:]
-    
+
     init(
         feedRepo: FeedRepository,
         recRepo: RecommendationRepository,
@@ -27,12 +27,12 @@ final class DashboardViewModel: ObservableObject {
         self.recRepo = recRepo
         self.feedRepo = feedRepo
         self.nav = nav
-        
+
         Task {
             await getFeedItems()
         }
     }
-    
+
     func goToDetail(of item: AppUserRecommendation) {
         nav.navigate(to: .article(
             id: item.id,
@@ -43,15 +43,15 @@ final class DashboardViewModel: ObservableObject {
             }, onBookmarkedChange: { _ in }
         ))
     }
-    
+
     func goToBookmarks() {
         nav.navigate(to: .bookmarks)
     }
-    
+
     func dismiss() {
         nav.navigate(to: .dismiss)
     }
-    
+
     @MainActor
     func pressedUnlockSectionStart() {
         if let section = lockedSectionAlert,
@@ -65,10 +65,10 @@ final class DashboardViewModel: ObservableObject {
                 }
             ))
         }
-        
+
         lockedSectionAlert = nil
     }
-    
+
     func pressedLocked(section: FeedSection) {
         lockedSectionAlert = section
     }
@@ -86,12 +86,12 @@ final class DashboardViewModel: ObservableObject {
             isLoading = false
         }
     }
-    
+
     func load(sections: [FeedSection]) async {
         await withTaskGroup(of: Void.self) { @MainActor [unowned self] group in
             for (idx, section) in sections.enumerated() where !section.locked {
                 self.sections[idx].isLoading = true
-                
+
                 group.addTask { @MainActor [unowned self] in
                     do {
                         let items = try await recRepo.getFeedSection(section)
@@ -100,15 +100,15 @@ final class DashboardViewModel: ObservableObject {
                     } catch {
                         self.initialLoadError = error
                     }
-                    
+
                     self.sections[idx].isLoading = false
                 }
             }
         }
     }
-    
+
     // MARK: Private
-    
+
     @MainActor
     private func reloadSection(
         type: FeedSectionType,
@@ -117,9 +117,9 @@ final class DashboardViewModel: ObservableObject {
         guard let idx = sections.firstIndex(
             where: { $0.section.type == type }
         ) else { return }
-        
+
         let section = sections[idx].section
-        
+
         Task {
             do {
                 sections[idx].section.state = nextState
@@ -133,11 +133,11 @@ final class DashboardViewModel: ObservableObject {
             } catch {
                 self.initialLoadError = error
             }
-            
+
             sections[idx].isLoading = false
         }
     }
-    
+
     private func markContentAsSeen(id: ContentId) {
         for section in sections {
             for (item, idx) in zip(items[section.section.type, default: []], items[section.section.type, default: []].indices) where item.status != .viewed {
@@ -147,7 +147,7 @@ final class DashboardViewModel: ObservableObject {
             }
         }
     }
-    
+
     @MainActor
     private func setView(sections: [FeedSection]) {
         isLoading = false
@@ -157,7 +157,7 @@ final class DashboardViewModel: ObservableObject {
                 isLoading: !element.locked
             )
         }
-        
+
         self.unlockAnimationsDone = sections.reduce(into: [:], { partialResult, section in
             partialResult[section.type] = !section.locked
         })

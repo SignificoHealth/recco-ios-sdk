@@ -6,7 +6,7 @@ public protocol ArticleRepository {
 
 final class LiveArticleRepository: ArticleRepository {
     init() {}
-    
+
     func getArticle(with id: ContentId) async throws -> AppUserArticle {
         let dto = try await RecommendationAPI.getArticle(
             itemId: id.itemId,

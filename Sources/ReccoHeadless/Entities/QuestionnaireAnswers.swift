@@ -11,4 +11,3 @@ public struct QuestionnaireAnswers: Equatable, Hashable {
         self.answers = answers
     }
 }
-

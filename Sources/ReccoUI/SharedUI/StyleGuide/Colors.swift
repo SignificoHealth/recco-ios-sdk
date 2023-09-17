@@ -151,12 +151,12 @@ struct ColorsName_Previews: PreviewProvider {
         ScrollView {
             VStack {
                 ForEach([
-					Color.reccoPrimary, .reccoPrimary10, .reccoPrimary20, .reccoPrimary40, .reccoPrimary60, .reccoPrimary80, .reccoAccent, .reccoAccent10, .reccoAccent20, .reccoAccent40, .reccoAccent60, .reccoLightGray, .reccoBackground, .reccoIllustration, .reccoOnAccent, .reccoOnPrimary, .reccoIllustrationLine, .reccoOnBackground, .reccoOnBackground20, .reccoOnBackground60, .reccoStaticDark, .reccoStaticDark60,
+                    Color.reccoPrimary, .reccoPrimary10, .reccoPrimary20, .reccoPrimary40, .reccoPrimary60, .reccoPrimary80, .reccoAccent, .reccoAccent10, .reccoAccent20, .reccoAccent40, .reccoAccent60, .reccoLightGray, .reccoBackground, .reccoIllustration, .reccoOnAccent, .reccoOnPrimary, .reccoIllustrationLine, .reccoOnBackground, .reccoOnBackground20, .reccoOnBackground60, .reccoStaticDark, .reccoStaticDark60,
                 ], id: \.self) { color in
-                        Rectangle()
-                            .fill(color)
-                            .frame(width: 20, height: 20)
-                            .border(Color.black)
+                    Rectangle()
+                        .fill(color)
+                        .frame(width: 20, height: 20)
+                        .border(Color.black)
                 }
             }
         }

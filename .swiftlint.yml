@@ -110,9 +110,9 @@ only_rules:
   - todo
   - toggle_bool
   - trailing_comma
-  # - trailing_newline
+  - trailing_newline
   - trailing_semicolon
-  # - trailing_whitespace
+  - trailing_whitespace
   - type_body_length
   - unneeded_break_in_switch
   - unneeded_parentheses_in_closure_argument

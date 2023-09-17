@@ -134,9 +134,9 @@ class QuestionnaireViewModel: ObservableObject {
         isAnswerValid: Bool
     ) -> Bool {
         question.isSingleChoice
-        && !isOnLastQuestion
-        && answer.multichoice != nil
-        && isAnswerValid
+            && !isOnLastQuestion
+            && answer.multichoice != nil
+            && isAnswerValid
     }
 
     private func validateAnswerOnQuestionChange() {

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct OnboardingOutroView: View {
     @StateObject var viewModel: OnboardingOutroViewModel
-    
+
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: .S) {
@@ -15,7 +15,7 @@ struct OnboardingOutroView: View {
                                 .frame(height: proxy.size.height * 0.4)
                         }
                         .frame(height: proxy.size.height * 0.45)
-                        
+
                         VStack(spacing: .M) {
                             Text("recco_onboarding_outro_title".localized)
                                 .h1()
@@ -28,13 +28,13 @@ struct OnboardingOutroView: View {
                         .padding(.horizontal, .M)
                     }
                 }
-                
+
                 ReccoButtonView(
                     text: "recco_onboarding_go_to_dashboard".localized,
                     isLoading: viewModel.isLoading,
                     action: {
-                        Task { 
-                            await viewModel.goToDashboardPressed() 
+                        Task {
+                            await viewModel.goToDashboardPressed()
                         }
                     }
                 )

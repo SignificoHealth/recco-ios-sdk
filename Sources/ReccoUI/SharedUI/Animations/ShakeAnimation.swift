@@ -13,7 +13,7 @@ public struct Shake: GeometryEffect {
 
     public func effectValue(size: CGSize) -> ProjectionTransform {
         ProjectionTransform(CGAffineTransform(translationX:
-            amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
-            y: 0))
+                                                amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
+                                              y: 0))
     }
 }

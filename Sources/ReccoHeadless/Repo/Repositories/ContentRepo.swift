@@ -15,7 +15,7 @@ final class LiveContentRepository: ContentRepository {
             )
         )
     }
-    
+
     func setBookmark(_ updateBookmark: UpdateBookmark) async throws {
         try await RecommendationAPI.setBookmark(
             updateBookmarkDTO: .init(

@@ -2,8 +2,8 @@ import Foundation
 import RegexBuilder
 
 let frontitudeRawJson = ##"""
-{
-  "source": {
+    {
+    "source": {
     "recco_bookmarks_empty_state_title": "You haven't created any bookmarks yet",
     "recco_bookmarks_title": "Your Bookmarks",
     "recco_continue_button": "Continue",
@@ -54,8 +54,8 @@ let frontitudeRawJson = ##"""
     "recco_questionnaire_outro_body": "Keep going! The more questionnaires you complete, the more accurate your health score will be. \nThen, Recco can make personalized recommendations for you to make real health improvements.",
     "recco_questionnaire_outro_title": "Great! You finished the {{section_name}} section.",
     "recco_start": "Start"
-  },
-  "de": {
+    },
+    "de": {
     "recco_bookmarks_empty_state_title": "Du hast noch keine Lesezeichen gesetzt.",
     "recco_bookmarks_title": "Deine Bookmarks",
     "recco_continue_button": "Weiter",
@@ -106,9 +106,9 @@ let frontitudeRawJson = ##"""
     "recco_questionnaire_outro_body": "Du hast alle Fragen zu{{section_name}}beantwortet und damit noch bessere Empfehlungen für dich generiert. Schau sie dir gleich an!",
     "recco_questionnaire_outro_title": "Super gemacht!",
     "recco_start": "Los geht's!"
-  },
-  "es": {}
-}
+    },
+    "es": {}
+    }
 """##
 
 let matchUntilClose = Regex {

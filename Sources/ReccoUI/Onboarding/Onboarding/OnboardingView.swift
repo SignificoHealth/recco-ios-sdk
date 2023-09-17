@@ -2,11 +2,11 @@ import SwiftUI
 
 struct OnboardingView: View {
     @StateObject var viewModel: OnboardingViewModel
-    
+
     var buttonText: String {
         viewModel.currentPage == viewModel.totalPages ? "recco_start".localized : "recco_next".localized
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             TabView(
@@ -18,7 +18,7 @@ struct OnboardingView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            
+
             VStack(spacing: .M) {
                 ReccoButtonView(
                     text: buttonText,
@@ -28,7 +28,7 @@ struct OnboardingView: View {
                         }
                     }
                 )
-                
+
                 indicator
             }
             .padding(.M)
@@ -48,7 +48,7 @@ struct OnboardingView: View {
         )
         .navigationBarHidden(true)
     }
-    
+
     @ViewBuilder
     private var indicator: some View {
         HStack(spacing: .XXS) {
@@ -60,7 +60,7 @@ struct OnboardingView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private func onboardingPage(_ n: Int) -> some View {
         GeometryReader { proxy in
@@ -73,11 +73,11 @@ struct OnboardingView: View {
                             .frame(height: proxy.size.height * 0.4)
                     }
                     .frame(height: proxy.size.height * 0.45)
-                    
+
                     VStack(spacing: .M) {
                         Text("recco_onboarding_page\(n)_title".localized)
                             .h1()
-                        
+
                         Text("recco_onboarding_page\(n)_body".localized)
                             .body2()
                             .multilineTextAlignment(.center)

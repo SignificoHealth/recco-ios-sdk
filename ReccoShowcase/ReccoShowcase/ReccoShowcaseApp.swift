@@ -18,7 +18,7 @@ struct ReccoShowcaseApp: App {
 
     var body: some Scene {
         WindowGroup {
-           AppView()
+            AppView()
         }
     }
 }

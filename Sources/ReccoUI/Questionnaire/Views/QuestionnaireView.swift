@@ -97,8 +97,8 @@ struct QuestionnaireView: View {
 
                 (
                     Text("\(currentQuestionNumber + 1)")
-                    .foregroundColor(.reccoAccent) +
-                    Text("/\(questions.count)")
+                        .foregroundColor(.reccoAccent) +
+                        Text("/\(questions.count)")
                 ).h4()
             }
         }

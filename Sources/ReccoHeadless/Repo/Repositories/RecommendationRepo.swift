@@ -7,12 +7,12 @@ public protocol RecommendationRepository {
 
 final class LiveRecommendationRepository: RecommendationRepository {
     init() {}
-    
+
     func getFeedSection(_ section: FeedSection) async throws -> [AppUserRecommendation] {
         switch (section.type, section.topic) {
         case (.physicalActivityRecommendations, .some(let topic)), (.nutritionRecommendations, .some(let topic)),
-            (.mentalWellbeingRecommendations, .some(let topic)),
-            (.sleepRecommendations, .some(let topic)):
+             (.mentalWellbeingRecommendations, .some(let topic)),
+             (.sleepRecommendations, .some(let topic)):
             return try await RecommendationAPI
                 .getTailoredRecommendationsByTopic(
                     topic: .init(entity: topic)
@@ -31,9 +31,9 @@ final class LiveRecommendationRepository: RecommendationRepository {
                 .getNewestContent()
                 .map(AppUserRecommendation.init)
         case (.physicalActivityExplore, .some(let topic)),
-            (.nutritionExplore, .some(let topic)),
-            (.mentalWellbeingExplore, .some(let topic)),
-            (.sleepExplore, .some(let topic)):
+             (.nutritionExplore, .some(let topic)),
+             (.mentalWellbeingExplore, .some(let topic)),
+             (.sleepExplore, .some(let topic)):
             return try await RecommendationAPI
                 .exploreContentByTopic(topic: .init(entity: topic))
                 .map(AppUserRecommendation.init)
@@ -46,7 +46,7 @@ final class LiveRecommendationRepository: RecommendationRepository {
             return []
         }
     }
-    
+
     func getBookmarks() async throws -> [AppUserRecommendation] {
         try await RecommendationAPI
             .getBookmarkedRecommendations()

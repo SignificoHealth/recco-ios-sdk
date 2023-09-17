@@ -12,11 +12,11 @@ public enum Api {
         OpenAPIClientAPI.customHeaders["Accept-Language"] = Locale.current.identifier.contains("de") ? "de-DE" : "en-US"
         OpenAPIClientAPI.customHeaders["Client-Platform"] = "iOS"
         BearerTokenHandler.keychain = keychain
-        
+
         let clientId: String? = try? keychain.read(key: .clientUserId)
         clientId.map(setClientId)
     }
-    
+
     public static func setClientId(_ newValue: String?) {
         BearerTokenHandler.clientId = newValue
     }

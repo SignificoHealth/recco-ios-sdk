@@ -3,7 +3,7 @@ import SwiftUI
 
 private struct BoundsPreference: PreferenceKey {
     static var defaultValue: CGFloat = 0
-    
+
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())
     }
@@ -12,26 +12,26 @@ private struct BoundsPreference: PreferenceKey {
 struct ArticleDetailView: View {
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
     @StateObject var viewModel: ArticleDetailViewModel
-    
+
     @State private var offset: CGFloat = .zero
     @State private var contentHeight: CGFloat = .zero
     @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
-    
+
     private var headerHeight: CGFloat {
         UIScreen.main.bounds.height * 0.4
     }
-    
+
     private var negativePaddingTop: CGFloat {
         -UIScreen.main.bounds.height * 0.05
     }
-    
+
     private var shadowOpacity: CGFloat {
         if viewModel.isLoading { return 0 }
         let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
-        
+
         return (-distance / 100).clamped(to: 0...0.3)
     }
-    
+
     var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
@@ -44,19 +44,19 @@ struct ArticleDetailView: View {
                     Text(viewModel.heading)
                         .h1()
                         .fixedSize(horizontal: false, vertical: true)
-                    
+
                     Rectangle()
                         .fill(Color.reccoAccent)
                         .frame(height: 2)
                         .frame(maxWidth: .infinity)
-                    
+
                     ReccoLoadingView(viewModel.isLoading) {
                         if let article = viewModel.article {
                             VStack(alignment: .leading, spacing: .L) {
                                 if let lead = article.lead {
                                     Text(lead).body1bold()
                                 }
-                                
+
                                 if let body = article.articleBodyHtml {
                                     HTMLTextView(text: body)
                                         .isEditable(false)
@@ -66,7 +66,7 @@ struct ArticleDetailView: View {
                             }
                         }
                     }
-                    
+
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -128,7 +128,7 @@ struct ArticleDetailView: View {
             await viewModel.initialLoad()
         }
     }
-    
+
     @ViewBuilder
     private var articleHeader: some View {
         if let imageUrl = viewModel.imageUrl {
@@ -166,9 +166,9 @@ struct ArticleDetailView_Previews: PreviewProvider {
     static var previews: some View {
         withAssembly { r in
             ArticleDetailView(viewModel: r.get(argument: (
-                    ContentId(itemId: "", catalogId: ""),
-                    "This is a header",
-                    URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), { (_: ContentId) in }, { (_: Bool) in }
+                ContentId(itemId: "", catalogId: ""),
+                "This is a header",
+                URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), { (_: ContentId) in }, { (_: Bool) in }
             )))
         }
     }
