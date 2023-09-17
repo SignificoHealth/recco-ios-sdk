@@ -19,7 +19,10 @@ let ReccoHeadlessTests: Target = .testTarget(
     name: "ReccoHeadlessTests",
     dependencies: [
         "ReccoHeadless",
-    ]
+    ],
+	plugins: [
+	 .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+ ]
 )
 
 let ReccoUI: Target = .target(
@@ -41,7 +44,10 @@ let ReccoUITests: Target = .testTarget(
     name: "ReccoUITests",
     dependencies: [
         "ReccoUI",
-    ]
+    ],
+	plugins: [
+	 .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+ ]
 )
 
 let package = Package(
