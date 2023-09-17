@@ -25,4 +25,4 @@ jobs:
       with:
         xcode-version: '14.3.1'
     - name: Run tests
-      run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" -skipPackagePluginValidation | xcpretty && exit ${PIPESTATUS[0]}
