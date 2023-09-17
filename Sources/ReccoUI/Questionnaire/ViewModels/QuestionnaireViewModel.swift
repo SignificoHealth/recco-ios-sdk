@@ -203,9 +203,9 @@ class QuestionnaireViewModel: ObservableObject {
             return false
         }
 
-        return partialQuestions.reduce(true) { partialResult, q in
+        return partialQuestions.allSatisfy { q in
             if let answer = answers[q]??.value {
-                return partialResult && validate(answer: answer, for: q, mandatoryAnswer: mandatoryAnswer)
+                return validate(answer: answer, for: q, mandatoryAnswer: mandatoryAnswer)
             } else {
                 return false
             }
