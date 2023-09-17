@@ -138,7 +138,7 @@ extension ReccoContainer {
 
 public extension ReccoResolver {
     func get<T>() -> T {
-        return resolve(type: T.self)!
+        resolve(type: T.self)!
     }
     
     func get<T, Arg1>(argument: Arg1) -> T {

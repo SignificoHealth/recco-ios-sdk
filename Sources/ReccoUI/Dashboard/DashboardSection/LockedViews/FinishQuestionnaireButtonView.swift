@@ -4,12 +4,12 @@ struct FinishQuestionnaireButtonView: View {
     var body: some View {
         ZStack {
             Color.reccoPrimary
-            
+
             VStack(spacing: .XXS) {
                 Image(resource: "reload_ic")
                     .renderingMode(.template)
                     .foregroundColor(.reccoOnPrimary)
-                
+
                 Text("recco_dashboard_review_area".localized)
                     .foregroundColor(.reccoOnPrimary)
                     .h3()

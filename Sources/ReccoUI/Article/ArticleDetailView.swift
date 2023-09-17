@@ -1,7 +1,7 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
-fileprivate struct BoundsPreference: PreferenceKey {
+private struct BoundsPreference: PreferenceKey {
     static var defaultValue: CGFloat = 0
     
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -29,7 +29,7 @@ struct ArticleDetailView: View {
         if viewModel.isLoading { return 0 }
         let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
         
-        return (-distance/100).clamped(to: 0...0.3)
+        return (-distance / 100).clamped(to: 0...0.3)
     }
     
     var body: some View {
@@ -168,9 +168,7 @@ struct ArticleDetailView_Previews: PreviewProvider {
             ArticleDetailView(viewModel: r.get(argument: (
                     ContentId(itemId: "", catalogId: ""),
                     "This is a header",
-                    URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"),
-                    { (asdf: ContentId) in },
-                    { (bool: Bool) in }
+                    URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), { (_: ContentId) in }, { (_: Bool) in }
             )))
         }
     }

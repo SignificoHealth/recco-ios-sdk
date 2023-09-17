@@ -1,10 +1,9 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class PublicAPITest: XCTestCase {
-
     // MARK: - initialize
 
     func test_initialize_registersDependenciesAndInitializesAPI() throws {
@@ -25,13 +24,13 @@ final class PublicAPITest: XCTestCase {
     }
 
     // MARK: - login
-    
+
     func test_login_whenCalledBeforeInitializeSDK_throwsError() async throws {
         MockAssembly.reset()
         do {
             try await ReccoUI.login(userId: "userId")
             XCTFail("Should have thrown an error")
-        } catch (let error) {
+        } catch {
             XCTAssertNotNil(error)
             XCTAssertEqual(error as? ReccoError, ReccoError.notInitialized)
         }
@@ -60,7 +59,7 @@ final class PublicAPITest: XCTestCase {
         do {
             try await ReccoUI.logout()
             XCTFail("Should have thrown an error")
-        } catch (let error) {
+        } catch {
             XCTAssertNotNil(error)
             XCTAssertEqual(error as? ReccoError, ReccoError.notInitialized)
         }

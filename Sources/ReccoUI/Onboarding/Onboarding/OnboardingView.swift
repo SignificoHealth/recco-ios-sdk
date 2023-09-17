@@ -43,7 +43,6 @@ struct OnboardingView: View {
                     .foregroundColor(.reccoPrimary)
                     .padding(.vertical, .M)
                     .padding(.horizontal, .S)
-
             }),
             alignment: .topTrailing
         )

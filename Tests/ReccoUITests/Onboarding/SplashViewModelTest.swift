@@ -1,10 +1,9 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class SplashViewModelTest: XCTestCase {
-
     // MARK: - init
 
     func test_init_whenCurrentUserChanges_itUpdatesUser() {
@@ -21,9 +20,6 @@ final class SplashViewModelTest: XCTestCase {
         DispatchQueue.main.async { expectation.fulfill() }
         wait(for: [expectation], timeout: 1)
 
-
         XCTAssertEqual(user, viewModel.user)
     }
 }
-
-

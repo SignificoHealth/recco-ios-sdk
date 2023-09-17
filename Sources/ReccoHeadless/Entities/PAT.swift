@@ -12,6 +12,5 @@ public struct PAT: Equatable, Hashable, Codable {
     public var expirationDate: Date
     public var tokenId: String
     public var creationDate: Date
-    
 }
 

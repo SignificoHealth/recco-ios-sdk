@@ -1,10 +1,9 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class QuestionnaireViewModelTest: XCTestCase {
-
     let questions = Mocks.numericQuestions
     var answers: [Question: CreateQuestionnaireAnswer] {
         var result = [Question: CreateQuestionnaireAnswer]()
@@ -23,7 +22,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         getQuestions: ((QuestionnaireRepository) async throws -> [Question])? = nil,
         sendQuestions: ((QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void)? = nil
     ) -> QuestionnaireViewModel {
-        return QuestionnaireViewModel(
+        QuestionnaireViewModel(
             repo: repo ?? MockQuestionnaireRepository(),
             nav: nav ?? MockRecoCoordinator(),
             shouldValidateAllAnswersOnQuestionChange: shouldValidateAllAnswersOnQuestionChange ?? false,
@@ -171,7 +170,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericCorrectAnswer,
-            Mocks.numericInvalidAnswer
+            Mocks.numericInvalidAnswer,
         ])
         let viewModel = getViewModel(shouldValidateAllAnswersOnQuestionChange: true)
         viewModel.questions = questions
@@ -190,7 +189,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericInvalidAnswer,
             Mocks.numericInvalidAnswer,
-            Mocks.numericInvalidAnswer
+            Mocks.numericInvalidAnswer,
         ])
         let viewModel = getViewModel(shouldValidateAllAnswersOnQuestionChange: true)
         viewModel.questions = questions
@@ -209,7 +208,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericCorrectAnswer,
-            Mocks.numericCorrectAnswer
+            Mocks.numericCorrectAnswer,
         ])
         let viewModel = getViewModel(shouldValidateAllAnswersOnQuestionChange: false)
         viewModel.questions = questions
@@ -229,7 +228,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericCorrectAnswer,
-            invalidAnswer
+            invalidAnswer,
         ])
         let viewModel = getViewModel(shouldValidateAllAnswersOnQuestionChange: false)
         viewModel.questions = questions
@@ -248,7 +247,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getSingleChoiceQuestionsWithAnswers(answers: [
             Mocks.singleChoiceCorrectAnswer,
             Mocks.singleChoiceCorrectAnswer,
-            Mocks.singleChoiceCorrectAnswer
+            Mocks.singleChoiceCorrectAnswer,
         ])
         let sendQuestionsExpectation = expectation(description: "sendQuestions was called")
         sendQuestionsExpectation.isInverted = true
@@ -273,7 +272,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericCorrectAnswer,
-            Mocks.numericCorrectAnswer
+            Mocks.numericCorrectAnswer,
         ])
         let sendQuestionsExpectation = expectation(description: "sendQuestions was called")
         sendQuestionsExpectation.isInverted = true
@@ -293,7 +292,6 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertTrue(viewModel.mainButtonEnabled)
     }
-
 
     // MARK: - getQuestionnaire
 
@@ -370,7 +368,6 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: true)
 
-
         XCTAssertFalse(result)
     }
 
@@ -382,7 +379,6 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = currentQuestion
 
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: false)
-
 
         XCTAssertFalse(result)
     }
@@ -396,7 +392,6 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.multiChoiceCorrectAnswer, isAnswerValid: true)
 
-
         XCTAssertFalse(result)
     }
 
@@ -408,7 +403,6 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = currentQuestion
 
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.numericCorrectAnswer, isAnswerValid: true)
-
 
         XCTAssertFalse(result)
     }
@@ -571,7 +565,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericCorrectAnswer,
-            Mocks.numericCorrectAnswer
+            Mocks.numericCorrectAnswer,
         ])
         let viewModel = getViewModel()
         viewModel.questions = questions
@@ -586,7 +580,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericInvalidAnswer,
-            Mocks.numericInvalidAnswer
+            Mocks.numericInvalidAnswer,
         ])
         let viewModel = getViewModel()
         viewModel.questions = questions
@@ -601,15 +595,14 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let (questions, answers) = try Mocks.getNumericQuestionsWithAnswers(answers: [
             Mocks.numericCorrectAnswer,
             Mocks.numericInvalidAnswer,
-            Mocks.numericInvalidAnswer
+            Mocks.numericInvalidAnswer,
         ])
         let viewModel = getViewModel()
         viewModel.questions = questions
         viewModel.answers = answers
 
         let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: false)
-        
+
         XCTAssertTrue(isValid)
     }
-
 }

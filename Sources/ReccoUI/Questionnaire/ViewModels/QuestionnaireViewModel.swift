@@ -1,6 +1,6 @@
+import Combine
 import Foundation
 import ReccoHeadless
-import Combine
 
 class QuestionnaireViewModel: ObservableObject {
     private let nav: ReccoCoordinator
@@ -15,7 +15,7 @@ class QuestionnaireViewModel: ObservableObject {
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
     @Published var initialLoadError: Error?
     @Published var sendError: Error?
-    @Published var sendLoading: Bool = false
+    @Published var sendLoading = false
     @Published var mainButtonEnabled: Bool
 
     var currentIndex: Int {
@@ -25,7 +25,7 @@ class QuestionnaireViewModel: ObservableObject {
     }
 
     var isOnLastQuestion: Bool {
-        return currentIndex == (questions?.count ?? 0) - 1
+        currentIndex == (questions?.count ?? 0) - 1
     }
 
     init(
@@ -133,7 +133,7 @@ class QuestionnaireViewModel: ObservableObject {
         answer: EitherAnswerType,
         isAnswerValid: Bool
     ) -> Bool {
-        return question.isSingleChoice
+        question.isSingleChoice
         && !isOnLastQuestion
         && answer.multichoice != nil
         && isAnswerValid

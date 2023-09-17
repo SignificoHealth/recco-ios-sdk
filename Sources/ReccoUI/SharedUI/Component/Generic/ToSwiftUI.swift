@@ -9,11 +9,11 @@ struct ToSwiftUI: UIViewControllerRepresentable {
   ) {
     self.viewController = viewController
   }
-  
+
   func makeUIViewController(context: Context) -> UIViewController {
     self.viewController()
   }
-  
+
   func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
   }
 }

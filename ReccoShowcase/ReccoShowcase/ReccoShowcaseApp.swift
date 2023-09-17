@@ -1,5 +1,5 @@
-import SwiftUI
 import ReccoUI
+import SwiftUI
 
 let clientSecret = "99ItJU5LzZKmLggRvGJMWWxd9mEek7MKedmkZ4_3Wb4yKVJ17lm3K6Smh8eUp3GuFIPq0-w"
 
@@ -10,13 +10,12 @@ struct ReccoShowcaseApp: App {
         appearance.configureWithTransparentBackground()
         UINavigationBar.appearance().standardAppearance = appearance
 
-        
         ReccoUI.initialize(
             clientSecret: clientSecret,
             style: PaletteStorageObservable.shared.storage.selectedStyle
         )
     }
-    
+
     var body: some Scene {
         WindowGroup {
            AppView()
@@ -40,7 +39,7 @@ struct CompanyView: View {
 
 struct AppView: View {
     @AppStorage("username") var username: String = ""
-        
+
     var body: some View {
         ZStack {
             if username.isEmpty {

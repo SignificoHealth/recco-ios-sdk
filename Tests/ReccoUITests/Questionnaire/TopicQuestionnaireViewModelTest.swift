@@ -1,17 +1,16 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class TopicQuestionnaireViewModelTest: XCTestCase {
-
     private func getViewModel(
         topic: ReccoTopic,
         reloadSection: ((Bool) -> Void)? = nil,
         repo: QuestionnaireRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> TopicQuestionnaireViewModel {
-        return TopicQuestionnaireViewModel(
+        TopicQuestionnaireViewModel(
             topic: topic,
             reloadSection: reloadSection ?? { _ in },
             repo: repo ?? MockQuestionnaireRepository(),
@@ -61,7 +60,7 @@ final class TopicQuestionnaireViewModelTest: XCTestCase {
         let navigateExpectation = expectation(description: "Navigate was not called with: \(expectedDestination)")
         mockCoordinator.expectations[.navigate] = navigateExpectation
         let reloadSectionExpectation = expectation(description: "reloadSection was not called with")
-        let reloadSection: (Bool) -> Void = { didAnswerAllQuestions in
+        let reloadSection: (Bool) -> Void = { _ in
             reloadSectionExpectation.fulfill()
         }
         let viewModel = getViewModel(

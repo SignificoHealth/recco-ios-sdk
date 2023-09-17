@@ -1,7 +1,6 @@
 @testable import ReccoHeadless
 
 final class MockAssembly {
-
     static var mockAuthRepository = MockAuthRepository()
     static var mockMeRepository = MockMeRepository()
 
@@ -14,7 +13,7 @@ final class MockAssembly {
 
         // Register dependencies
         container.register(type: AuthRepository.self, service: { _ in mockAuthRepository })
-        container.register(type: MeRepository.self, service: { _ in mockMeRepository})
+        container.register(type: MeRepository.self, service: { _ in mockMeRepository })
     }
 
     static func reset() {

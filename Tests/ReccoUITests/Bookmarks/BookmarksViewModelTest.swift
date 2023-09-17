@@ -1,10 +1,9 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class BookmarksViewModelTest: XCTestCase {
-
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(
@@ -20,7 +19,7 @@ final class BookmarksViewModelTest: XCTestCase {
         recRepo: RecommendationRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> BookmarksViewModel {
-        return BookmarksViewModel(
+        BookmarksViewModel(
             recRepo: recRepo ?? MockRecommendationRepository(),
             nav: nav ?? MockRecoCoordinator()
         )
@@ -105,7 +104,6 @@ final class BookmarksViewModelTest: XCTestCase {
         seenContent(appUserRecommendation.id)
         XCTAssertEqual(viewModel.items.last?.id, appUserRecommendation.id)
         XCTAssertEqual(viewModel.items.last?.status, .viewed)
-
     }
 
     // MARK: - getBoomarks

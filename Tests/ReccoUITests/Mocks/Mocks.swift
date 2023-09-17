@@ -24,7 +24,7 @@ final class Mocks {
     )
 
     static let appUserRecommendations: [AppUserRecommendation] = (1...10).map { index in
-        return AppUserRecommendation(
+        AppUserRecommendation(
             id: ContentId(
                 itemId: "item-\(index)",
                 catalogId: "catalog-\(index)"

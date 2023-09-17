@@ -1,17 +1,14 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class ArticleDetailViewModelTest: XCTestCase {
-
     private let mockArticle = Mocks.article
     private let mockLoadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void) = (
         ContentId(itemId: "itemId", catalogId: "catalogId"),
         "heading",
-        nil,
-        { _ in /* updateContentSeen */ },
-        { _ in /* onBookmarkChanged */ }
+        nil, { _ in /* updateContentSeen */ }, { _ in /* onBookmarkChanged */ }
     )
 
     private func getViewModel(
@@ -20,7 +17,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
         contentRepo: ContentRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> ArticleDetailViewModel {
-        return ArticleDetailViewModel(
+        ArticleDetailViewModel(
             loadedContent: loadedContent ?? mockLoadedContent,
             articleRepo: articleRepo ?? MockArticleRepository(),
             contentRepo: contentRepo ?? MockContentRepository(),

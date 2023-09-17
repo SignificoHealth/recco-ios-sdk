@@ -4,11 +4,11 @@ import ReccoHeadless
 final class BookmarksViewModel: ObservableObject {
     private let recRepo: RecommendationRepository
     private let nav: ReccoCoordinator
-    
-    @Published var isLoading: Bool = true
+
+    @Published var isLoading = true
     @Published var items: [AppUserRecommendation] = []
     @Published var error: Error?
-    
+
     init(
         recRepo: RecommendationRepository,
         nav: ReccoCoordinator
@@ -16,7 +16,7 @@ final class BookmarksViewModel: ObservableObject {
         self.recRepo = recRepo
         self.nav = nav
     }
-    
+
     func goToDetail(of item: AppUserRecommendation) {
         nav.navigate(to: .article(
             id: item.id,
@@ -34,11 +34,11 @@ final class BookmarksViewModel: ObservableObject {
             }
         ))
     }
-    
+
     func dismiss() {
         nav.navigate(to: .dismiss)
     }
-    
+
     @MainActor
     func getBookmarks() async {
         do {
@@ -47,14 +47,14 @@ final class BookmarksViewModel: ObservableObject {
         } catch {
             self.error = error
         }
-        
+
         isLoading = false
     }
-    
+
     // MARK: Private
-    
+
     private func markContentAsSeen(id: ContentId) {
-        for (idx, item) in items.filter({ item in item.status != .viewed}).enumerated() {
+        for (idx, item) in items.filter({ item in item.status != .viewed }).enumerated() {
             if item.id == id {
                 items[idx].status = .viewed
             }

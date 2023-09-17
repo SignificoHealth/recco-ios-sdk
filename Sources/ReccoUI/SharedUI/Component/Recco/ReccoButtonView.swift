@@ -8,16 +8,16 @@ struct ReccoButtonView: View {
         case borderless
         case mini
     }
-    
+
     @Environment(\.isEnabled) var isEnabled
-    
+
     var leadingImage: Image?
     var trailingImage: Image?
     var text: String?
     var action: () -> Void
     var isLoading: Bool
     var style: ReccoButtonView.Style
-    
+
     init(
         style: ReccoButtonView.Style = .primary,
         text: String? = nil,
@@ -33,33 +33,33 @@ struct ReccoButtonView: View {
         self.isLoading = isLoading
         self.style = style
     }
-    
+
     var backgroundColor: Color {
         switch (style, isEnabled) {
         case (.primary, true), (.mini, true):
             return .reccoPrimary
-            
+
         case (.primary, false), (.mini, false):
             return .reccoPrimary20
-            
+
         case (.secondary, _), (.borderless, _):
             return .reccoBackground
         }
     }
-    
+
     var accentColor: Color {
         switch (style, isEnabled) {
         case (.primary, true), (.mini, true), (.primary, false), (.mini, false):
             return .reccoOnPrimary
-            
+
         case (.secondary, true), (.borderless, true):
             return .reccoPrimary
-            
+
         case (.secondary, false), (.borderless, false):
             return .reccoPrimary40
         }
     }
-    
+
     @ViewBuilder
     var background: some View {
         switch style {
@@ -78,7 +78,7 @@ struct ReccoButtonView: View {
                 .fill(backgroundColor)
         }
     }
-    
+
     var body: some View {
         Button(action: {
             action()
@@ -86,7 +86,7 @@ struct ReccoButtonView: View {
             ZStack {
                 background
                     .layoutPriority(-1)
-                
+
                 HStack(spacing: style == .mini ? .XXXS : .XS) {
                     if isLoading {
                         ProgressView()
@@ -102,7 +102,7 @@ struct ReccoButtonView: View {
                                 .foregroundColor(accentColor)
                                 .labelSmall()
                         }
-                        
+
                         trailingImage?.renderingMode(.template).foregroundColor(accentColor)
                     }
                 }

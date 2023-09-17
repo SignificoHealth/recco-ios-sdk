@@ -1,5 +1,5 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct DashboardView: View {
     @StateObject var viewModel: DashboardViewModel

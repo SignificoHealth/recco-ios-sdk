@@ -1,9 +1,8 @@
-import XCTest
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class OnboardingOutroViewModelTest: XCTestCase {
-
     // MARK: - goToDashboardPressed
 
     func test_goToDashboardPressed_whenGetMeFails_throwsAnError() async throws {

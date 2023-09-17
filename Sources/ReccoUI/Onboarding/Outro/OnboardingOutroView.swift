@@ -34,7 +34,8 @@ struct OnboardingOutroView: View {
                     isLoading: viewModel.isLoading,
                     action: {
                         Task { 
-                            await viewModel.goToDashboardPressed() }
+                            await viewModel.goToDashboardPressed() 
+                        }
                     }
                 )
                 .padding(.M)
@@ -48,7 +49,6 @@ struct OnboardingOutroView: View {
                     .foregroundColor(.reccoPrimary)
                     .padding(.vertical, .M)
                     .padding(.horizontal, .S)
-
             }),
             alignment: .topTrailing
         )

@@ -3,11 +3,11 @@ import SwiftUI
 
 struct ReccoImageLoadingView: View {
     var feedItem: Bool
-    
+
     init(feedItem: Bool) {
         self.feedItem = feedItem
     }
-    
+
     var body: some View {
         Color.reccoPrimary20
     }

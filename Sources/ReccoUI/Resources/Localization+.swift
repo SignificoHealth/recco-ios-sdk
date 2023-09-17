@@ -10,11 +10,11 @@ import SwiftUI
 
 extension String {
     func loc(_ bundle: Bundle) -> String {
-        return NSLocalizedString(self, bundle: bundle, comment: "")
+        NSLocalizedString(self, bundle: bundle, comment: "")
     }
 
     func loc(_ bundle: Bundle, _ args: CVarArg...) -> String {
-        return String(format: loc(bundle), args)
+        String(format: loc(bundle), args)
     }
 }
 
@@ -28,8 +28,8 @@ extension String {
     var localized: String {
         self.loc(.resourcesBundle)
     }
-    
+
     func localized(_ args: CVarArg...) -> String {
-        return String(format: localized, args)
-    }    
+        String(format: localized, args)
+    }
 }

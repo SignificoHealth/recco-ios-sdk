@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import UIKit
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
+import UIKit
 
 enum Destination: Equatable {
     case back
@@ -43,15 +43,15 @@ protocol ReccoCoordinator {
 
 final class DefaultReccoCoordinator: ReccoCoordinator {
     private weak var window: UIWindow?
-    
+
     init(window: UIWindow?) {
         self.window = window
     }
-    
+
     private var navController: UINavigationController? {
         window?.topViewController()?.navigationController
     }
-    
+
     func navigate(to destination: Destination) {
         switch destination {
         case .back:
@@ -62,37 +62,37 @@ final class DefaultReccoCoordinator: ReccoCoordinator {
                     navigate(to: .questionnaireOutro)
                 }
             )
-            
+
             let vc = UIHostingController(
                 rootView: QuestionnaireView(
                     viewModel: viewModel,
                     navTitle: "recco_questionnaire_about_you".localized
                 )
             )
-            
+
             navController?.pushViewController(
                 vc,
                 animated: true
             )
-            
+
         case .questionnaireOutro:
             let vc = UIHostingController(
                 rootView: OnboardingOutroView(
                     viewModel: get()
                 )
             )
-            
+
             navController?.pushViewController(
                 vc,
                 animated: true
             )
-            
+
         case let .article(id, headline, imageUrl, seenContent, onBookmarkedChange):
             navController?.pushViewController(
-                UIHostingController(rootView: ArticleDetailView(viewModel: get(argument:(id, headline, imageUrl, seenContent, onBookmarkedChange)))),
+                UIHostingController(rootView: ArticleDetailView(viewModel: get(argument: (id, headline, imageUrl, seenContent, onBookmarkedChange)))),
                 animated: true
             )
-            
+
         case let .questionnaire(topic, unlocked):
             let viewModel: TopicQuestionnaireViewModel = get(argument: (topic, unlocked))
             navController?.pushViewController(
@@ -102,7 +102,7 @@ final class DefaultReccoCoordinator: ReccoCoordinator {
         case .bookmarks:
             let viewModel: BookmarksViewModel = get()
             navController?.pushViewController(UIHostingController(rootView: BookmarksView(viewModel: viewModel)), animated: true)
-            
+
         case .dismiss:
             window?.topViewController()?.dismiss(animated: true)
         }

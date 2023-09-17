@@ -1,5 +1,5 @@
-import XCTest
 @testable import ReccoUI
+import XCTest
 
 final class FirstTest: XCTestCase {
     func testExample() throws {

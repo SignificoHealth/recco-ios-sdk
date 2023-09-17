@@ -1,5 +1,5 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct SplashView: View {
     @StateObject var viewModel: SplashViewModel

@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 extension QuestionType {
     init(dto: QuestionAnswerTypeDTO) {
         switch dto {

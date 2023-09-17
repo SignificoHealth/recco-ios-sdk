@@ -7,14 +7,11 @@
 
 import Foundation
 
-
-
 extension ContentId {
     init(dto: ContentIdDTO) {
         self.init(itemId: dto.itemId, catalogId: dto.catalogId)
     }
 }
-
 
 extension ContentType {
     struct ContentTypeShouldNotBeNilError: Error {}

@@ -39,7 +39,7 @@ public struct Question: Equatable, Hashable {
 
 extension MultiChoiceQuestion {
     public var isSingleChoice: Bool {
-        return maxOptions == 1
+        maxOptions == 1
     }
 }
 

@@ -1,12 +1,11 @@
-import XCTest
 @testable import ReccoHeadless
+import XCTest
 
 final class MockArticleRepository: ArticleRepository {
-
     enum ExpectationType {
         case getArticle
     }
-    
+
     var expectations: [ExpectationType: XCTestExpectation] = [:]
     var expectedContentId: ContentId?
 

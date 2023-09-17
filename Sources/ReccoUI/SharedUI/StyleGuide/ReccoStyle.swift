@@ -21,7 +21,7 @@ public enum ReccoFont: String, CaseIterable, Equatable, Hashable, Codable {
 extension ReccoFont {
     public func uiFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
         let sfPro = UIFont.systemFont(ofSize: size, weight: weight)
-        
+
         switch self {
         case .sfPro:
             return sfPro
@@ -42,12 +42,12 @@ public struct ReccoHexColor: Hashable, Equatable, Codable {
         self.lightModeHex = uiColor.resolvedColor(with: .init(userInterfaceStyle: .light)).hexString!
         self.darkModeHex = uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)).hexString!
     }
-    
+
     public init(lightModeHex: String, darkModeHex: String) {
         self.darkModeHex = darkModeHex
         self.lightModeHex = lightModeHex
     }
-    
+
     var darkModeHex: String
     var lightModeHex: String
 }
@@ -74,7 +74,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
             self.illustration = illustration
             self.illustrationLine = illustrationLine
         }
-        
+
         public var primary: ReccoHexColor
         public var onPrimary: ReccoHexColor
         public var background: ReccoHexColor
@@ -84,7 +84,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
         public var illustration: ReccoHexColor
         public var illustrationLine: ReccoHexColor
     }
-   
+
     public init(
         name: String,
         font: ReccoFont = .sfPro,
@@ -94,7 +94,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
         self.name = name
         self.color = color
     }
-    
+
     public let name: String
     public var font: ReccoFont
     public var color: ReccoStyle.Color
@@ -116,7 +116,7 @@ extension ReccoStyle {
             )
         )
     }
-    
+
     public static var fresh: ReccoStyle {
         ReccoStyle(
             name: "Fresh",
@@ -132,7 +132,7 @@ extension ReccoStyle {
             )
         )
     }
-    
+
     public static var spring: ReccoStyle {
         ReccoStyle(
             name: "Spring",
@@ -148,7 +148,7 @@ extension ReccoStyle {
             )
         )
     }
-    
+
     public static var tech: ReccoStyle {
         ReccoStyle(
             name: "Tech",

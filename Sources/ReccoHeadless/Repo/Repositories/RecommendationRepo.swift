@@ -48,7 +48,7 @@ final class LiveRecommendationRepository: RecommendationRepository {
     }
     
     func getBookmarks() async throws -> [AppUserRecommendation] {
-        return try await RecommendationAPI
+        try await RecommendationAPI
             .getBookmarkedRecommendations()
             .map(AppUserRecommendation.init)
     }

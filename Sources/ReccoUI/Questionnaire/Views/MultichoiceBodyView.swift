@@ -1,5 +1,5 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 private struct Selectable<T: Equatable & Hashable>: Equatable, Hashable {
     var selected: Bool
@@ -10,9 +10,9 @@ struct MultichoiceBodyView: View {
     var question: MultiChoiceQuestion
     var answers: [Int]?
     var selectedAnswers: ([MultiChoiceAnswerOption]?) -> Void
-    
+
     @State private var options: [Selectable<MultiChoiceAnswerOption>]
-    
+
     init(
         question: MultiChoiceQuestion,
         answers: [Int]? = nil,
@@ -31,7 +31,7 @@ struct MultichoiceBodyView: View {
                 }
         )
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: .XXS) {
             if !question.isSingleChoice {
@@ -40,13 +40,13 @@ struct MultichoiceBodyView: View {
                     .body3()
                     .padding(.bottom, .M)
             }
-            
+
             ForEach($options, id: \.self) { $option in
                 item(for: $option)
             }
         }
     }
-    
+
     @ViewBuilder
     private func item(for option: Binding<Selectable<MultiChoiceAnswerOption>>) -> some View {
         Button {
@@ -57,10 +57,10 @@ struct MultichoiceBodyView: View {
                     .foregroundColor(option.wrappedValue.selected ? .reccoOnAccent : .reccoPrimary)
                     .body2()
                     .multilineTextAlignment(.leading)
-                
+
                 if !question.isSingleChoice {
                     Spacer()
-                    
+
                     Image(resource: option.wrappedValue.selected ? "check_ic" : "plus_ic")
                         .renderingMode(.template)
                         .foregroundColor(option.wrappedValue.selected ? .reccoAccent : .reccoPrimary)
@@ -85,28 +85,28 @@ struct MultichoiceBodyView: View {
             )
         }
     }
-    
+
     private func performLogicOnSelecting(option: Binding<Selectable<MultiChoiceAnswerOption>>) {
         // if it is not already selected
         if !option.wrappedValue.selected, question.isSingleChoice {
                 options.indices.forEach { options[$0].selected = false }
         }
-        
+
         option.wrappedValue.selected.toggle()
-        
+
         performFeedback(selected: option.wrappedValue.selected)
-        
+
         let selected = options
             .filter(\.selected)
             .map(\.value)
-        
+
         withAnimation {
             selectedAnswers(
                 selected.isEmpty ? nil : selected
             )
         }
     }
-    
+
     private func performFeedback(selected: Bool) {
         HapticPlayer
             .shared

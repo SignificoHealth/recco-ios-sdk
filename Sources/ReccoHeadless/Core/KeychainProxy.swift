@@ -29,8 +29,8 @@ public final class KeychainProxy {
             kSecValueData: data,
             kSecAttrService: service,
             kSecAttrAccount: account,
-            kSecClass: kSecClassGenericPassword
-        ] as [CFString : Any] as CFDictionary
+            kSecClass: kSecClassGenericPassword,
+        ] as [CFString: Any] as CFDictionary
 
         let status = SecItemAdd(query, nil)
 
@@ -39,7 +39,7 @@ public final class KeychainProxy {
                 kSecAttrService: service,
                 kSecAttrAccount: account,
                 kSecClass: kSecClassGenericPassword,
-            ] as [CFString : Any] as CFDictionary
+            ] as [CFString: Any] as CFDictionary
 
             let attributesToUpdate = [kSecValueData: data] as CFDictionary
 
@@ -52,8 +52,8 @@ public final class KeychainProxy {
             kSecAttrService: service,
             kSecAttrAccount: account,
             kSecClass: kSecClassGenericPassword,
-            kSecReturnData: true
-        ] as [CFString : Any] as CFDictionary
+            kSecReturnData: true,
+        ] as [CFString: Any] as CFDictionary
         
         var result: AnyObject?
         SecItemCopyMatching(query, &result)
@@ -66,7 +66,7 @@ public final class KeychainProxy {
             kSecAttrService: service,
             kSecAttrAccount: account,
             kSecClass: kSecClassGenericPassword,
-        ] as [CFString : Any] as CFDictionary
+        ] as [CFString: Any] as CFDictionary
         
         SecItemDelete(query)
     }
@@ -82,12 +82,12 @@ extension KeychainProxy {
     public func save<T>(
         key: KeychainKey,
         _ item: T
-    ) throws where T : Codable {
+    ) throws where T: Codable {
         let data = try JSONEncoder().encode(item)
         save(data, account: key.rawValue)
     }
     
-    public func read<T>(key: KeychainKey) throws -> T? where T : Codable {
+    public func read<T>(key: KeychainKey) throws -> T? where T: Codable {
         guard let data = read(account: key.rawValue) else {
             return nil
         }

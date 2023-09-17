@@ -12,7 +12,7 @@ final class DashboardViewModel: ObservableObject {
     private let nav: ReccoCoordinator
     
     @Published var lockedSectionAlert: FeedSection?
-    @Published var isLoading: Bool = true
+    @Published var isLoading = true
     @Published var initialLoadError: Error?
     @Published var unlockAnimationsDone: [FeedSectionType: Bool] = [:]
     @Published var sections: [FeedSectionViewState] = []
@@ -55,10 +55,9 @@ final class DashboardViewModel: ObservableObject {
     @MainActor
     func pressedUnlockSectionStart() {
         if let section = lockedSectionAlert,
-           let topic = section.topic{
+           let topic = section.topic {
             nav.navigate(to: .questionnaire(
-                topic,
-                { [unowned self] answeredAll in
+                topic, { [unowned self] answeredAll in
                     reloadSection(
                         type: section.type,
                         nextState: answeredAll ? .unlock : .partiallyUnlock
@@ -88,8 +87,8 @@ final class DashboardViewModel: ObservableObject {
         }
     }
     
-    func load(sections: [FeedSection]) async  {
-        return await withTaskGroup(of: Void.self) { @MainActor [unowned self] group in
+    func load(sections: [FeedSection]) async {
+        await withTaskGroup(of: Void.self) { @MainActor [unowned self] group in
             for (idx, section) in sections.enumerated() where !section.locked {
                 self.sections[idx].isLoading = true
                 

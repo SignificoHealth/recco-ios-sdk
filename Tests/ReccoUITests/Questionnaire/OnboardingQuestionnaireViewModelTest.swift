@@ -1,16 +1,15 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class OnboardingQuestionnaireViewModelTest: XCTestCase {
-
     private func getViewModel(
         nextScreen: ((Bool) -> Void)? = nil,
         repo: QuestionnaireRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> OnboardingQuestionnaireViewModel {
-        return OnboardingQuestionnaireViewModel(
+        OnboardingQuestionnaireViewModel(
             nextScreen: nextScreen ?? { _ in },
             repo: repo ?? MockQuestionnaireRepository(),
             nav: nav ?? MockRecoCoordinator()
@@ -26,7 +25,7 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
         let viewModel = getViewModel(repo: mockQuestionnaireRepository)
 
         await viewModel.getQuestionnaire()
-        
+
         await fulfillment(of: [getOnboardingQuestionnaireExpectation], timeout: 1)
     }
 
@@ -51,7 +50,7 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
         let sendOnboardingQuestionnaireExpectation = expectation(description: "sendOnboardingQuestionnaire was not called with")
         mockQuestionnaireRepository.expectations[.sendOnboardingQuestionnaire] = sendOnboardingQuestionnaireExpectation
         let nextScreenExpectation = expectation(description: "nextScreen was not called with")
-        let nextScreen: (Bool) -> Void = { didAnswerAllQuestions in
+        let nextScreen: (Bool) -> Void = { _ in
             nextScreenExpectation.fulfill()
         }
         let viewModel = getViewModel(nextScreen: nextScreen, repo: mockQuestionnaireRepository)

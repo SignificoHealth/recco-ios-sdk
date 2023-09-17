@@ -1,6 +1,6 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class DashboardViewModelTest: XCTestCase {
@@ -17,8 +17,7 @@ final class DashboardViewModelTest: XCTestCase {
     private let feedSection = Mocks.feedSectionWithTopic
     private lazy var questionnaireDestination: Destination = {
         .questionnaire(
-            feedSection.topic ?? .nutrition,
-            { _ in /* No need to mock this */}
+            feedSection.topic ?? .nutrition, { _ in /* No need to mock this */ }
         )
     }()
 
@@ -27,7 +26,7 @@ final class DashboardViewModelTest: XCTestCase {
         recRepo: RecommendationRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> DashboardViewModel {
-        return DashboardViewModel(
+        DashboardViewModel(
             feedRepo: feedRepo ?? MockFeedRepository(),
             recRepo: recRepo ?? MockRecommendationRepository(),
             nav: nav ?? MockRecoCoordinator()
@@ -73,7 +72,7 @@ final class DashboardViewModelTest: XCTestCase {
                 state: .unlock
             ),
             isLoading: false
-        )]
+        ), ]
         viewModel.items[.mostPopular] = [appUserRecommendation]
 
         viewModel.goToDetail(of: appUserRecommendation)
@@ -86,7 +85,6 @@ final class DashboardViewModelTest: XCTestCase {
         seenContent(appUserRecommendation.id)
         XCTAssertEqual(viewModel.items[.mostPopular]?.first?.id, appUserRecommendation.id)
         XCTAssertEqual(viewModel.items[.mostPopular]?.first?.status, .viewed)
-
     }
 
     // MARK: - goToBookmarks
@@ -163,7 +161,7 @@ final class DashboardViewModelTest: XCTestCase {
                 state: .partiallyUnlock
             ),
             isLoading: false
-        )]
+        ), ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
         viewModel.pressedUnlockSectionStart()
@@ -206,7 +204,7 @@ final class DashboardViewModelTest: XCTestCase {
                 state: .partiallyUnlock
             ),
             isLoading: false
-        )]
+        ), ]
 
         viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
@@ -347,7 +345,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.sections = [FeedSectionViewState(
             section: lockedSection,
             isLoading: false
-        )]
+        ), ]
 
         await viewModel.load(sections: [lockedSection])
 
@@ -374,7 +372,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.sections = [FeedSectionViewState(
             section: unlockedSection,
             isLoading: false
-        )]
+        ), ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
         await viewModel.load(sections: [unlockedSection])
@@ -405,7 +403,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.sections = [FeedSectionViewState(
             section: unlockedSection,
             isLoading: false
-        )]
+        ), ]
 
         await viewModel.load(sections: [unlockedSection])
 

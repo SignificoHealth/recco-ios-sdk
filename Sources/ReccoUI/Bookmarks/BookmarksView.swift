@@ -6,8 +6,8 @@ struct BookmarksView: View {
     private let gridLayout = [
         GridItem(.flexible(), spacing: .XXS, alignment: .top),
         GridItem(.flexible(), spacing: .XXS, alignment: .top),
-        GridItem(.flexible(), spacing: .XXS, alignment: .top)
-        ]
+        GridItem(.flexible(), spacing: .XXS, alignment: .top),
+    ]
     
     var body: some View {
         ReccoLoadingView(viewModel.isLoading) {

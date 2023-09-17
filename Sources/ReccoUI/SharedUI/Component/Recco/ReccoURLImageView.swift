@@ -36,13 +36,13 @@ struct ReccoURLImageView<
         self.loadingView = loadingView
         self.transformView = transformView
     }
-    
+
     var downSampleSize: ReccoURLImageDownsample?
     var url: URL?
     var transformView: (Image) -> NewImageView
     var errorView: () -> ErrorView
     var loadingView: () -> LoadingView
-    
+
 #if canImport(NukeUI)
     var body: some View {
         LazyImage(
@@ -83,7 +83,7 @@ struct ReccoURLImageView<
                     }
                 } ?? []
             )
-            .placeholder { progress in
+            .placeholder { _ in
                 loadingView()
             }
             .scaledToFill()
@@ -112,6 +112,5 @@ struct ReccoURLImageView_Previews: PreviewProvider {
                 .scaledToFill()
                 .addBlackOpacityOverlay()
         }
-        
     }
 }

@@ -1,21 +1,21 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct LockedSectionView: View {
     var isLocked: Bool
     @Binding var performedUnlockAnimation: Bool
-    
+
     @State private var numberOfItems = 5
-    @State private var shouldShake: Bool = false
-    @State private var performingUnlockAnimation: Bool = false
-    @State private var rememberLockState: Bool = true
+    @State private var shouldShake = false
+    @State private var performingUnlockAnimation = false
+    @State private var rememberLockState = true
     @State private var lockedImages: [String] = (1...7).map { idx in "locked_bg_item_\(idx)"
     }
     var body: some View {
         // Empty axes allows us to create scrollview with no scrolling
         ScrollView([]) {
             HStack(spacing: .XXS) {
-                ForEach(0..<(numberOfItems-1), id: \.self) { idx in
+                ForEach(0..<(numberOfItems - 1), id: \.self) { idx in
                     LockedFeedItem(
                         unlocking: performingUnlockAnimation,
                         imageName: lockedImages[idx]
@@ -44,21 +44,21 @@ struct LockedSectionView: View {
             }
         }
     }
-    
+
     private func performUnlockAnimation() {
         Task {
             try await Task.sleep(nanoseconds: 400 * NSEC_PER_MSEC)
-            
+
             await MainActor.run {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     shouldShake = true
                 }
-                
+
                 HapticPlayer.shared.playHaptic(pattern: .unlock)
             }
-            
+
             try await Task.sleep(nanoseconds: 700 * NSEC_PER_MSEC)
-            
+
             await MainActor.run {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     performingUnlockAnimation = true
@@ -66,7 +66,7 @@ struct LockedSectionView: View {
             }
 
             try await Task.sleep(nanoseconds: 1000 * NSEC_PER_MSEC)
-            
+
             await MainActor.run {
                 performedUnlockAnimation = true
             }
@@ -77,7 +77,7 @@ struct LockedSectionView: View {
 struct LockedSectionView_Previews: PreviewProvider {
     struct Wrapped: View {
         @State var isLocked: Bool
-        
+
         var body: some View {
             LockedSectionView(
                 isLocked: isLocked,
@@ -93,7 +93,7 @@ struct LockedSectionView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.reccoBackground
-            
+
             Wrapped(isLocked: true)
         }
     }

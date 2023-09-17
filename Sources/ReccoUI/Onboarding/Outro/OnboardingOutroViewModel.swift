@@ -5,7 +5,7 @@ final class OnboardingOutroViewModel: ObservableObject {
     private let meRepo: MeRepository
     private let nav: ReccoCoordinator
     
-    @Published var isLoading: Bool = false
+    @Published var isLoading = false
     @Published var meError: Error?
 
     init(

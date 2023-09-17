@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct RefreshableScrollView<Content: View>: View {
     init(
@@ -9,10 +9,10 @@ struct RefreshableScrollView<Content: View>: View {
         self.content = content
         self.refreshAction = refreshAction
     }
-    
+
     let content: () -> Content
     let refreshAction: () async -> Void
-    
+
     @ViewBuilder
     var body: some View {
         if #available(iOS 16, *) {
@@ -47,7 +47,7 @@ struct RefreshableScrollView<Content: View>: View {
 @available(iOS 15.0, *)
 private struct iOS15RefreshableScrollview<Content: View>: View {
     @Environment(\.refresh) private var refresh
-    
+
     @State private var refreshing: iOS15RefreshControl.State = .threshold {
         didSet {
             guard refreshing != oldValue, refreshing == .disappearing
@@ -57,19 +57,19 @@ private struct iOS15RefreshableScrollview<Content: View>: View {
             }
         }
     }
-    
+
     private var content: () -> Content
     private let coordinateSpace = "pullToRefresh"
     private var threshold: CGFloat
-    
-    public init(
+
+    init(
         threshold: CGFloat = 70,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
         self.threshold = threshold
     }
-    
+
     @ViewBuilder
     var refreshLoader: some View {
         VStack(spacing: 0) {
@@ -96,8 +96,8 @@ private struct iOS15RefreshableScrollview<Content: View>: View {
         }
         .frame(height: refreshing == .refreshing ? nil : 0, alignment: .top)
     }
-    
-    public var body: some View {
+
+    var body: some View {
         ObservableScrollView { _ in
             VStack(spacing: 0) {
                 refreshLoader
@@ -114,7 +114,7 @@ private class ScrollViewController: UIViewController {
         self.view = UIScrollView()
         self.view.clipsToBounds = false
     }
-    
+
     var scrollView: UIScrollView! {
         view as? UIScrollView
     }
@@ -123,10 +123,10 @@ private class ScrollViewController: UIViewController {
 private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepresentable {
     @Environment(\.currentScrollObservable) var scrollObservable
     @Environment(\.currentScrollOffsetId) var scrollOffsetId
-    
+
     let content: () -> Content
     let refreshAction: (() async -> Void)?
-    
+
     init(
         content: @escaping () -> Content,
         refreshAction: @escaping (@escaping () -> Void) -> Void
@@ -140,7 +140,7 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
             }
         }
     }
-    
+
     init(
         content: @escaping () -> Content,
         refreshAction: @escaping () async -> Void
@@ -148,28 +148,28 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         self.content = content
         self.refreshAction = refreshAction
     }
-    
+
     class ContentContainer<Content: View>: UIHostingController<Content> { }
-    
+
     func makeUIViewController(context: Context) -> UIViewController {
         let controller = ScrollViewController()
         let scrollView = controller.scrollView!
-        
+
         let container = ContentContainer(rootView: content())
         let containerView = container.view!
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = .clear
-        
+
         let refreshControl = UIRefreshControl()
         refreshControl.layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
         refreshControl.addTarget(context.coordinator, action: #selector(Coordinator.triggerRefresh(_:)), for: .valueChanged)
         scrollView.refreshControl = refreshControl
-        
+
         container.willMove(toParent: controller)
         controller.addChild(container)
-        
+
         scrollView.addSubview(container.view)
-        
+
         scrollView.contentLayoutGuide.topAnchor
             .constraint(equalTo: containerView.topAnchor).isActive = true
         scrollView.contentLayoutGuide.leadingAnchor
@@ -180,39 +180,39 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
             .constraint(equalTo: containerView.bottomAnchor).isActive = true
         containerView.widthAnchor
             .constraint(equalTo: scrollView.widthAnchor).isActive = true
-        
+
         scrollView.delegate = context.coordinator
-        
+
         container.didMove(toParent: controller)
         return controller
     }
-    
+
     func updateUIViewController(_ viewController: UIViewController, context: Context) {
         viewController.view.backgroundColor = context.environment.scrollViewControllerBackgroundColor
-        
+
         if let controller = viewController.children.first as? ContentContainer<Content> {
             controller.rootView = content()
             controller.view.invalidateIntrinsicContentSize()
         }
     }
-    
+
     func makeCoordinator() -> Coordinator {
-        return Coordinator(self)
+        Coordinator(self)
     }
-    
+
     class Coordinator: NSObject, UIScrollViewDelegate {
         let parent: iOS14RefreshableScrollView
-        
+
         init(_ parent: iOS14RefreshableScrollView) {
             self.parent = parent
         }
-        
+
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             if let id = parent.scrollOffsetId {
                 parent.scrollObservable.send((id, scrollView.contentOffset.y))
             }
         }
-        
+
         @objc func triggerRefresh(_ control: UIRefreshControl) {
             if let action = parent.refreshAction {
                 Task {
@@ -223,7 +223,6 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         }
     }
 }
-
 
 private struct ScrollViewBackgroundColorKey: EnvironmentKey {
     static var defaultValue: UIColor = .systemBackground
@@ -248,9 +247,8 @@ extension RefreshableScrollView {
 }
 
 private struct RotationModifier: ViewModifier {
-    
     let angle: Angle
-    
+
     func body(content: Content) -> some View {
         content
             .rotationEffect(angle)
@@ -259,16 +257,15 @@ private struct RotationModifier: ViewModifier {
 
 @available(iOS 15.0, *)
 private struct iOS15RefreshControl: View {
-    
     enum State {
         case threshold
         case refreshing
         case disappearing
     }
-    
+
     var state: State
     var animation: CGFloat
-    
+
     var body: some View {
         TimelineView(.animation) { timeline in
             if state != .disappearing {
@@ -292,7 +289,7 @@ private struct iOS15RefreshControl: View {
             }
         }
     }
-    
+
     private func capsule(_ index: Int, time: CGFloat) -> some View {
         Capsule()
             .fill(.gray)
@@ -301,7 +298,7 @@ private struct iOS15RefreshControl: View {
             .rotationEffect(.degrees(360 / 8 * Double(index) - 90), anchor: .center)
             .opacity(opacity(index: index, animation: time))
     }
-    
+
     private func opacity(index: Int, animation: CGFloat) -> CGFloat {
         let i = CGFloat(index)
         switch state {
@@ -317,7 +314,7 @@ private struct iOS15RefreshControl: View {
             return 0
         }
     }
-    
+
     private var transition: AnyTransition {
         let removal = AnyTransition.scale(scale: 0)
             .combined(with: .opacity)

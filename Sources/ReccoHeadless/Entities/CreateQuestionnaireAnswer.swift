@@ -36,6 +36,5 @@ public struct CreateQuestionnaireAnswer: Equatable, Hashable {
     public var questionId: String
     public var type: QuestionType
     public var questionnaireId: String
-   
 }
 

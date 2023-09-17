@@ -1,6 +1,6 @@
-import ReccoHeadless
-import Foundation
 import Combine
+import Foundation
+import ReccoHeadless
 
 final class SplashViewModel: ObservableObject {
     var cancellable: AnyCancellable?

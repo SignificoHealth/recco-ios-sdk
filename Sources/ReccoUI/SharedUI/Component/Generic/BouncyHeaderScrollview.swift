@@ -27,7 +27,7 @@ struct BouncyHeaderScrollview<
         self.navTitle = navTitle
         self.shapeHeight = shapeHeight
     }
-    
+
     private var navTitle: String?
     private var shapeHeight: CGFloat?
     private var header: () -> Header
@@ -36,27 +36,27 @@ struct BouncyHeaderScrollview<
     private var cta: () -> CTA
     private var backAction: (() -> Void)?
     private var closeAction: (() -> Void)?
-    
+
     @Environment(\.currentScrollObservable) var scrollObservable
     @Environment(\.currentScrollOffsetId) var scrollOffsetId
 
     @State private var scrollOffset: CGFloat = .zero
-    
+
     private var imageHeaderHeight: CGFloat
-    
+
     private var zoomEffect: CGFloat {
         (1 + abs(scrollOffset.clamped(to: -200...0) / imageHeaderHeight * 1.1))
             .clamped(to: 1...1.5)
     }
-    
+
     private var paralaxEffect: CGFloat {
         -(scrollOffset.clamped(to: 0...200) / 10)
     }
-    
+
     private var topActionsVisible: Bool {
         scrollOffset < imageHeaderHeight - 50
     }
-        
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             ZStack(alignment: .topLeading) {
@@ -73,7 +73,7 @@ struct BouncyHeaderScrollview<
                     .ignoresSafeArea(.all, edges: .top)
             }
             .overlay(overlayHeader())
-            
+
             VStack(spacing: 0) {
                 ObservableScrollView { _ in
                     VStack(alignment: .leading, spacing: 0) {
@@ -83,7 +83,7 @@ struct BouncyHeaderScrollview<
                         content()
                     }
                 }
-                
+
                 cta()
             }
             .ignoresSafeArea(.all, edges: .top)
@@ -99,7 +99,7 @@ struct BouncyHeaderScrollview<
                         .opacity(topActionsVisible ? 1 : 0)
                         Spacer()
                     }
-                    
+
                     if let closeAction = closeAction {
                         Spacer()
                         Button(action: closeAction, label: {
@@ -115,7 +115,7 @@ struct BouncyHeaderScrollview<
                 alignment: .top
             )
         }
-        .onReceive(scrollObservable) { id, offset in
+        .onReceive(scrollObservable) { _, offset in
             scrollOffset = offset
         }
     }

@@ -15,28 +15,28 @@ extension Color {
 
 extension Text {
     func bodyBig() -> some View {
-        return self
+        self
             .font(.system(size: 18, weight: .regular))
             .lineSpacing(3.5)
             .foregroundColor(.warmBrown)
     }
-    
+
     func bodySmall() -> some View {
-        return self
+        self
             .font(.system(size: 15, weight: .regular))
             .lineSpacing(3.5)
             .foregroundColor(.warmBrown)
     }
-    
+
     func bodySmallLight() -> some View {
-        return self
+        self
             .font(.system(size: 15, weight: .light))
             .lineSpacing(3.5)
             .foregroundColor(.warmBrown)
     }
-    
+
     func inputTitle() -> some View {
-        return self
+        self
             .font(.system(size: 14, weight: .bold))
             .lineSpacing(3.5)
             .foregroundColor(.warmBrown)
@@ -44,17 +44,16 @@ extension Text {
 }
 
 struct CallToActionPrimaryStyle: ButtonStyle {
-    
     func makeBody(configuration: Configuration) -> some View {
         CallToActionPrimaryStyle.CallToActionPrimaryBody(configuration: configuration)
     }
-    
+
     struct CallToActionPrimaryBody: View {
         @Environment(\.isEnabled) var isEnabled
         let configuration: CallToActionPrimaryStyle.Configuration
-        
+
         var body: some View {
-            return configuration
+            configuration
                 .label
                 .font(.system(size: 16, weight: .bold))
                 .frame(maxWidth: .infinity)

@@ -1,5 +1,5 @@
-import Foundation
 import Combine
+import Foundation
 
 public protocol MeRepository {
     var currentUser: AnyPublisher<AppUser?, Never> { get }
@@ -10,7 +10,7 @@ final class LiveMeRepository: MeRepository {
     let keychain: KeychainProxy
     let _currentUser: CurrentValueSubject<AppUser?, Never>
     
-    public var currentUser: AnyPublisher<AppUser?, Never> {
+    var currentUser: AnyPublisher<AppUser?, Never> {
         _currentUser.eraseToAnyPublisher()
     }
     
@@ -19,7 +19,7 @@ final class LiveMeRepository: MeRepository {
         self._currentUser = .init(try? keychain.read(key: .currentUser))
     }
         
-    public func getMe() async throws {
+    func getMe() async throws {
         let dto = try await AppUserAPI.callGet()
         let user = AppUser(dto: dto)
         try keychain.save(key: .currentUser, user)

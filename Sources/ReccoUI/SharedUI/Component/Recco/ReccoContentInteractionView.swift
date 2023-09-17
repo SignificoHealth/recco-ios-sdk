@@ -1,5 +1,5 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct ReccoContentInteractionView: View {
     init(rating: ContentRating, bookmark: Bool, toggleBookmark: @escaping () async -> Void, rate: @escaping (ContentRating) async -> Void) {
@@ -8,12 +8,12 @@ struct ReccoContentInteractionView: View {
         self.toggleBookmark = toggleBookmark
         self.rate = rate
     }
-    
+
     var rating: ContentRating
     var bookmark: Bool
     var toggleBookmark: () async -> Void
     var rate: (ContentRating) async -> Void
-    
+
     var body: some View {
         HStack(spacing: .XS) {
             Button {
@@ -31,7 +31,7 @@ struct ReccoContentInteractionView: View {
             Rectangle()
                 .fill(Color.reccoPrimary20)
                 .frame(width: 2)
-            
+
             Button {
                 Task {
                     await rate(rating == .like ? .notRated : .like)
@@ -43,7 +43,7 @@ struct ReccoContentInteractionView: View {
                         rating == .like ? Color.reccoAccent : Color.reccoPrimary
                     )
             }
-            
+
             Button {
                 Task {
                     await rate(rating == .dislike ? .notRated : .dislike)
@@ -68,7 +68,7 @@ struct ReccoContentInteractionView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.reccoLightGray
-            
+
             ReccoContentInteractionView(
                 rating: .like,
                 bookmark: true,

@@ -18,17 +18,17 @@ public func initialize(
 ) {
     assemble([
         ReccoHeadlessAssembly(clientSecret: clientSecret),
-        ReccoUIAssembly()
+        ReccoUIAssembly(),
     ])
-    
+
     let keychain: KeychainProxy = get()
-    
+
     Api.initialize(
         clientSecret: clientSecret,
         baseUrl: "https://recco-api.significo.app",
         keychain: keychain
     )
-    
+
     CurrentReccoStyle = style
 }
 
@@ -80,7 +80,7 @@ public func reccoRootViewController() -> UIViewController {
  */
 public struct ReccoRootView: View {
     public init() {}
-    
+
     public var body: some View {
         ToSwiftUI {
             reccoRootViewController()

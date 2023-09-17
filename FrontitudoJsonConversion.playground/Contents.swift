@@ -139,9 +139,9 @@ func parseJsonStringsAndTransformToIos(json: String) -> [String] {
             let escapedReturnsValue = v.replacingOccurrences(of: "\n", with: #"\n"#)
             let matches = escapedReturnsValue.matches(of: getDynamicVariables)
             let dynamicVariablesReplaced = matches.reduce(escapedReturnsValue) { partialResult, match in
-                return partialResult.replacingCharacters(in: match.range, with: "%@")
+                partialResult.replacingCharacters(in: match.range, with: "%@")
             }.trimmingCharacters(in: .whitespacesAndNewlines)
-            
+
             file.append(
                 ##""\##(k)" = "\##(dynamicVariablesReplaced)";"##
             )

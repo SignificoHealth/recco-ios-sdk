@@ -14,7 +14,7 @@ final class LiveAuthRepository: AuthRepository {
         self.clientSecret = clientSecret
     }
     
-    public func login(clientUserId: String) async throws {
+    func login(clientUserId: String) async throws {
         let dto = try await AuthenticationAPI.login(
             authorization: "Bearer \(clientSecret)",
             clientUserId: clientUserId
@@ -27,7 +27,7 @@ final class LiveAuthRepository: AuthRepository {
         Api.setClientId(clientUserId)
     }
     
-    public func logout() async throws {
+    func logout() async throws {
         struct NoUserOrPatStored: Error {}
         
         let currentUserId: String? = try keychain.read(key: .clientUserId)

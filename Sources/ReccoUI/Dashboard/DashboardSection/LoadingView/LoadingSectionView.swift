@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LoadingSectionView: View {
     @State private var numberOfItems = 5
-    
+
     var body: some View {
         // Empty axes allows us to create scrollview with no scrolling
         ScrollView([]) {
