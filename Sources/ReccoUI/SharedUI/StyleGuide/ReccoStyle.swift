@@ -64,7 +64,16 @@ extension ReccoHexColor {
 
 public struct ReccoStyle: Equatable, Hashable, Codable {
     public struct Color: Equatable, Hashable, Codable {
-        public init(primary: ReccoHexColor, onPrimary: ReccoHexColor, background: ReccoHexColor, onBackground: ReccoHexColor, accent: ReccoHexColor, onAccent: ReccoHexColor, illustration: ReccoHexColor, illustrationLine: ReccoHexColor) {
+        public init(
+			primary: ReccoHexColor,
+			onPrimary: ReccoHexColor,
+			background: ReccoHexColor,
+			onBackground: ReccoHexColor,
+			accent: ReccoHexColor,
+			onAccent: ReccoHexColor,
+			illustration: ReccoHexColor,
+			illustrationLine: ReccoHexColor
+		) {
             self.primary = primary
             self.onPrimary = onPrimary
             self.background = background

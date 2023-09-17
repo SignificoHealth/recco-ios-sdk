@@ -52,6 +52,7 @@ public final class ReccoHeadlessAssembly: ReccoAssembly {
         }
 
         container.register(type: Optional<UIWindow>.self) { _ in
+			// swiftlint:disable:next first_where
             UIApplication.shared.connectedScenes
                 .filter { $0.activationState == .foregroundActive }
                 .first(where: { $0 is UIWindowScene })

@@ -124,6 +124,7 @@ class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBui
     }
 }
 
+// swiftlint:disable:next convenience_type
 public class BearerTokenHandler {
     static var bearerToken: String?
     static var clientSecret: String!
