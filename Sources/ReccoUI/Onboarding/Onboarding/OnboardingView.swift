@@ -75,10 +75,10 @@ struct OnboardingView: View {
                     .frame(height: proxy.size.height * 0.45)
 
                     VStack(spacing: .M) {
-                        Text("recco_onboarding_page\(n)_title".localized)
+                        Text("recco_onboarding_page\(page)_title".localized)
                             .h1()
 
-                        Text("recco_onboarding_page\(n)_body".localized)
+                        Text("recco_onboarding_page\(page)_body".localized)
                             .body2()
                             .multilineTextAlignment(.center)
                     }
