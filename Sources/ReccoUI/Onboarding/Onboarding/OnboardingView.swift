@@ -62,13 +62,13 @@ struct OnboardingView: View {
     }
 
     @ViewBuilder
-    private func onboardingPage(_ n: Int) -> some View {
+    private func onboardingPage(_ page: Int) -> some View {
         GeometryReader { proxy in
             ScrollView {
                 VStack(spacing: .L) {
                     ZStack(alignment: .bottom) {
                         Color.reccoAccent20
-                        ReccoStyleImage(name: "onboarding_image_\(n)", resizable: true)
+                        ReccoStyleImage(name: "onboarding_image_\(page)", resizable: true)
                             .scaledToFit()
                             .frame(height: proxy.size.height * 0.4)
                     }
