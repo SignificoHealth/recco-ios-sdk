@@ -42,14 +42,14 @@ protocol ReccoCoordinator {
 }
 
 final class DefaultReccoCoordinator: ReccoCoordinator {
-    private weak var window: UIWindow?
+    private let window: () -> UIWindow?
     
-    init(window: UIWindow?) {
+    init(window: @escaping () -> UIWindow?) {
         self.window = window
     }
     
     private var navController: UINavigationController? {
-        window?.topViewController()?.navigationController
+        window()?.topViewController()?.navigationController
     }
     
     func navigate(to destination: Destination) {
@@ -104,7 +104,7 @@ final class DefaultReccoCoordinator: ReccoCoordinator {
             navController?.pushViewController(UIHostingController(rootView: BookmarksView(viewModel: viewModel)), animated: true)
             
         case .dismiss:
-            window?.topViewController()?.dismiss(animated: true)
+            window()?.topViewController()?.dismiss(animated: true)
         }
     }
 }
