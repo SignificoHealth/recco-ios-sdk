@@ -51,12 +51,14 @@ public final class ReccoHeadlessAssembly: ReccoAssembly {
             .current
         }
         
-        container.register(type: Optional<UIWindow>.self) { _ in
-            UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .first(where: { $0 is UIWindowScene })
-                .flatMap({ $0 as? UIWindowScene })?.windows
-                .first(where: \.isKeyWindow)
+        container.register(type: (() -> UIWindow?).self) { _ in
+            return {
+                UIApplication.shared.connectedScenes
+                    .filter { $0.activationState == .foregroundActive }
+                    .first(where: { $0 is UIWindowScene })
+                    .flatMap({ $0 as? UIWindowScene })?.windows
+                    .first(where: \.isKeyWindow)
+            }
         }
         
         container.register(type: KeychainProxy.self) { _ in

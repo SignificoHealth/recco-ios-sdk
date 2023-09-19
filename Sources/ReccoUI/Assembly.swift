@@ -14,7 +14,7 @@ final class ReccoUIAssembly: ReccoAssembly {
         container.register(
             type: Logger.self,
             singleton: true
-        ) { [unowned self] _ in
+        ) { [logger] _ in
             logger
         }
         
