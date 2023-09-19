@@ -2,8 +2,22 @@ import ReccoHeadless
 import SwiftUI
 
 final class ReccoUIAssembly: ReccoAssembly {
-    init() {}
+    let logger: Logger
+    
+    init(
+        logger: Logger = Logger { _ in }
+    ) {
+        self.logger = logger
+    }
+    
     func assemble(container: ReccoContainer) {
+        container.register(
+            type: Logger.self,
+            singleton: true
+        ) { [unowned self] _ in
+            logger
+        }
+        
         container.register(type: ReccoCoordinator.self) { r in
             DefaultReccoCoordinator(window: r.get())
         }
@@ -12,7 +26,8 @@ final class ReccoUIAssembly: ReccoAssembly {
             DashboardViewModel(
                 feedRepo: r.get(),
                 recRepo: r.get(),
-                nav: r.get()
+                nav: r.get(),
+                logger: r.get()
             )
         }
         
@@ -21,14 +36,16 @@ final class ReccoUIAssembly: ReccoAssembly {
                 loadedContent: tuple,
                 articleRepo: r.get(),
                 contentRepo: r.get(),
-                nav: r.get()
+                nav: r.get(),
+                logger: r.get()
             )
         }
         
         container.register(type: OnboardingOutroViewModel.self) { r in
             OnboardingOutroViewModel(
                 meRepo: r.get(),
-                nav: r.get()
+                nav: r.get(),
+                logger: r.get()
             )
         }
         
@@ -47,7 +64,8 @@ final class ReccoUIAssembly: ReccoAssembly {
                 topic: tuple.0,
                 reloadSection: tuple.1,
                 repo: r.get(),
-                nav: r.get()
+                nav: r.get(),
+                logger: r.get()
             )
         }
         
@@ -55,14 +73,16 @@ final class ReccoUIAssembly: ReccoAssembly {
             OnboardingQuestionnaireViewModel(
                 nextScreen: next,
                 repo: r.get(),
-                nav: r.get()
+                nav: r.get(),
+                logger: r.get()
             )
         }
         
         container.register(type: BookmarksViewModel.self) { r in
             BookmarksViewModel(
                 recRepo: r.get(),
-                nav: r.get()
+                nav: r.get(),
+                logger: r.get()
             )
         }
     }

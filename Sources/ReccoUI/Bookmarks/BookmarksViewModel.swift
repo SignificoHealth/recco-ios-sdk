@@ -4,15 +4,18 @@ import ReccoHeadless
 final class BookmarksViewModel: ObservableObject {
     private let recRepo: RecommendationRepository
     private let nav: ReccoCoordinator
-    
+    private let logger: Logger
+
     @Published var isLoading: Bool = true
     @Published var items: [AppUserRecommendation] = []
     @Published var error: Error?
     
     init(
         recRepo: RecommendationRepository,
-        nav: ReccoCoordinator
+        nav: ReccoCoordinator,
+        logger: Logger
     ) {
+        self.logger = logger
         self.recRepo = recRepo
         self.nav = nav
     }
@@ -45,6 +48,7 @@ final class BookmarksViewModel: ObservableObject {
             let items = try await recRepo.getBookmarks()
             self.items = items
         } catch {
+            logger.log(error)
             self.error = error
         }
         

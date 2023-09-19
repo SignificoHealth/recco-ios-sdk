@@ -10,6 +10,7 @@ final class DashboardViewModel: ObservableObject {
     private let feedRepo: FeedRepository
     private let recRepo: RecommendationRepository
     private let nav: ReccoCoordinator
+    private let logger: Logger
     
     @Published var lockedSectionAlert: FeedSection?
     @Published var isLoading: Bool = true
@@ -22,11 +23,13 @@ final class DashboardViewModel: ObservableObject {
     init(
         feedRepo: FeedRepository,
         recRepo: RecommendationRepository,
-        nav: ReccoCoordinator
+        nav: ReccoCoordinator,
+        logger: Logger
     ) {
         self.recRepo = recRepo
         self.feedRepo = feedRepo
         self.nav = nav
+        self.logger = logger
         
         Task {
             await getFeedItems()
@@ -83,6 +86,7 @@ final class DashboardViewModel: ObservableObject {
             setView(sections: data)
             await load(sections: data)
         } catch {
+            logger.log(error)
             initialLoadError = error
             isLoading = false
         }
@@ -99,6 +103,7 @@ final class DashboardViewModel: ObservableObject {
                         self.items[section.type] = items
                         self.errors[section] = nil
                     } catch {
+                        logger.log(error)
                         self.initialLoadError = error
                     }
                     
@@ -132,6 +137,7 @@ final class DashboardViewModel: ObservableObject {
                 let data = try await recRepo.getFeedSection(section)
                 items[section.type] = data
             } catch {
+                logger.log(error)
                 self.initialLoadError = error
             }
             
