@@ -9,7 +9,8 @@ class QuestionnaireViewModel: ObservableObject {
     private let nextScreen: (Bool) -> Void
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
-
+    private let logger: Logger
+    
     @Published var currentQuestion: Question?
     @Published var questions: [Question]?
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
@@ -31,12 +32,14 @@ class QuestionnaireViewModel: ObservableObject {
     init(
         repo: QuestionnaireRepository,
         nav: ReccoCoordinator,
+        logger: Logger,
         shouldValidateAllAnswersOnQuestionChange: Bool,
         mainButtonEnabledByDefault: Bool,
         nextScreen: @escaping (Bool) -> Void,
         getQuestions: @escaping (QuestionnaireRepository) async throws -> [Question],
         sendQuestions: @escaping (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
     ) {
+        self.logger = logger
         self.repo = repo
         self.nextScreen = nextScreen
         self.getQuestions = getQuestions
@@ -111,6 +114,7 @@ class QuestionnaireViewModel: ObservableObject {
             })
             currentQuestion = questions?.first
         } catch {
+            logger.log(error)
             initialLoadError = error
         }
     }
@@ -162,6 +166,7 @@ class QuestionnaireViewModel: ObservableObject {
 
             nextScreen(didAnswerAllQuestions())
         } catch {
+            logger.log(error)
             sendError = error
         }
 

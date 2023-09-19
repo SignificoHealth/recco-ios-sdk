@@ -6,11 +6,13 @@ final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
         topic: ReccoTopic,
         reloadSection: @escaping (Bool) -> Void,
         repo: QuestionnaireRepository,
-        nav: ReccoCoordinator
+        nav: ReccoCoordinator,
+        logger: Logger
     ) {
         super.init(
             repo: repo,
             nav: nav,
+            logger: logger,
             shouldValidateAllAnswersOnQuestionChange: false,
             mainButtonEnabledByDefault: true,
             nextScreen: { answeredAll in

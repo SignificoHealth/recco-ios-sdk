@@ -2,10 +2,6 @@ import Foundation
 import ReccoHeadless
 import SwiftUI
 
-enum ReccoError: Error {
-    case notInitialized
-}
-
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
  - Parameters:
@@ -14,11 +10,16 @@ enum ReccoError: Error {
  */
 public func initialize(
     clientSecret: String,
-    style: ReccoStyle = .fresh
+    style: ReccoStyle = .fresh,
+    logger: @escaping (Error) -> Void  = { error in
+        #if DEBUG
+            print(error)
+        #endif
+    }
 ) {
     assemble([
         ReccoHeadlessAssembly(clientSecret: clientSecret),
-        ReccoUIAssembly()
+        ReccoUIAssembly(logger: Logger(log: logger))
     ])
     
     let keychain: KeychainProxy = get()
@@ -40,6 +41,7 @@ public func initialize(
 public func login(userId: String) async throws {
     let authRepository: AuthRepository
     let meRepository: MeRepository
+    
     do {
         authRepository = try tget()
         meRepository = try tget()
