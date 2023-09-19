@@ -174,4 +174,4 @@ YourAwesomeView()
 Our [CHANGELOG.md](./CHANGELOG.md) contains information on all releases.
 
 [Recco-Flutter]:https://github.com/viluahealthcare/recco-flutter-showcase
-[Recco-Android]:https://github.com/sf-recco/flutter-plugin
+[Recco-Android]:https://github.com/SignificoHealth/flutter-plugin
