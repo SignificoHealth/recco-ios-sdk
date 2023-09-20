@@ -1,8 +1,6 @@
 import ReccoHeadless
 import SwiftUI
 
-
-
 struct FeedItemView: View {
     let item: AppUserRecommendation
 

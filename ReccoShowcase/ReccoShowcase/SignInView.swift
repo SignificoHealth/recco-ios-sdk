@@ -8,9 +8,6 @@
 import ReccoUI
 import SwiftUI
 
-
-
-
 struct SignInView: View {
     @AppStorage("username") var username: String = ""
     @State private var input: String = ""
