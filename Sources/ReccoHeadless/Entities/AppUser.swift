@@ -1,5 +1,8 @@
 import Foundation
 
+
+
+
 public struct AppUser: Equatable, Hashable, Codable {
     public init(id: String, isOnboardingQuestionnaireCompleted: Bool) {
         self.id = id
