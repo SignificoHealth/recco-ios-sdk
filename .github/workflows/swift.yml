@@ -4,8 +4,6 @@
 name: Swift
 
 on:
-  push:
-    branches: [ "chore/swiftlint", "chore/swiftlint-brew" ]
   pull_request:
     branches: [ "main" ]
 
