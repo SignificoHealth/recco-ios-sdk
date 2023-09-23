@@ -9,9 +9,6 @@ let ReccoHeadless: Target = .target(
     exclude: [
         "Api/sf-backend-open-api.json",
         "Api/generate-api.sh",
-    ],
-    plugins: [
-        .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
     ]
 )
 
@@ -19,10 +16,7 @@ let ReccoHeadlessTests: Target = .testTarget(
     name: "ReccoHeadlessTests",
     dependencies: [
         "ReccoHeadless",
-    ],
-	plugins: [
-	 .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
- ]
+    ]
 )
 
 let ReccoUI: Target = .target(
@@ -34,9 +28,6 @@ let ReccoUI: Target = .target(
     ],
     resources: [
         .process("Resources/Haptics"),
-    ],
-    plugins: [
-        .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
     ]
 )
 
@@ -44,10 +35,7 @@ let ReccoUITests: Target = .testTarget(
     name: "ReccoUITests",
     dependencies: [
         "ReccoUI",
-    ],
-	plugins: [
-	 .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
- ]
+    ]
 )
 
 let package = Package(
@@ -65,8 +53,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.0")),
-        .package(url: "https://github.com/realm/SwiftLint", branch: "main"),
+        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.0"))
     ],
     targets: [
         ReccoHeadless,

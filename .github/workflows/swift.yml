@@ -5,7 +5,7 @@ name: Swift
 
 on:
   push:
-    branches: [ "chore/swiftlint" ]
+    branches: [ "chore/swiftlint", "chore/swiftlint-brew" ]
   pull_request:
     branches: [ "main" ]
 
@@ -13,6 +13,7 @@ env:
   TEST_SCHEME: ReccoUITests
   DEVICE_NAME: iPhone 14
   DEVICE_OS: 16.4
+  IS_CI: true
 
 jobs:
   test:
@@ -24,5 +25,9 @@ jobs:
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: '14.3.1'
+    - name: Install SwiftLint
+      run: brew update; brew outdated swiftlint || brew upgrade swiftlint
+    - name: Run SwiftLint
+      run: swiftlint
     - name: Run tests
       run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" -skipPackagePluginValidation | xcpretty && exit ${PIPESTATUS[0]}
