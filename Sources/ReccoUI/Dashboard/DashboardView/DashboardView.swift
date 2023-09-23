@@ -49,7 +49,6 @@ struct DashboardView: View {
         .background(
             Color.reccoBackground.ignoresSafeArea()
         )
-        .showNavigationBarOnScroll()
         .addCloseSDKToNavbar(viewModel.dismiss)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -62,7 +61,6 @@ struct DashboardView: View {
                 }
             }
         }
-        .navigationTitle("recco_dashboard_welcome_back_title".localized)
     }
 
     private func unlockAlert(for section: FeedSection) -> ReccoAlert<some View> {
@@ -86,41 +84,18 @@ struct DashboardHeader: View {
     var onBookmarks: () -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Button {
-                    onBookmarks()
-                } label: {
-                    Image(resource: "bookmark_filled")
-                        .renderingMode(.template)
-                        .foregroundColor(Color.reccoAccent)
-                }
+		HStack(alignment: .top, spacing: .XS) {
+			VStack(alignment: .leading, spacing: .XXXS) {
+				Text("recco_dashboard_welcome_back_title".localized)
+					.h1()
+				Text("recco_dashboard_welcome_back_body".localized)
+					.body1()
+			}
+			.padding(.leading, .M)
 
-                Spacer()
+			Spacer()
 
-                Button {
-                    dismiss()
-                } label: {
-                    Image(resource: "close_ic")
-                        .renderingMode(.template)
-                        .foregroundColor(.reccoPrimary)
-                }
-            }
-            .padding(.M)
-
-            HStack(alignment: .top, spacing: .XS) {
-                VStack(alignment: .leading) {
-                    Text("recco_dashboard_welcome_back_title".localized)
-                        .h1()
-                    Text("recco_dashboard_welcome_back_body".localized)
-                        .body1()
-                }
-                .padding(.leading, .M)
-
-                Spacer()
-
-                ReccoStyleImage(name: "potted_plant")
-            }
+			ReccoStyleImage(name: "potted_plant")
         }
     }
 }

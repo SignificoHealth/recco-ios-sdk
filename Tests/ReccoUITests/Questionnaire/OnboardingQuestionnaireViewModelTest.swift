@@ -7,12 +7,14 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
     private func getViewModel(
         nextScreen: ((Bool) -> Void)? = nil,
         repo: QuestionnaireRepository? = nil,
-        nav: ReccoCoordinator? = nil
+        nav: ReccoCoordinator? = nil,
+        logger: Logger? = nil
     ) -> OnboardingQuestionnaireViewModel {
         OnboardingQuestionnaireViewModel(
             nextScreen: nextScreen ?? { _ in },
             repo: repo ?? MockQuestionnaireRepository(),
-            nav: nav ?? MockRecoCoordinator()
+            nav: nav ?? MockRecoCoordinator(),
+            logger: logger ?? Logger { _ in}
         )
     }
 

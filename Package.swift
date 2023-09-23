@@ -53,7 +53,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.0"))
+        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.6"))
     ],
     targets: [
         ReccoHeadless,

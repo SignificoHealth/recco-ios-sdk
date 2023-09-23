@@ -35,8 +35,6 @@ struct ArticleDetailView: View {
     var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
-            backAction: viewModel.back,
-            closeAction: viewModel.dismiss,
             imageHeaderHeight: headerHeight,
             header: { articleHeader },
             content: {
@@ -116,7 +114,7 @@ struct ArticleDetailView: View {
                 }
             }
         )
-        .showNavigationBarOnScroll(threshold: headerHeight)
+        .environment(\.currentScrollOffsetId, "\(self)")
         .addCloseSDKToNavbar(viewModel.dismiss)
         .navigationTitle(viewModel.heading)
         .onReceive(scrollOffsetObservable) { _, newOffset in

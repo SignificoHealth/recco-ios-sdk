@@ -100,6 +100,20 @@ As part of the initialize setup, you have the option to supply an optional `Recc
 * `ReccoFont`: This defines the set of available predefined fonts.
 * `ReccoStyle.Color`: Defines the available colors to be customized as part of the palette. There already existing palettes to choose from, such as fresh or ocean.
 
+#### Internal errors
+
+If your application ever has the need to react to any of Recco's internal errors, than you can supply a closure through the `initialize` method like so: 
+
+```swift
+import ReccoUI
+
+ReccoUI.initialize(
+    clientSecret: "<myClientSecret>",
+    style: .summer // or your previously created ReccoStyle,
+    logger: { (error: Error) in print(error) }
+)
+```
+
 __Be mindful that if you don't initialize the SDK before using it, everything will just error out.__
 
 ### Logging in and out
@@ -159,7 +173,5 @@ YourAwesomeView()
 
 Our [CHANGELOG.md](./CHANGELOG.md) contains information on all releases.
 
-[PAT]:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
-[Github-Recco]:https://github.com/orgs/viluahealthcare/packages?repo_name=recco-ios-sdk
 [Recco-Flutter]:https://github.com/viluahealthcare/recco-flutter-showcase
-[Recco-Android]:https://github.com/viluahealthcare/recco-android-sdk
+[Recco-Android]:https://github.com/SignificoHealth/flutter-plugin

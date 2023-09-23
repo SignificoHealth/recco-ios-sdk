@@ -149,7 +149,7 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
         self.refreshAction = refreshAction
     }
 
-    class ContentContainer<Content: View>: UIHostingController<Content> { }
+    class ContentContainer: UIHostingController<Content> { }
 
     func makeUIViewController(context: Context) -> UIViewController {
         let controller = ScrollViewController()
@@ -189,8 +189,7 @@ private struct iOS14RefreshableScrollView<Content: View>: UIViewControllerRepres
 
     func updateUIViewController(_ viewController: UIViewController, context: Context) {
         viewController.view.backgroundColor = context.environment.scrollViewControllerBackgroundColor
-
-        if let controller = viewController.children.first as? ContentContainer<Content> {
+        if let controller = viewController.children.first as? ContentContainer {
             controller.rootView = content()
             controller.view.invalidateIntrinsicContentSize()
         }

@@ -1,4 +1,5 @@
 import CoreHaptics
+import ReccoHeadless
 
 enum HapticPattern: String {
     case unlock = "unlock_haptic"
@@ -11,8 +12,9 @@ final class HapticPlayer {
 
     private var engine: CHHapticEngine?
     private var player: CHHapticPatternPlayer?
-    private var isPlaying = false
-
+    private var isPlaying: Bool = false
+    private let logger: Logger = get()
+    
     func playHaptic(pattern: HapticPattern) {
         guard let url = localBundle.url(forResource: pattern.rawValue, withExtension: "ahap") else { return }
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
@@ -31,7 +33,7 @@ final class HapticPlayer {
             try engine?.start()
             try engine?.playPattern(from: url)
         } catch {
-            print("\(error)")
+            logger.log(error)
         }
     }
 }

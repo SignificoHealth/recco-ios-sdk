@@ -4,6 +4,7 @@ import XCTest
 
 @MainActor
 final class BookmarksViewModelTest: XCTestCase {
+    private var loggerLogError: XCTestExpectation!
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(
@@ -15,13 +16,21 @@ final class BookmarksViewModelTest: XCTestCase {
         )
     }()
 
+	override func setUp() async throws {
+		loggerLogError = expectation(description: "Logger received an error")
+		loggerLogError.isInverted = true
+	}
+
+	private func expectErrorLogging() { loggerLogError.isInverted = false }
+	
     private func getViewModel(
         recRepo: RecommendationRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> BookmarksViewModel {
         BookmarksViewModel(
             recRepo: recRepo ?? MockRecommendationRepository(),
-            nav: nav ?? MockRecoCoordinator()
+            nav: nav ?? MockRecoCoordinator(),
+            logger: Logger { [unowned self] _ in loggerLogError.fulfill() }
         )
     }
 
@@ -37,7 +46,7 @@ final class BookmarksViewModelTest: XCTestCase {
 
         viewModel.goToDetail(of: appUserRecommendation)
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 
     func test_goToDetail_whenNavigatesToArticleAndBookmarkedIsFalse_onBookmarkedChangeDoesRefreshBookmarks() async {
@@ -56,7 +65,7 @@ final class BookmarksViewModelTest: XCTestCase {
         }
         onBookmarkedChange(false)
 
-        await fulfillment(of: [getBookmarksExpectation], timeout: 1)
+        await fulfillment(of: [getBookmarksExpectation, loggerLogError], timeout: 1)
     }
 
     func test_goToDetail_whenNavigatesToArticleAndBookmarkedIsTrue_onBookmarkedChangeDoesNotRefreshBookmarks() async {
@@ -74,9 +83,10 @@ final class BookmarksViewModelTest: XCTestCase {
         guard case .article(_, _, _, _, let onBookmarkedChange) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .article")
         }
+        
         onBookmarkedChange(true)
 
-        await fulfillment(of: [getBookmarksExpectation], timeout: 1)
+        await fulfillment(of: [getBookmarksExpectation, loggerLogError], timeout: 1)
     }
 
     func test_goToDetail_whenNavigatesToArticle_seenContentMarksContentAsSeen() async {
@@ -104,6 +114,8 @@ final class BookmarksViewModelTest: XCTestCase {
         seenContent(appUserRecommendation.id)
         XCTAssertEqual(viewModel.items.last?.id, appUserRecommendation.id)
         XCTAssertEqual(viewModel.items.last?.status, .viewed)
+
+        await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
     // MARK: - getBoomarks
@@ -118,7 +130,7 @@ final class BookmarksViewModelTest: XCTestCase {
         XCTAssertTrue(viewModel.items.isEmpty)
         await viewModel.getBookmarks()
 
-        await fulfillment(of: [getBookmarksExpectation], timeout: 1)
+        await fulfillment(of: [getBookmarksExpectation, loggerLogError], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.items, Mocks.appUserRecommendations)
         XCTAssertNil(viewModel.error)
@@ -131,12 +143,13 @@ final class BookmarksViewModelTest: XCTestCase {
         let getBookmarksError = NSError(domain: "getBookmarksError", code: 0)
         mockRecommendationRepository.getBookmarksError = getBookmarksError
         let viewModel = getViewModel(recRepo: mockRecommendationRepository)
+        expectErrorLogging()
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertTrue(viewModel.items.isEmpty)
         await viewModel.getBookmarks()
 
-        await fulfillment(of: [getBookmarksExpectation], timeout: 1)
+        await fulfillment(of: [getBookmarksExpectation, loggerLogError], timeout: 1)
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertEqual(getBookmarksError, viewModel.error as? NSError)
@@ -154,6 +167,6 @@ final class BookmarksViewModelTest: XCTestCase {
 
         viewModel.dismiss()
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 }

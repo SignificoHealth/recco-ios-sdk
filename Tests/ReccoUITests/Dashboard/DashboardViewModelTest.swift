@@ -4,6 +4,15 @@ import XCTest
 
 @MainActor
 final class DashboardViewModelTest: XCTestCase {
+    private var loggerLogError: XCTestExpectation!
+    
+    override func setUp() async throws {
+        loggerLogError = expectation(description: "Logger received an error")
+        loggerLogError.isInverted = true
+    }
+    
+    private func expectErrorLogging() { loggerLogError.isInverted = false }
+    
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(
@@ -24,12 +33,14 @@ final class DashboardViewModelTest: XCTestCase {
     private func getViewModel(
         feedRepo: FeedRepository? = nil,
         recRepo: RecommendationRepository? = nil,
-        nav: ReccoCoordinator? = nil
+        nav: ReccoCoordinator? = nil,
+        logger: Logger? = nil
     ) -> DashboardViewModel {
         DashboardViewModel(
             feedRepo: feedRepo ?? MockFeedRepository(),
             recRepo: recRepo ?? MockRecommendationRepository(),
-            nav: nav ?? MockRecoCoordinator()
+            nav: nav ?? MockRecoCoordinator(),
+            logger: logger ?? Logger { [unowned self] _ in loggerLogError.fulfill() }
         )
     }
 
@@ -42,7 +53,7 @@ final class DashboardViewModelTest: XCTestCase {
         // Calls getFeedItems in constructor
         _ = getViewModel(feedRepo: mockFeedRepository)
 
-        await fulfillment(of: [getFeedExpectation], timeout: 1)
+        await fulfillment(of: [getFeedExpectation, loggerLogError], timeout: 1)
     }
 
     // MARK: - goToDetail
@@ -57,7 +68,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         viewModel.goToDetail(of: appUserRecommendation)
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 
     func test_goToDetail_whenNavigatesToArticle_seenContentMarksContentAsSeen() async {
@@ -85,6 +96,8 @@ final class DashboardViewModelTest: XCTestCase {
         seenContent(appUserRecommendation.id)
         XCTAssertEqual(viewModel.items[.mostPopular]?.first?.id, appUserRecommendation.id)
         XCTAssertEqual(viewModel.items[.mostPopular]?.first?.status, .viewed)
+
+        await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
     // MARK: - goToBookmarks
@@ -99,7 +112,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         viewModel.goToBookmarks()
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 
     // MARK: - dismiss
@@ -114,7 +127,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         viewModel.dismiss()
 
-        wait(for: [navigateExpectation], timeout: 1)
+        wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
 
     // MARK: - pressedUnlockSectionStart
@@ -131,7 +144,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         viewModel.pressedUnlockSectionStart()
 
-        await fulfillment(of: [navigateExpectation], timeout: 1)
+        await fulfillment(of: [navigateExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
     }
 
@@ -172,7 +185,7 @@ final class DashboardViewModelTest: XCTestCase {
         }
         reloadSections(true)
 
-        await fulfillment(of: [navigateExpectation, getFeedSectionExpectation], timeout: 1)
+        await fulfillment(of: [navigateExpectation, getFeedSectionExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
         XCTAssertEqual(viewModel.items[.mostPopular], [appUserRecommendation])
     }
@@ -213,8 +226,9 @@ final class DashboardViewModelTest: XCTestCase {
             return XCTFail("destination was not .questionnaire")
         }
         reloadSections(true)
-
-        await fulfillment(of: [navigateExpectation, getFeedSectionExpectation], timeout: 1)
+        expectErrorLogging()
+        
+        await fulfillment(of: [navigateExpectation, getFeedSectionExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
         XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertEqual(getFeedSectionError, viewModel.initialLoadError as? NSError)
@@ -230,7 +244,7 @@ final class DashboardViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.lockedSectionAlert)
         viewModel.pressedUnlockSectionStart()
 
-        await fulfillment(of: [navigateExpectation], timeout: 1)
+        await fulfillment(of: [navigateExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
     }
 
@@ -246,7 +260,7 @@ final class DashboardViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.lockedSectionAlert?.topic)
         viewModel.pressedUnlockSectionStart()
 
-        await fulfillment(of: [navigateExpectation], timeout: 1)
+        await fulfillment(of: [navigateExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
     }
 
@@ -260,6 +274,8 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.pressedLocked(section: feedSection)
 
         XCTAssertEqual(feedSection, viewModel.lockedSectionAlert)
+        
+        wait(for: [loggerLogError], timeout: 1)
     }
 
     // MARK: - getFeedItems
@@ -272,7 +288,7 @@ final class DashboardViewModelTest: XCTestCase {
         let mockRecommendationRepository = MockRecommendationRepository()
         // Calls getFeedItems in constructor
         let viewModel = getViewModel(feedRepo: mockFeedRepository, recRepo: mockRecommendationRepository)
-        await fulfillment(of: [getFeedExpectation1], timeout: 1)
+        await fulfillment(of: [getFeedExpectation1, loggerLogError], timeout: 1)
         // Needs to be setup after viewModel.init
         let sections = Mocks.feedSections
         let expectedSectionsViewState = sections.map { FeedSectionViewState(section: $0, isLoading: false) }
@@ -314,9 +330,11 @@ final class DashboardViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.initialLoadError)
         XCTAssertTrue(viewModel.sections.isEmpty)
         XCTAssertTrue(viewModel.items.isEmpty)
-        await viewModel.getFeedItems()
+        expectErrorLogging()
 
-        await fulfillment(of: [getFeedExpectation2], timeout: 1)
+        await viewModel.getFeedItems()
+        await fulfillment(of: [getFeedExpectation2, loggerLogError], timeout: 1)
+        
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertTrue(viewModel.sections.isEmpty)
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -349,7 +367,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         await viewModel.load(sections: [lockedSection])
 
-        await fulfillment(of: [ getFeedSectionExpectation], timeout: 1)
+        await fulfillment(of: [getFeedSectionExpectation, loggerLogError], timeout: 1)
     }
 
     func test_load_whenSectionIsNotLockedAndGetFeedSectionSucceeds_updatesItemsInThatSection() async {
@@ -377,7 +395,7 @@ final class DashboardViewModelTest: XCTestCase {
         XCTAssertTrue(viewModel.items.isEmpty)
         await viewModel.load(sections: [unlockedSection])
 
-        await fulfillment(of: [ getFeedSectionExpectation], timeout: 1)
+        await fulfillment(of: [getFeedSectionExpectation, loggerLogError], timeout: 1)
         XCTAssertEqual(viewModel.items[.mostPopular], [appUserRecommendation])
         XCTAssertFalse(viewModel.sections[0].isLoading)
     }
@@ -403,11 +421,11 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.sections = [FeedSectionViewState(
             section: unlockedSection,
             isLoading: false
-        ), ]
+        )]
+        expectErrorLogging()
 
         await viewModel.load(sections: [unlockedSection])
-
-        await fulfillment(of: [ getFeedSectionExpectation], timeout: 1)
+        await fulfillment(of: [getFeedSectionExpectation, loggerLogError], timeout: 1)
         XCTAssertEqual(getFeedSectionError, viewModel.initialLoadError as? NSError)
     }
 }
