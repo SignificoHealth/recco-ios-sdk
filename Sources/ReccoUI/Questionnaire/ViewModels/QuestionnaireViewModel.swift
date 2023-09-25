@@ -10,13 +10,13 @@ class QuestionnaireViewModel: ObservableObject {
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
     private let logger: Logger
-    
+
     @Published var currentQuestion: Question?
     @Published var questions: [Question]?
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
     @Published var initialLoadError: Error?
     @Published var sendError: Error?
-    @Published var sendLoading: Bool = false
+    @Published var sendLoading = false
     @Published var mainButtonEnabled: Bool
 
     var currentIndex: Int {

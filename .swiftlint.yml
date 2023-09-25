@@ -170,11 +170,11 @@ expiring_todo:
   approaching_expiry_severity: warning
   expired_severity: error
   approaching_expiry_threshold: 5
-  date_format: 'MM/dd/yyyy'
+  date_format: "MM/dd/yyyy"
   date_delimiters:
-    opening: '['
-    closing: ']'
-  date_separator: '/'
+    opening: "["
+    closing: "]"
+  date_separator: "/"
 # type_body_length:
 #   warning: 300
 #   error: 400
@@ -263,27 +263,27 @@ empty_count:
 shorthand_operator: warning
 reporter: "xcode"
 custom_rules:
-    protocol_conformance:
-        name: "Protocol Conformance"
-        message: "Protocol conformance should be declared in separate extensions in the same file"
-        regex: "(class|struct|extension)[[:space:]]+(?i:(?![^d]*delegate:))[^'\"()<>{},!?:]+:([^'\"<>(){},!?:]+,)+[^'\"<>(){},!?:]*\\{"
-        match_kinds:
-          - keyword
-        severity: warning
-    # indentation_character:
-    #     name: "Indentation"
-    #     message: "Tabs should be used rather than spaces. This error may not be displayed exactly at the location of the violation but just above it."
-    #     regex: "[^\n]*\n+ +"
-    #     severity: error
-    opening_brace:
-        name: "Opening brace"
-        message: "Opening braces should be preceded by a single space and on the same line as the declaration, or optionally on a new line if the statement is multiline."
-        regex: "(?<=\\s)(?<!#)(?:(?:(?#Edge case keywords)let|var)[^=]+=(?:|[[:blank:]]{2,}|\\s+\n\\s*)\\{|(?:(?#Keywords that can be followed by a multiline contruct)switch|func|if|guard|while)\\s+(?:(?#Multiline construct)(?:[^\n]*\\}[[:blank:]]*\\)*)(?:[^{\n]+else)?(?=\\s*\\{)[[:blank:]]*+(?:\n\\s*| {2,})\\{|(?#Single construct)(?:.*\\}[[:blank:]]*\\)*)(?:[^{]+else)?(?=\\s*\\{)(?:\n| ){2,}\\{|[^{\n]*(?:[^\n{]+else)?(?=\\s*\\{)(?:\n\\s*| {2,})\\{)|(?:(?#Keywords that should always be strictly single line)deinit|case|do|for|enum|catch|init|subscript|get|set|willSet|didSet|repeat|struct|class|extension|catch|protocol)[^\n{]*(?<![[:blank:]])(?:\n\\s*| {2,})?\\{)"
-        match_kinds:
-          - keyword
-        severity: error
-    nested_self_usage:
-        name: "Nested .self usage"
-        message: ".self shouldn't be used more than once on a given statement"
-        regex: "(?<!\")self\\.(?:\\p{L}+\\.)*self"
-        severity: warning
+  protocol_conformance:
+    name: "Protocol Conformance"
+    message: "Protocol conformance should be declared in separate extensions in the same file"
+    regex: "(class|struct|extension)[[:space:]]+(?i:(?![^d]*delegate:))[^'\"()<>{},!?:]+:([^'\"<>(){},!?:]+,)+[^'\"<>(){},!?:]*\\{"
+    match_kinds:
+      - keyword
+    severity: warning
+  # indentation_character:
+  #     name: "Indentation"
+  #     message: "Tabs should be used rather than spaces. This error may not be displayed exactly at the location of the violation but just above it."
+  #     regex: "[^\n]*\n+ +"
+  #     severity: error
+  opening_brace:
+    name: "Opening brace"
+    message: "Opening braces should be preceded by a single space and on the same line as the declaration, or optionally on a new line if the statement is multiline."
+    regex: "(?<=\\s)(?<!#)(?:(?:(?#Edge case keywords)let|var)[^=]+=(?:|[[:blank:]]{2,}|\\s+\n\\s*)\\{|(?:(?#Keywords that can be followed by a multiline contruct)switch|func|if|guard|while)\\s+(?:(?#Multiline construct)(?:[^\n]*\\}[[:blank:]]*\\)*)(?:[^{\n]+else)?(?=\\s*\\{)[[:blank:]]*+(?:\n\\s*| {2,})\\{|(?#Single construct)(?:.*\\}[[:blank:]]*\\)*)(?:[^{]+else)?(?=\\s*\\{)(?:\n| ){2,}\\{|[^{\n]*(?:[^\n{]+else)?(?=\\s*\\{)(?:\n\\s*| {2,})\\{)|(?:(?#Keywords that should always be strictly single line)deinit|case|do|for|enum|catch|init|subscript|get|set|willSet|didSet|repeat|struct|class|extension|catch|protocol)[^\n{]*(?<![[:blank:]])(?:\n\\s*| {2,})?\\{)"
+    match_kinds:
+      - keyword
+    severity: error
+  nested_self_usage:
+    name: "Nested .self usage"
+    message: ".self shouldn't be used more than once on a given statement"
+    regex: "(?<!\")self\\.(?:\\p{L}+\\.)*self"
+    severity: warning

@@ -10,7 +10,7 @@ import SwiftUI
 public func initialize(
     clientSecret: String,
     style: ReccoStyle = .fresh,
-    logger: @escaping (Error) -> Void  = { error in
+    logger: @escaping (Error) -> Void = { error in
         #if DEBUG
             print(error)
         #endif
@@ -18,7 +18,7 @@ public func initialize(
 ) {
     assemble([
         ReccoHeadlessAssembly(clientSecret: clientSecret),
-        ReccoUIAssembly(logger: Logger(log: logger))
+        ReccoUIAssembly(logger: Logger(log: logger)),
     ])
 
     let keychain: KeychainProxy = get()
@@ -39,7 +39,7 @@ public func initialize(
 public func login(userId: String) async throws {
     let authRepository: AuthRepository
     let meRepository: MeRepository
-    
+
     do {
         authRepository = try tget()
         meRepository = try tget()

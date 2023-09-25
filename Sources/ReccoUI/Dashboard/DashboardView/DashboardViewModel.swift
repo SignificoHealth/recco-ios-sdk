@@ -13,7 +13,7 @@ final class DashboardViewModel: ObservableObject {
     private let logger: Logger
 
     @Published var lockedSectionAlert: FeedSection?
-	@Published var isLoading: Bool = true
+	@Published var isLoading = true
     @Published var initialLoadError: Error?
     @Published var unlockAnimationsDone: [FeedSectionType: Bool] = [:]
     @Published var sections: [FeedSectionViewState] = []
@@ -30,7 +30,7 @@ final class DashboardViewModel: ObservableObject {
         self.feedRepo = feedRepo
         self.nav = nav
         self.logger = logger
-        
+
         Task {
             await getFeedItems()
         }
@@ -60,8 +60,7 @@ final class DashboardViewModel: ObservableObject {
         if let section = lockedSectionAlert,
            let topic = section.topic {
             nav.navigate(to: .questionnaire(
-                topic,
-				{ [unowned self] answeredAll in
+                topic, { [unowned self] answeredAll in
                     reloadSection(
                         type: section.type,
                         nextState: answeredAll ? .unlock : .partiallyUnlock

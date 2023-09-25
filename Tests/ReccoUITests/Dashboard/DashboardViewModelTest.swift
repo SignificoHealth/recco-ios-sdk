@@ -5,14 +5,14 @@ import XCTest
 @MainActor
 final class DashboardViewModelTest: XCTestCase {
     private var loggerLogError: XCTestExpectation!
-    
+
     override func setUp() async throws {
         loggerLogError = expectation(description: "Logger received an error")
         loggerLogError.isInverted = true
     }
-    
+
     private func expectErrorLogging() { loggerLogError.isInverted = false }
-    
+
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(
@@ -227,7 +227,7 @@ final class DashboardViewModelTest: XCTestCase {
         }
         reloadSections(true)
         expectErrorLogging()
-        
+
         await fulfillment(of: [navigateExpectation, getFeedSectionExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -274,7 +274,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.pressedLocked(section: feedSection)
 
         XCTAssertEqual(feedSection, viewModel.lockedSectionAlert)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -334,7 +334,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         await viewModel.getFeedItems()
         await fulfillment(of: [getFeedExpectation2, loggerLogError], timeout: 1)
-        
+
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertTrue(viewModel.sections.isEmpty)
         XCTAssertTrue(viewModel.items.isEmpty)

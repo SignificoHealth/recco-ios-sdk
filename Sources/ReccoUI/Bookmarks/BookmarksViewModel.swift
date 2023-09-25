@@ -6,7 +6,7 @@ final class BookmarksViewModel: ObservableObject {
     private let nav: ReccoCoordinator
     private let logger: Logger
 
-    @Published var isLoading: Bool = true
+    @Published var isLoading = true
     @Published var items: [AppUserRecommendation] = []
     @Published var error: Error?
 

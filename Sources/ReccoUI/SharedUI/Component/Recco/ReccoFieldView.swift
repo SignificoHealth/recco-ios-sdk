@@ -14,7 +14,7 @@ struct ReccoFieldView: View {
         self.label = label
     }
 
-    @State private var focused: Bool = false
+    @State private var focused = false
 
     @Binding var text: String
     var keyboardType: UIKeyboardType

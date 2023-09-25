@@ -3,13 +3,13 @@ import SwiftUI
 
 final class ReccoUIAssembly: ReccoAssembly {
     let logger: Logger
-    
+
     init(
         logger: Logger = Logger { _ in }
     ) {
         self.logger = logger
     }
-    
+
     func assemble(container: ReccoContainer) {
         container.register(
             type: Logger.self,
@@ -17,7 +17,7 @@ final class ReccoUIAssembly: ReccoAssembly {
         ) { [logger] _ in
             logger
         }
-        
+
         container.register(type: ReccoCoordinator.self) { r in
             DefaultReccoCoordinator(window: r.get())
         }

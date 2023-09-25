@@ -12,9 +12,9 @@ final class HapticPlayer {
 
     private var engine: CHHapticEngine?
     private var player: CHHapticPatternPlayer?
-    private var isPlaying: Bool = false
+    private var isPlaying = false
     private let logger: Logger = get()
-    
+
     func playHaptic(pattern: HapticPattern) {
         guard let url = localBundle.url(forResource: pattern.rawValue, withExtension: "ahap") else { return }
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }

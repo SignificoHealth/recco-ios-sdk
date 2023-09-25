@@ -22,7 +22,7 @@ final class BookmarksViewModelTest: XCTestCase {
 	}
 
 	private func expectErrorLogging() { loggerLogError.isInverted = false }
-	
+
     private func getViewModel(
         recRepo: RecommendationRepository? = nil,
         nav: ReccoCoordinator? = nil
@@ -83,7 +83,7 @@ final class BookmarksViewModelTest: XCTestCase {
         guard case .article(_, _, _, _, let onBookmarkedChange) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .article")
         }
-        
+
         onBookmarkedChange(true)
 
         await fulfillment(of: [getBookmarksExpectation, loggerLogError], timeout: 1)

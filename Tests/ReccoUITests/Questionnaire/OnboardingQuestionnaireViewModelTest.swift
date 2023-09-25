@@ -14,7 +14,7 @@ final class OnboardingQuestionnaireViewModelTest: XCTestCase {
             nextScreen: nextScreen ?? { _ in },
             repo: repo ?? MockQuestionnaireRepository(),
             nav: nav ?? MockRecoCoordinator(),
-            logger: logger ?? Logger { _ in}
+            logger: logger ?? Logger { _ in }
         )
     }
 

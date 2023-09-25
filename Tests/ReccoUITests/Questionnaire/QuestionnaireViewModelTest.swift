@@ -20,7 +20,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 	}
 
 	private func expectErrorLogging() { loggerLogError.isInverted = false }
-	
+
     private func getViewModel(
         repo: QuestionnaireRepository? = nil,
         nav: ReccoCoordinator? = nil,
@@ -56,7 +56,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.first
 
         XCTAssertTrue(viewModel.mainButtonEnabled)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -72,7 +72,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.currentQuestion = questions.first
 
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -89,7 +89,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -104,7 +104,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -121,7 +121,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 1)
         XCTAssertEqual(viewModel.currentQuestion, questions[1])
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -155,7 +155,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -171,7 +171,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -187,7 +187,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertTrue(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -208,7 +208,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -229,7 +229,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -250,7 +250,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertTrue(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -272,7 +272,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
         XCTAssertFalse(viewModel.mainButtonEnabled)
-        
+
         await fulfillment(of: [loggerLogError], timeout: 1)
     }
 
@@ -320,7 +320,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         XCTAssertEqual(viewModel.currentIndex, 0)
         XCTAssertFalse(viewModel.mainButtonEnabled)
         viewModel.answer(Mocks.numericCorrectAnswer, for: questions.first!)
-        
+
         await fulfillment(of: [sendQuestionsExpectation, loggerLogError], timeout: 1)
 
         XCTAssertEqual(viewModel.currentIndex, 0)
@@ -340,7 +340,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
 
         await viewModel.getQuestionnaire()
         await fulfillment(of: [getQuestionsExpectation, loggerLogError], timeout: 1)
-        
+
         XCTAssertNil(viewModel.initialLoadError)
         XCTAssertEqual(viewModel.questions, questions)
         XCTAssertEqual(viewModel.currentQuestion, questions.first)
@@ -354,14 +354,14 @@ final class QuestionnaireViewModelTest: XCTestCase {
             getQuestionsExpectation.fulfill()
             throw getQuestionsError
         }
-        
+
         let viewModel = getViewModel(getQuestions: getQuestions)
-        
+
         expectErrorLogging()
-        
+
         await viewModel.getQuestionnaire()
         await fulfillment(of: [getQuestionsExpectation, loggerLogError], timeout: 1)
-        
+
         XCTAssertNotNil(viewModel.initialLoadError)
         XCTAssertEqual(viewModel.initialLoadError as? NSError, getQuestionsError)
         XCTAssertNil(viewModel.questions)
@@ -395,7 +395,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: true)
 
         XCTAssertTrue(result)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -409,7 +409,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: true)
 
         XCTAssertFalse(result)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -423,7 +423,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.singleChoiceCorrectAnswer, isAnswerValid: false)
 
         XCTAssertFalse(result)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -437,7 +437,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.multiChoiceCorrectAnswer, isAnswerValid: true)
 
         XCTAssertFalse(result)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -451,7 +451,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let result = viewModel.shouldChangeToNextQuestion(question: currentQuestion, answer: Mocks.numericCorrectAnswer, isAnswerValid: true)
 
         XCTAssertFalse(result)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -477,7 +477,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         viewModel.answers = answers
         // Place it in the last question
         viewModel.currentQuestion = questions.last
-        
+
         expectErrorLogging()
 
         XCTAssertEqual(viewModel.currentIndex, questions.count - 1)
@@ -525,7 +525,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertFalse(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -537,7 +537,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: false)
 
         XCTAssertTrue(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -549,7 +549,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertTrue(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -561,7 +561,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertFalse(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -575,7 +575,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertFalse(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -587,7 +587,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: false)
 
         XCTAssertTrue(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -599,7 +599,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertTrue(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -611,7 +611,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertFalse(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -623,7 +623,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validate(answer: answer, for: question, mandatoryAnswer: true)
 
         XCTAssertFalse(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -642,7 +642,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: true)
 
         XCTAssertTrue(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -659,7 +659,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: true)
 
         XCTAssertFalse(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -676,7 +676,7 @@ final class QuestionnaireViewModelTest: XCTestCase {
         let isValid = viewModel.validateAll(until: questions.last!, mandatoryAnswer: false)
 
         XCTAssertTrue(isValid)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 }

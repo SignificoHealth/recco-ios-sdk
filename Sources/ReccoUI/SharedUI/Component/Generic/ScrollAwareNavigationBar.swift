@@ -22,7 +22,7 @@ extension EnvironmentValues {
 }
 
 struct ScrollAwareNavigationBar<Content: View>: View {
-    @State private var navigationBarHidden: Bool = true
+    @State private var navigationBarHidden = true
 
     private var threshold: CGFloat
     private var content: () -> Content

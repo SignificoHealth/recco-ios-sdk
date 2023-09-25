@@ -16,7 +16,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
         loggerLogError = expectation(description: "Logger received an error")
         loggerLogError.isInverted = true
     }
-    
+
     private func expectErrorLogging() { loggerLogError.isInverted = false }
 
     private func getViewModel(
@@ -55,10 +55,10 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertNil(viewModel.article)
         XCTAssertTrue(viewModel.isLoading)
-        
+
         await viewModel.initialLoad()
         await fulfillment(of: [getArticleExpectation, updateContentSeenExpectation, loggerLogError], timeout: 1)
-        
+
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertNil(viewModel.article)
         XCTAssertEqual(mockArticleRepository.getArticleError, viewModel.initialLoadError as? NSError)
@@ -85,7 +85,7 @@ final class ArticleDetailViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.article)
         await viewModel.initialLoad()
         await fulfillment(of: [getArticleExpectation, updateContentSeenExpectation, loggerLogError], timeout: 1)
-        
+
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article, expectedArticle)
         XCTAssertNil(viewModel.initialLoadError)
@@ -125,10 +125,10 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, false)
-        
+
         await viewModel.toggleBookmark()
         await fulfillment(of: [setBookmarkExpectation, onBookmarkChangedExpectation, loggerLogError], timeout: 1)
-        
+
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.bookmarked, false)
         XCTAssertEqual(mockContentRepository.setBookmarkError, viewModel.actionError as? NSError)
@@ -206,10 +206,10 @@ final class ArticleDetailViewModelTest: XCTestCase {
 
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, .notRated)
-        
+
         await viewModel.rate(expectedRating)
         await fulfillment(of: [setRatingExpectation, loggerLogError], timeout: 1)
-        
+
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.article?.rating, expectedRating)
         XCTAssertNil(viewModel.actionError)

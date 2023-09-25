@@ -43,7 +43,7 @@ protocol ReccoCoordinator {
 
 final class DefaultReccoCoordinator: ReccoCoordinator {
     private let window: () -> UIWindow?
-    
+
     init(window: @escaping () -> UIWindow?) {
         self.window = window
     }

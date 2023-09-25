@@ -166,9 +166,7 @@ struct ArticleDetailView_Previews: PreviewProvider {
             ArticleDetailView(viewModel: r.get(argument: (
                 ContentId(itemId: "", catalogId: ""),
                 "This is a header",
-                URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"),
-				{ (_: ContentId) in },
-				{ (_: Bool) in }
+                URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), { (_: ContentId) in }, { (_: Bool) in }
             )))
         }
     }

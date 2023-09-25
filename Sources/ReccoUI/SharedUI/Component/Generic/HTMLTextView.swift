@@ -47,7 +47,7 @@ struct HTMLTextView: View {
     @Environment(\.layoutDirection) private var layoutDirection
     private var htmlText: String
     @State private var calculatedHeight: CGFloat = 44
-    @State private var isEmpty: Bool = false
+    @State private var isEmpty = false
 
     private var placeholderFont: SwiftUI.Font = .body
     private var placeholderAlignment: TextAlignment = .leading
@@ -56,12 +56,12 @@ struct HTMLTextView: View {
     private var multilineTextAlignment: NSTextAlignment = .left
     private var font: UIFont = .preferredFont(forTextStyle: .body)
     private var returnKeyType: UIReturnKeyType?
-    private var clearsOnInsertion: Bool = false
+    private var clearsOnInsertion = false
     private var autocorrection: UITextAutocorrectionType = .default
     private var truncationMode: NSLineBreakMode = .byTruncatingTail
-    private var isSecure: Bool = false
-    private var isEditable: Bool = true
-    private var isSelectable: Bool = true
+    private var isSecure = false
+    private var isEditable = true
+    private var isSelectable = true
     private var enablesReturnKeyAutomatically: Bool?
     private var autoDetectionTypes: UIDataDetectorTypes = []
     private var didInteractWithUrl: ((URL) -> Void)?
