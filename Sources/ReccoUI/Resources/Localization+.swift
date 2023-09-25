@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Localization+.swift
 //
 //
 //  Created by Adrián R on 24/6/22.
