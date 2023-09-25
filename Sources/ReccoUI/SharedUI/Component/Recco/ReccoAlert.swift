@@ -160,7 +160,7 @@ extension View {
 
 struct SFAlert_Previews: PreviewProvider {
     struct Wrapper: View {
-        @State var isPresent = false
+		@State var isPresent: Bool = false
 
         var body: some View {
             ZStack {

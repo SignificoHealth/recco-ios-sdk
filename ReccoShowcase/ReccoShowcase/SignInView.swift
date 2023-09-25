@@ -11,8 +11,8 @@ import SwiftUI
 struct SignInView: View {
     @AppStorage("username") var username: String = ""
     @State private var input: String = ""
-    @State var loginLoading = false
-    @State var loginError = false
+    @State var loginLoading: Bool = false
+    @State var loginError: Bool = false
 
     var inputView: some View {
         VStack(alignment: .leading) {

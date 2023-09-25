@@ -4,9 +4,8 @@ import SwiftUI
 
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
- - Parameters:
- - clientSecret: Credential required to identify and authenticate the application.
- - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
+ - Parameter clientSecret: Credential required to identify and authenticate the application.
+ - Parameter style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
     clientSecret: String,
@@ -35,8 +34,7 @@ public func initialize(
 
 /**
  Performs login operation given a user identifier
- - Parameters:
- - userId: User to be consuming the SDK and to be creating its own experience.
+ - Parameter userId: User to be consuming the SDK and to be creating its own experience.
  */
 public func login(userId: String) async throws {
     let authRepository: AuthRepository

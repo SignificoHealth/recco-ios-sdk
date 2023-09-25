@@ -16,7 +16,7 @@ class QuestionnaireViewModel: ObservableObject {
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
     @Published var initialLoadError: Error?
     @Published var sendError: Error?
-    @Published var sendLoading = false
+    @Published var sendLoading: Bool = false
     @Published var mainButtonEnabled: Bool
 
     var currentIndex: Int {

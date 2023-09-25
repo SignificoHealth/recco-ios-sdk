@@ -12,11 +12,11 @@ struct WelcomeView: View {
     @AppStorage("username") var username: String = ""
 
     @State var font: ReccoFont = .sfPro
-    @State var displayRecco = false
-    @State var logoutLoading = false
-    @State var logoutError = false
-    @State var showPaletteSelector = false
-    @State var showingPaletteEditor = false
+    @State var displayRecco: Bool = false
+    @State var logoutLoading: Bool = false
+    @State var logoutError: Bool = false
+    @State var showPaletteSelector: Bool = false
+    @State var showingPaletteEditor: Bool = false
     @State var editingStyleKey: String?
 
     var buttonsView: some View {

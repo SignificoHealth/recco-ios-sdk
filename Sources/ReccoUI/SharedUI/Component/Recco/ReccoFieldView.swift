@@ -14,7 +14,7 @@ struct ReccoFieldView: View {
         self.label = label
     }
 
-    @State private var focused = false
+    @State private var focused: Bool = false
 
     @Binding var text: String
     var keyboardType: UIKeyboardType
@@ -123,9 +123,10 @@ private struct UIKitTextField: UIViewRepresentable {
 
 extension View {
     func placeholder<Content: View>(
-        when shouldShow: Bool,
-        alignment: Alignment = .leading,
-        @ViewBuilder placeholder: () -> Content) -> some View {
+		when shouldShow: Bool,
+		alignment: Alignment = .leading,
+		@ViewBuilder placeholder: () -> Content
+	) -> some View {
         ZStack(alignment: alignment) {
             placeholder().opacity(shouldShow ? 1 : 0)
             self

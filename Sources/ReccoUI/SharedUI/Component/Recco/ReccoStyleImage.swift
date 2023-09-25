@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReccoStyleImage: View {
     var name: String
-    var resizable = false
+    var resizable: Bool = false
 
     @ViewBuilder
     private func resizable(_ image: Image, renderinMode: Image.TemplateRenderingMode = .template) -> some View {
