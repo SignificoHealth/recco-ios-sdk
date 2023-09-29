@@ -75,4 +75,49 @@ final class PublicAPITest: XCTestCase {
 
         await fulfillment(of: [logoutExpectation])
     }
+
+    // MARK: - addLifecycleObserversForMetrics
+
+    func test_addLifecycleObserversForMetrics_whenCalled_logsHostAppOpenEvent() async {
+        MockAssembly.assemble()
+        let mockMetricRepository = MockAssembly.mockMetricRepository
+
+        let event = AppUserMetricEvent(category: .userSession, action: .hostAppOpen)
+        let logEventExpectation = expectation(description: "log was not called")
+        mockMetricRepository.expectations[.logEvent] = logEventExpectation
+        mockMetricRepository.expectedEvent = event
+
+        ReccoUI.addLifecycleObserversForMetrics()
+
+        await fulfillment(of: [logEventExpectation], timeout: 1)
+    }
+
+    func test_addLifecycleObserversForMetrics_whenWillEnterForegroundNotificationIsEmitted_logsHostAppOpenEvent() async {
+        MockAssembly.assemble()
+        let mockMetricRepository = MockAssembly.mockMetricRepository
+        ReccoUI.addLifecycleObserversForMetrics()
+
+        let event = AppUserMetricEvent(category: .userSession, action: .hostAppOpen)
+        let logEventExpectation = expectation(description: "log was not called")
+        mockMetricRepository.expectations[.logEvent] = logEventExpectation
+        mockMetricRepository.expectedEvent = event
+
+        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        await fulfillment(of: [logEventExpectation], timeout: 1)
+    }
+
+    func test_addLifecycleObserversForMetrics_whendidEnterBackgroundNotificationIsEmitted_doesNotlogsHostAppOpenEvent() async {
+        MockAssembly.assemble()
+        let mockMetricRepository = MockAssembly.mockMetricRepository
+        ReccoUI.addLifecycleObserversForMetrics()
+
+        let logEventExpectation = expectation(description: "log was called")
+        logEventExpectation.isInverted = true
+        mockMetricRepository.expectations[.logEvent] = logEventExpectation
+
+        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+
+        await fulfillment(of: [logEventExpectation], timeout: 1)
+    }
 }

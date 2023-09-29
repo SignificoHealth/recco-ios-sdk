@@ -4,19 +4,29 @@ import ReccoHeadless
 
 final class SplashViewModel: ObservableObject {
     var cancellable: AnyCancellable?
-    private let repo: MeRepository
+    private let meRepository: MeRepository
+    private let metricRepository: MetricRepository
 
     @Published var user: AppUser?
 
     init(
-        repo: MeRepository
+        meRepository: MeRepository,
+        metricRepository: MetricRepository
     ) {
-        self.repo = repo
+        self.meRepository = meRepository
+        self.metricRepository = metricRepository
+
         bind()
     }
 
+    func onReccoSDKOpened() {
+        metricRepository.log(event: AppUserMetricEvent(category: .userSession, action: .reccoSDKOpen))
+    }
+
+    // MARK: Private
+
     private func bind() {
-        repo
+        meRepository
             .currentUser
             .receive(on: DispatchQueue.main)
             .assign(to: &$user)

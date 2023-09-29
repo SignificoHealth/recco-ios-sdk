@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import ReccoHeadless
 import SwiftUI
@@ -30,6 +31,8 @@ public func initialize(
     )
 
     CurrentReccoStyle = style
+
+    addLifecycleObserversForMetrics()
 }
 
 /**
@@ -87,4 +90,24 @@ public struct ReccoRootView: View {
         }
         .ignoresSafeArea()
     }
+}
+
+internal var cancellables = Set<AnyCancellable>()
+internal func addLifecycleObserversForMetrics() {
+    // Release previous publishers if called multiple times
+    // This could happen during tests or if the SDK is initialized multiple times
+    cancellables = Set<AnyCancellable>()
+
+    let metricRepository: MetricRepository = get()
+
+    // Emit when the sdk is initialized
+    metricRepository.log(event: AppUserMetricEvent(category: .userSession, action: .hostAppOpen))
+
+    // Emit when the host app enters foreground
+    NotificationCenter.default
+        .publisher(for: UIApplication.willEnterForegroundNotification)
+        .sink { _ in
+            metricRepository.log(event: AppUserMetricEvent(category: .userSession, action: .hostAppOpen))
+        }
+        .store(in: &cancellables)
 }
