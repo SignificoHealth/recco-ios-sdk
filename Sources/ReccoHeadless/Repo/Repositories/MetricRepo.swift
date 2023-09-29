@@ -6,7 +6,7 @@ public protocol MetricRepository {
 
 final class LiveMetricRepository: MetricRepository {
     private let keychain: KeychainProxy
-    
+
     init(keychain: KeychainProxy) {
         self.keychain = keychain
     }

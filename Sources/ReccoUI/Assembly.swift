@@ -59,7 +59,7 @@ final class ReccoUIAssembly: ReccoAssembly {
                 metricRepository: r.get()
             )
         }
-        
+
         container.register(type: TopicQuestionnaireViewModel.self) { (r: ReccoResolver, tuple: (ReccoTopic, (Bool) -> Void)) in
             TopicQuestionnaireViewModel(
                 topic: tuple.0,
