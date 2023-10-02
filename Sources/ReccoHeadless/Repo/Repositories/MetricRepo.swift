@@ -12,7 +12,7 @@ final class LiveMetricRepository: MetricRepository {
     }
 
     func log(event: AppUserMetricEvent) {
-        guard keychain.read(account: KeychainKey.clientUserId.rawValue) != nil else { return }
+        guard keychain.read(account: KeychainKey.currentUser.rawValue) != nil else { return }
 
         Task {
             do {
