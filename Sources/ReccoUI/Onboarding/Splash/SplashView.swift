@@ -49,12 +49,12 @@ struct SplashView: View {
             }
             // First time the view is shown
             .onAppear(perform: {
-                viewModel.onReccoSDKOpened()
+                viewModel.onReccoSDKOpen()
             })
             // Every time the app comes from the background
             .onChange(of: scenePhase) { phase in
                 if phase == .active {
-                    viewModel.onReccoSDKOpened()
+                    viewModel.onReccoSDKOpen()
                 }
             }
     }

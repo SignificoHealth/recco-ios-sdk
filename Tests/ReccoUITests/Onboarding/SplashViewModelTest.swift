@@ -37,7 +37,7 @@ final class SplashViewModelTest: XCTestCase {
         mockMetricRepository.expectations[.logEvent] = logEventExpectation
         mockMetricRepository.expectedEvent = event
 
-        viewModel.onReccoSDKOpened()
+        viewModel.onReccoSDKOpen()
         wait(for: [logEventExpectation], timeout: 1)
     }
 }

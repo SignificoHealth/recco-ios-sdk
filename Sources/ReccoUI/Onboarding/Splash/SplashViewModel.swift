@@ -19,7 +19,7 @@ final class SplashViewModel: ObservableObject {
         bind()
     }
 
-    func onReccoSDKOpened() {
+    func onReccoSDKOpen() {
         metricRepository.log(event: AppUserMetricEvent(category: .userSession, action: .reccoSDKOpen))
     }
 
