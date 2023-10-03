@@ -2,11 +2,11 @@ import SwiftUI
 
 struct OnboardingView: View {
     @StateObject var viewModel: OnboardingViewModel
-    
+
     var buttonText: String {
         viewModel.currentPage == viewModel.totalPages ? "recco_start".localized : "recco_next".localized
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             TabView(
@@ -18,7 +18,7 @@ struct OnboardingView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            
+
             VStack(spacing: .M) {
                 ReccoButtonView(
                     text: buttonText,
@@ -28,7 +28,7 @@ struct OnboardingView: View {
                         }
                     }
                 )
-                
+
                 indicator
             }
             .padding(.M)
@@ -43,13 +43,12 @@ struct OnboardingView: View {
                     .foregroundColor(.reccoPrimary)
                     .padding(.vertical, .M)
                     .padding(.horizontal, .S)
-
             }),
             alignment: .topTrailing
         )
         .navigationBarHidden(true)
     }
-    
+
     @ViewBuilder
     private var indicator: some View {
         HStack(spacing: .XXS) {
@@ -61,25 +60,25 @@ struct OnboardingView: View {
             }
         }
     }
-    
+
     @ViewBuilder
-    private func onboardingPage(_ n: Int) -> some View {
+    private func onboardingPage(_ page: Int) -> some View {
         GeometryReader { proxy in
             ScrollView {
                 VStack(spacing: .L) {
                     ZStack(alignment: .bottom) {
                         Color.reccoAccent20
-                        ReccoStyleImage(name: "onboarding_image_\(n)", resizable: true)
+                        ReccoStyleImage(name: "onboarding_image_\(page)", resizable: true)
                             .scaledToFit()
                             .frame(height: proxy.size.height * 0.4)
                     }
                     .frame(height: proxy.size.height * 0.45)
-                    
+
                     VStack(spacing: .M) {
-                        Text("recco_onboarding_page\(n)_title".localized)
+                        Text("recco_onboarding_page\(page)_title".localized)
                             .h1()
-                        
-                        Text("recco_onboarding_page\(n)_body".localized)
+
+                        Text("recco_onboarding_page\(page)_body".localized)
                             .body2()
                             .multilineTextAlignment(.center)
                     }

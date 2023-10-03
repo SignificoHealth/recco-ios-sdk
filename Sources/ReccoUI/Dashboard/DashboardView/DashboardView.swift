@@ -1,13 +1,13 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct DashboardView: View {
     @StateObject var viewModel: DashboardViewModel
-    
+
     init(viewModel: DashboardViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
-        
+
     var body: some View {
         ReccoLoadingView(viewModel.isLoading) {
             RefreshableScrollView(
@@ -18,7 +18,7 @@ struct DashboardView: View {
                         dismiss: viewModel.dismiss,
                         onBookmarks: viewModel.goToBookmarks
                     )
-                    
+
                     ForEach(viewModel.sections, id: \.self) { section in
                         FeedSectionView(
                             performedUnlockAnimation: .init(get: {
@@ -62,7 +62,7 @@ struct DashboardView: View {
             }
         }
     }
-    
+
     private func unlockAlert(for section: FeedSection) -> ReccoAlert<some View> {
         ReccoAlert(
             isPresent: $viewModel.lockedSectionAlert.isPresent(),
@@ -80,26 +80,26 @@ struct DashboardView: View {
 }
 
 struct DashboardHeader: View {
-    var dismiss: () -> Void
-    var onBookmarks: () -> Void
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .top, spacing: .XS) {
-                VStack(alignment: .leading, spacing: .XXXS) {
-                    Text("recco_dashboard_welcome_back_title".localized)
-                        .h1()
-                    Text("recco_dashboard_welcome_back_body".localized)
-                        .body1()
-                }
-                .padding(.leading, .M)
-                
-                Spacer()
-                
-                ReccoStyleImage(name: "potted_plant")
-            }
-        }
-    }
+	var dismiss: () -> Void
+	var onBookmarks: () -> Void
+
+	var body: some View {
+		VStack(spacing: 0) {
+			HStack(alignment: .top, spacing: .XS) {
+				VStack(alignment: .leading, spacing: .XXXS) {
+					Text("recco_dashboard_welcome_back_title".localized)
+						.h1()
+					Text("recco_dashboard_welcome_back_body".localized)
+						.body1()
+				}
+				.padding(.leading, .M)
+
+				Spacer()
+
+				ReccoStyleImage(name: "potted_plant")
+			}
+		}
+	}
 }
 
 struct DashboardView_Previews: PreviewProvider {

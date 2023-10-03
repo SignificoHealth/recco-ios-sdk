@@ -16,7 +16,7 @@ extension EitherAnswerType {
             return value
         } else { return nil }
     }
-    
+
     public var multichoice: [Int]? {
         if case let .multiChoice(value) = self {
             return value
@@ -31,11 +31,9 @@ public struct CreateQuestionnaireAnswer: Equatable, Hashable {
         self.type = type
         self.questionnaireId = questionnaireId
     }
-    
+
     public var value: EitherAnswerType
     public var questionId: String
     public var type: QuestionType
     public var questionnaireId: String
-   
 }
-

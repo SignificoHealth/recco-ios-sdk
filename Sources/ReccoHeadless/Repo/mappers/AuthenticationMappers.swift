@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  AuthenticationMappers.swift
+//
 //
 //  Created by Adrián R on 1/6/23.
 //

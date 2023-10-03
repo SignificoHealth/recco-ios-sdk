@@ -1,6 +1,6 @@
+import Combine
 import Foundation
 import ReccoHeadless
-import Combine
 
 class QuestionnaireViewModel: ObservableObject {
     private let nav: ReccoCoordinator
@@ -10,13 +10,13 @@ class QuestionnaireViewModel: ObservableObject {
     private let getQuestions: (QuestionnaireRepository) async throws -> [Question]
     private let sendQuestions: (QuestionnaireRepository, [CreateQuestionnaireAnswer]) async throws -> Void
     private let logger: Logger
-    
+
     @Published var currentQuestion: Question?
     @Published var questions: [Question]?
     @Published var answers: [Question: CreateQuestionnaireAnswer?] = [:]
     @Published var initialLoadError: Error?
     @Published var sendError: Error?
-    @Published var sendLoading: Bool = false
+    @Published var sendLoading = false
     @Published var mainButtonEnabled: Bool
 
     var currentIndex: Int {
@@ -26,7 +26,7 @@ class QuestionnaireViewModel: ObservableObject {
     }
 
     var isOnLastQuestion: Bool {
-        return currentIndex == (questions?.count ?? 0) - 1
+        currentIndex == (questions?.count ?? 0) - 1
     }
 
     init(
@@ -137,10 +137,10 @@ class QuestionnaireViewModel: ObservableObject {
         answer: EitherAnswerType,
         isAnswerValid: Bool
     ) -> Bool {
-        return question.isSingleChoice
-        && !isOnLastQuestion
-        && answer.multichoice != nil
-        && isAnswerValid
+        question.isSingleChoice
+            && !isOnLastQuestion
+            && answer.multichoice != nil
+            && isAnswerValid
     }
 
     private func validateAnswerOnQuestionChange() {
@@ -208,9 +208,9 @@ class QuestionnaireViewModel: ObservableObject {
             return false
         }
 
-        return partialQuestions.reduce(true) { partialResult, q in
+        return partialQuestions.allSatisfy { q in
             if let answer = answers[q]??.value {
-                return partialResult && validate(answer: answer, for: q, mandatoryAnswer: mandatoryAnswer)
+                return validate(answer: answer, for: q, mandatoryAnswer: mandatoryAnswer)
             } else {
                 return false
             }

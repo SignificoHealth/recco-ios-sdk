@@ -1,9 +1,8 @@
-import XCTest
 import Combine
 @testable import ReccoHeadless
+import XCTest
 
 final class MockQuestionnaireRepository: QuestionnaireRepository {
-
     enum ExpectationType {
         case getOnboardingQuestionnaire
         case getQuestionnaire

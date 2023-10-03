@@ -11,7 +11,7 @@ public struct AppUserArticle: Equatable, Hashable {
         self.articleBodyHtml = articleBodyHtml
         self.bookmarked = bookmarked
     }
-    
+
     public var bookmarked: Bool
     public var id: ContentId
     public var rating: ContentRating

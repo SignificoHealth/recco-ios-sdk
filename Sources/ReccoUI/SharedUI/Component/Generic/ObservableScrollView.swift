@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ScrollViewOffsetPreferenceKey: PreferenceKey {
     static var defaultValue = CGFloat.zero
-    
+
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value += nextValue()
     }
@@ -26,7 +26,7 @@ struct ObservableScrollView<Content>: View where Content: View {
         self.content = content
         self.axis = axis
     }
-    
+
     var body: some View {
         ScrollView(axis, showsIndicators: showsIndicators) {
             ScrollViewReader { proxy in

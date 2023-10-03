@@ -12,12 +12,12 @@ final class ArticleDetailViewModel: ObservableObject {
 
     let imageUrl: URL?
     let heading: String
-    
-    @Published var isLoading: Bool = true
+
+	@Published var isLoading = true
     @Published var article: AppUserArticle?
     @Published var initialLoadError: Error?
     @Published var actionError: Error?
-    
+
     init(
         loadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void),
         articleRepo: ArticleRepository,
@@ -35,7 +35,7 @@ final class ArticleDetailViewModel: ObservableObject {
         self.nav = nav
         self.logger = logger
     }
-    
+
     @MainActor
     func initialLoad() async {
         do {
@@ -47,7 +47,7 @@ final class ArticleDetailViewModel: ObservableObject {
             logger.log(error)
             initialLoadError = error
         }
-        
+
         isLoading = false
     }
 
@@ -91,11 +91,11 @@ final class ArticleDetailViewModel: ObservableObject {
 
         isLoading = false
     }
-    
+
     func dismiss() {
         nav.navigate(to: .dismiss)
     }
-    
+
     func back() {
         nav.navigate(to: .back)
     }

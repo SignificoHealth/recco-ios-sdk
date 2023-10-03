@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Adrián R on 14/6/23.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReccoCloseButton: View {
     var closeAction: () -> Void
-    
+
     var body: some View {
         Button {
             closeAction()
@@ -22,7 +22,6 @@ struct ReccoCloseButton: View {
                 )
                 .clipShape(Circle())
         }
-
     }
 }
 

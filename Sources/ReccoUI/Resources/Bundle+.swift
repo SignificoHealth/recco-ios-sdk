@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  Bundle+.swift
+//
 //
 //  Created by Adrián R on 23/6/22.
 //
@@ -26,25 +26,25 @@ extension Foundation.Bundle {
         // You may have same PackageName and TargetName
         let bundleNameIOS = "Recco_\(targetName)"
         let bundleNameMacOs = "\(packageName)_\(targetName)"
-        
+
         let candidates = [
             // Bundle should be present here when the package is linked into an App.
             Bundle.main.resourceURL,
-            
+
             // Bundle should be present here when the package is linked into a framework.
             Bundle(for: CurrentBundleFinder.self).resourceURL,
-            
+
             // For command-line tools.
             Bundle.main.bundleURL,
-            
+
             // Bundle should be present here when running previews from a different package
             // (this is the path to "…/Debug-iphonesimulator/").
             Bundle(for: CurrentBundleFinder.self).resourceURL?
                 .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent(),
             Bundle(for: CurrentBundleFinder.self).resourceURL?
-                .deletingLastPathComponent().deletingLastPathComponent()
+                .deletingLastPathComponent().deletingLastPathComponent(),
         ]
-        
+
         for candidate in candidates {
             let bundlePathiOS = candidate?.appendingPathComponent(bundleNameIOS + ".bundle")
             let bundlePathMacOS = candidate?.appendingPathComponent(bundleNameMacOs + ".bundle")
@@ -54,7 +54,7 @@ extension Foundation.Bundle {
                 return bundle
             }
         }
-        
+
         fatalError(candidates.debugDescription)
     }()
 }

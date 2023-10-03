@@ -1,7 +1,5 @@
 import Foundation
 
-
-
 extension AppUserRecommendation {
     init(dto: AppUserRecommendationDTO) throws {
         self.init(

@@ -5,10 +5,10 @@ struct ReccoLoadingView<Content: View>: View {
         self.isLoading = isLoading
         self.content = content
     }
-    
+
     var isLoading: Bool
     var content: () -> Content
-    
+
     @ViewBuilder
     var body: some View {
         if isLoading {
@@ -34,7 +34,7 @@ struct ReccoLoadingUnwrappingView<Content: View, Wrapped>: View {
         self.content = content
         self.retry = retry
     }
-    
+
     @Binding var error: Error?
     var wrapped: Wrapped?
     var content: (Wrapped) -> Content

@@ -1,18 +1,18 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct QuestionView: View {
     var item: Question
     var currentAnswer: EitherAnswerType?
     var answerChanged: (Question, EitherAnswerType) -> Void
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: .S) {
                 Text(item.text)
                     .foregroundColor(.reccoOnBackground)
                     .cta()
-                
+
                 switch item.value {
                 case let .multiChoice(multi):
                     MultichoiceBodyView(
@@ -62,7 +62,7 @@ struct QuestionView_Previews: PreviewProvider {
                 )
             ),
             currentAnswer: nil,
-            answerChanged: { _, _ in}
+            answerChanged: { _, _ in }
         )
     }
 }

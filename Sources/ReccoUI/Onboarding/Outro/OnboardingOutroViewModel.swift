@@ -5,8 +5,8 @@ final class OnboardingOutroViewModel: ObservableObject {
     private let meRepo: MeRepository
     private let nav: ReccoCoordinator
     private let logger: Logger
-    
-    @Published var isLoading: Bool = false
+
+    @Published var isLoading = false
     @Published var meError: Error?
 
     init(
@@ -18,7 +18,7 @@ final class OnboardingOutroViewModel: ObservableObject {
         self.nav = nav
         self.logger = logger
     }
-    
+
     func close() {
         nav.navigate(to: .dismiss)
     }

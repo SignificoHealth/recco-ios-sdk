@@ -9,4 +9,3 @@ public struct ContentId: Equatable, Hashable {
         self.catalogId = catalogId
     }
 }
-

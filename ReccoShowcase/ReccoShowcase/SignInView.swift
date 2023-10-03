@@ -5,21 +5,20 @@
 //  Created by Carmelo J Cortés Alhambra on 5/7/23.
 //
 
-import SwiftUI
 import ReccoUI
+import SwiftUI
 
 struct SignInView: View {
-    
     @AppStorage("username") var username: String = ""
     @State private var input: String = ""
-    @State var loginLoading: Bool = false
-    @State var loginError: Bool = false
-    
+    @State var loginLoading = false
+    @State var loginError = false
+
     var inputView: some View {
         VStack(alignment: .leading) {
             Text("user_id")
                 .inputTitle()
-            
+
             TextField("username", text: $input)
                 .font(.system(size: 15, weight: .light))
                 .foregroundColor(.warmBrown)
@@ -31,21 +30,21 @@ struct SignInView: View {
                 .preferredColorScheme(.light)
         }
     }
-    
+
     var body: some View {
         VStack(spacing: 32) {
             CompanyView()
                 .padding(.top, 75)
 
             Text("sign_in_text")
-                .bodySmall() 
+                .bodySmall()
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
-            
+
             inputView
-            
+
             Spacer()
-            
+
             if loginLoading {
                 ProgressView()
             } else {

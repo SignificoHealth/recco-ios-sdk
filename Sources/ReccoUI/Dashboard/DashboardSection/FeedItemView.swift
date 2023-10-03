@@ -1,9 +1,9 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct FeedItemView: View {
     let item: AppUserRecommendation
-    
+
     var body: some View {
         ReccoURLImageView(
             url: item.imageUrl,

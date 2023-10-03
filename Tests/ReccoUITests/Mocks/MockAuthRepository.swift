@@ -1,8 +1,7 @@
-import XCTest
 @testable import ReccoHeadless
+import XCTest
 
 final class MockAuthRepository: AuthRepository {
-
     enum ExpectationType {
         case login
         case logout

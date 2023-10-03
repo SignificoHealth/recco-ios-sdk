@@ -3,13 +3,13 @@ import SwiftUI
 
 final class ReccoUIAssembly: ReccoAssembly {
     let logger: Logger
-    
+
     init(
         logger: Logger = Logger { _ in }
     ) {
         self.logger = logger
     }
-    
+
     func assemble(container: ReccoContainer) {
         container.register(
             type: Logger.self,
@@ -17,11 +17,11 @@ final class ReccoUIAssembly: ReccoAssembly {
         ) { [logger] _ in
             logger
         }
-        
+
         container.register(type: ReccoCoordinator.self) { r in
             DefaultReccoCoordinator(window: r.get())
         }
-        
+
         container.register(type: DashboardViewModel.self) { r in
             DashboardViewModel(
                 feedRepo: r.get(),
@@ -30,7 +30,7 @@ final class ReccoUIAssembly: ReccoAssembly {
                 logger: r.get()
             )
         }
-        
+
         container.register(type: ArticleDetailViewModel.self) { (r: ReccoResolver, tuple: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void)) in
             ArticleDetailViewModel(
                 loadedContent: tuple,
@@ -40,7 +40,7 @@ final class ReccoUIAssembly: ReccoAssembly {
                 logger: r.get()
             )
         }
-        
+
         container.register(type: OnboardingOutroViewModel.self) { r in
             OnboardingOutroViewModel(
                 meRepo: r.get(),
@@ -48,17 +48,17 @@ final class ReccoUIAssembly: ReccoAssembly {
                 logger: r.get()
             )
         }
-        
+
         container.register(type: OnboardingViewModel.self) { r in
             OnboardingViewModel(nav: r.get())
         }
-        
+
         container.register(type: SplashViewModel.self) { r in
             SplashViewModel(
                 repo: r.get()
             )
         }
-        
+
         container.register(type: TopicQuestionnaireViewModel.self) { (r: ReccoResolver, tuple: (ReccoTopic, (Bool) -> Void)) in
             TopicQuestionnaireViewModel(
                 topic: tuple.0,
@@ -68,7 +68,7 @@ final class ReccoUIAssembly: ReccoAssembly {
                 logger: r.get()
             )
         }
-        
+
         container.register(type: OnboardingQuestionnaireViewModel.self) { r, next in
             OnboardingQuestionnaireViewModel(
                 nextScreen: next,
@@ -77,7 +77,7 @@ final class ReccoUIAssembly: ReccoAssembly {
                 logger: r.get()
             )
         }
-        
+
         container.register(type: BookmarksViewModel.self) { r in
             BookmarksViewModel(
                 recRepo: r.get(),
@@ -87,8 +87,6 @@ final class ReccoUIAssembly: ReccoAssembly {
         }
     }
 }
-
-import SwiftUI
 
 func withAssembly<Content>(@ViewBuilder content: @escaping (ReccoResolver) -> Content) -> Assembling<Content> {
     Assembling(ReccoHeadlessAssembly(clientSecret: ""), ReccoUIAssembly(), content: content)

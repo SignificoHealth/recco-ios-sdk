@@ -11,4 +11,3 @@ public struct UpdateRating: Equatable, Hashable {
         self.rating = rating
     }
 }
-

@@ -6,10 +6,10 @@ final class BookmarksViewModel: ObservableObject {
     private let nav: ReccoCoordinator
     private let logger: Logger
 
-    @Published var isLoading: Bool = true
+    @Published var isLoading = true
     @Published var items: [AppUserRecommendation] = []
     @Published var error: Error?
-    
+
     init(
         recRepo: RecommendationRepository,
         nav: ReccoCoordinator,
@@ -19,7 +19,7 @@ final class BookmarksViewModel: ObservableObject {
         self.recRepo = recRepo
         self.nav = nav
     }
-    
+
     func goToDetail(of item: AppUserRecommendation) {
         nav.navigate(to: .article(
             id: item.id,
@@ -37,11 +37,11 @@ final class BookmarksViewModel: ObservableObject {
             }
         ))
     }
-    
+
     func dismiss() {
         nav.navigate(to: .dismiss)
     }
-    
+
     @MainActor
     func getBookmarks() async {
         do {
@@ -51,17 +51,15 @@ final class BookmarksViewModel: ObservableObject {
             logger.log(error)
             self.error = error
         }
-        
+
         isLoading = false
     }
-    
+
     // MARK: Private
-    
+
     private func markContentAsSeen(id: ContentId) {
-        for (idx, item) in items.filter({ item in item.status != .viewed}).enumerated() {
-            if item.id == id {
-                items[idx].status = .viewed
-            }
+        for (idx, item) in items.filter({ item in item.status != .viewed }).enumerated() where item.id == id {
+			items[idx].status = .viewed
         }
     }
 }

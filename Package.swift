@@ -8,14 +8,14 @@ let ReccoHeadless: Target = .target(
     dependencies: [],
     exclude: [
         "Api/sf-backend-open-api.json",
-        "Api/generate-api.sh"
+        "Api/generate-api.sh",
     ]
 )
 
 let ReccoHeadlessTests: Target = .testTarget(
     name: "ReccoHeadlessTests",
     dependencies: [
-        "ReccoHeadless"
+        "ReccoHeadless",
     ]
 )
 
@@ -24,15 +24,17 @@ let ReccoUI: Target = .target(
     dependencies: [
         "ReccoHeadless",
         .product(name: "Nuke", package: "Nuke"),
-        .product(name: "NukeUI", package: "Nuke")
+        .product(name: "NukeUI", package: "Nuke"),
     ],
-    resources: [.process("Resources/Haptics")]
+    resources: [
+        .process("Resources/Haptics"),
+    ]
 )
 
 let ReccoUITests: Target = .testTarget(
     name: "ReccoUITests",
     dependencies: [
-        "ReccoUI"
+        "ReccoUI",
     ]
 )
 
@@ -48,7 +50,7 @@ let package = Package(
         .library(
             name: "ReccoHeadless",
             targets: ["ReccoHeadless"]
-        )
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "12.1.6"))
@@ -57,6 +59,6 @@ let package = Package(
         ReccoHeadless,
         ReccoHeadlessTests,
         ReccoUI,
-        ReccoUITests
+        ReccoUITests,
     ]
 )

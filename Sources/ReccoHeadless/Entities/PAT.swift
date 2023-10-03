@@ -7,11 +7,9 @@ public struct PAT: Equatable, Hashable, Codable {
         self.tokenId = tokenId
         self.creationDate = creationDate
     }
-    
+
     public var accessToken: String
     public var expirationDate: Date
     public var tokenId: String
     public var creationDate: Date
-    
 }
-

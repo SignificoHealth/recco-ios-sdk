@@ -1,14 +1,14 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct NumericBodyView: View {
     private var locale: Locale {
         .current
     }
-    
+
     let question: NumericQuestion
     var selectedAnswer: (Double?) -> Void
-    
+
     init(
         question: NumericQuestion,
         selectedAnswer: @escaping (Double?) -> Void,
@@ -16,7 +16,7 @@ struct NumericBodyView: View {
     ) {
         self.question = question
         self.selectedAnswer = selectedAnswer
-        
+
         let formattedAnswer = answer.map {
             displayAnswer(
                 $0,
@@ -24,7 +24,7 @@ struct NumericBodyView: View {
                 format: question.format
             )
         }
-        
+
         if let formattedAnswer {
             self._value = .init(initialValue: formattedAnswer.0)
             self._value2 = .init(initialValue: formattedAnswer.1 ?? "")
@@ -47,14 +47,14 @@ struct NumericBodyView: View {
                     placeholder: question.format.placeholder(locale),
                     label: question.format.label(locale)?.0
                 )
-            
+
             case (.imperialUS, .humanHeight), (.imperialGB, .humanHeight):
                 ReccoFieldView(
                     text: $value,
                     placeholder: question.format.placeholder(locale),
                     label: question.format.label(locale)?.0
                 )
-                
+
                 ReccoFieldView(
                     text: $value2,
                     placeholder: question.format.placeholder(locale),
@@ -69,7 +69,7 @@ struct NumericBodyView: View {
             sendAnswer(value1: value, value2: newValue)
         }
     }
-    
+
     private func sendAnswer(value1: String, value2: String) {
         let value = formatAnswer(
             value1,
@@ -77,7 +77,7 @@ struct NumericBodyView: View {
             format: question.format,
             locale: locale
         )
-                
+
         selectedAnswer(value)
     }
 }
@@ -85,6 +85,6 @@ struct NumericBodyView: View {
 struct NumericBodyView_Previews: PreviewProvider {
     static var previews: some View {
         NumericBodyView(question: .init(maxValue: 0, minValue: 10, format: .humanWeight), selectedAnswer: { _ in }, answer: nil)
-            .environment(\.locale, Locale.init(identifier: "en_GB"))
+            .environment(\.locale, Locale(identifier: "en_GB"))
     }
 }

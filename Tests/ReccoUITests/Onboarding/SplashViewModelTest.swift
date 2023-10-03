@@ -1,10 +1,9 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class SplashViewModelTest: XCTestCase {
-
     // MARK: - init
 
     func test_init_whenCurrentUserChanges_itUpdatesUser() {
@@ -15,6 +14,7 @@ final class SplashViewModelTest: XCTestCase {
         XCTAssertNil(viewModel.user)
         mockMeRepository._currentUser.value = user
 
+		// swiftlint:disable:next todo
         // TODO: Improve me
         // Workaround to test ".receive(on: DispatchQueue.main)". We  need a way to pass that Scheduler from outside
         let expectation = self.expectation(description: "Test")
@@ -24,5 +24,3 @@ final class SplashViewModelTest: XCTestCase {
         XCTAssertEqual(user, viewModel.user)
     }
 }
-
-

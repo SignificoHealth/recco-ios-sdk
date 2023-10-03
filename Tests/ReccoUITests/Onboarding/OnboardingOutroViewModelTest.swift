@@ -1,9 +1,8 @@
-import XCTest
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class OnboardingOutroViewModelTest: XCTestCase {
-
     // MARK: - goToDashboardPressed
 
     func test_goToDashboardPressed_whenGetMeFails_throwsAnError() async throws {
@@ -39,7 +38,7 @@ final class OnboardingOutroViewModelTest: XCTestCase {
 
     func test_close_navigatesToDismiss() {
         let mockCoordinator = MockRecoCoordinator()
-        let viewModel = OnboardingOutroViewModel(meRepo: MockMeRepository(), nav: mockCoordinator, logger: Logger {_ in})
+        let viewModel = OnboardingOutroViewModel(meRepo: MockMeRepository(), nav: mockCoordinator, logger: Logger { _ in })
         let expectedDestination = Destination.dismiss
         mockCoordinator.expectedDestination = expectedDestination
         let navigateExpectation = expectation(description: "navigate was not called with: \(expectedDestination)")
