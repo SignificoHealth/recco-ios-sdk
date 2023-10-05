@@ -4,6 +4,8 @@ import SwiftUI
 struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
 
+    @Environment(\.scenePhase) private var scenePhase
+
     init(viewModel: SplashViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
@@ -35,6 +37,7 @@ struct SplashView: View {
     var body: some View {
         content
             .transition(.opacity)
+            .ignoresSafeArea()
             .onReceive(viewModel.$user) { newUser in
                 if _user == nil {
                     _user = newUser
@@ -44,6 +47,15 @@ struct SplashView: View {
                     }
                 }
             }
-            .ignoresSafeArea()
+            // First time the view is shown
+            .onAppear(perform: {
+                viewModel.onReccoSDKOpen()
+            })
+            // Every time the app comes from the background
+            .onChange(of: scenePhase) { phase in
+                if phase == .active {
+                    viewModel.onReccoSDKOpen()
+                }
+            }
     }
 }

@@ -8,13 +8,14 @@ final class SplashViewModelTest: XCTestCase {
 
     func test_init_whenCurrentUserChanges_itUpdatesUser() {
         let mockMeRepository = MockMeRepository()
-        let viewModel = SplashViewModel(repo: mockMeRepository)
+        let mockMetricRepository = MockMetricRepository()
+        let viewModel = SplashViewModel(meRepository: mockMeRepository, metricRepository: mockMetricRepository)
         let user = AppUser(id: "id", isOnboardingQuestionnaireCompleted: true)
 
         XCTAssertNil(viewModel.user)
         mockMeRepository._currentUser.value = user
 
-		// swiftlint:disable:next todo
+        // swiftlint:disable:next todo
         // TODO: Improve me
         // Workaround to test ".receive(on: DispatchQueue.main)". We  need a way to pass that Scheduler from outside
         let expectation = self.expectation(description: "Test")
@@ -22,5 +23,21 @@ final class SplashViewModelTest: XCTestCase {
         wait(for: [expectation], timeout: 1)
 
         XCTAssertEqual(user, viewModel.user)
+    }
+
+    // MARK: - onReccoSDKOpen
+
+    func test_onReccoSDKOpen_logsReccoSDKOpenEvent() {
+        let mockMeRepository = MockMeRepository()
+        let mockMetricRepository = MockMetricRepository()
+        let viewModel = SplashViewModel(meRepository: mockMeRepository, metricRepository: mockMetricRepository)
+
+        let event = AppUserMetricEvent(category: .userSession, action: .reccoSDKOpen)
+        let logEventExpectation = expectation(description: "log was not called")
+        mockMetricRepository.expectations[.logEvent] = logEventExpectation
+        mockMetricRepository.expectedEvent = event
+
+        viewModel.onReccoSDKOpen()
+        wait(for: [logEventExpectation], timeout: 1)
     }
 }

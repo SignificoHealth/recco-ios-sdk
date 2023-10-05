@@ -55,7 +55,8 @@ final class ReccoUIAssembly: ReccoAssembly {
 
         container.register(type: SplashViewModel.self) { r in
             SplashViewModel(
-                repo: r.get()
+                meRepository: r.get(),
+                metricRepository: r.get()
             )
         }
 
