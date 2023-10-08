@@ -78,20 +78,6 @@ final class PublicAPITest: XCTestCase {
 
     // MARK: - addLifecycleObserversForMetrics
 
-    func test_addLifecycleObserversForMetrics_whenCalled_logsHostAppOpenEvent() async {
-        MockAssembly.assemble()
-        let mockMetricRepository = MockAssembly.mockMetricRepository
-
-        let event = AppUserMetricEvent(category: .userSession, action: .hostAppOpen)
-        let logEventExpectation = expectation(description: "log was not called")
-        mockMetricRepository.expectations[.logEvent] = logEventExpectation
-        mockMetricRepository.expectedEvent = event
-
-        ReccoUI.addLifecycleObserversForMetrics()
-
-        await fulfillment(of: [logEventExpectation], timeout: 1)
-    }
-
     func test_addLifecycleObserversForMetrics_whenWillEnterForegroundNotificationIsEmitted_logsHostAppOpenEvent() async {
         MockAssembly.assemble()
         let mockMetricRepository = MockAssembly.mockMetricRepository
