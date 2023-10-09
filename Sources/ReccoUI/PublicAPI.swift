@@ -102,7 +102,7 @@ internal func addLifecycleObserversForMetrics() {
 
     // Emit when the host app enters foreground, it will emit once when the sdk is initialized during the start up of the app
     NotificationCenter.default
-        .publisher(for: UIApplication.willEnterForegroundNotification)
+        .publisher(for: UIApplication.didBecomeActiveNotification)
         .sink { _ in
             metricRepository.log(event: AppUserMetricEvent(category: .userSession, action: .hostAppOpen))
         }
