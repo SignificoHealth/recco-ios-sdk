@@ -6,6 +6,8 @@ name: Swift
 on:
   pull_request:
     branches: [ "main" ]
+  pull_request_review_comment:
+    types: [created]
 
 env:
   TEST_SCHEME: ReccoUITests
@@ -17,6 +19,8 @@ jobs:
   test:
     name: Run iOS tests
     runs-on: macos-13
+    # If its triggered on master or if its a pull request comment equal to "[TEST]"
+    if: github.ref_name == 'main' || github.event.issue.pull_request && github.event.comment.body == '[TEST]'
     steps:
     - uses: actions/checkout@v3
     - name: Select Xcode
