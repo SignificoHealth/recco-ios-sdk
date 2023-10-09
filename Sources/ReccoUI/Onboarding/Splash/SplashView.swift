@@ -4,8 +4,6 @@ import SwiftUI
 struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
 
-    @Environment(\.scenePhase) private var scenePhase
-
     init(viewModel: SplashViewModel) {
         self._viewModel = .init(wrappedValue: viewModel)
     }
@@ -52,10 +50,8 @@ struct SplashView: View {
                 viewModel.onReccoSDKOpen()
             })
             // Every time the app comes from the background
-            .onChange(of: scenePhase) { phase in
-                if phase == .active {
-                    viewModel.onReccoSDKOpen()
-                }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                viewModel.onReccoSDKOpen()
             }
     }
 }
