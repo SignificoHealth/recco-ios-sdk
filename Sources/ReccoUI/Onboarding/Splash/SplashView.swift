@@ -37,6 +37,7 @@ struct SplashView: View {
             .transition(.opacity)
             .ignoresSafeArea()
             .onReceive(viewModel.$user) { newUser in
+                CurrentReccoStyle = ReccoStyle.spring
                 if _user == nil {
                     _user = newUser
                 } else {
