@@ -8,6 +8,7 @@ on:
     branches: [ "main" ]
   pull_request_review_comment:
     types: [created]
+  workflow_dispatch:
 
 env:
   TEST_SCHEME: ReccoUITests
