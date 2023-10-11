@@ -26,7 +26,7 @@ internal class MetricAPI {
     /**
      Log event.
      - POST /api/v1/me/metric
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter appUserMetricEventDTO: (body)  

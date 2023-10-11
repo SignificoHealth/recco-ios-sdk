@@ -26,7 +26,7 @@ internal class RecommendationAPI {
     /**
      A list of content filtered by topic.
      - GET /api/v1/me/recommendations/explore/topics/{topic}
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter topic: (path)  
@@ -68,7 +68,7 @@ internal class RecommendationAPI {
     /**
      Get article.
      - GET /api/v1/me/recommendations/articles
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter itemId: (query)  
@@ -110,7 +110,7 @@ internal class RecommendationAPI {
     /**
      A list of bookmarked recommendations.
      - GET /api/v1/me/recommendations/bookmarked
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
@@ -146,7 +146,7 @@ internal class RecommendationAPI {
     /**
      A list of most popular content.
      - GET /api/v1/me/recommendations/most_popular
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
@@ -182,7 +182,7 @@ internal class RecommendationAPI {
     /**
      A list of newest content.
      - GET /api/v1/me/recommendations/newest
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
@@ -218,7 +218,7 @@ internal class RecommendationAPI {
     /**
      A list of starting recommendations.
      - GET /api/v1/me/recommendations/starting
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
@@ -255,7 +255,7 @@ internal class RecommendationAPI {
     /**
      A list of tailored recommendations filtered by topic.
      - GET /api/v1/me/recommendations/tailored/topics/{topic}
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter topic: (path)  
@@ -295,7 +295,7 @@ internal class RecommendationAPI {
     /**
      A list of recommendations which are improved by the preferences.
      - GET /api/v1/me/recommendations/preferred
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
@@ -332,7 +332,7 @@ internal class RecommendationAPI {
     /**
      Set recommendation bookmark state.
      - PUT /api/v1/me/recommendations/bookmark
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter updateBookmarkDTO: (body)  
@@ -370,7 +370,7 @@ internal class RecommendationAPI {
     /**
      Set recommendation rating.
      - PUT /api/v1/me/recommendations/rating
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter updateRatingDTO: (body)  
