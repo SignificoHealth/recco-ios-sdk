@@ -20,8 +20,8 @@ jobs:
   test:
     name: Run iOS tests
     runs-on: macos-13
-    # If its triggered on master or if a comment's body in a pull request equal to "[TEST]"
-    if: ${{ github.base_ref == 'main' || (github.event_name == 'issue_comment' && github.event.issue.pull_request) }}
+    # If its triggered on master or if a comment's body in a pull request equal to "/test"
+    if: ${{ github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '/test') }}
     steps:
     - name: Add comment to PR
       uses: actions/github-script@v6
