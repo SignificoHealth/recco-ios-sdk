@@ -20,8 +20,8 @@ jobs:
   test:
     name: Run iOS tests
     runs-on: macos-13
-    # If its triggered on master or if its a pull request comment equal to "[TEST]"
-    if: ${{ github.base_ref == 'main' || github.event.issue.pull_request && github.event.comment.body == '[TEST]' }}
+    # If its triggered on master or if a comment's body in a pull request equal to "[TEST]"
+    if: ${{ github.base_ref == 'main' || github.event.issue.pull_request }}
     steps:
     - uses: actions/checkout@v3
     - name: Select Xcode
