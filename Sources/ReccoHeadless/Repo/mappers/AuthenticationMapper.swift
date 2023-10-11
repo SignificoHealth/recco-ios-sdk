@@ -11,7 +11,8 @@ extension AppUser {
     init(dto: AppUserDTO) {
         self.init(
             id: dto.id,
-            isOnboardingQuestionnaireCompleted: dto.isOnboardingQuestionnaireCompleted
+            isOnboardingQuestionnaireCompleted: dto.isOnboardingQuestionnaireCompleted,
+            appStyle: dto.appStyle.map { AppStyle(dto: $0) }
         )
     }
 }
