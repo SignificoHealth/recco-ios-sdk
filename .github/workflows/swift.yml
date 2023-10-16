@@ -44,7 +44,7 @@ jobs:
           await github.rest.repos.createCommitStatus({
             context.repo.owner,
             context.repo.repo,
-            ${{ github.event.issue.pull_request.head.sha }},
+            context.sha,
             'pending'
           });
     # - uses: actions/checkout@v3
@@ -80,6 +80,6 @@ jobs:
           await github.rest.repos.createCommitStatus({
             context.repo.owner,
             context.repo.repo,
-            ${{ github.event.issue.pull_request.head.sha }},
+            ${{ github.event.sha }},
             'success'
           });
