@@ -37,10 +37,6 @@ struct SplashView: View {
             .transition(.opacity)
             .ignoresSafeArea()
             .onReceive(viewModel.$user) { newUser in
-                if let backOfficeStyle = newUser?.appStyle {
-                    CurrentReccoStyle = ReccoStyle(from: backOfficeStyle)
-                }
-                
                 if _user == nil {
                     _user = newUser
                 } else {

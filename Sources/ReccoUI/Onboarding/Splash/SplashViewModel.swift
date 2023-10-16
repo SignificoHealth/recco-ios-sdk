@@ -7,7 +7,12 @@ final class SplashViewModel: ObservableObject {
     private let meRepository: MeRepository
     private let metricRepository: MetricRepository
 
-    @Published var user: AppUser?
+    @Published var user: AppUser? {
+        didSet {
+            maybeChangeToBackOfficeStyle()
+        }
+    }
+    
 
     init(
         meRepository: MeRepository,
@@ -26,9 +31,18 @@ final class SplashViewModel: ObservableObject {
     // MARK: Private
 
     private func bind() {
-        meRepository
+        cancellable = meRepository
             .currentUser
             .receive(on: DispatchQueue.main)
-            .assign(to: &$user)
+            .sink { [weak self] newUser in
+                self?.user = newUser
+                self?.maybeChangeToBackOfficeStyle()
+            }
+    }
+    
+    private func maybeChangeToBackOfficeStyle() {
+        if let backOfficeStyle = user?.appStyle {
+            CurrentReccoStyle = ReccoStyle(from: backOfficeStyle)
+        }
     }
 }
