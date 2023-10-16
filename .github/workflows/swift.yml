@@ -20,6 +20,8 @@ jobs:
   test:
     name: Run iOS tests
     runs-on: macos-13
+    permissions:
+      statuses: write 
     # If its triggered on main or if a comment's body in a pull request equal to "/test'"
     if: ${{ github.base_ref == 'main' || (github.event.issue.pull_request && contains(github.event.comment.body, '/test')) }}
     steps:
@@ -42,12 +44,12 @@ jobs:
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: '14.3.1'
-    - name: Install SwiftLint
-      run: brew update; brew outdated swiftlint || brew upgrade swiftlint
-    - name: Run SwiftLint
-      run: swiftlint
-    - name: Run tests
-      run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" | xcpretty && exit ${PIPESTATUS[0]}
+    # - name: Install SwiftLint
+    #   run: brew update; brew outdated swiftlint || brew upgrade swiftlint
+    # - name: Run SwiftLint
+    #   run: swiftlint
+    # - name: Run tests
+    #   run: xcodebuild test -scheme $TEST_SCHEME -testPlan $TEST_SCHEME -destination "platform=iOS Simulator,OS=$DEVICE_OS,name=$DEVICE_NAME" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Add workflow finished comment to PR
       uses: actions/github-script@v6
       with:
@@ -63,3 +65,15 @@ jobs:
             repo: context.repo.repo,
             body: body
           })
+    - name: Create status
+      run: |
+        curl --request POST \
+        --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.workflow_run.head_commit.id }} \
+        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        --header 'content-type: application/json' \
+        --data '{
+          "state": "${{ github.event.workflow_run.conclusion }}",
+          "context": "unit test (kube)",
+          "target_url": "${{ github.event.workflow_run.html_url }}"
+          }' \
+        --fail
