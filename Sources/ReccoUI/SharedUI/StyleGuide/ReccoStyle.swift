@@ -83,6 +83,33 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
             self.illustration = illustration
             self.illustrationLine = illustrationLine
         }
+        
+        public init(lightColors: AppColors, darkColors: AppColors) {
+            self.primary = .init(
+                lightModeHex: lightColors.primary, darkModeHex: darkColors.primary
+            )
+            self.onPrimary = .init(
+                lightModeHex: lightColors.onPrimary, darkModeHex: darkColors.onPrimary
+            )
+            self.background = .init(
+                lightModeHex: lightColors.background, darkModeHex: darkColors.background
+            )
+            self.onBackground = .init(
+                lightModeHex: lightColors.onBackground, darkModeHex: darkColors.onBackground
+            )
+            self.accent = .init(
+                lightModeHex: lightColors.accent, darkModeHex: darkColors.accent
+            )
+            self.onAccent = .init(
+                lightModeHex: lightColors.onAccent, darkModeHex: darkColors.onAccent
+            )
+            self.illustration = .init(
+                lightModeHex: lightColors.illustration, darkModeHex: darkColors.illustration
+            )
+            self.illustrationLine = .init(
+                lightModeHex: lightColors.illustrationOutline, darkModeHex: darkColors.illustrationOutline
+            )
+        }
 
         public var primary: ReccoHexColor
         public var onPrimary: ReccoHexColor
@@ -102,6 +129,12 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
         self.font = font
         self.name = name
         self.color = color
+    }
+    
+    public init(from appStyle: AppStyle) {
+        self.font = ReccoFont.init
+        self.name = ""
+        self.color = Color(lightColors: appStyle.lightColors, darkColors: appStyle.darkColors)
     }
 
     public let name: String

@@ -22,9 +22,9 @@ extension AppColors {
         self.init(
             primary: dto.primary,
             onPrimary: dto.onPrimary,
-            background: dto.onBackground, 
+            background: dto.background,
             onBackground: dto.onBackground,
-            accent: dto.accent, 
+            accent: dto.accent,
             onAccent: dto.onAccent,
             illustration: dto.illustration,
             illustrationOutline: dto.illustrationOutline
