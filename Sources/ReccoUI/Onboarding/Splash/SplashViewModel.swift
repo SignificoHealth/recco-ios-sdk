@@ -9,7 +9,6 @@ final class SplashViewModel: ObservableObject {
 
     @Published var user: AppUser?
     
-
     init(
         meRepository: MeRepository,
         metricRepository: MetricRepository
