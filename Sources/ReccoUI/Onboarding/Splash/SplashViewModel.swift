@@ -7,11 +7,7 @@ final class SplashViewModel: ObservableObject {
     private let meRepository: MeRepository
     private let metricRepository: MetricRepository
 
-    @Published var user: AppUser? {
-        didSet {
-            maybeChangeToBackOfficeStyle()
-        }
-    }
+    @Published var user: AppUser?
     
 
     init(
