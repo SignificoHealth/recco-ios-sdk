@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ReccoFont: String, CaseIterable, Equatable, Hashable, Codable {
+public enum AppFont: String, CaseIterable, Equatable, Hashable, Codable {
     case sfPro = "SF Pro"
     case helveticaNeue = "Helvetica Neue"
     case avenirNext = "Avenir Next"

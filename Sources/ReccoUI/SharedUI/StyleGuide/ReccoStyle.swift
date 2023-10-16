@@ -11,7 +11,7 @@ import ReccoHeadless
 
 var CurrentReccoStyle = ReccoStyle.fresh
 
-extension ReccoFont {
+extension AppFont {
     public func uiFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
         let sfPro = UIFont.systemFont(ofSize: size, weight: weight)
 
@@ -116,7 +116,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
 
     public init(
         name: String,
-        font: ReccoFont = .sfPro,
+        font: AppFont = .sfPro,
         color: ReccoStyle.Color
     ) {
         self.font = font
@@ -131,7 +131,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
     }
 
     public let name: String
-    public var font: ReccoFont
+    public var font: AppFont
     public var color: ReccoStyle.Color
 }
 

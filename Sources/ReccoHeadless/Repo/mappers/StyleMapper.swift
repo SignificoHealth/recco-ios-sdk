@@ -12,7 +12,7 @@ extension AppStyle {
         self.init(
             darkColors: AppColors(dto: dto.darkColors),
             lightColors: AppColors(dto: dto.lightColors),
-            iosFont: ReccoFont(dto: dto.iosFont.rawValue)
+            iosFont: AppFont(dto: dto.iosFont.rawValue)
         )
     }
 }
@@ -32,7 +32,7 @@ extension AppColors {
     }
 }
 
-extension ReccoFont {
+extension AppFont {
     init(dto: String) {
         switch dto {
         case "sf_pro":
