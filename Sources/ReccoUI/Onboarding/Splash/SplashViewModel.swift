@@ -29,9 +29,9 @@ final class SplashViewModel: ObservableObject {
         cancellable = meRepository
             .currentUser
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] newUser in
-                self?.user = newUser
-                self?.maybeChangeToBackOfficeStyle()
+            .sink { [unowned self] newUser in
+                self.user = newUser
+                self.maybeChangeToBackOfficeStyle()
             }
     }
     
