@@ -7,16 +7,9 @@
 
 import Foundation
 import UIKit
+import ReccoHeadless
 
 var CurrentReccoStyle = ReccoStyle.fresh
-
-public enum ReccoFont: String, CaseIterable, Equatable, Hashable, Codable {
-    case sfPro = "SF Pro"
-    case helveticaNeue = "Helvetica Neue"
-    case avenirNext = "Avenir Next"
-    case appleSdGothicNeo = "Apple SD Gothic Neo"
-    case georgia = "Georgia"
-}
 
 extension ReccoFont {
     public func uiFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
@@ -132,7 +125,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
     }
     
     public init(from appStyle: AppStyle) {
-        self.font = ReccoFont.init
+        self.font = appStyle.iosFont
         self.name = ""
         self.color = Color(lightColors: appStyle.lightColors, darkColors: appStyle.darkColors)
     }

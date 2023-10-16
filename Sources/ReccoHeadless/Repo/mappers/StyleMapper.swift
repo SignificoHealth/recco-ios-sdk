@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Saúl on 11/10/23.
 //
@@ -12,7 +12,7 @@ extension AppStyle {
         self.init(
             darkColors: AppColors(dto: dto.darkColors),
             lightColors: AppColors(dto: dto.lightColors),
-            iosFont: dto.iosFont.rawValue
+            iosFont: ReccoFont(dto: dto.iosFont.rawValue)
         )
     }
 }
@@ -31,3 +31,23 @@ extension AppColors {
         )
     }
 }
+
+extension ReccoFont {
+    init(dto: String) {
+        switch dto {
+        case "sf_pro":
+            self = .sfPro
+        case "helvetica_neue":
+            self = .helveticaNeue
+        case "avenir_next":
+            self = .avenirNext
+        case "apple_sd_gothic_neo":
+            self = .appleSdGothicNeo
+        case "georgia":
+            self = .georgia
+        default:
+            self = .sfPro
+        }
+    }
+}
+
