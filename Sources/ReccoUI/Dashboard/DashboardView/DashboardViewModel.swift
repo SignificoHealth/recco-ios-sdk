@@ -146,10 +146,8 @@ final class DashboardViewModel: ObservableObject {
 
     private func markContentAsSeen(id: ContentId) {
         for section in sections {
-            for (item, idx) in zip(items[section.section.type, default: []], items[section.section.type, default: []].indices) where item.status != .viewed {
-                if item.id == id {
+            for (item, idx) in zip(items[section.section.type, default: []], items[section.section.type, default: []].indices) where item.status != .viewed && item.id == id {
                     items[section.section.type]?[idx].status = .viewed
-                }
             }
         }
     }
