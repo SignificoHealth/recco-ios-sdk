@@ -25,7 +25,7 @@ internal class AppUserAPI {
     /**
      Return app user.
      - GET /api/v1/me
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<AppUserDTO> 

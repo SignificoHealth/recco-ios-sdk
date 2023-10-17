@@ -27,7 +27,7 @@ internal class AuthenticationAPI {
     /**
      Authenticate an app user supplying an app PAT and the associated user client id.         If the user client id does not exist in the app, a new user will be registered on the fly.         This endpoint should be used also after the PAT expires to retrieve a new one.         
      - POST /api/v1/app_users/login
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter authorization: (header)  
@@ -69,7 +69,7 @@ internal class AuthenticationAPI {
     /**
      Logout an app user supplying PAT's id and the associated user client id.
      - POST /api/v1/app_users/logout
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter authorization: (header)  
@@ -92,6 +92,85 @@ internal class AuthenticationAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Create a PAT, with a lifespan of 15 days, for the clientUserId associated with the transient token.
+     
+     - parameter authorization: (header)  
+     - returns: PATDTO
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    internal class func tokens(authorization: String) async throws -> PATDTO {
+        return try await tokensWithRequestBuilder(authorization: authorization).execute().body
+    }
+
+    /**
+     Create a PAT, with a lifespan of 15 days, for the clientUserId associated with the transient token.
+     - POST /api/v1/app_users/tokens
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter authorization: (header)  
+     - returns: RequestBuilder<PATDTO> 
+     */
+    internal class func tokensWithRequestBuilder(authorization: String) -> RequestBuilder<PATDTO> {
+        let localVariablePath = "/api/v1/app_users/tokens"
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Authorization": authorization.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PATDTO>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Create a one-time PAT for the app, with a 1-minute lifespan and scoped to the supplied clientUserId.
+     
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
+     - returns: PATDTO
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    internal class func transientTokens(authorization: String, clientUserId: String) async throws -> PATDTO {
+        return try await transientTokensWithRequestBuilder(authorization: authorization, clientUserId: clientUserId).execute().body
+    }
+
+    /**
+     Create a one-time PAT for the app, with a 1-minute lifespan and scoped to the supplied clientUserId.
+     - POST /api/v1/app_users/transient_tokens
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
+     - returns: RequestBuilder<PATDTO> 
+     */
+    internal class func transientTokensWithRequestBuilder(authorization: String, clientUserId: String) -> RequestBuilder<PATDTO> {
+        let localVariablePath = "/api/v1/app_users/transient_tokens"
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Authorization": authorization.encodeToJSON(),
+            "Client-User-Id": clientUserId.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PATDTO>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
