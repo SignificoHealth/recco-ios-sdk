@@ -7,6 +7,7 @@ struct FeedItemView: View {
     var body: some View {
         ReccoURLImageView(
             url: item.imageUrl,
+            alt: item.imageAlt,
             downSampleSize: .size(CGFloat.cardSize)
         ) {
             Color.reccoPrimary20.overlay(
