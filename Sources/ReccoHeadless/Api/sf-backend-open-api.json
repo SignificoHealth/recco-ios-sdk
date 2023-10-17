@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "https://recco-api.significo.dev",
       "description": "Generated server url"
     }
   ],
@@ -55,6 +55,9 @@
           "required": true
         },
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -64,14 +67,13 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -94,6 +96,9 @@
           "required": true
         },
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -103,14 +108,13 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -136,6 +140,9 @@
           "required": true
         },
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -145,14 +152,13 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -178,6 +184,9 @@
           "required": true
         },
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -187,14 +196,13 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -217,6 +225,9 @@
           "required": true
         },
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -226,14 +237,117 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/app_users/transient_tokens": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Create a one-time PAT for the app, with a 1-minute lifespan and scoped to the supplied clientUserId.",
+        "operationId": "transientTokens",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Client-User-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAT"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/app_users/tokens": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Create a PAT, with a lifespan of 15 days, for the clientUserId associated with the transient token.",
+        "operationId": "tokens",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAT"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -274,6 +388,9 @@
           "required": true
         },
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -283,14 +400,13 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -321,16 +437,6 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -340,11 +446,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -357,16 +475,6 @@
         "summary": "Return app user.",
         "operationId": "get",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -376,11 +484,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -403,16 +523,6 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -425,11 +535,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -442,16 +564,6 @@
         "summary": "A list of starting recommendations.",
         "operationId": "getStartingRecommendations",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -464,11 +576,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -481,16 +605,6 @@
         "summary": "A list of recommendations which are improved by the preferences.",
         "operationId": "getUserPreferredRecommendations",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -503,11 +617,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -520,16 +646,6 @@
         "summary": "A list of newest content.",
         "operationId": "getNewestContent",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -542,11 +658,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -559,16 +687,6 @@
         "summary": "A list of most popular content.",
         "operationId": "getMostPopularContent",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -581,11 +699,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -608,16 +738,6 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -630,11 +750,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -647,16 +779,6 @@
         "summary": "A list of bookmarked recommendations.",
         "operationId": "getBookmarkedRecommendations",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -669,11 +791,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -704,16 +838,6 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -723,11 +847,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -750,16 +886,6 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -772,11 +898,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -789,16 +927,6 @@
         "summary": "Return the onboarding questionnaire.",
         "operationId": "onboarding",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -811,11 +939,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -828,16 +968,6 @@
         "summary": "Get feed sections.",
         "operationId": "getFeed",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -850,11 +980,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         },
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              
+            ]
           }
         ]
       }
@@ -926,7 +1068,8 @@
               "unauthorized",
               "app_disabled",
               "bad_request",
-              "conflict"
+              "conflict",
+              "transient_token_already_consumed"
             ]
           },
           "message": {
@@ -998,7 +1141,9 @@
         "enum": [
           "login",
           "duration",
-          "view"
+          "view",
+          "host_app_open",
+          "recco_sdk_open"
         ]
       },
       "AppUserMetricCategory": {
@@ -1023,18 +1168,6 @@
           },
           "value": {
             "type": "string"
-          }
-        }
-      },
-      "PATReferenceDelete": {
-        "required": [
-          "tokenId"
-        ],
-        "type": "object",
-        "properties": {
-          "tokenId": {
-            "type": "string",
-            "description": "PAT's id"
           }
         }
       },
@@ -1063,6 +1196,29 @@
           }
         }
       },
+      "PATReferenceDelete": {
+        "required": [
+          "tokenId"
+        ],
+        "type": "object",
+        "properties": {
+          "tokenId": {
+            "type": "string",
+            "description": "PAT's id"
+          }
+        }
+      },
+      "AndroidFont": {
+        "type": "string",
+        "enum": [
+          "poppins",
+          "roboto",
+          "montserrat",
+          "work_sans",
+          "nunito_sans",
+          "bitter"
+        ]
+      },
       "AppUser": {
         "required": [
           "clientUserId",
@@ -1079,6 +1235,83 @@
           },
           "isOnboardingQuestionnaireCompleted": {
             "type": "boolean"
+          },
+          "appStyle": {
+            "$ref": "#/components/schemas/Style"
+          }
+        }
+      },
+      "Colors": {
+        "title": "Colors",
+        "required": [
+          "accent",
+          "background",
+          "illustration",
+          "illustrationOutline",
+          "onAccent",
+          "onBackground",
+          "onPrimary",
+          "primary"
+        ],
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string"
+          },
+          "onPrimary": {
+            "type": "string"
+          },
+          "background": {
+            "type": "string"
+          },
+          "onBackground": {
+            "type": "string"
+          },
+          "accent": {
+            "type": "string"
+          },
+          "onAccent": {
+            "type": "string"
+          },
+          "illustration": {
+            "type": "string"
+          },
+          "illustrationOutline": {
+            "type": "string"
+          }
+        },
+        "description": "\n    CSS Hex Codes\n    The AA value (alpha) in #RRGGBBAA can range from the lowest value possible (00) to the highest value possible (FF)\n"
+      },
+      "IOSFont": {
+        "type": "string",
+        "enum": [
+          "sf_pro",
+          "helvetica_neue",
+          "avenir_next",
+          "apple_sd_gothic_neo",
+          "georgia"
+        ]
+      },
+      "Style": {
+        "required": [
+          "androidFont",
+          "darkColors",
+          "iosFont",
+          "lightColors"
+        ],
+        "type": "object",
+        "properties": {
+          "darkColors": {
+            "$ref": "#/components/schemas/Colors"
+          },
+          "lightColors": {
+            "$ref": "#/components/schemas/Colors"
+          },
+          "iosFont": {
+            "$ref": "#/components/schemas/IOSFont"
+          },
+          "androidFont": {
+            "$ref": "#/components/schemas/AndroidFont"
           }
         }
       },
@@ -1125,6 +1358,9 @@
           },
           "imageUrl": {
             "type": "string"
+          },
+          "imageAlt": {
+            "type": "string"
           }
         }
       },
@@ -1164,6 +1400,9 @@
             "type": "string"
           },
           "imageUrl": {
+            "type": "string"
+          },
+          "imageAlt": {
             "type": "string"
           },
           "articleBodyHtml": {
@@ -1334,7 +1573,9 @@
           "authorizationCode": {
             "authorizationUrl": "to_be_defined",
             "tokenUrl": "to_be_defined",
-            "scopes": {}
+            "scopes": {
+              
+            }
           }
         }
       },

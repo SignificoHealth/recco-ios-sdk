@@ -20,8 +20,9 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
     internal var headline: String
     internal var lead: String?
     internal var imageUrl: String?
+    internal var imageAlt: String?
 
-    internal init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil) {
+    internal init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, imageAlt: String? = nil) {
         self.id = id
         self.type = type
         self.rating = rating
@@ -30,6 +31,7 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         self.headline = headline
         self.lead = lead
         self.imageUrl = imageUrl
+        self.imageAlt = imageAlt
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
@@ -41,6 +43,7 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         case headline
         case lead
         case imageUrl
+        case imageAlt
     }
 
     // Encodable protocol methods
@@ -55,6 +58,7 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(lead, forKey: .lead)
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
+        try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
     }
 }
 
