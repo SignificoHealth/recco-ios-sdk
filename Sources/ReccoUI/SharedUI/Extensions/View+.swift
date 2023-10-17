@@ -4,7 +4,7 @@ extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
-    
+
     func addCloseSDKToNavbar(_ dismissAction: @escaping () -> Void) -> some View {
         toolbar {
             ToolbarItem {
@@ -17,13 +17,12 @@ extension View {
                 }
             }
         }
-
     }
-    
+
     func addBlackOpacityOverlay() -> some View {
         ZStack {
             self
-            
+
             LinearGradient(
                 colors: [.black.opacity(0.6), .clear, .clear], startPoint: .top, endPoint: .bottom
             )
@@ -40,4 +39,3 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-

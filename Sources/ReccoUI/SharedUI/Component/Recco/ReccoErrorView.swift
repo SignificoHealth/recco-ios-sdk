@@ -57,7 +57,7 @@ struct ReccoErrorView: View {
                     Text(sfError.title)
                         .h4()
                         .fixedSize(horizontal: false, vertical: true)
-                    
+
                     Text(sfError.description)
                         .body1()
                         .multilineTextAlignment(.center)

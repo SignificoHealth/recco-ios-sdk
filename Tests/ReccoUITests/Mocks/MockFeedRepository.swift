@@ -1,8 +1,7 @@
-import XCTest
 @testable import ReccoHeadless
+import XCTest
 
 final class MockFeedRepository: FeedRepository {
-
     enum ExpectationType {
         case getFeed
     }

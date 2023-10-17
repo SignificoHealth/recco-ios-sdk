@@ -1,13 +1,13 @@
 //
-//  File.swift
-//  
+//  HTMLTextView.swift
+//
 //
 //  Created by Adrián R on 8/6/23.
 //
 
 import Foundation
-import UIKit
 import SwiftUI
+import UIKit
 
 extension String {
     fileprivate func htmlText(
@@ -18,7 +18,7 @@ extension String {
         DispatchQueue.global().async {
             guard let attString = try? NSMutableAttributedString(
                 data: self.data(using: .unicode, allowLossyConversion: true)!,
-                options: [.documentType : NSAttributedString.DocumentType.html],
+                options: [.documentType: NSAttributedString.DocumentType.html],
                 documentAttributes: nil
             ) else { completion(NSMutableAttributedString(string: self)); return }
 
@@ -26,7 +26,7 @@ extension String {
                 .font,
                 in: .init(location: 0, length: attString.length),
                 options: []
-            ) { font, range, bool in
+            ) { font, range, _ in
                 if let oldFont = font as? UIFont,
                    let descriptor = reference.fontDescriptor.withSymbolicTraits(oldFont.fontDescriptor.symbolicTraits) {
                     let newFont = UIFont(descriptor: descriptor, size: max(15, oldFont.pointSize))
@@ -35,7 +35,7 @@ extension String {
                     attString.addAttribute(.foregroundColor, value: color, range: range)
                 }
             }
-            
+
             DispatchQueue.main.async {
                 completion(attString)
             }
@@ -47,8 +47,8 @@ struct HTMLTextView: View {
     @Environment(\.layoutDirection) private var layoutDirection
     private var htmlText: String
     @State private var calculatedHeight: CGFloat = 44
-    @State private var isEmpty: Bool = false
-    
+    @State private var isEmpty = false
+
     private var placeholderFont: SwiftUI.Font = .body
     private var placeholderAlignment: TextAlignment = .leading
     private var foregroundColor: UIColor = .label
@@ -56,22 +56,22 @@ struct HTMLTextView: View {
     private var multilineTextAlignment: NSTextAlignment = .left
     private var font: UIFont = .preferredFont(forTextStyle: .body)
     private var returnKeyType: UIReturnKeyType?
-    private var clearsOnInsertion: Bool = false
+    private var clearsOnInsertion = false
     private var autocorrection: UITextAutocorrectionType = .default
     private var truncationMode: NSLineBreakMode = .byTruncatingTail
-    private var isSecure: Bool = false
-    private var isEditable: Bool = true
-    private var isSelectable: Bool = true
+    private var isSecure = false
+    private var isEditable = true
+    private var isSelectable = true
     private var enablesReturnKeyAutomatically: Bool?
     private var autoDetectionTypes: UIDataDetectorTypes = []
     private var didInteractWithUrl: ((URL) -> Void)?
-    
+
     init(text: String, didInteractWithUrl: ((URL) -> Void)? = nil) {
         self.didInteractWithUrl = didInteractWithUrl
         htmlText = text
         _isEmpty = State(initialValue: self.htmlText.isEmpty)
     }
-    
+
     var body: some View {
         GeometryReader { proxy in
             SwiftUITextView(
@@ -105,19 +105,19 @@ extension HTMLTextView {
         view.autoDetectionTypes = types
         return view
     }
-    
+
     func foregroundColor(_ color: UIColor) -> HTMLTextView {
         var view = self
         view.foregroundColor = color
         return view
     }
-    
+
     func autocapitalization(_ style: UITextAutocapitalizationType) -> HTMLTextView {
         var view = self
         view.autocapitalization = style
         return view
     }
-    
+
     func multilineTextAlignment(_ alignment: TextAlignment) -> HTMLTextView {
         var view = self
         view.placeholderAlignment = alignment
@@ -131,19 +131,19 @@ extension HTMLTextView {
         }
         return view
     }
-    
+
     func font(_ font: UIFont) -> HTMLTextView {
         var view = self
         view.font = font
         return view
     }
-    
+
     func clearOnInsertion(_ value: Bool) -> HTMLTextView {
         var view = self
         view.clearsOnInsertion = value
         return view
     }
-    
+
     func disableAutocorrection(_ disable: Bool?) -> HTMLTextView {
         var view = self
         if let disable = disable {
@@ -153,43 +153,45 @@ extension HTMLTextView {
         }
         return view
     }
-    
+
     func isEditable(_ isEditable: Bool) -> HTMLTextView {
         var view = self
         view.isEditable = isEditable
         return view
     }
-    
+
     func isSelectable(_ isSelectable: Bool) -> HTMLTextView {
         var view = self
         view.isSelectable = isSelectable
         return view
     }
-    
+
     func returnKey(_ style: UIReturnKeyType?) -> HTMLTextView {
         var view = self
         view.returnKeyType = style
         return view
     }
-    
+
     func automaticallyEnablesReturn(_ value: Bool?) -> HTMLTextView {
         var view = self
         view.enablesReturnKeyAutomatically = value
         return view
     }
-    
+
     func truncationMode(_ mode: Text.TruncationMode) -> HTMLTextView {
         var view = self
         switch mode {
-        case .head: view.truncationMode = .byTruncatingHead
-        case .tail: view.truncationMode = .byTruncatingTail
-        case .middle: view.truncationMode = .byTruncatingMiddle
+        case .head:
+            view.truncationMode = .byTruncatingHead
+        case .tail:
+            view.truncationMode = .byTruncatingTail
+        case .middle:
+            view.truncationMode = .byTruncatingMiddle
         @unknown default:
             fatalError("Unknown text truncation mode")
         }
         return view
     }
-    
 }
 
 private struct SwiftUITextView: UIViewRepresentable {
@@ -248,7 +250,7 @@ private struct SwiftUITextView: UIViewRepresentable {
         self._height = height
         self.width = width
     }
-    
+
     func makeUIView(context: Context) -> UIKitTextView {
         let view = UIKitTextView()
         view.delegate = view
@@ -269,43 +271,42 @@ private struct SwiftUITextView: UIViewRepresentable {
         view.tintColor = .reccoPrimary
         view.dataDetectorTypes = autoDetectionTypes
         view.didInteractWithUrl = didInteractWithUrl
-        
+
         return view
     }
-    
+
     func updateUIView(_ view: UIKitTextView, context: Context) {
         text.htmlText { string in
             view.attributedText = string
-            
+
             SwiftUITextView.recalculateHeight(view: view, result: $height, maxWidth: width)
         }
     }
-    
+
     fileprivate static func recalculateHeight(view: UIView, result: Binding<CGFloat>, maxWidth: CGFloat) {
         let newSize = view.sizeThatFits(CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
-        
+
         guard result.wrappedValue != newSize.height else { return }
-        
+
         DispatchQueue.main.async { // call in next render cycle.
             result.wrappedValue = newSize.height
         }
     }
-    
 }
 
 private final class UIKitTextView: UITextView, UITextViewDelegate {
     var didInteractWithUrl: ((URL) -> Void)?
-    
+
     override var keyCommands: [UIKeyCommand]? {
-        return (super.keyCommands ?? []) + [
-            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escape(_:)))
+        (super.keyCommands ?? []) + [
+            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escape(_:))),
         ]
     }
-    
+
     @objc private func escape(_ sender: Any) {
         resignFirstResponder()
     }
-    
+
     func textView(
         _ textView: UITextView,
         shouldInteractWith URL: URL,

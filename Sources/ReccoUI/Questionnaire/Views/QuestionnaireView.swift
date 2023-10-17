@@ -1,10 +1,10 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct QuestionnaireView: View {
     @StateObject var viewModel: QuestionnaireViewModel
     var navTitle: String
-    
+
     init(
         viewModel: QuestionnaireViewModel,
         navTitle: String
@@ -12,17 +12,17 @@ struct QuestionnaireView: View {
         self.navTitle = navTitle
         self._viewModel = .init(wrappedValue: viewModel)
     }
-    
+
     var body: some View {
         ReccoLoadingUnwrappingView(
             viewModel.questions,
             error: $viewModel.initialLoadError,
             retry: { await viewModel.getQuestionnaire() }
-        ) { questions in
+        ) { _ in
             VStack(spacing: .XXS) {
                 questionnaireProgressView
                     .padding(.horizontal, .M)
-                
+
                 TabView(
                     selection: $viewModel.currentQuestion.animation(.interactiveSpring())
                 ) {
@@ -37,7 +37,7 @@ struct QuestionnaireView: View {
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                
+
                 HStack(spacing: .XXS) {
                     if viewModel.currentIndex != 0 {
                         ReccoButtonView(
@@ -51,7 +51,7 @@ struct QuestionnaireView: View {
                         )
                         .frame(width: 40)
                     }
-                                    
+
                     ReccoButtonView(
                         text: viewModel.isOnLastQuestion ? "recco_finish_button".localized : "recco_continue_button".localized,
                         isLoading: viewModel.sendLoading,
@@ -82,29 +82,28 @@ struct QuestionnaireView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     var questionnaireProgressView: some View {
         if let questions = viewModel.questions,
            let current = viewModel.currentQuestion,
            let currentQuestionNumber = questions.firstIndex(of: current) {
-            VStack(spacing: .S){
+            VStack(spacing: .S) {
                 ProgressView(
                     value: Double(currentQuestionNumber),
                     total: Double(questions.count)
                 )
                 .accentColor(.reccoAccent)
-                
+
                 (
                     Text("\(currentQuestionNumber + 1)")
-                    .foregroundColor(.reccoAccent) +
-                    Text("/\(questions.count)")
+                        .foregroundColor(.reccoAccent) +
+                        Text("/\(questions.count)")
                 ).h4()
             }
         }
     }
 }
-
 
 extension UIApplication {
     fileprivate func endEditing() {

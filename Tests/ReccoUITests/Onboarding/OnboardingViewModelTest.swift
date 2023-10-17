@@ -1,9 +1,8 @@
-import XCTest
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class OnboardingViewModelTest: XCTestCase {
-
     // MARK: - next
 
     func test_next_whenCalledOneTime_incrementsCurrentPage() {

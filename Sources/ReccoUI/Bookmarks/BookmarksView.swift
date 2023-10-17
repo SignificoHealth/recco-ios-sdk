@@ -6,9 +6,9 @@ struct BookmarksView: View {
     private let gridLayout = [
         GridItem(.flexible(), spacing: .XXS, alignment: .top),
         GridItem(.flexible(), spacing: .XXS, alignment: .top),
-        GridItem(.flexible(), spacing: .XXS, alignment: .top)
-        ]
-    
+        GridItem(.flexible(), spacing: .XXS, alignment: .top),
+    ]
+
     var body: some View {
         ReccoLoadingView(viewModel.isLoading) {
             if viewModel.items.isEmpty {
@@ -22,7 +22,7 @@ struct BookmarksView: View {
                             Button {
                                 viewModel.goToDetail(of: item)
                             } label: {
-                                FeedItemView(item: item)
+                                FeedItemView(item: item, fromBookmarks: true)
                             }
                         }
                     }
@@ -47,7 +47,7 @@ struct BookmarksView: View {
             }
         }
     }
-    
+
     var emptyBookmarksView: some View {
         VStack(alignment: .center, spacing: .L) {
             Spacer()
@@ -56,7 +56,7 @@ struct BookmarksView: View {
             ReccoStyleImage(name: "empty", resizable: true)
                 .scaledToFit()
                 .frame(maxHeight: 200)
-            
+
             Spacer()
         }
         .frame(maxWidth: .infinity)

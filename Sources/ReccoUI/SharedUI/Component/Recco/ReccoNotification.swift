@@ -11,7 +11,7 @@ extension View {
                 "recco_error_generic_title".localized,
                 subtitle: "recco_error_generic_body".localized
             )
-            
+
             UIApplication.shared.windows.first?
                 .findOrCreateSharedNotificationView()
                 .show(
@@ -23,10 +23,10 @@ extension View {
                     }
                 )
         }
-        
+
         return self
     }
-    
+
     func reccoNotification(
         data: Binding<ReccoNotificationData?>,
         duration: Int = 2
@@ -43,7 +43,7 @@ extension View {
                     }
                 )
         }
-        
+
         return self
     }
 }
@@ -57,7 +57,7 @@ extension ReccoNotificationStyle {
             return "error_x_mark_ic"
         }
     }
-    
+
     var backgroundColor: UIColor {
         switch self {
         case .error:
@@ -66,7 +66,7 @@ extension ReccoNotificationStyle {
             return .reccoBackground
         }
     }
-    
+
     var foreGroundColor: UIColor {
         switch self {
         case .error:
@@ -91,7 +91,7 @@ final class SFNotificationView: UIView {
     private var panGesture: UIPanGestureRecognizer!
     private var currentCompletion: () -> Void = {}
     private var currentDuration: Int = 3
-    
+
     private lazy var container: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -104,20 +104,20 @@ final class SFNotificationView: UIView {
 
         return container
     }()
-    
+
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
-        
+
         NSLayoutConstraint.activate([
             image.widthAnchor.constraint(equalToConstant: 32),
-            image.heightAnchor.constraint(equalToConstant: 32)
+            image.heightAnchor.constraint(equalToConstant: 32),
         ])
-        
+
         return image
     }()
-    
+
     private lazy var hstack: UIStackView = {
         let stack = UIStackView()
         stack.spacing = .S
@@ -127,7 +127,7 @@ final class SFNotificationView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-    
+
     private lazy var vstack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -137,7 +137,7 @@ final class SFNotificationView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-    
+
     private lazy var titleLb: UILabel = {
         let titleLb = UILabel()
         titleLb.translatesAutoresizingMaskIntoConstraints = false
@@ -148,7 +148,7 @@ final class SFNotificationView: UIView {
         titleLb.setContentCompressionResistancePriority(.required, for: .vertical)
         return titleLb
     }()
-    
+
     private lazy var subtitleLb: UILabel = {
         let subtitleLb = UILabel()
         subtitleLb.translatesAutoresizingMaskIntoConstraints = false
@@ -159,55 +159,55 @@ final class SFNotificationView: UIView {
         subtitleLb.setContentCompressionResistancePriority(.required, for: .vertical)
         return subtitleLb
     }()
-    
+
     fileprivate init(insets: UIEdgeInsets) {
         self.safeArea = insets
-        
+
         super.init(frame: .zero)
-        
+
         isUserInteractionEnabled = false
         translatesAutoresizingMaskIntoConstraints = false
         layer.zPosition = 999
         tag = Self.secretTag
         backgroundColor = .clear
-        
+
         hstack.addArrangedSubview(image)
         hstack.addArrangedSubview(vstack)
         vstack.addArrangedSubview(titleLb)
         vstack.addArrangedSubview(subtitleLb)
-        
+
         container.addSubview(hstack)
         hstack.pinEdges(to: container, margin: .init(top: .S, left: .S, bottom: .S, right: .S))
-        
+
         addSubview(container)
         topConstraint = container.topAnchor.constraint(equalTo: topAnchor, constant: -300)
         topConstraint.isActive = true
-        
+
         NSLayoutConstraint.activate([
             container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -.S),
-            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: .S)
+            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: .S),
         ])
-        
+
         self.panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction))
-        
+
         container.addGestureRecognizer(panGesture)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     fileprivate func addTo(window: UIWindow) {
         window.addSubview(self)
-                
+
         NSLayoutConstraint.activate([
             topAnchor.constraint(equalTo: window.topAnchor, constant: 0),
             leadingAnchor.constraint(equalTo: window.leadingAnchor, constant: 0),
             trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: 0),
-            heightAnchor.constraint(equalTo: container.heightAnchor, constant: .S + self.safeArea.top)
+            heightAnchor.constraint(equalTo: container.heightAnchor, constant: .S + self.safeArea.top),
         ])
     }
-    
+
     fileprivate func show(
         style: ReccoNotificationStyle = .confirmation,
         title: String,
@@ -225,7 +225,7 @@ final class SFNotificationView: UIView {
         subtitleLb.isHidden = subtitle == nil
         image.image = UIImage(resource: style.imageName)?.withRenderingMode(.alwaysTemplate)
         image.tintColor = .reccoPrimary
-        
+
         if isShowing {
             hideWorkItem?.cancel()
         } else {
@@ -236,10 +236,10 @@ final class SFNotificationView: UIView {
                 self.layoutIfNeeded()
             }
         }
-        
+
         hide()
     }
-    
+
     fileprivate func hide(now: Bool = false) {
         hideWorkItem = .init { [unowned self, weak hideWorkItem] in
             if hideWorkItem?.isCancelled ?? false { return }
@@ -260,14 +260,14 @@ final class SFNotificationView: UIView {
                 }
             )
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: !now ? .now() + .seconds(currentDuration) : .now(), execute: hideWorkItem!)
     }
-    
+
     @objc func panGestureRecognizerAction(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: container)
         let dragVelocity = sender.velocity(in: container)
-        
+
         switch sender.state {
         case .began:
             hideWorkItem?.cancel()
@@ -282,11 +282,11 @@ final class SFNotificationView: UIView {
                     self.topConstraint.constant = .S + self.safeArea.top
                     self.layoutIfNeeded()
                 }
-                
+
                 hide()
             }
-            
-        default: break
+        default:
+			break
         }
     }
 }
@@ -301,7 +301,7 @@ extension UIWindow {
             return noteView
         }
     }
-    
+
     func showHCNotification(
         title: String,
         subtitle: String? = nil,

@@ -8,7 +8,7 @@ extension UIFont {
     ) -> UIFont {
         let newFont = UIFont(name: name, size: size)!
         let descriptor = newFont.fontDescriptor.withSymbolicTraits(font.fontDescriptor.symbolicTraits)!
-        
+
         return UIFont(descriptor: descriptor, size: size)
     }
 }

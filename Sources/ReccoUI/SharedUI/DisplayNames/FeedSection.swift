@@ -18,7 +18,7 @@ extension FeedSectionType {
             return "recco_dashboard_start_here".localized
         }
     }
-    
+
     var recName: String {
         switch self {
         case .physicalActivityRecommendations, .physicalActivityExplore:
@@ -30,10 +30,10 @@ extension FeedSectionType {
         case .sleepRecommendations, .sleepExplore:
             return "recco_dashboard_alert_sleep_title".localized
         default:
-            fatalError()
+            fatalError("Invalid recName")
         }
     }
-    
+
     var description: String? {
         switch self {
         case .physicalActivityRecommendations:

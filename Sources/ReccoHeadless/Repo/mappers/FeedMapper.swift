@@ -13,7 +13,6 @@ extension FeedSectionState {
     }
 }
 
-
 extension FeedSectionType {
     init(dto: FeedSectionTypeDTO) {
         switch dto {

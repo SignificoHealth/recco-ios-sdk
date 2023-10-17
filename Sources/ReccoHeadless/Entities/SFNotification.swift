@@ -11,7 +11,7 @@ public struct ReccoNotificationData: Equatable {
         self.subtitle = subtitle
         self.style = style
     }
-    
+
     public var title: String
     public var subtitle: String?
     public var style: ReccoNotificationStyle
@@ -19,10 +19,10 @@ public struct ReccoNotificationData: Equatable {
 
 extension ReccoNotificationData {
     public static func confirmation(_ title: String, subtitle: String? = nil) -> ReccoNotificationData {
-        return ReccoNotificationData(title: title, subtitle: subtitle, style: .confirmation)
+        ReccoNotificationData(title: title, subtitle: subtitle, style: .confirmation)
     }
-    
+
     public static func error(_ title: String, subtitle: String? = nil) -> ReccoNotificationData {
-        return ReccoNotificationData(title: title, subtitle: subtitle, style: .error)
+        ReccoNotificationData(title: title, subtitle: subtitle, style: .error)
     }
 }

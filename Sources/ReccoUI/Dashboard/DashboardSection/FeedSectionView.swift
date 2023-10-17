@@ -1,5 +1,5 @@
-import SwiftUI
 import ReccoHeadless
+import SwiftUI
 
 struct FeedSectionView: View {
     @Binding var performedUnlockAnimation: Bool
@@ -7,19 +7,19 @@ struct FeedSectionView: View {
     var items: [AppUserRecommendation]
     var goToDetail: (AppUserRecommendation) -> Void
     var pressedLockedSection: (FeedSection) -> Void
-    
+
     private var showSectionLoading: Bool {
         section.isLoading && !section.section.locked && items.isEmpty && performedUnlockAnimation
     }
-    
+
     private var hideSection: Bool {
         items.isEmpty && !section.isLoading && !section.section.locked && section.section.state != .partiallyUnlock
     }
-    
+
     private var showLockedSectionView: Bool {
         section.section.locked || !performedUnlockAnimation
     }
-        
+
     @ViewBuilder
     var body: some View {
         if hideSection {
@@ -29,7 +29,7 @@ struct FeedSectionView: View {
                 Text(section.section.type.displayName)
                     .h4()
                     .padding(.horizontal, .M)
-                
+
                 if showSectionLoading {
                     LoadingSectionView()
                 } else {
@@ -52,16 +52,15 @@ struct FeedSectionView: View {
                                         FeedItemView(item: item)
                                     }
                                 }
-                                
+
                                 if section.section.state == .partiallyUnlock {
                                     Button {
                                         pressedLockedSection(section.section)
                                     } label: {
                                         FinishQuestionnaireButtonView()
                                     }
-
                                 }
-                                
+
                                 Spacer(minLength: .M)
                             }
                             .frame(height: .cardSize.height)
@@ -84,8 +83,8 @@ struct FeedSectionView_Previews: PreviewProvider {
                 isLoading: false
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
-            goToDetail: { _ in},
-            pressedLockedSection: {_ in}
+            goToDetail: { _ in },
+            pressedLockedSection: { _ in }
         )
     }
 }

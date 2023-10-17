@@ -1,17 +1,17 @@
+import Combine
 import Foundation
 import ReccoHeadless
 import SwiftUI
 
 /**
  Configures Recco SDK given a clientSecret and a style (optional)
- - Parameters:
-    - clientSecret: Credential required to identify and authenticate the application.
-    - style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
+ - Parameter clientSecret: Credential required to identify and authenticate the application.
+ - Parameter style: Provides the style configuration the application will use; the default is ReccoStyle.summer.
  */
 public func initialize(
     clientSecret: String,
     style: ReccoStyle = .fresh,
-    logger: @escaping (Error) -> Void  = { error in
+    logger: @escaping (Error) -> Void = { error in
         #if DEBUG
             print(error)
         #endif
@@ -19,29 +19,30 @@ public func initialize(
 ) {
     assemble([
         ReccoHeadlessAssembly(clientSecret: clientSecret),
-        ReccoUIAssembly(logger: Logger(log: logger))
+        ReccoUIAssembly(logger: Logger(log: logger)),
     ])
-    
+
     let keychain: KeychainProxy = get()
-    
+
     Api.initialize(
         clientSecret: clientSecret,
         baseUrl: "https://recco-api.significo.app",
         keychain: keychain
     )
-    
+
     CurrentReccoStyle = style
+
+    addLifecycleObserversForMetrics()
 }
 
 /**
  Performs login operation given a user identifier
- - Parameters:
-    - userId: User to be consuming the SDK and to be creating its own experience.
+ - Parameter userId: User to be consuming the SDK and to be creating its own experience.
  */
 public func login(userId: String) async throws {
     let authRepository: AuthRepository
     let meRepository: MeRepository
-    
+
     do {
         authRepository = try tget()
         meRepository = try tget()
@@ -82,11 +83,28 @@ public func reccoRootViewController() -> UIViewController {
  */
 public struct ReccoRootView: View {
     public init() {}
-    
+
     public var body: some View {
         ToSwiftUI {
             reccoRootViewController()
         }
         .ignoresSafeArea()
     }
+}
+
+internal var cancellables = Set<AnyCancellable>()
+internal func addLifecycleObserversForMetrics() {
+    // Release previous publishers if called multiple times
+    // This could happen during tests or if the SDK is initialized multiple times
+    cancellables = Set<AnyCancellable>()
+
+    let metricRepository: MetricRepository = get()
+
+    // Emit when the host app enters foreground, it will emit once when the sdk is initialized during the start up of the app
+    NotificationCenter.default
+        .publisher(for: UIApplication.didBecomeActiveNotification)
+        .sink { _ in
+            metricRepository.log(event: AppUserMetricEvent(category: .userSession, action: .hostAppOpen))
+        }
+        .store(in: &cancellables)
 }

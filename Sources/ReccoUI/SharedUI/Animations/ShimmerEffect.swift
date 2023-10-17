@@ -12,7 +12,7 @@ struct ShimmerConfiguration {
             .init(color: .black, location: 0),
             .init(color: .white, location: 0.4),
             .init(color: .white, location: 0.6),
-            .init(color: .black, location: 1)
+            .init(color: .black, location: 1),
         ]),
         initialLocation: (start: UnitPoint(x: -1, y: 0.5), end: .leading),
         finalLocation: (start: .trailing, end: UnitPoint(x: 2, y: 0.5)),
@@ -55,7 +55,7 @@ struct ShimmeringView<Content: View>: View {
 
 struct ShimmerModifier: ViewModifier {
     let configuration: ShimmerConfiguration
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         ShimmeringView(configuration: configuration) { content }
     }
 }

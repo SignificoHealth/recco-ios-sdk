@@ -23,4 +23,3 @@ public struct AppUserRecommendation: Equatable, Hashable {
         self.imageUrl = imageUrl
     }
 }
-

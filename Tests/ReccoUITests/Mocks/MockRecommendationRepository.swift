@@ -1,8 +1,7 @@
-import XCTest
 @testable import ReccoHeadless
+import XCTest
 
 final class MockRecommendationRepository: RecommendationRepository {
-
     enum ExpectationType {
         case getFeedSection
         case getBookmarks
@@ -33,5 +32,4 @@ final class MockRecommendationRepository: RecommendationRepository {
 
         return expectedGetFeedSection
     }
-
 }

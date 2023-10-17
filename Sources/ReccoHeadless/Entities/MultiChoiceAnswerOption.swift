@@ -9,4 +9,3 @@ public struct MultiChoiceAnswerOption: Equatable, Hashable {
         self.text = text
     }
 }
-

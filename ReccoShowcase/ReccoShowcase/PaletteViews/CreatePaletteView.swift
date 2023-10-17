@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import ReccoUI
+import SwiftUI
 
 enum PalleteType: Hashable {
     case light
@@ -16,21 +16,21 @@ enum PalleteType: Hashable {
 
 extension PalleteType {
     var name: String {
-        return self == .light ?
+        self == .light ?
             "light" : "dark"
     }
-    
+
     var colorScheme: ColorScheme {
-        return self == .light ? .light : .dark
+        self == .light ? .light : .dark
     }
 }
 
 struct CreatePaletteView: View {
     @ObservedObject var storageState: PaletteStorageObservable = .shared
     @Binding var shouldShow: Bool
-    
+
     private var styleKey: String?
-    
+
     @State var tabSelection: PalleteType = .light
     @State var styleName: String
     @State var primaryLight: Color
@@ -57,7 +57,7 @@ struct CreatePaletteView: View {
         let style = styleKey.flatMap {
             PaletteStorageObservable.shared.storage.palettes[$0]
         } ?? .fresh
-                
+
         self.styleKey = styleKey
         self._shouldShow = shouldShow
         self._styleName = .init(initialValue: style.name == ReccoStyle.fresh.name ? "" : style.name)
@@ -78,7 +78,7 @@ struct CreatePaletteView: View {
         self.illustrationDark = Color(style.color.illustration.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
         self.illustrationOutlineDark = Color(style.color.illustrationLine.uiColor.resolvedColor(with: .init(userInterfaceStyle: .dark)))
     }
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
@@ -90,7 +90,7 @@ struct CreatePaletteView: View {
                 VStack(alignment: .leading) {
                     Text("theme_name")
                         .inputTitle()
-                    
+
                     TextField("theme_name_placeholder", text: $styleName)
                         .font(.system(size: 15, weight: .light))
                         .foregroundColor(.warmBrown)
@@ -101,7 +101,7 @@ struct CreatePaletteView: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 5)
                         .preferredColorScheme(.light)
                 }
-                
+
                 Picker(
                     "",
                     selection: $tabSelection
@@ -110,13 +110,13 @@ struct CreatePaletteView: View {
                     Text(.init(PalleteType.dark.name)).tag(PalleteType.dark)
                 }
                 .pickerStyle(.segmented)
-                
+
                 GeometryReader { proxy in
                     TabView(selection: $tabSelection) {
                         lightPaletteView
                             .padding(.horizontal, 2)
                             .tag(PalleteType.light)
-                        
+
                         darkPaletteView                            .padding(.horizontal, 2)
                             .tag(PalleteType.dark)
                     }
@@ -127,7 +127,7 @@ struct CreatePaletteView: View {
             }
             .padding()
             .font(.body)
-            
+
             Button("save_theme") {
                 let key = styleKey ?? UUID().uuidString
                 storageState.storage.palettes[key] = ReccoStyle(
@@ -135,39 +135,31 @@ struct CreatePaletteView: View {
                     color: .init(
                         primary: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(primaryLight) : UIColor(primaryDark)
-
                         })),
                         onPrimary: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(onPrimaryLight) : UIColor(onPrimaryDark)
-
                         })),
                         background: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(backgroundLight) : UIColor(backgroundDark)
-
                         })),
                         onBackground: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(onBackgroundLight) : UIColor(onBackgroundDark)
-
                         })),
                         accent: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(accentLight) : UIColor(accentDark)
-
                         })),
                         onAccent: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(onAccentLight) : UIColor(onAccentDark)
-
                         })),
                         illustration: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(illustrationLight) : UIColor(illustrationDark)
-
                         })),
                         illustrationLine: .init(uiColor: .init(dynamicProvider: { traits in
                             traits.userInterfaceStyle == .light ? UIColor(illustrationOutlineLight) : UIColor(illustrationOutlineDark)
-
                         }))
                     )
                 )
-                
+
                 storageState.storage.store()
                 shouldShow = false
             }
@@ -179,7 +171,7 @@ struct CreatePaletteView: View {
             Color.lightGray.ignoresSafeArea()
         )
     }
-    
+
     @ViewBuilder
     var lightPaletteView: some View {
         VStack(spacing: 32) {
@@ -189,21 +181,21 @@ struct CreatePaletteView: View {
                 onColorName: "color_on_primary",
                 $onPrimaryLight
             )
-            
+
             colorPairView(
                 colorName: "color_background",
                 $backgroundLight,
                 onColorName: "color_on_background",
                 $onBackgroundLight
             )
-            
+
             colorPairView(
                 colorName: "color_accent",
                 $accentLight,
                 onColorName: "color_on_accent",
                 $onAccentLight
             )
-            
+
             colorPairView(
                 colorName: "color_illustration_outline",
                 $illustrationOutlineLight,
@@ -213,7 +205,7 @@ struct CreatePaletteView: View {
         }
         .environment(\.colorScheme, ColorScheme.light)
     }
-    
+
     @ViewBuilder
     var darkPaletteView: some View {
         VStack(spacing: 32) {
@@ -223,21 +215,21 @@ struct CreatePaletteView: View {
                 onColorName: "color_on_primary",
                 $onPrimaryDark
             )
-            
+
             colorPairView(
                 colorName: "color_background",
                 $backgroundDark,
                 onColorName: "color_on_background",
                 $onBackgroundDark
             )
-            
+
             colorPairView(
                 colorName: "color_accent",
                 $accentDark,
                 onColorName: "color_on_accent",
                 $onAccentDark
             )
-            
+
             colorPairView(
                 colorName: "color_illustration_outline",
                 $illustrationOutlineDark,
@@ -247,7 +239,7 @@ struct CreatePaletteView: View {
         }
         .environment(\.colorScheme, ColorScheme.dark)
     }
-    
+
     @ViewBuilder
     func colorPairView(
         colorName: String,
@@ -261,15 +253,15 @@ struct CreatePaletteView: View {
                     Text(.init(colorName))
                         .foregroundColor(.black)
                 }
-                
+
                 ColorPicker(selection: onColor) {
                     Text(.init(onColorName))
                         .foregroundColor(.black)
                 }
             }
-            
+
             Spacer(minLength: 100)
-            
+
             Circle()
                 .fill(color.wrappedValue)
                 .overlay(

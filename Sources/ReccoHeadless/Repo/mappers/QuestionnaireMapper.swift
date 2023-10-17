@@ -1,13 +1,11 @@
 //
-//  File.swift
-//  
+//  QuestionnaireMapper.swift
+//
 //
 //  Created by Adrián R on 15/6/23.
 //
 
 import Foundation
-
-
 
 extension QuestionType {
     init(dto: QuestionAnswerTypeDTO) {

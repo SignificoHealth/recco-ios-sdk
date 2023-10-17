@@ -1,6 +1,6 @@
 import Foundation
-import UIKit
 import ReccoHeadless
+import UIKit
 
 extension NumericQuestionFormat {
     var keyboard: UIKeyboardType {
@@ -11,7 +11,7 @@ extension NumericQuestionFormat {
             return .numberPad
         }
     }
-    
+
     func placeholder(_ locale: Locale) -> String {
         switch self {
         case .humanHeight:
@@ -24,7 +24,7 @@ extension NumericQuestionFormat {
             return "0\(locale.decimalSeparator ?? "")00"
         }
     }
-    
+
     func label(_ locale: Locale) -> (String, String?)? {
         switch (locale.getUnitSystem(), self) {
         case (.metric, .humanHeight):

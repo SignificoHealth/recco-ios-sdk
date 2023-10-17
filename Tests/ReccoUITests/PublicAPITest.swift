@@ -1,10 +1,9 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class PublicAPITest: XCTestCase {
-
     // MARK: - initialize
 
     func test_initialize_registersDependenciesAndInitializesAPI() throws {
@@ -25,13 +24,13 @@ final class PublicAPITest: XCTestCase {
     }
 
     // MARK: - login
-    
+
     func test_login_whenCalledBeforeInitializeSDK_throwsError() async throws {
         MockAssembly.reset()
         do {
             try await ReccoUI.login(userId: "userId")
             XCTFail("Should have thrown an error")
-        } catch (let error) {
+        } catch {
             XCTAssertNotNil(error)
             XCTAssertEqual(error as? ReccoError, ReccoError.notInitialized)
         }
@@ -60,7 +59,7 @@ final class PublicAPITest: XCTestCase {
         do {
             try await ReccoUI.logout()
             XCTFail("Should have thrown an error")
-        } catch (let error) {
+        } catch {
             XCTAssertNotNil(error)
             XCTAssertEqual(error as? ReccoError, ReccoError.notInitialized)
         }
@@ -75,5 +74,36 @@ final class PublicAPITest: XCTestCase {
         try await ReccoUI.logout()
 
         await fulfillment(of: [logoutExpectation])
+    }
+
+    // MARK: - addLifecycleObserversForMetrics
+
+    func test_addLifecycleObserversForMetrics_whenDidBecomeActiveNotificationIsEmitted_logsHostAppOpenEvent() async {
+        MockAssembly.assemble()
+        let mockMetricRepository = MockAssembly.mockMetricRepository
+        ReccoUI.addLifecycleObserversForMetrics()
+
+        let event = AppUserMetricEvent(category: .userSession, action: .hostAppOpen)
+        let logEventExpectation = expectation(description: "log was not called")
+        mockMetricRepository.expectations[.logEvent] = logEventExpectation
+        mockMetricRepository.expectedEvent = event
+
+        NotificationCenter.default.post(name: UIApplication.didBecomeActiveNotification, object: nil)
+
+        await fulfillment(of: [logEventExpectation], timeout: 1)
+    }
+
+    func test_addLifecycleObserversForMetrics_whendidEnterBackgroundNotificationIsEmitted_doesNotlogsHostAppOpenEvent() async {
+        MockAssembly.assemble()
+        let mockMetricRepository = MockAssembly.mockMetricRepository
+        ReccoUI.addLifecycleObserversForMetrics()
+
+        let logEventExpectation = expectation(description: "log was called")
+        logEventExpectation.isInverted = true
+        mockMetricRepository.expectations[.logEvent] = logEventExpectation
+
+        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+
+        await fulfillment(of: [logEventExpectation], timeout: 1)
     }
 }

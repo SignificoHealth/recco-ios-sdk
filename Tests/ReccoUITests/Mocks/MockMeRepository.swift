@@ -1,9 +1,8 @@
-import XCTest
 import Combine
 @testable import ReccoHeadless
+import XCTest
 
 final class MockMeRepository: MeRepository {
-
     enum ExpectationType {
         case getMe
     }
@@ -14,7 +13,7 @@ final class MockMeRepository: MeRepository {
 
     var getMeError: NSError?
 
-    public var currentUser: AnyPublisher<AppUser?, Never> {
+    var currentUser: AnyPublisher<AppUser?, Never> {
         _currentUser.eraseToAnyPublisher()
     }
 

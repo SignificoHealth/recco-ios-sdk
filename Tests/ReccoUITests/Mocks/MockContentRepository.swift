@@ -1,8 +1,7 @@
-import XCTest
 @testable import ReccoHeadless
+import XCTest
 
 final class MockContentRepository: ContentRepository {
-
     enum ExpectationType {
         case setRating
         case setBookmark
@@ -16,7 +15,7 @@ final class MockContentRepository: ContentRepository {
 
     func setRating(_ updateRating: UpdateRating) async throws {
         expectations[.setRating]?.fulfill()
-        
+
         if let expectedUpdateRating = expectedUpdateRating {
             XCTAssertEqual(updateRating, expectedUpdateRating)
         }

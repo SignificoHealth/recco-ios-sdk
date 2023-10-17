@@ -1,18 +1,18 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class DashboardViewModelTest: XCTestCase {
     private var loggerLogError: XCTestExpectation!
-    
+
     override func setUp() async throws {
         loggerLogError = expectation(description: "Logger received an error")
         loggerLogError.isInverted = true
     }
-    
+
     private func expectErrorLogging() { loggerLogError.isInverted = false }
-    
+
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(
@@ -26,8 +26,7 @@ final class DashboardViewModelTest: XCTestCase {
     private let feedSection = Mocks.feedSectionWithTopic
     private lazy var questionnaireDestination: Destination = {
         .questionnaire(
-            feedSection.topic ?? .nutrition,
-            { _ in /* No need to mock this */}
+            feedSection.topic ?? .nutrition, { _ in /* No need to mock this */ }
         )
     }()
 
@@ -37,7 +36,7 @@ final class DashboardViewModelTest: XCTestCase {
         nav: ReccoCoordinator? = nil,
         logger: Logger? = nil
     ) -> DashboardViewModel {
-        return DashboardViewModel(
+        DashboardViewModel(
             feedRepo: feedRepo ?? MockFeedRepository(),
             recRepo: recRepo ?? MockRecommendationRepository(),
             nav: nav ?? MockRecoCoordinator(),
@@ -78,13 +77,15 @@ final class DashboardViewModelTest: XCTestCase {
         let viewModel = getViewModel(nav: mockCoordinator)
         // Mark as not seen
         appUserRecommendation.status = .noInteraction
-        viewModel.sections = [FeedSectionViewState(
-            section: FeedSection(
-                type: .mostPopular,
-                state: .unlock
-            ),
-            isLoading: false
-        )]
+        viewModel.sections = [
+			FeedSectionViewState(
+				section: FeedSection(
+					type: .mostPopular,
+					state: .unlock
+				),
+				isLoading: false
+			),
+        ]
         viewModel.items[.mostPopular] = [appUserRecommendation]
 
         viewModel.goToDetail(of: appUserRecommendation)
@@ -169,13 +170,15 @@ final class DashboardViewModelTest: XCTestCase {
         let getFeedSectionExpectation = expectation(description: "getFeedSection was not called")
         mockRecommendationRepository.expectations[.getFeedSection] = getFeedSectionExpectation
         mockRecommendationRepository.expectedGetFeedSection = [appUserRecommendation]
-        viewModel.sections = [FeedSectionViewState(
-            section: FeedSection(
-                type: .mostPopular,
-                state: .partiallyUnlock
-            ),
-            isLoading: false
-        )]
+        viewModel.sections = [
+			FeedSectionViewState(
+				section: FeedSection(
+					type: .mostPopular,
+					state: .partiallyUnlock
+				),
+				isLoading: false
+			),
+        ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
         viewModel.pressedUnlockSectionStart()
@@ -212,13 +215,15 @@ final class DashboardViewModelTest: XCTestCase {
         mockRecommendationRepository.expectations[.getFeedSection] = getFeedSectionExpectation
         let getFeedSectionError = NSError(domain: "getFeedSectionError", code: 0)
         mockRecommendationRepository.getFeedSectionError = getFeedSectionError
-        viewModel.sections = [FeedSectionViewState(
-            section: FeedSection(
-                type: .mostPopular,
-                state: .partiallyUnlock
-            ),
-            isLoading: false
-        )]
+        viewModel.sections = [
+			FeedSectionViewState(
+				section: FeedSection(
+					type: .mostPopular,
+					state: .partiallyUnlock
+				),
+				isLoading: false
+			),
+        ]
 
         viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
@@ -228,7 +233,7 @@ final class DashboardViewModelTest: XCTestCase {
         }
         reloadSections(true)
         expectErrorLogging()
-        
+
         await fulfillment(of: [navigateExpectation, getFeedSectionExpectation, loggerLogError], timeout: 1)
         XCTAssertNil(viewModel.lockedSectionAlert)
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -275,7 +280,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.pressedLocked(section: feedSection)
 
         XCTAssertEqual(feedSection, viewModel.lockedSectionAlert)
-        
+
         wait(for: [loggerLogError], timeout: 1)
     }
 
@@ -335,7 +340,7 @@ final class DashboardViewModelTest: XCTestCase {
 
         await viewModel.getFeedItems()
         await fulfillment(of: [getFeedExpectation2, loggerLogError], timeout: 1)
-        
+
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertTrue(viewModel.sections.isEmpty)
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -361,10 +366,12 @@ final class DashboardViewModelTest: XCTestCase {
             type: .mostPopular,
             state: .locked
         )
-        viewModel.sections = [FeedSectionViewState(
-            section: lockedSection,
-            isLoading: false
-        )]
+        viewModel.sections = [
+			FeedSectionViewState(
+				section: lockedSection,
+				isLoading: false
+			),
+        ]
 
         await viewModel.load(sections: [lockedSection])
 
@@ -388,10 +395,12 @@ final class DashboardViewModelTest: XCTestCase {
             type: .mostPopular,
             state: .unlock
         )
-        viewModel.sections = [FeedSectionViewState(
-            section: unlockedSection,
-            isLoading: false
-        )]
+        viewModel.sections = [
+			FeedSectionViewState(
+				section: unlockedSection,
+				isLoading: false
+			),
+        ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
         await viewModel.load(sections: [unlockedSection])
@@ -419,10 +428,12 @@ final class DashboardViewModelTest: XCTestCase {
             type: .mostPopular,
             state: .unlock
         )
-        viewModel.sections = [FeedSectionViewState(
-            section: unlockedSection,
-            isLoading: false
-        )]
+        viewModel.sections = [
+			FeedSectionViewState(
+				section: unlockedSection,
+				isLoading: false
+			),
+        ]
         expectErrorLogging()
 
         await viewModel.load(sections: [unlockedSection])

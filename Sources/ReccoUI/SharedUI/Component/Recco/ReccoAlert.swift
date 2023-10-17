@@ -23,16 +23,16 @@ struct ReccoAlert<Header: View>: View {
         self.header = header
         self.action = action
     }
-    
+
     @Binding var isPresent: Bool
     @State private var offset: CGFloat = 0.0
-    
+
     var title: String
     var text: String?
     var buttonText: String
     var header: () -> Header
     var action: () -> Void
-    
+
     var body: some View {
         content
             .background(
@@ -46,7 +46,7 @@ struct ReccoAlert<Header: View>: View {
             .padding(.M)
             .transition(.move(edge: .bottom))
     }
-    
+
     private var dragToDismiss: some Gesture {
         DragGesture(minimumDistance: 10)
             .onChanged { gesture in
@@ -68,7 +68,7 @@ struct ReccoAlert<Header: View>: View {
                 }
             }
     }
-    
+
     private var content: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
@@ -76,25 +76,25 @@ struct ReccoAlert<Header: View>: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.reccoAccent20)
                     .cornerRadius(.M, corners: [.topLeft, .topRight])
-                
+
                 ReccoCloseButton {
                     $isPresent.wrappedValue = false
                 }
                 .padding(.horizontal, .M)
                 .padding(.top, -.M)
             }
-            
+
             VStack(spacing: .M) {
                 Text(title)
                     .h1()
                     .multilineTextAlignment(.center)
-                
+
                 if let text {
                     Text(text)
                         .body2()
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                
+
                 ReccoButtonView(
                     text: buttonText,
                     action: action
@@ -121,7 +121,7 @@ extension View {
                 .allowsHitTesting(
                     !isPresent.wrappedValue
                 )
-                        
+
             ZStack {
                 if isPresent.wrappedValue {
                     ReccoAlert(
@@ -137,7 +137,7 @@ extension View {
             .animation(alertAnimation, value: isPresent.wrappedValue)
         }
     }
-    
+
     func reccoAlert<Wrapped, Header: View>(
         showWhenPresent: Binding<Wrapped?>,
         body: (Wrapped) -> ReccoAlert<Header>
@@ -160,12 +160,12 @@ extension View {
 
 struct SFAlert_Previews: PreviewProvider {
     struct Wrapper: View {
-        @State var isPresent: Bool = false
-        
+		@State var isPresent = false
+
         var body: some View {
             ZStack {
                 Color.gray
-                
+
                 Button("show") {
                     isPresent = true
                 }
@@ -184,7 +184,7 @@ struct SFAlert_Previews: PreviewProvider {
             )
         }
     }
-    
+
     static var previews: some View {
         Wrapper()
     }

@@ -11,4 +11,3 @@ public struct MultiChoiceQuestion: Equatable, Hashable {
         self.options = options
     }
 }
-

@@ -17,9 +17,9 @@ extension CGFloat {
     static var cardSize: CGSize {
         .init(width: 144, height: 256)
     }
-    
+
     static var minCardWidth: CGFloat = 110
-    
+
     /// 4 pt
     static var XXXS: CGFloat {
         Spacing.xxxs.rawValue
@@ -29,27 +29,27 @@ extension CGFloat {
     static var XXS: CGFloat {
         Spacing.xxs.rawValue
     }
-    
+
     /// 12 pt
     static var XS: CGFloat {
         Spacing.xs.rawValue
     }
-    
+
     /// 16 pt
     static var S: CGFloat {
         Spacing.s.rawValue
     }
-    
+
     /// 24 pt
     static var M: CGFloat {
         Spacing.m.rawValue
     }
-    
+
     /// 32 pt
     static var L: CGFloat {
         Spacing.l.rawValue
     }
-    
+
     /// 40 pt
     static var XL: CGFloat {
         Spacing.xl.rawValue

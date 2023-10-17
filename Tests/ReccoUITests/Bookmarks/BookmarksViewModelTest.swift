@@ -1,18 +1,10 @@
-import XCTest
 @testable import ReccoHeadless
 @testable import ReccoUI
+import XCTest
 
 @MainActor
 final class BookmarksViewModelTest: XCTestCase {
     private var loggerLogError: XCTestExpectation!
-    
-    override func setUp() async throws {
-        loggerLogError = expectation(description: "Logger received an error")
-        loggerLogError.isInverted = true
-    }
-    
-    private func expectErrorLogging() { loggerLogError.isInverted = false }
-    
     private let appUserRecommendation = Mocks.appUserRecommendation
     private lazy var articleDestination: Destination = {
         .article(
@@ -24,11 +16,18 @@ final class BookmarksViewModelTest: XCTestCase {
         )
     }()
 
+	override func setUp() async throws {
+		loggerLogError = expectation(description: "Logger received an error")
+		loggerLogError.isInverted = true
+	}
+
+	private func expectErrorLogging() { loggerLogError.isInverted = false }
+
     private func getViewModel(
         recRepo: RecommendationRepository? = nil,
         nav: ReccoCoordinator? = nil
     ) -> BookmarksViewModel {
-        return BookmarksViewModel(
+        BookmarksViewModel(
             recRepo: recRepo ?? MockRecommendationRepository(),
             nav: nav ?? MockRecoCoordinator(),
             logger: Logger { [unowned self] _ in loggerLogError.fulfill() }
@@ -84,7 +83,7 @@ final class BookmarksViewModelTest: XCTestCase {
         guard case .article(_, _, _, _, let onBookmarkedChange) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .article")
         }
-        
+
         onBookmarkedChange(true)
 
         await fulfillment(of: [getBookmarksExpectation, loggerLogError], timeout: 1)

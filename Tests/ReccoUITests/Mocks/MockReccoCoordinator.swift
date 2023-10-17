@@ -1,8 +1,7 @@
-import XCTest
 @testable import ReccoUI
+import XCTest
 
 final class MockRecoCoordinator: ReccoCoordinator {
-
     enum ExpectationType {
         case navigate
     }

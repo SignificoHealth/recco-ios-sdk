@@ -1,20 +1,17 @@
 //
-//  File.swift
-//  
+//  ContentMapper.swift
+//
 //
 //  Created by Adrián R on 8/6/23.
 //
 
 import Foundation
 
-
-
 extension ContentId {
     init(dto: ContentIdDTO) {
         self.init(itemId: dto.itemId, catalogId: dto.catalogId)
     }
 }
-
 
 extension ContentType {
     struct ContentTypeShouldNotBeNilError: Error {}
