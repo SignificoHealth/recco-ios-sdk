@@ -5,9 +5,9 @@
 //  Created by Carmelo J Cortés Alhambra on 5/7/23.
 //
 
+import ReccoHeadless
 import ReccoUI
 import SwiftUI
-import ReccoHeadless
 
 struct WelcomeView: View {
     @AppStorage("username") var username: String = ""

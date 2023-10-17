@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import ReccoHeadless
+import UIKit
 
 var CurrentReccoStyle = ReccoStyle.fresh
 
@@ -76,7 +76,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
             self.illustration = illustration
             self.illustrationLine = illustrationLine
         }
-        
+
         public init(lightColors: AppColors, darkColors: AppColors) {
             self.primary = .init(
                 lightModeHex: lightColors.primary, darkModeHex: darkColors.primary
@@ -123,7 +123,7 @@ public struct ReccoStyle: Equatable, Hashable, Codable {
         self.name = name
         self.color = color
     }
-    
+
     public init(from appStyle: AppStyle) {
         self.font = appStyle.iosFont
         self.name = ""

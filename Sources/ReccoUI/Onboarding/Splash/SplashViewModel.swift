@@ -8,7 +8,7 @@ final class SplashViewModel: ObservableObject {
     private let metricRepository: MetricRepository
 
     @Published var user: AppUser?
-    
+
     init(
         meRepository: MeRepository,
         metricRepository: MetricRepository
@@ -34,7 +34,7 @@ final class SplashViewModel: ObservableObject {
                 self.maybeChangeToBackOfficeStyle()
             }
     }
-    
+
     private func maybeChangeToBackOfficeStyle() {
         if let backOfficeStyle = user?.appStyle {
             CurrentReccoStyle = ReccoStyle(from: backOfficeStyle)
