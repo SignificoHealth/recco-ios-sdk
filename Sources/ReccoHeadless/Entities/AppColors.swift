@@ -1,9 +1,6 @@
-
-
 import Foundation
 
 public struct AppColors: Equatable, Hashable, Codable {
-    
     init(primary: String, onPrimary: String, background: String, onBackground: String, accent: String, onAccent: String, illustration: String, illustrationOutline: String) {
         self.primary = primary
         self.onPrimary = onPrimary
@@ -14,7 +11,7 @@ public struct AppColors: Equatable, Hashable, Codable {
         self.illustration = illustration
         self.illustrationOutline = illustrationOutline
     }
-    
+
     public var primary: String
     public var onPrimary: String
     public var background: String

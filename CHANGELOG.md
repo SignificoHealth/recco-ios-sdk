@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 2023-10-17
+
+### Added:
+
++ Send new metric events HOST_APP_OPEN & RECCO_SDK_OPEN.
++ Support for styles specified via BE.
+
+### Changed
+
++ Updated OpenAPI generated code to use generator version 7.0.1.
+
+### Fixed
+
++ Bookmarks never get transparency now, mimicking Android.
+
 ## [1.0.2] - 2023-09-06
 
 ### Improvements: 

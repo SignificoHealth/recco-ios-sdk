@@ -59,19 +59,19 @@ Using Xcode:
 
 + File > Swift Packages > Add Package Dependency
 + Add `https://github.com/sf-recco/ios-sdk.git`
-+ Select "Up to Next Major" with "1.0.0"
++ Select "Up to Next Major" with "1.0.3"
 
 To integrate using Apple's Swift package manager, without Xcode integration, add the following dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sf-recco/ios-sdk.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/sf-recco/ios-sdk.git", .upToNextMajor(from: "1.0.3"))
 ]
 ```
 
 ### Cocoapods
 
-To integrate Alamofire into your Xcode project using CocoaPods, specify it in your Podfile:
+To integrate Recco into your Xcode project using CocoaPods, specify it in your Podfile:
 
 ```ruby
 pod 'ReccoUI'

@@ -2,7 +2,14 @@ import ReccoHeadless
 import SwiftUI
 
 struct FeedItemView: View {
-    let item: AppUserRecommendation
+    var item: AppUserRecommendation
+    var fromBookmarks = false
+
+    var opacity: CGFloat {
+        fromBookmarks ?
+            1 : item.status == .viewed ?
+                0.4 : 1
+    }
 
     var body: some View {
         ReccoURLImageView(
@@ -21,9 +28,7 @@ struct FeedItemView: View {
             image
                 .resizable()
                 .scaledToFill()
-                .opacity(
-                    item.status == .viewed ? 0.4 : 1
-                )
+                .opacity(opacity)
         }
         .frame(
             minWidth: .minCardWidth, idealWidth: .cardSize.width, maxWidth: .cardSize.width,
@@ -60,6 +65,6 @@ struct FeedItemView_Previews: PreviewProvider {
             status: .noInteraction,
             headline: "This card is good",
             imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg")
-        ))
+        ), fromBookmarks: false)
     }
 }

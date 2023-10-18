@@ -22,7 +22,7 @@ struct BookmarksView: View {
                             Button {
                                 viewModel.goToDetail(of: item)
                             } label: {
-                                FeedItemView(item: item)
+                                FeedItemView(item: item, fromBookmarks: true)
                             }
                         }
                     }
