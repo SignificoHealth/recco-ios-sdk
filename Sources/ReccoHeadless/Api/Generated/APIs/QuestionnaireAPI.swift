@@ -26,7 +26,7 @@ internal class QuestionnaireAPI {
     /**
      Set user app answers for a questionnaire.
      - POST /api/v1/me/questionnaire/answers
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter createQuestionnaireAnswerDTO: (body)  
@@ -64,7 +64,7 @@ internal class QuestionnaireAPI {
     /**
      Return the associated questionnaire for a given topic.
      - GET /api/v1/me/questionnaire/topics/{topic}
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter topic: (path)  
@@ -104,7 +104,7 @@ internal class QuestionnaireAPI {
     /**
      Return the onboarding questionnaire.
      - GET /api/v1/me/questionnaire/onboarding_questionnaires
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[QuestionDTO]> 
@@ -141,7 +141,7 @@ internal class QuestionnaireAPI {
     /**
      Set user app answers for the onboarding questionnaires.
      - POST /api/v1/me/questionnaire/onboarding_answers
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - parameter createQuestionnaireAnswerDTO: (body)  

@@ -5,16 +5,11 @@
 //
 
 import Foundation
-
-// We reverted the change of OpenAPIClientAPI to OpenAPIClient introduced in https://github.com/OpenAPITools/openapi-generator/pull/9624
-// Because it was causing the following issue https://github.com/OpenAPITools/openapi-generator/issues/9953
-// If you are affected by this issue, please consider removing the following two lines,
-// By setting the option removeMigrationProjectNameClass to true in the generator
-@available(*, deprecated, renamed: "OpenAPIClientAPI")
-internal typealias OpenAPIClient = OpenAPIClientAPI
-
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 internal class OpenAPIClientAPI {
-    internal static var basePath = "http://localhost:8080"
+    internal static var basePath = "https://recco-api.significo.dev"
     internal static var customHeaders: [String: String] = [:]
     internal static var credential: URLCredential?
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
@@ -31,8 +26,6 @@ internal class RequestBuilder<T> {
     internal let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
-    /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
-    /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
     internal var onProgressReady: ((Progress) -> Void)?
 
     required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {

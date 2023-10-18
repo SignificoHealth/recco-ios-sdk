@@ -19,6 +19,7 @@ internal struct ApiErrorDTO: Codable, JSONEncodable, Hashable {
         case appDisabled = "app_disabled"
         case badRequest = "bad_request"
         case conflict = "conflict"
+        case transientTokenAlreadyConsumed = "transient_token_already_consumed"
     }
     internal var errorCode: ErrorCodeDTO
     internal var message: String

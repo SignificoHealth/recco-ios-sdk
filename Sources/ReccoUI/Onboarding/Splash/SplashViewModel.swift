@@ -26,9 +26,18 @@ final class SplashViewModel: ObservableObject {
     // MARK: Private
 
     private func bind() {
-        meRepository
+        cancellable = meRepository
             .currentUser
             .receive(on: DispatchQueue.main)
-            .assign(to: &$user)
+            .sink { [unowned self] newUser in
+                self.user = newUser
+                self.maybeChangeToBackOfficeStyle()
+            }
+    }
+
+    private func maybeChangeToBackOfficeStyle() {
+        if let backOfficeStyle = user?.appStyle {
+            CurrentReccoStyle = ReccoStyle(from: backOfficeStyle)
+        }
     }
 }

@@ -5,13 +5,14 @@
 //  Created by Carmelo J Cortés Alhambra on 5/7/23.
 //
 
+import ReccoHeadless
 import ReccoUI
 import SwiftUI
 
 struct WelcomeView: View {
     @AppStorage("username") var username: String = ""
 
-    @State var font: ReccoFont = .sfPro
+    @State var font: AppFont = .sfPro
     @State var displayRecco = false
     @State var logoutLoading = false
     @State var logoutError = false
@@ -89,7 +90,7 @@ struct WelcomeView: View {
                         Picker(
                             selection: $font,
                             content: {
-                                ForEach(ReccoFont.allCases, id: \.self) {
+                                ForEach(AppFont.allCases, id: \.self) {
                                     Text($0.rawValue)
                                         .font(Font($0.uiFont(size: 16, weight: .regular)))
                                 }

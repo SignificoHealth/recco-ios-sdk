@@ -25,7 +25,7 @@ internal class FeedAPI {
     /**
      Get feed sections.
      - GET /api/v1/me/feed
-     - BASIC:
+     - Bearer Token:
        - type: http
        - name: bearerAuth
      - returns: RequestBuilder<[FeedSectionDTO]> 

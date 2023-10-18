@@ -26,7 +26,7 @@ extension AppUserMetricAction {
             self = .view
         case .hostAppOpen:
             self = .hostAppOpen
-        case .reccoSDKOpen:
+        case .reccoSdkOpen:
             self = .reccoSDKOpen
         }
     }
@@ -65,7 +65,7 @@ extension AppUserMetricActionDTO {
         case .hostAppOpen:
             self = .hostAppOpen
         case .reccoSDKOpen:
-            self = .reccoSDKOpen
+            self = .reccoSdkOpen
         }
     }
 }
