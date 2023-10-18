@@ -18,7 +18,7 @@ env:
 
 jobs:
   test:
-    name: Run iOS tests
+    name: Run tests
     runs-on: macos-13
     # If its triggered on main or if a comment's body in a pull request equal to "/test'"
     if: ${{ github.base_ref == 'main' || (github.event.issue.pull_request && contains(github.event.comment.body, '/test')) }}
@@ -29,7 +29,7 @@ jobs:
           script: |
             const name = '${{ github.workflow }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const body = `Workflow [${name}](${url}) started`;
+            const body = `[${name}](${url}) started ⏳`;
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -44,24 +44,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
-              state: "success"
-            });
-            
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "Run tests",
-              status: "in_progress",
-              // Careful, code injection can happen.
-              conclusion: "${{ github.event.workflow_run.conclusion || 'neutral' }}",
-              // This is safe, not string interpolation.
-              details_url: process.env.parameter_url,
-              output: {
-                title: "Title",
-                summary: "Summary",
-                text: "Text",
-              },
+              context: '${{ github.workflow }}',
+              state: "pending"
             });
       # - uses: actions/checkout@v3
       # - name: Select Xcode
@@ -80,8 +64,8 @@ jobs:
           script: |
             const name = '${{ github.workflow }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const success = '${{ job.status }}' === 'success';
-            const body = `Workflow [${name}](${url}): ${success ? 'succeeded ✅' : 'failed ❌'}`;
+            const success = '${{ job.status }}' !== 'success';
+            const body = `[${name}](${url}) ${success ? 'succeeded ✅' : 'failed ❌'}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -93,34 +77,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            await github.rest.checks.create({
+            const success = '${{ job.status }}' !== 'success';
+            await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "Run tests",
-              status: "completed",
-              // Careful, code injection can happen.
-              conclusion: "${{ github.event.workflow_run.conclusion || 'success' }}",
-              // This is safe, not string interpolation.
-              output: {
-                title: "Title",
-                summary: "Summary",
-                text: "Text",
-              },
-            });
-
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "Run iOS tests",
-              status: "completed",
-              // Careful, code injection can happen.
-              conclusion: "${{ github.event.workflow_run.conclusion || 'success' }}",
-              // This is safe, not string interpolation.
-              output: {
-                title: "Title",
-                summary: "Summary",
-                text: "Text",
-              },
+              sha: context.sha,
+              context: '${{ github.workflow }}',
+              state: success ? 'success' : 'failure'
             });
