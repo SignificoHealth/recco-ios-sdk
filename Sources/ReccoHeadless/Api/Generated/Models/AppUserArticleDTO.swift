@@ -19,9 +19,10 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
     internal var headline: String
     internal var lead: String?
     internal var imageUrl: String?
+    internal var imageAlt: String?
     internal var articleBodyHtml: String?
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, articleBodyHtml: String? = nil) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, imageAlt: String? = nil, articleBodyHtml: String? = nil) {
         self.id = id
         self.rating = rating
         self.status = status
@@ -29,6 +30,7 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         self.headline = headline
         self.lead = lead
         self.imageUrl = imageUrl
+        self.imageAlt = imageAlt
         self.articleBodyHtml = articleBodyHtml
     }
 
@@ -40,6 +42,7 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         case headline
         case lead
         case imageUrl
+        case imageAlt
         case articleBodyHtml
     }
 
@@ -54,6 +57,7 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(lead, forKey: .lead)
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
+        try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
         try container.encodeIfPresent(articleBodyHtml, forKey: .articleBodyHtml)
     }
 }

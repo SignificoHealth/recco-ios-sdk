@@ -1,7 +1,7 @@
 import Foundation
 
 public struct AppUserArticle: Equatable, Hashable {
-    public init(id: ContentId, rating: ContentRating, status: ContentStatus, headline: String, bookmarked: Bool, lead: String? = nil, imageUrl: URL? = nil, articleBodyHtml: String? = nil) {
+    public init(id: ContentId, rating: ContentRating, status: ContentStatus, headline: String, bookmarked: Bool, lead: String? = nil, imageUrl: URL? = nil, imageAlt: String? = nil, articleBodyHtml: String? = nil) {
         self.id = id
         self.rating = rating
         self.status = status
@@ -20,4 +20,5 @@ public struct AppUserArticle: Equatable, Hashable {
     public var lead: String?
     public var imageUrl: URL?
     public var articleBodyHtml: String?
+    public var imageAlt: String?
 }
