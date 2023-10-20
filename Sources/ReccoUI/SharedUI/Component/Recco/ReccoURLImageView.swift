@@ -25,6 +25,7 @@ struct ReccoURLImageView<
 >: View {
     init(
         url: URL?,
+        alt: String? = nil,
         downSampleSize: ReccoURLImageDownsample? = nil,
         @ViewBuilder errorView: @escaping () -> ErrorView,
         @ViewBuilder loadingView: @escaping () -> LoadingView,
@@ -32,6 +33,7 @@ struct ReccoURLImageView<
     ) {
         self.downSampleSize = downSampleSize
         self.url = url
+        self.alt = alt
         self.errorView = errorView
         self.loadingView = loadingView
         self.transformView = transformView
@@ -39,6 +41,7 @@ struct ReccoURLImageView<
 
     var downSampleSize: ReccoURLImageDownsample?
     var url: URL?
+    var alt: String?
     var transformView: (Image) -> NewImageView
     var errorView: () -> ErrorView
     var loadingView: () -> LoadingView
@@ -68,6 +71,9 @@ struct ReccoURLImageView<
                 }
             }
         )
+        .accessibilityHint(alt ?? "")
+        .accessibilityLabel(alt ?? "")
+    
     }
     #elseif canImport(Kingfisher)
     var body: some View {
@@ -87,6 +93,8 @@ struct ReccoURLImageView<
                 loadingView()
             }
             .scaledToFill()
+            .accessibilityHint(alt)
+            .accessibilityLabel(alt)
     }
     #endif
 }

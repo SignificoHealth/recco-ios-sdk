@@ -12,8 +12,9 @@ public struct AppUserRecommendation: Equatable, Hashable {
     public var headline: String
     public var lead: String?
     public var imageUrl: URL?
+    public var imageAlt: String?
 
-    public init(id: ContentId, type: ContentType, rating: ContentRating, status: ContentStatus, headline: String, lead: String? = nil, imageUrl: URL? = nil) {
+    public init(id: ContentId, type: ContentType, rating: ContentRating, status: ContentStatus, headline: String, lead: String? = nil, imageUrl: URL? = nil, imageAlt: String? = nil) {
         self.id = id
         self.type = type
         self.rating = rating
@@ -21,5 +22,6 @@ public struct AppUserRecommendation: Equatable, Hashable {
         self.headline = headline
         self.lead = lead
         self.imageUrl = imageUrl
+        self.imageAlt = imageAlt
     }
 }

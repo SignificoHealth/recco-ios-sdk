@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 internal struct StyleDTO: Codable, JSONEncodable, Hashable {
-    
+
     internal var darkColors: ColorsDTO
     internal var lightColors: ColorsDTO
     internal var iosFont: IOSFontDTO
