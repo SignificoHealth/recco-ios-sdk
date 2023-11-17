@@ -25,8 +25,8 @@ public func initialize(
     let keychain: KeychainProxy = get()
 
     Api.initialize(
-        clientSecret: clientSecret,
-        baseUrl: "https://recco-api.significo.app",
+        clientSecret: "PrTPVoqFek1I5ILEL0MUkkYhlIJFxHqH53yfeNBLu54A4OLiy8CC8vKLSMRcxKq2MpVhtFg",
+        baseUrl: "https://recco-api.significo.dev",
         keychain: keychain
     )
 
