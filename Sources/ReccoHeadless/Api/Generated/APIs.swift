@@ -9,7 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 internal class OpenAPIClientAPI {
-    internal static var basePath = "https://recco-api.significo.dev"
+    internal static var basePath = "https://recco-api.significo.app"
     internal static var customHeaders: [String: String] = [:]
     internal static var credential: URLCredential?
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
