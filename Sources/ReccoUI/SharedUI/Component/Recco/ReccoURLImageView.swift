@@ -110,9 +110,6 @@ struct ReccoURLImageView<
     }
     #endif
     
-  
-    
-    
     func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
         let (standardWidth, standardHeight) = downSampleSize != nil
         ? mapToStandardSize(viewSize: downSampleSize!.inPixels)
