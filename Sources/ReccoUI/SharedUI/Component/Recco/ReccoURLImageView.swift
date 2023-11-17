@@ -48,6 +48,15 @@ struct ReccoURLImageView<
 
     #if canImport(NukeUI)
     var body: some View {
+        let actualSize: CGSize? = downSampleSize.flatMap { size in
+            if case let .size(value) = size { return value }
+            return nil
+        }
+        
+        let dynamicUrl = url.flatMap {
+            constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
+        }
+        
         LazyImage(
             url: url
         ) { state in
@@ -77,8 +86,16 @@ struct ReccoURLImageView<
     }
     #elseif canImport(Kingfisher)
     var body: some View {
+        let actualSize: CGSize? = downSampleSize.flatMap { size in
+              if case let .size(value) = size { return value }
+              return nil
+          }
+          
+          let dynamicUrl = url.flatMap {
+              constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
+          }
         KFImage
-            .url(url)
+            .url(dynamicUrl)
             .resizable()
             .setProcessors(
                 downSampleSize.map { type in
@@ -97,6 +114,52 @@ struct ReccoURLImageView<
             .accessibilityLabel(alt)
     }
     #endif
+    
+    func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
+        let (standardWidth, standardHeight) = downSampleSize != nil
+        ? mapToStandardSize(viewSize: downSampleSize!.inPixels)
+        : (1080, 1080)
+        
+        let quality = 70
+        let format = "webp"
+        let fit = "cover"
+        
+        var components = URLComponents(string: url)
+        components?.queryItems = [
+            URLQueryItem(name: "width", value: "\(standardWidth)"),
+            URLQueryItem(name: "height", value: "\(standardHeight)"),
+            URLQueryItem(name: "quality", value: "\(quality)"),
+            URLQueryItem(name: "format", value: format),
+            URLQueryItem(name: "fit", value: fit)
+        ]
+        
+        return components?.url
+    }
+    
+    func mapToStandardSize(viewSize: CGSize) -> (Int, Int) {
+        let standardWidth = mapDimensionToStandardSize(dimension: viewSize.width)
+        let standardHeight = mapDimensionToStandardSize(dimension: viewSize.height)
+        return (standardWidth, standardHeight)
+    }
+    
+    func mapDimensionToStandardSize(dimension: CGFloat) -> Int {
+        let maxServerSize = 1080
+
+        switch dimension {
+        case 0..<120:
+            return 60
+        case 120..<320:
+            return 120
+        case 320..<640:
+            return 320
+        case 640..<930:
+            return 640
+        case 930..<CGFloat(maxServerSize):
+            return 930
+        default:
+            return maxServerSize
+        }
+    }
 }
 
 struct ReccoURLImageView_Previews: PreviewProvider {
