@@ -45,20 +45,23 @@ struct ReccoURLImageView<
     var transformView: (Image) -> NewImageView
     var errorView: () -> ErrorView
     var loadingView: () -> LoadingView
+    
+    private var dynamicUrl: URL? {
+         let actualSize: CGSize? = downSampleSize.flatMap { size in
+             if case let .size(value) = size { return value }
+             return nil
+         }
+
+         return url.flatMap {
+             constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
+         }
+     }
+
 
     #if canImport(NukeUI)
     var body: some View {
-        let actualSize: CGSize? = downSampleSize.flatMap { size in
-            if case let .size(value) = size { return value }
-            return nil
-        }
-        
-        let dynamicUrl = url.flatMap {
-            constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
-        }
-        
         LazyImage(
-            url: url
+            url: dynamicUrl
         ) { state in
             if let image = state.image {
                 transformView(image)
@@ -89,14 +92,6 @@ struct ReccoURLImageView<
     }
     #elseif canImport(Kingfisher)
     var body: some View {
-        let actualSize: CGSize? = downSampleSize.flatMap { size in
-              if case let .size(value) = size { return value }
-              return nil
-          }
-          
-          let dynamicUrl = url.flatMap {
-              constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
-          }
         KFImage
             .url(dynamicUrl)
             .resizable()
@@ -117,6 +112,9 @@ struct ReccoURLImageView<
             .accessibilityLabel(alt)
     }
     #endif
+    
+  
+    
     
     func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
         let (standardWidth, standardHeight) = downSampleSize != nil
