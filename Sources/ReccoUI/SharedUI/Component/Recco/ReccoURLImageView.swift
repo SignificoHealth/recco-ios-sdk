@@ -149,11 +149,7 @@ struct ReccoURLImageView<
         let maxServerSize = 1080
 
         switch dimension {
-        case 0..<120:
-            return 60
-        case 120..<320:
-            return 120
-        case 320..<640:
+        case 0..<640:
             return 320
         case 640..<930:
             return 640
