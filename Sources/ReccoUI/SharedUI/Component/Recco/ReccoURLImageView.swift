@@ -85,9 +85,6 @@ struct ReccoURLImageView<
         )
         .accessibilityHint(alt ?? "")
         .accessibilityLabel(alt ?? "")
-        .onAppear(perform: {
-            print("URL: \(dynamicUrl)")
-        })
     
     }
     #elseif canImport(Kingfisher)
