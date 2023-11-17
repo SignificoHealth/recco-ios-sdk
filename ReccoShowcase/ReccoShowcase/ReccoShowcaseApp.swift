@@ -1,7 +1,7 @@
 import ReccoUI
 import SwiftUI
 
-let clientSecret = "99ItJU5LzZKmLggRvGJMWWxd9mEek7MKedmkZ4_3Wb4yKVJ17lm3K6Smh8eUp3GuFIPq0-w"
+let clientSecret = "PrTPVoqFek1I5ILEL0MUkkYhlIJFxHqH53yfeNBLu54A4OLiy8CC8vKLSMRcxKq2MpVhtFg"
 
 @main
 struct ReccoShowcaseApp: App {
