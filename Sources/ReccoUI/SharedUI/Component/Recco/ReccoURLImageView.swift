@@ -45,20 +45,19 @@ struct ReccoURLImageView<
     var transformView: (Image) -> NewImageView
     var errorView: () -> ErrorView
     var loadingView: () -> LoadingView
-    
+
     private var dynamicUrl: URL? {
-         let actualSize: CGSize? = downSampleSize.flatMap { size in
-             if case let .size(value) = size { return value }
-             return nil
-         }
-
-         return url.flatMap {
-             constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
-         }
-     }
-
-
-    #if canImport(NukeUI)
+        let actualSize: CGSize? = downSampleSize.flatMap { size in
+            if case let .size(value) = size { return value }
+            return nil
+        }
+        
+        return url.flatMap {
+            constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
+        }
+    }
+    
+#if canImport(NukeUI)
     var body: some View {
         LazyImage(
             url: dynamicUrl
@@ -71,54 +70,32 @@ struct ReccoURLImageView<
                 loadingView()
             }
         }
-        .processors(
-            downSampleSize.map { type in
-                switch type {
-                //                case let .height(height):
-                //                    return [.resize(height: height)]
-                //                case let .width(width):
-                //                    return [.resize(width: width)]
-                case let .size(size):
-                    return [.resize(size: size)]
-                }
-            }
-        )
-        .accessibilityHint(alt ?? "")
         .accessibilityLabel(alt ?? "")
-    
     }
-    #elseif canImport(Kingfisher)
+#elseif canImport(Kingfisher)
     var body: some View {
         KFImage
             .url(dynamicUrl)
             .resizable()
-            .setProcessors(
-                downSampleSize.map { type in
-                    switch type {
-                    case let .size(size):
-                        let newSize = CGSize(width: size.width * UIScreen.main.scale, height: size.height * UIScreen.main.scale)
-                        return [DownsamplingImageProcessor(size: newSize)]
-                    }
-                } ?? []
-            )
             .placeholder { _ in
                 loadingView()
             }
             .scaledToFill()
-            .accessibilityHint(alt)
             .accessibilityLabel(alt)
     }
-    #endif
-    
+#endif
     func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
-        let (standardWidth, standardHeight) = downSampleSize != nil
+        var (standardWidth, standardHeight) = downSampleSize != nil
         ? mapToStandardSize(viewSize: downSampleSize!.inPixels)
         : (1080, 1080)
         
+        standardWidth *= Int(UIScreen.main.nativeScale)
+        standardHeight *= Int(UIScreen.main.nativeScale)
+
         let quality = 70
         let format = "webp"
         let fit = "cover"
-        
+
         var components = URLComponents(string: url)
         components?.queryItems = [
             URLQueryItem(name: "width", value: "\(standardWidth)"),
@@ -136,7 +113,7 @@ struct ReccoURLImageView<
         let standardHeight = mapDimensionToStandardSize(dimension: viewSize.height)
         return (standardWidth, standardHeight)
     }
-    
+
     func mapDimensionToStandardSize(dimension: CGFloat) -> Int {
         let maxServerSize = 1080
 
