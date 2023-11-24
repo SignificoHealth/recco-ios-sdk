@@ -1,31 +1,29 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Saúl on 24/11/23.
 //
 
+import Foundation
 @testable import ReccoHeadless
 @testable import ReccoUI
-import XCTest
-import Foundation
 import SwiftUI
+import XCTest
 
 class ReccoURLImageViewTests: XCTestCase {
-    
     struct PlaceholderView: View {
         var body: some View {
             Text("Placeholder")
         }
     }
-    
-    
+
     func testConstructDynamicImageUrlFullStructure() {
         let testSize = CGSize(width: 300, height: 300)
         let screenScale = UIScreen.main.nativeScale
         let expectedWidth = Int(testSize.width * screenScale)
         let expectedHeight = Int(testSize.height * screenScale)
-        
+
         let imageView = ReccoURLImageView<PlaceholderView, PlaceholderView, PlaceholderView>(
             url: URL(string: "https://example.com/image.jpg"),
             errorView: { PlaceholderView() },
@@ -39,4 +37,3 @@ class ReccoURLImageViewTests: XCTestCase {
         XCTAssertEqual(resultUrl?.absoluteString, expectedUrlString, "URL should match expected structure")
     }
 }
-
