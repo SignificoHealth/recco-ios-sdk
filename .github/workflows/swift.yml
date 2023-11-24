@@ -20,15 +20,16 @@ jobs:
   test:
     name: Run tests
     runs-on: macos-13
+    # Conditional execution based on various criteria
     if: |
-     github.base_ref == 'main' || 
-     github.base_ref == 'develop' || 
-     (github.event_name == 'pull_request' && 
-     (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop')) || 
-     (github.event_name == 'push' && 
-     github.ref == 'refs/heads/' + github.head_ref && 
-     (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop')) ||
-     (github.event.issue.pull_request && contains(github.event.comment.body, '/test'))
+      github.base_ref == 'main' || 
+      github.base_ref == 'develop' || 
+      (github.event_name == 'pull_request' && 
+       (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop')) || 
+      (github.event_name == 'push' && 
+       github.ref == 'refs/heads/' + github.head_ref && 
+       (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop')) ||
+      (github.event.issue.pull_request && contains(github.event.comment.body, '/test'))
 
     steps:
       - name: Add workflow started comment to PR
