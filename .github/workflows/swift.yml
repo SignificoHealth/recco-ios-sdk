@@ -6,8 +6,9 @@ name: Run tests
 on:
   pull_request:
     branches: [ "main", "develop" ]
-  issue_comment:
     types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [ created ]
   workflow_dispatch:
 
 env:
