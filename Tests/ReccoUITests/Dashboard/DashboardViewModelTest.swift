@@ -78,13 +78,13 @@ final class DashboardViewModelTest: XCTestCase {
         // Mark as not seen
         appUserRecommendation.status = .noInteraction
         viewModel.sections = [
-			FeedSectionViewState(
-				section: FeedSection(
-					type: .mostPopular,
-					state: .unlock
-				),
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: FeedSection(
+                    type: .mostPopular,
+                    state: .unlock
+                ),
+                isLoading: false
+            ),
         ]
         viewModel.items[.mostPopular] = [appUserRecommendation]
 
@@ -171,13 +171,13 @@ final class DashboardViewModelTest: XCTestCase {
         mockRecommendationRepository.expectations[.getFeedSection] = getFeedSectionExpectation
         mockRecommendationRepository.expectedGetFeedSection = [appUserRecommendation]
         viewModel.sections = [
-			FeedSectionViewState(
-				section: FeedSection(
-					type: .mostPopular,
-					state: .partiallyUnlock
-				),
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: FeedSection(
+                    type: .mostPopular,
+                    state: .partiallyUnlock
+                ),
+                isLoading: false
+            ),
         ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -216,13 +216,13 @@ final class DashboardViewModelTest: XCTestCase {
         let getFeedSectionError = NSError(domain: "getFeedSectionError", code: 0)
         mockRecommendationRepository.getFeedSectionError = getFeedSectionError
         viewModel.sections = [
-			FeedSectionViewState(
-				section: FeedSection(
-					type: .mostPopular,
-					state: .partiallyUnlock
-				),
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: FeedSection(
+                    type: .mostPopular,
+                    state: .partiallyUnlock
+                ),
+                isLoading: false
+            ),
         ]
 
         viewModel.pressedUnlockSectionStart()
@@ -367,10 +367,10 @@ final class DashboardViewModelTest: XCTestCase {
             state: .locked
         )
         viewModel.sections = [
-			FeedSectionViewState(
-				section: lockedSection,
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: lockedSection,
+                isLoading: false
+            ),
         ]
 
         await viewModel.load(sections: [lockedSection])
@@ -396,10 +396,10 @@ final class DashboardViewModelTest: XCTestCase {
             state: .unlock
         )
         viewModel.sections = [
-			FeedSectionViewState(
-				section: unlockedSection,
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: unlockedSection,
+                isLoading: false
+            ),
         ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -429,10 +429,10 @@ final class DashboardViewModelTest: XCTestCase {
             state: .unlock
         )
         viewModel.sections = [
-			FeedSectionViewState(
-				section: unlockedSection,
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: unlockedSection,
+                isLoading: false
+            ),
         ]
         expectErrorLogging()
 

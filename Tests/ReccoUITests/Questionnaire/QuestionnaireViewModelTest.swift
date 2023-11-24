@@ -4,7 +4,7 @@ import XCTest
 
 @MainActor
 final class QuestionnaireViewModelTest: XCTestCase {
-	private var loggerLogError: XCTestExpectation!
+    private var loggerLogError: XCTestExpectation!
     private let questions = Mocks.numericQuestions
     private var answers: [Question: CreateQuestionnaireAnswer] {
         var result = [Question: CreateQuestionnaireAnswer]()
@@ -14,12 +14,12 @@ final class QuestionnaireViewModelTest: XCTestCase {
         return result
     }
 
-	override func setUp() async throws {
-		loggerLogError = expectation(description: "Logger received an error")
-		loggerLogError.isInverted = true
-	}
+    override func setUp() async throws {
+        loggerLogError = expectation(description: "Logger received an error")
+        loggerLogError.isInverted = true
+    }
 
-	private func expectErrorLogging() { loggerLogError.isInverted = false }
+    private func expectErrorLogging() { loggerLogError.isInverted = false }
 
     private func getViewModel(
         repo: QuestionnaireRepository? = nil,

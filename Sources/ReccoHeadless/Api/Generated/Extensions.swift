@@ -53,7 +53,7 @@ extension UUID: JSONEncodable {
 }
 
 extension RawRepresentable where RawValue: JSONEncodable {
-    func encodeToJSON() -> Any { return self.rawValue }
+    func encodeToJSON() -> Any { self.rawValue }
 }
 
 private func encodeIfPossible<T>(_ object: T) -> Any {
@@ -66,13 +66,13 @@ private func encodeIfPossible<T>(_ object: T) -> Any {
 
 extension Array: JSONEncodable {
     func encodeToJSON() -> Any {
-        return self.map(encodeIfPossible)
+        self.map(encodeIfPossible)
     }
 }
 
 extension Set: JSONEncodable {
     func encodeToJSON() -> Any {
-        return Array(self).encodeToJSON()
+        Array(self).encodeToJSON()
     }
 }
 
@@ -88,13 +88,13 @@ extension Dictionary: JSONEncodable {
 
 extension Data: JSONEncodable {
     func encodeToJSON() -> Any {
-        return self.base64EncodedString(options: Data.Base64EncodingOptions())
+        self.base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
-        return CodableHelper.dateFormatter.string(from: self)
+        CodableHelper.dateFormatter.string(from: self)
     }
 }
 
@@ -108,9 +108,8 @@ extension JSONEncodable where Self: Encodable {
 }
 
 extension String: CodingKey {
-
     public var stringValue: String {
-        return self
+        self
     }
 
     public init?(stringValue: String) {
@@ -118,17 +117,15 @@ extension String: CodingKey {
     }
 
     public var intValue: Int? {
-        return nil
+        nil
     }
 
     public init?(intValue: Int) {
-        return nil
+        nil
     }
-
 }
 
 extension KeyedEncodingContainerProtocol {
-
     internal mutating func encodeArray<T>(_ values: [T], forKey key: Self.Key) throws where T: Encodable {
         var arrayContainer = nestedUnkeyedContainer(forKey: key)
         try arrayContainer.encode(contentsOf: values)
@@ -166,7 +163,6 @@ extension KeyedEncodingContainerProtocol {
 }
 
 extension KeyedDecodingContainerProtocol {
-
     internal func decodeArray<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T] where T: Decodable {
         var tmpArray = [T]()
 
@@ -223,11 +219,10 @@ extension KeyedDecodingContainerProtocol {
 
         return decimalValue
     }
-
 }
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return Configuration.successfulStatusCodeRange.contains(statusCode)
+        Configuration.successfulStatusCodeRange.contains(statusCode)
     }
 }

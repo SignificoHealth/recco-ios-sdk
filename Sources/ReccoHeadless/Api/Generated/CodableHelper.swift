@@ -27,23 +27,23 @@ internal class CodableHelper {
     }()
 
     internal static var dateFormatter: DateFormatter {
-        get { return customDateFormatter ?? defaultDateFormatter }
+        get { customDateFormatter ?? defaultDateFormatter }
         set { customDateFormatter = newValue }
     }
     internal static var jsonDecoder: JSONDecoder {
-        get { return customJSONDecoder ?? defaultJSONDecoder }
+        get { customJSONDecoder ?? defaultJSONDecoder }
         set { customJSONDecoder = newValue }
     }
     internal static var jsonEncoder: JSONEncoder {
-        get { return customJSONEncoder ?? defaultJSONEncoder }
+        get { customJSONEncoder ?? defaultJSONEncoder }
         set { customJSONEncoder = newValue }
     }
 
     internal class func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
-        return Swift.Result { try jsonDecoder.decode(type, from: data) }
+        Swift.Result { try jsonDecoder.decode(type, from: data) }
     }
 
     internal class func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
-        return Swift.Result { try jsonEncoder.encode(value) }
+        Swift.Result { try jsonEncoder.encode(value) }
     }
 }

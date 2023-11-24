@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
-
     internal var id: ContentIdDTO
     internal var type: ContentTypeDTO
     internal var rating: RatingDTO
@@ -66,4 +65,3 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
     }
 }
-

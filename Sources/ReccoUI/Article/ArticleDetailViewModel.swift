@@ -13,7 +13,7 @@ final class ArticleDetailViewModel: ObservableObject {
     let imageUrl: URL?
     let heading: String
 
-	@Published var isLoading = true
+    @Published var isLoading = true
     @Published var article: AppUserArticle?
     @Published var initialLoadError: Error?
     @Published var actionError: Error?

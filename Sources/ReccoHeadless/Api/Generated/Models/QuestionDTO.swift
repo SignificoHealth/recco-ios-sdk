@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct QuestionDTO: Codable, JSONEncodable, Hashable {
-
     internal var questionnaireId: String
     internal var id: String
     internal var index: Int
@@ -61,4 +60,3 @@ internal struct QuestionDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(numericSelected, forKey: .numericSelected)
     }
 }
-

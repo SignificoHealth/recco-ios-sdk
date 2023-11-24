@@ -8,7 +8,7 @@ struct FeedItemView: View {
     var opacity: CGFloat {
         fromBookmarks ?
             1 : item.status == .viewed ?
-                0.4 : 1
+            0.4 : 1
     }
 
     var body: some View {

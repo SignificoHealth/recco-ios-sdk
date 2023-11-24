@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct PATReferenceDeleteDTO: Codable, JSONEncodable, Hashable {
-
     /** PAT's id */
     internal var tokenId: String
 
@@ -30,4 +29,3 @@ internal struct PATReferenceDeleteDTO: Codable, JSONEncodable, Hashable {
         try container.encode(tokenId, forKey: .tokenId)
     }
 }
-

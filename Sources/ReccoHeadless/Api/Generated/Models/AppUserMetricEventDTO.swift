@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct AppUserMetricEventDTO: Codable, JSONEncodable, Hashable {
-
     internal var category: AppUserMetricCategoryDTO
     internal var action: AppUserMetricActionDTO
     internal var value: String?
@@ -37,4 +36,3 @@ internal struct AppUserMetricEventDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(value, forKey: .value)
     }
 }
-

@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct MultiChoiceQuestionDTO: Codable, JSONEncodable, Hashable {
-
     internal var maxOptions: Int
     internal var minOptions: Int
     internal var options: [MultiChoiceAnswerOptionDTO]
@@ -37,4 +36,3 @@ internal struct MultiChoiceQuestionDTO: Codable, JSONEncodable, Hashable {
         try container.encode(options, forKey: .options)
     }
 }
-

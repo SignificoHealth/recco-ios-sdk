@@ -12,7 +12,6 @@ import AnyCodable
 
 /**      CSS Hex Codes     The AA value (alpha) in #RRGGBBAA can range from the lowest value possible (00) to the highest value possible (FF)  */
 internal struct ColorsDTO: Codable, JSONEncodable, Hashable {
-
     internal var primary: String
     internal var onPrimary: String
     internal var background: String
@@ -58,4 +57,3 @@ internal struct ColorsDTO: Codable, JSONEncodable, Hashable {
         try container.encode(illustrationOutline, forKey: .illustrationOutline)
     }
 }
-

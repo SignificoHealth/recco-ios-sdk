@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
-
     internal var type: FeedSectionTypeDTO
     internal var state: FeedSectionStateDTO
     internal var topic: TopicDTO?
@@ -37,4 +36,3 @@ internal struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(topic, forKey: .topic)
     }
 }
-

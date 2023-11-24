@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct ContentIdDTO: Codable, JSONEncodable, Hashable {
-
     internal var itemId: String
     internal var catalogId: String
 
@@ -33,4 +32,3 @@ internal struct ContentIdDTO: Codable, JSONEncodable, Hashable {
         try container.encode(catalogId, forKey: .catalogId)
     }
 }
-

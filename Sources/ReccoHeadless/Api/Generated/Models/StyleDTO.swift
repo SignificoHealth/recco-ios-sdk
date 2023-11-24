@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct StyleDTO: Codable, JSONEncodable, Hashable {
-
     internal var id: UUID?
     internal var name: String
     internal var darkColors: ColorsDTO
@@ -57,4 +56,3 @@ internal struct StyleDTO: Codable, JSONEncodable, Hashable {
         try container.encode(isPredefined, forKey: .isPredefined)
     }
 }
-

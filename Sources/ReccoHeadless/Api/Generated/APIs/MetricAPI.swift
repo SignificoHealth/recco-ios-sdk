@@ -11,26 +11,25 @@ import AnyCodable
 #endif
 
 internal class MetricAPI {
-
     /**
      Log event.
-     
-     - parameter appUserMetricEventDTO: (body)  
+
+     - parameter appUserMetricEventDTO: (body)
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func logEvent(appUserMetricEventDTO: AppUserMetricEventDTO) async throws {
-        return try await logEventWithRequestBuilder(appUserMetricEventDTO: appUserMetricEventDTO).execute().body
+        try await logEventWithRequestBuilder(appUserMetricEventDTO: appUserMetricEventDTO).execute().body
     }
 
     /**
      Log event.
      - POST /api/v1/me/metric
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter appUserMetricEventDTO: (body)  
-     - returns: RequestBuilder<Void> 
+     - type: http
+     - name: bearerAuth
+     - parameter appUserMetricEventDTO: (body)
+     - returns: RequestBuilder<Void>
      */
     internal class func logEventWithRequestBuilder(appUserMetricEventDTO: AppUserMetricEventDTO) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/metric"

@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct PATDTO: Codable, JSONEncodable, Hashable {
-
     internal var accessToken: String
     internal var expirationDate: Date
     internal var tokenId: String
@@ -41,4 +40,3 @@ internal struct PATDTO: Codable, JSONEncodable, Hashable {
         try container.encode(creationDate, forKey: .creationDate)
     }
 }
-

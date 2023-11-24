@@ -11,26 +11,25 @@ import AnyCodable
 #endif
 
 internal class RecommendationAPI {
-
     /**
      A list of content filtered by topic.
-     
-     - parameter topic: (path)  
+
+     - parameter topic: (path)
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func exploreContentByTopic(topic: TopicDTO) async throws -> [AppUserRecommendationDTO] {
-        return try await exploreContentByTopicWithRequestBuilder(topic: topic).execute().body
+        try await exploreContentByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
     /**
      A list of content filtered by topic.
      - GET /api/v1/me/recommendations/explore/topics/{topic}
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter topic: (path)  
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - parameter topic: (path)
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func exploreContentByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[AppUserRecommendationDTO]> {
         var localVariablePath = "/api/v1/me/recommendations/explore/topics/{topic}"
@@ -55,25 +54,25 @@ internal class RecommendationAPI {
 
     /**
      Get article.
-     
-     - parameter itemId: (query)  
-     - parameter catalogId: (query)  
+
+     - parameter itemId: (query)
+     - parameter catalogId: (query)
      - returns: AppUserArticleDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getArticle(itemId: String, catalogId: String) async throws -> AppUserArticleDTO {
-        return try await getArticleWithRequestBuilder(itemId: itemId, catalogId: catalogId).execute().body
+        try await getArticleWithRequestBuilder(itemId: itemId, catalogId: catalogId).execute().body
     }
 
     /**
      Get article.
      - GET /api/v1/me/recommendations/articles
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter itemId: (query)  
-     - parameter catalogId: (query)  
-     - returns: RequestBuilder<AppUserArticleDTO> 
+     - type: http
+     - name: bearerAuth
+     - parameter itemId: (query)
+     - parameter catalogId: (query)
+     - returns: RequestBuilder<AppUserArticleDTO>
      */
     internal class func getArticleWithRequestBuilder(itemId: String, catalogId: String) -> RequestBuilder<AppUserArticleDTO> {
         let localVariablePath = "/api/v1/me/recommendations/articles"
@@ -99,21 +98,21 @@ internal class RecommendationAPI {
 
     /**
      A list of bookmarked recommendations.
-     
+
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getBookmarkedRecommendations() async throws -> [AppUserRecommendationDTO] {
-        return try await getBookmarkedRecommendationsWithRequestBuilder().execute().body
+        try await getBookmarkedRecommendationsWithRequestBuilder().execute().body
     }
 
     /**
      A list of bookmarked recommendations.
      - GET /api/v1/me/recommendations/bookmarked
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getBookmarkedRecommendationsWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/bookmarked"
@@ -135,21 +134,21 @@ internal class RecommendationAPI {
 
     /**
      A list of most popular content.
-     
+
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getMostPopularContent() async throws -> [AppUserRecommendationDTO] {
-        return try await getMostPopularContentWithRequestBuilder().execute().body
+        try await getMostPopularContentWithRequestBuilder().execute().body
     }
 
     /**
      A list of most popular content.
      - GET /api/v1/me/recommendations/most_popular
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getMostPopularContentWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/most_popular"
@@ -171,21 +170,21 @@ internal class RecommendationAPI {
 
     /**
      A list of newest content.
-     
+
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getNewestContent() async throws -> [AppUserRecommendationDTO] {
-        return try await getNewestContentWithRequestBuilder().execute().body
+        try await getNewestContentWithRequestBuilder().execute().body
     }
 
     /**
      A list of newest content.
      - GET /api/v1/me/recommendations/newest
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getNewestContentWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/newest"
@@ -207,21 +206,21 @@ internal class RecommendationAPI {
 
     /**
      A list of starting recommendations.
-     
+
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getStartingRecommendations() async throws -> [AppUserRecommendationDTO] {
-        return try await getStartingRecommendationsWithRequestBuilder().execute().body
+        try await getStartingRecommendationsWithRequestBuilder().execute().body
     }
 
     /**
      A list of starting recommendations.
      - GET /api/v1/me/recommendations/starting
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getStartingRecommendationsWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/starting"
@@ -243,23 +242,23 @@ internal class RecommendationAPI {
 
     /**
      A list of tailored recommendations filtered by topic.
-     
-     - parameter topic: (path)  
+
+     - parameter topic: (path)
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getTailoredRecommendationsByTopic(topic: TopicDTO) async throws -> [AppUserRecommendationDTO] {
-        return try await getTailoredRecommendationsByTopicWithRequestBuilder(topic: topic).execute().body
+        try await getTailoredRecommendationsByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
     /**
      A list of tailored recommendations filtered by topic.
      - GET /api/v1/me/recommendations/tailored/topics/{topic}
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter topic: (path)  
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - parameter topic: (path)
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getTailoredRecommendationsByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[AppUserRecommendationDTO]> {
         var localVariablePath = "/api/v1/me/recommendations/tailored/topics/{topic}"
@@ -284,21 +283,21 @@ internal class RecommendationAPI {
 
     /**
      A list of recommendations which are improved by the preferences.
-     
+
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getUserPreferredRecommendations() async throws -> [AppUserRecommendationDTO] {
-        return try await getUserPreferredRecommendationsWithRequestBuilder().execute().body
+        try await getUserPreferredRecommendationsWithRequestBuilder().execute().body
     }
 
     /**
      A list of recommendations which are improved by the preferences.
      - GET /api/v1/me/recommendations/preferred
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getUserPreferredRecommendationsWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/preferred"
@@ -320,23 +319,23 @@ internal class RecommendationAPI {
 
     /**
      Set recommendation bookmark state.
-     
-     - parameter updateBookmarkDTO: (body)  
+
+     - parameter updateBookmarkDTO: (body)
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func setBookmark(updateBookmarkDTO: UpdateBookmarkDTO) async throws {
-        return try await setBookmarkWithRequestBuilder(updateBookmarkDTO: updateBookmarkDTO).execute().body
+        try await setBookmarkWithRequestBuilder(updateBookmarkDTO: updateBookmarkDTO).execute().body
     }
 
     /**
      Set recommendation bookmark state.
      - PUT /api/v1/me/recommendations/bookmark
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter updateBookmarkDTO: (body)  
-     - returns: RequestBuilder<Void> 
+     - type: http
+     - name: bearerAuth
+     - parameter updateBookmarkDTO: (body)
+     - returns: RequestBuilder<Void>
      */
     internal class func setBookmarkWithRequestBuilder(updateBookmarkDTO: UpdateBookmarkDTO) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/recommendations/bookmark"
@@ -358,23 +357,23 @@ internal class RecommendationAPI {
 
     /**
      Set recommendation rating.
-     
-     - parameter updateRatingDTO: (body)  
+
+     - parameter updateRatingDTO: (body)
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func setRating(updateRatingDTO: UpdateRatingDTO) async throws {
-        return try await setRatingWithRequestBuilder(updateRatingDTO: updateRatingDTO).execute().body
+        try await setRatingWithRequestBuilder(updateRatingDTO: updateRatingDTO).execute().body
     }
 
     /**
      Set recommendation rating.
      - PUT /api/v1/me/recommendations/rating
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter updateRatingDTO: (body)  
-     - returns: RequestBuilder<Void> 
+     - type: http
+     - name: bearerAuth
+     - parameter updateRatingDTO: (body)
+     - returns: RequestBuilder<Void>
      */
     internal class func setRatingWithRequestBuilder(updateRatingDTO: UpdateRatingDTO) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/recommendations/rating"

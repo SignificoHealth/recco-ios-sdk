@@ -5,12 +5,12 @@ import XCTest
 @MainActor
 final class ArticleDetailViewModelTest: XCTestCase {
     private var loggerLogError: XCTestExpectation!
-	private let mockArticle = Mocks.article
-	private let mockLoadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void) = (
-		ContentId(itemId: "itemId", catalogId: "catalogId"),
-		"heading",
-		nil, { _ in /* updateContentSeen */ }, { _ in /* onBookmarkChanged */ }
-	)
+    private let mockArticle = Mocks.article
+    private let mockLoadedContent: (ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void) = (
+        ContentId(itemId: "itemId", catalogId: "catalogId"),
+        "heading",
+        nil, { _ in /* updateContentSeen */ }, { _ in /* onBookmarkChanged */ }
+    )
 
     override func setUp() async throws {
         loggerLogError = expectation(description: "Logger received an error")

@@ -22,13 +22,13 @@ internal class RequestBuilder<T> {
     internal let parameters: [String: Any]?
     internal let method: String
     internal let URLString: String
-    internal let requestTask: RequestTask = RequestTask()
+    internal let requestTask = RequestTask()
     internal let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    internal required init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -46,18 +46,18 @@ internal class RequestBuilder<T> {
 
     @discardableResult
     internal func execute(_ apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
-        return requestTask
+        requestTask
     }
 
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     internal func execute() async throws -> Response<T> {
-        return try await withTaskCancellationHandler {
+        try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
                 guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
+                    continuation.resume(throwing: CancellationError())
+                    return
                 }
 
                 self.execute { result in
@@ -73,7 +73,7 @@ internal class RequestBuilder<T> {
             self.requestTask.cancel()
         }
     }
-    
+
     internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value

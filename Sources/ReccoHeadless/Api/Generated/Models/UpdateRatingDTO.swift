@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct UpdateRatingDTO: Codable, JSONEncodable, Hashable {
-
     internal var contentId: ContentIdDTO
     internal var contentType: ContentTypeDTO
     internal var rating: RatingDTO
@@ -37,4 +36,3 @@ internal struct UpdateRatingDTO: Codable, JSONEncodable, Hashable {
         try container.encode(rating, forKey: .rating)
     }
 }
-

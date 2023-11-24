@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal struct UpdateBookmarkDTO: Codable, JSONEncodable, Hashable {
-
     internal var contentId: ContentIdDTO
     internal var contentType: ContentTypeDTO
     internal var bookmarked: Bool
@@ -37,4 +36,3 @@ internal struct UpdateBookmarkDTO: Codable, JSONEncodable, Hashable {
         try container.encode(bookmarked, forKey: .bookmarked)
     }
 }
-
