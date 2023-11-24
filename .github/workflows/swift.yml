@@ -5,7 +5,7 @@ name: Run tests
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   issue_comment:
     types: [ created ]
   workflow_dispatch:
@@ -66,11 +66,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const success = '${{ job.status }}' === 'success';
-            await github.rest.repos.createCommitStatus({
+            const response = await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
               context: '${{ github.workflow }}',
               state: success ? 'success' : 'failure'
             });
+            console.log("Status update response:", response);
