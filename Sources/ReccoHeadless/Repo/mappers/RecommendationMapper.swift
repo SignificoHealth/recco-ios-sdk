@@ -9,7 +9,7 @@ extension AppUserRecommendation {
             status: .init(dto: dto.status),
             headline: dto.headline,
             lead: dto.lead,
-            imageUrl: dto.imageUrl.flatMap { URL(string: $0) },
+            imageUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
             imageAlt: dto.imageAlt
         )
     }

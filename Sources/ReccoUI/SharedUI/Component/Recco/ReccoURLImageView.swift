@@ -18,6 +18,10 @@ enum ReccoURLImageDownsample {
     //    case height(CGFloat)
 }
 
+enum ReccoStandardImageConstants {
+    static let maxServerPt: Int = 900
+}
+
 struct ReccoURLImageView<
     ErrorView: View,
     LoadingView: View,
@@ -46,10 +50,21 @@ struct ReccoURLImageView<
     var errorView: () -> ErrorView
     var loadingView: () -> LoadingView
 
+    private var dynamicUrl: URL? {
+        let actualSize: CGSize? = downSampleSize.flatMap { size in
+            if case let .size(value) = size { return value }
+            return nil
+        }
+
+        return url.flatMap {
+            constructDynamicImageUrl(url: $0.absoluteString, downSampleSize: actualSize)
+        }
+    }
+
     #if canImport(NukeUI)
     var body: some View {
         LazyImage(
-            url: url
+            url: dynamicUrl
         ) { state in
             if let image = state.image {
                 transformView(image)
@@ -59,44 +74,72 @@ struct ReccoURLImageView<
                 loadingView()
             }
         }
-        .processors(
-            downSampleSize.map { type in
-                switch type {
-                //                case let .height(height):
-                //                    return [.resize(height: height)]
-                //                case let .width(width):
-                //                    return [.resize(width: width)]
-                case let .size(size):
-                    return [.resize(size: size)]
-                }
-            }
-        )
-        .accessibilityHint(alt ?? "")
         .accessibilityLabel(alt ?? "")
-    
     }
     #elseif canImport(Kingfisher)
     var body: some View {
         KFImage
-            .url(url)
+            .url(dynamicUrl)
             .resizable()
-            .setProcessors(
-                downSampleSize.map { type in
-                    switch type {
-                    case let .size(size):
-                        let newSize = CGSize(width: size.width * UIScreen.main.scale, height: size.height * UIScreen.main.scale)
-                        return [DownsamplingImageProcessor(size: newSize)]
-                    }
-                } ?? []
-            )
             .placeholder { _ in
                 loadingView()
             }
             .scaledToFill()
-            .accessibilityHint(alt)
             .accessibilityLabel(alt)
     }
     #endif
+    func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
+        let standardSize = downSampleSize != nil ? mapToStandardSize(viewSize: downSampleSize!) : (ReccoStandardImageConstants.maxServerPt, ReccoStandardImageConstants.maxServerPt)
+
+        let (standardWidth, standardHeight) = standardSize
+
+        let quality = 70
+        let format = "webp"
+        let fit = "cover"
+
+        let standardWidthPx = standardWidth * Int(UIScreen.main.nativeScale)
+        let standardHeightPx = standardHeight * Int(UIScreen.main.nativeScale)
+
+        var components = URLComponents(string: url)
+        components?.queryItems = [
+            URLQueryItem(name: "width", value: "\(standardWidthPx)"),
+            URLQueryItem(name: "height", value: "\(standardHeightPx)"),
+            URLQueryItem(name: "quality", value: "\(quality)"),
+            URLQueryItem(name: "format", value: format),
+            URLQueryItem(name: "fit", value: fit),
+        ]
+
+        return components?.url
+    }
+
+    func mapToStandardSize(viewSize: CGSize) -> (Int, Int) {
+        let standardWidth = mapDimensionToStandardSize(dimension: viewSize.width)
+        let standardHeight = mapDimensionToStandardSize(dimension: viewSize.height)
+        return (standardWidth, standardHeight)
+    }
+
+    func mapDimensionToStandardSize(dimension: CGFloat) -> Int {
+        switch dimension {
+        case 0..<200:
+            return 200
+        case 200..<300:
+            return 300
+        case 300..<400:
+            return 400
+        case 400..<500:
+            return 500
+        case 500..<600:
+            return 600
+        case 600..<700:
+            return 700
+        case 700..<800:
+            return 800
+        case 800..<CGFloat(ReccoStandardImageConstants.maxServerPt):
+            return ReccoStandardImageConstants.maxServerPt
+        default:
+            return ReccoStandardImageConstants.maxServerPt
+        }
+    }
 }
 
 struct ReccoURLImageView_Previews: PreviewProvider {
