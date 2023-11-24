@@ -18,11 +18,11 @@ class ReccoURLImageViewTests: XCTestCase {
         }
     }
 
-    func testConstructDynamicImageUrlFullStructure() {
+    func test_dynamic_url_generatesRightStructure() {
         let testSize = CGSize(width: 300, height: 300)
         let screenScale = UIScreen.main.nativeScale
-        let expectedWidth = Int(testSize.width * screenScale)
-        let expectedHeight = Int(testSize.height * screenScale)
+        let expectedWidth = Int(400 * screenScale) // 300 will land in a standard 400 size
+        let expectedHeight = Int(400 * screenScale)
 
         let imageView = ReccoURLImageView<PlaceholderView, PlaceholderView, PlaceholderView>(
             url: URL(string: "https://example.com/image.jpg"),
