@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
   issue_comment:
-    types: [ created ]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 env:
