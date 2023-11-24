@@ -21,7 +21,6 @@ jobs:
     name: Run tests
     runs-on: macos-13
     if: |
-     # Run if the base branch of the PR is 'main' or 'develop'
      github.base_ref == 'main' || 
      github.base_ref == 'develop' || 
      (github.event_name == 'pull_request' && 
