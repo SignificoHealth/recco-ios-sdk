@@ -18,11 +18,16 @@ enum ReccoURLImageDownsample {
     //    case height(CGFloat)
 }
 
+enum ReccoStandardImageConstants {
+    static let maxServerPt: Int = 900
+}
+
 struct ReccoURLImageView<
     ErrorView: View,
     LoadingView: View,
     NewImageView: View
 >: View {
+    
     init(
         url: URL?,
         alt: String? = nil,
@@ -69,7 +74,9 @@ struct ReccoURLImageView<
             } else {
                 loadingView()
             }
-        }
+        }.onAppear(perform: {
+            print(dynamicUrl)
+        })
         .accessibilityLabel(alt ?? "")
     }
 #elseif canImport(Kingfisher)
@@ -85,21 +92,24 @@ struct ReccoURLImageView<
     }
 #endif
     func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
-        var (standardWidth, standardHeight) = downSampleSize != nil
-        ? mapToStandardSize(viewSize: downSampleSize!.inPixels)
-        : (1080, 1080)
+        var (standardWidth, standardHeight) = if downSampleSize != nil {
+            mapToStandardSize(viewSize: downSampleSize!)
+        } else {
+            (ReccoStandardImageConstants.maxServerPt, ReccoStandardImageConstants.maxServerPt)
+        }
         
-        standardWidth *= Int(UIScreen.main.nativeScale)
-        standardHeight *= Int(UIScreen.main.nativeScale)
 
         let quality = 70
         let format = "webp"
         let fit = "cover"
+        
+        let standardWidthPx = standardWidth * Int(UIScreen.main.nativeScale)
+        let standardHeightPx = standardHeight * Int(UIScreen.main.nativeScale)
 
         var components = URLComponents(string: url)
         components?.queryItems = [
-            URLQueryItem(name: "width", value: "\(standardWidth)"),
-            URLQueryItem(name: "height", value: "\(standardHeight)"),
+            URLQueryItem(name: "width", value: "\(standardWidthPx)"),
+            URLQueryItem(name: "height", value: "\(standardHeightPx)"),
             URLQueryItem(name: "quality", value: "\(quality)"),
             URLQueryItem(name: "format", value: format),
             URLQueryItem(name: "fit", value: fit)
@@ -115,17 +125,27 @@ struct ReccoURLImageView<
     }
 
     func mapDimensionToStandardSize(dimension: CGFloat) -> Int {
-        let maxServerSize = 1080
+        
 
         switch dimension {
-        case 0..<640:
-            return 320
-        case 640..<930:
-            return 640
-        case 930..<CGFloat(maxServerSize):
-            return 930
+        case 0..<200:
+            return 200
+        case 200..<300:
+            return 300
+        case 300..<400:
+            return 400
+        case 400..<500:
+            return 500
+        case 500..<600:
+            return 600
+        case 600..<700:
+            return 700
+        case 700..<800:
+            return 800
+        case 800..<CGFloat(ReccoStandardImageConstants.maxServerPt):
+            return ReccoStandardImageConstants.maxServerPt
         default:
-            return maxServerSize
+            return ReccoStandardImageConstants.maxServerPt
         }
     }
 }
