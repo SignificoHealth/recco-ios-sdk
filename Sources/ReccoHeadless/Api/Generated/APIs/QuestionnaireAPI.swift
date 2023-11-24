@@ -11,25 +11,26 @@ import AnyCodable
 #endif
 
 internal class QuestionnaireAPI {
+
     /**
      Set user app answers for a questionnaire.
-
-     - parameter createQuestionnaireAnswerDTO: (body)
+     
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func answers(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) async throws {
-        try await answersWithRequestBuilder(createQuestionnaireAnswerDTO: createQuestionnaireAnswerDTO).execute().body
+        return try await answersWithRequestBuilder(createQuestionnaireAnswerDTO: createQuestionnaireAnswerDTO).execute().body
     }
 
     /**
      Set user app answers for a questionnaire.
      - POST /api/v1/me/questionnaire/answers
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter createQuestionnaireAnswerDTO: (body)
-     - returns: RequestBuilder<Void>
+       - type: http
+       - name: bearerAuth
+     - parameter createQuestionnaireAnswerDTO: (body)  
+     - returns: RequestBuilder<Void> 
      */
     internal class func answersWithRequestBuilder(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/questionnaire/answers"
@@ -51,23 +52,23 @@ internal class QuestionnaireAPI {
 
     /**
      Return the associated questionnaire for a given topic.
-
-     - parameter topic: (path)
+     
+     - parameter topic: (path)  
      - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func getQuestionnaireByTopic(topic: TopicDTO) async throws -> [QuestionDTO] {
-        try await getQuestionnaireByTopicWithRequestBuilder(topic: topic).execute().body
+        return try await getQuestionnaireByTopicWithRequestBuilder(topic: topic).execute().body
     }
 
     /**
      Return the associated questionnaire for a given topic.
      - GET /api/v1/me/questionnaire/topics/{topic}
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter topic: (path)
-     - returns: RequestBuilder<[QuestionDTO]>
+       - type: http
+       - name: bearerAuth
+     - parameter topic: (path)  
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
     internal class func getQuestionnaireByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[QuestionDTO]> {
         var localVariablePath = "/api/v1/me/questionnaire/topics/{topic}"
@@ -92,21 +93,21 @@ internal class QuestionnaireAPI {
 
     /**
      Return the onboarding questionnaire.
-
+     
      - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func onboarding() async throws -> [QuestionDTO] {
-        try await onboardingWithRequestBuilder().execute().body
+        return try await onboardingWithRequestBuilder().execute().body
     }
 
     /**
      Return the onboarding questionnaire.
      - GET /api/v1/me/questionnaire/onboarding_questionnaires
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - returns: RequestBuilder<[QuestionDTO]>
+       - type: http
+       - name: bearerAuth
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
     internal class func onboardingWithRequestBuilder() -> RequestBuilder<[QuestionDTO]> {
         let localVariablePath = "/api/v1/me/questionnaire/onboarding_questionnaires"
@@ -128,23 +129,23 @@ internal class QuestionnaireAPI {
 
     /**
      Set user app answers for the onboarding questionnaires.
-
-     - parameter createQuestionnaireAnswerDTO: (body)
+     
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func onboardingAnswers(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) async throws {
-        try await onboardingAnswersWithRequestBuilder(createQuestionnaireAnswerDTO: createQuestionnaireAnswerDTO).execute().body
+        return try await onboardingAnswersWithRequestBuilder(createQuestionnaireAnswerDTO: createQuestionnaireAnswerDTO).execute().body
     }
 
     /**
      Set user app answers for the onboarding questionnaires.
      - POST /api/v1/me/questionnaire/onboarding_answers
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter createQuestionnaireAnswerDTO: (body)
-     - returns: RequestBuilder<Void>
+       - type: http
+       - name: bearerAuth
+     - parameter createQuestionnaireAnswerDTO: (body)  
+     - returns: RequestBuilder<Void> 
      */
     internal class func onboardingAnswersWithRequestBuilder(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/questionnaire/onboarding_answers"

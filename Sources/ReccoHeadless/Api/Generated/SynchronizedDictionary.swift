@@ -7,6 +7,7 @@
 import Foundation
 
 internal struct SynchronizedDictionary<K: Hashable, V> {
+
     private var dictionary = [K: V]()
     private let queue = DispatchQueue(
         label: "SynchronizedDictionary",

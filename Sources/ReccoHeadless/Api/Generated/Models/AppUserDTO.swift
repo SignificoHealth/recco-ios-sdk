@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
+
     internal var id: String
     internal var clientUserId: String
     internal var isOnboardingQuestionnaireCompleted: Bool
@@ -40,3 +41,4 @@ internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(appStyle, forKey: .appStyle)
     }
 }
+

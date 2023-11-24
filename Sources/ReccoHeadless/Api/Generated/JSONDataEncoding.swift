@@ -11,6 +11,7 @@ import FoundationNetworking
 #endif
 
 internal struct JSONDataEncoding {
+
     // MARK: Properties
 
     private static let jsonDataKey = "jsonData"
@@ -51,4 +52,5 @@ internal struct JSONDataEncoding {
         }
         return returnedParams
     }
+
 }

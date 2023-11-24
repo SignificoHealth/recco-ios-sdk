@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
+
     internal var id: ContentIdDTO
     internal var rating: RatingDTO
     internal var status: StatusDTO
@@ -64,3 +65,4 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(articleBodyHtml, forKey: .articleBodyHtml)
     }
 }
+

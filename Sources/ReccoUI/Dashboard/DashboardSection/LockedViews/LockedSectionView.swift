@@ -6,7 +6,7 @@ struct LockedSectionView: View {
     @Binding var performedUnlockAnimation: Bool
 
     @State private var numberOfItems = 5
-    @State private var shouldShake = false
+	@State private var shouldShake = false
     @State private var performingUnlockAnimation = false
     @State private var rememberLockState = true
     @State private var lockedImages: [String] = (1...7).map { idx in "locked_bg_item_\(idx)"

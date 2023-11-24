@@ -11,27 +11,28 @@ import AnyCodable
 #endif
 
 internal class AuthenticationAPI {
-    /**
-     Authenticate an app user supplying an app PAT and the associated user client id.         If the user client id does not exist in the app, a new user will be registered on the fly.         This endpoint should be used also after the PAT expires to retrieve a new one.
 
-     - parameter authorization: (header)
-     - parameter clientUserId: (header)
+    /**
+     Authenticate an app user supplying an app PAT and the associated user client id.         If the user client id does not exist in the app, a new user will be registered on the fly.         This endpoint should be used also after the PAT expires to retrieve a new one.         
+     
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
      - returns: PATDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func login(authorization: String, clientUserId: String) async throws -> PATDTO {
-        try await loginWithRequestBuilder(authorization: authorization, clientUserId: clientUserId).execute().body
+        return try await loginWithRequestBuilder(authorization: authorization, clientUserId: clientUserId).execute().body
     }
 
     /**
-     Authenticate an app user supplying an app PAT and the associated user client id.         If the user client id does not exist in the app, a new user will be registered on the fly.         This endpoint should be used also after the PAT expires to retrieve a new one.
+     Authenticate an app user supplying an app PAT and the associated user client id.         If the user client id does not exist in the app, a new user will be registered on the fly.         This endpoint should be used also after the PAT expires to retrieve a new one.         
      - POST /api/v1/app_users/login
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter authorization: (header)
-     - parameter clientUserId: (header)
-     - returns: RequestBuilder<PATDTO>
+       - type: http
+       - name: bearerAuth
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
+     - returns: RequestBuilder<PATDTO> 
      */
     internal class func loginWithRequestBuilder(authorization: String, clientUserId: String) -> RequestBuilder<PATDTO> {
         let localVariablePath = "/api/v1/app_users/login"
@@ -54,27 +55,27 @@ internal class AuthenticationAPI {
 
     /**
      Logout an app user supplying PAT's id and the associated user client id.
-
-     - parameter authorization: (header)
-     - parameter clientUserId: (header)
-     - parameter pATReferenceDeleteDTO: (body)
+     
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
+     - parameter pATReferenceDeleteDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func logout(authorization: String, clientUserId: String, pATReferenceDeleteDTO: PATReferenceDeleteDTO) async throws {
-        try await logoutWithRequestBuilder(authorization: authorization, clientUserId: clientUserId, pATReferenceDeleteDTO: pATReferenceDeleteDTO).execute().body
+        return try await logoutWithRequestBuilder(authorization: authorization, clientUserId: clientUserId, pATReferenceDeleteDTO: pATReferenceDeleteDTO).execute().body
     }
 
     /**
      Logout an app user supplying PAT's id and the associated user client id.
      - POST /api/v1/app_users/logout
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter authorization: (header)
-     - parameter clientUserId: (header)
-     - parameter pATReferenceDeleteDTO: (body)
-     - returns: RequestBuilder<Void>
+       - type: http
+       - name: bearerAuth
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
+     - parameter pATReferenceDeleteDTO: (body)  
+     - returns: RequestBuilder<Void> 
      */
     internal class func logoutWithRequestBuilder(authorization: String, clientUserId: String, pATReferenceDeleteDTO: PATReferenceDeleteDTO) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/app_users/logout"
@@ -97,23 +98,23 @@ internal class AuthenticationAPI {
 
     /**
      Create a PAT, with a lifespan of 15 days, for the clientUserId associated with the transient token.
-
-     - parameter authorization: (header)
+     
+     - parameter authorization: (header)  
      - returns: PATDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func tokens(authorization: String) async throws -> PATDTO {
-        try await tokensWithRequestBuilder(authorization: authorization).execute().body
+        return try await tokensWithRequestBuilder(authorization: authorization).execute().body
     }
 
     /**
      Create a PAT, with a lifespan of 15 days, for the clientUserId associated with the transient token.
      - POST /api/v1/app_users/tokens
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter authorization: (header)
-     - returns: RequestBuilder<PATDTO>
+       - type: http
+       - name: bearerAuth
+     - parameter authorization: (header)  
+     - returns: RequestBuilder<PATDTO> 
      */
     internal class func tokensWithRequestBuilder(authorization: String) -> RequestBuilder<PATDTO> {
         let localVariablePath = "/api/v1/app_users/tokens"
@@ -135,25 +136,25 @@ internal class AuthenticationAPI {
 
     /**
      Create a one-time PAT for the app, with a 1-minute lifespan and scoped to the supplied clientUserId.
-
-     - parameter authorization: (header)
-     - parameter clientUserId: (header)
+     
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
      - returns: PATDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func transientTokens(authorization: String, clientUserId: String) async throws -> PATDTO {
-        try await transientTokensWithRequestBuilder(authorization: authorization, clientUserId: clientUserId).execute().body
+        return try await transientTokensWithRequestBuilder(authorization: authorization, clientUserId: clientUserId).execute().body
     }
 
     /**
      Create a one-time PAT for the app, with a 1-minute lifespan and scoped to the supplied clientUserId.
      - POST /api/v1/app_users/transient_tokens
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter authorization: (header)
-     - parameter clientUserId: (header)
-     - returns: RequestBuilder<PATDTO>
+       - type: http
+       - name: bearerAuth
+     - parameter authorization: (header)  
+     - parameter clientUserId: (header)  
+     - returns: RequestBuilder<PATDTO> 
      */
     internal class func transientTokensWithRequestBuilder(authorization: String, clientUserId: String) -> RequestBuilder<PATDTO> {
         let localVariablePath = "/api/v1/app_users/transient_tokens"

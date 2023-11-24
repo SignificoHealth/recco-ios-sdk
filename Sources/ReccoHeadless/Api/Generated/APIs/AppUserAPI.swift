@@ -11,23 +11,24 @@ import AnyCodable
 #endif
 
 internal class AppUserAPI {
+
     /**
      Return app user.
-
+     
      - returns: AppUserDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     internal class func callGet() async throws -> AppUserDTO {
-        try await callGetWithRequestBuilder().execute().body
+        return try await callGetWithRequestBuilder().execute().body
     }
 
     /**
      Return app user.
      - GET /api/v1/me
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - returns: RequestBuilder<AppUserDTO>
+       - type: http
+       - name: bearerAuth
+     - returns: RequestBuilder<AppUserDTO> 
      */
     internal class func callGetWithRequestBuilder() -> RequestBuilder<AppUserDTO> {
         let localVariablePath = "/api/v1/me"

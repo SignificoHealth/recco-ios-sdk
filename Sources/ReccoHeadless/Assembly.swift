@@ -56,13 +56,13 @@ public final class ReccoHeadlessAssembly: ReccoAssembly {
         }
 
         container.register(type: (() -> UIWindow?).self) { _ in {
-            // swiftlint:disable:next first_where
-            UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .first(where: { $0 is UIWindowScene })
-                .flatMap({ $0 as? UIWindowScene })?.windows
-                .first(where: \.isKeyWindow)
-        }
+				// swiftlint:disable:next first_where
+                UIApplication.shared.connectedScenes
+                    .filter { $0.activationState == .foregroundActive }
+                    .first(where: { $0 is UIWindowScene })
+                    .flatMap({ $0 as? UIWindowScene })?.windows
+                    .first(where: \.isKeyWindow)
+            }
         }
 
         container.register(type: KeychainProxy.self) { _ in

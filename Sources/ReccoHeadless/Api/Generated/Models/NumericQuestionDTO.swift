@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal struct NumericQuestionDTO: Codable, JSONEncodable, Hashable {
+
     internal enum FormatDTO: String, Codable, CaseIterable {
         case humanHeight = "human_height"
         case humanWeight = "human_weight"
@@ -42,3 +43,4 @@ internal struct NumericQuestionDTO: Codable, JSONEncodable, Hashable {
         try container.encode(format, forKey: .format)
     }
 }
+

@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal struct ApiErrorDTO: Codable, JSONEncodable, Hashable {
+
     internal enum ErrorCodeDTO: String, Codable, CaseIterable {
         case unknown = "unknown"
         case resourceNotFound = "resource_not_found"
@@ -45,3 +46,4 @@ internal struct ApiErrorDTO: Codable, JSONEncodable, Hashable {
         try container.encode(traceId, forKey: .traceId)
     }
 }
+

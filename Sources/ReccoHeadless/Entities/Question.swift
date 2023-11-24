@@ -18,16 +18,16 @@ public struct Question: Equatable, Hashable {
     public var answer: EitherAnswerType
 
     public init(
-        id: String,
-        questionnaireId: String,
-        index: Int,
-        text: String,
-        type: QuestionType,
-        multiChoice: MultiChoiceQuestion? = nil,
-        numeric: NumericQuestion? = nil,
-        numericAnswer: Double? = nil,
-        multichoiceAnswer: [Int]? = nil
-    ) throws {
+		id: String,
+		questionnaireId: String,
+		index: Int,
+		text: String,
+		type: QuestionType,
+		multiChoice: MultiChoiceQuestion? = nil,
+		numeric: NumericQuestion? = nil,
+		numericAnswer: Double? = nil,
+		multichoiceAnswer: [Int]? = nil
+	) throws {
         self.id = id
         self.index = index
         self.text = text

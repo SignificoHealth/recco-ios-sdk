@@ -59,7 +59,7 @@ final class BookmarksViewModel: ObservableObject {
 
     private func markContentAsSeen(id: ContentId) {
         for (idx, item) in items.filter({ item in item.status != .viewed }).enumerated() where item.id == id {
-            items[idx].status = .viewed
+			items[idx].status = .viewed
         }
     }
 }

@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal struct MultiChoiceAnswerOptionDTO: Codable, JSONEncodable, Hashable {
+
     internal var id: Int
     internal var text: String
 
@@ -32,3 +33,4 @@ internal struct MultiChoiceAnswerOptionDTO: Codable, JSONEncodable, Hashable {
         try container.encode(text, forKey: .text)
     }
 }
+
