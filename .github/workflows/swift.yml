@@ -16,6 +16,7 @@ env:
   DEVICE_OS: 16.4
   IS_CI: true
 
+
 jobs:
   test:
     name: Run tests
@@ -59,9 +60,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const success = '${{ job.status }}' == 'success';
             const name = '${{ github.workflow }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const success = '${{ job.status }}' === 'success';
             const body = `[${name}](${url}) ${success ? 'succeeded ✅' : 'failed ❌'}`;
 
             await github.rest.issues.createComment({
@@ -74,11 +75,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const success = '${{ job.status }}' == 'success';
+            const state = success ? 'success' : 'failure'; 
+
             const response = await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
               context: '${{ github.workflow }}',
-              state: success ? 'success' : 'failure'
+              state: state
             });
-            console.log("Status update response:", response);
