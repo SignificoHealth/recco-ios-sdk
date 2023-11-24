@@ -74,9 +74,7 @@ struct ReccoURLImageView<
             } else {
                 loadingView()
             }
-        }.onAppear(perform: {
-            print(dynamicUrl)
-        })
+        }
         .accessibilityLabel(alt ?? "")
     }
 #elseif canImport(Kingfisher)
