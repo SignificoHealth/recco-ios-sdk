@@ -3,6 +3,7 @@ import Foundation
 public protocol QuestionnaireRepository {
     func getOnboardingQuestionnaire() async throws -> [Question]
     func getQuestionaryByTopic(topic: ReccoTopic) async throws -> [Question]
+    func getQuestionaryById(id: String) async throws -> [Question]
     func sendQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws
     func sendOnboardingQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws
 }
@@ -13,6 +14,11 @@ final class LiveQuestionnaireRepository: QuestionnaireRepository {
             topic: .init(entity: topic)
         )
         .map(Question.init)
+    }
+    
+    func getQuestionaryById(id: String) async throws -> [Question] {
+        try await QuestionnaireAPI.getQuestionnaire(itemId: id)
+            .map(Question.init)
     }
 
     func sendQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws {

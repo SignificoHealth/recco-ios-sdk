@@ -33,6 +33,15 @@ final class MockQuestionnaireRepository: QuestionnaireRepository {
         }
         return Mocks.numericQuestions
     }
+    
+    func getQuestionaryById(id: String) async throws -> [Question] {
+        expectations[.getQuestionnaire]?.fulfill()
+
+        if let getQuestionnaireError = getQuestionnaireError {
+            throw getQuestionnaireError
+        }
+        return Mocks.numericQuestions
+    }
 
     func sendQuestionnaire(_ answers: [CreateQuestionnaireAnswer]) async throws {
         expectations[.sendQuestionnaire]?.fulfill()
