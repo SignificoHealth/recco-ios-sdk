@@ -25,7 +25,7 @@ final class MockQuestionnaireRepository: QuestionnaireRepository {
         return Mocks.numericQuestions
     }
 
-    func getQuestionnaire(topic: ReccoHeadless.ReccoTopic) async throws -> [Question] {
+    func getQuestionaryByTopic(topic: ReccoHeadless.ReccoTopic) async throws -> [Question] {
         expectations[.getQuestionnaire]?.fulfill()
 
         if let getQuestionnaireError = getQuestionnaireError {
