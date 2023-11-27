@@ -62,7 +62,7 @@ internal struct APIHelper {
                 .compactMap { value in convertAnyToString(value) }
                 .joined(separator: ",")
         }
-        return convertAnyToString(source) ?? source
+        return source
     }
 
     /// maps all values from source to query parameters

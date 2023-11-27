@@ -12,4 +12,5 @@ import AnyCodable
 
 internal enum ContentTypeDTO: String, Codable, CaseIterable {
     case articles = "articles"
+    case questionnaires = "questionnaires"
 }

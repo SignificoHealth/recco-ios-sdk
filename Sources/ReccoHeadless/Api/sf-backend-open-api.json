@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://recco-api.significo.app",
+      "url": "https://recco-api.significo.dev",
       "description": "Generated server url"
     }
   ],
@@ -520,6 +520,17 @@
             "schema": {
               "$ref": "#/components/schemas/Topic"
             }
+          },
+          {
+            "name": "contentTypes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ContentType"
+              }
+            }
           }
         ],
         "responses": {
@@ -821,14 +832,6 @@
         "operationId": "getArticle",
         "parameters": [
           {
-            "name": "itemId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "catalogId",
             "in": "query",
             "required": true,
@@ -844,6 +847,57 @@
               "application/hal+json": {
                 "schema": {
                   "$ref": "#/components/schemas/AppUserArticle"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/me/questionnaire": {
+      "get": {
+        "tags": [
+          "Questionnaire"
+        ],
+        "summary": "Get questionnaire.",
+        "operationId": "getQuestionnaire",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
                 }
               }
             }
@@ -1022,7 +1076,8 @@
       "ContentType": {
         "type": "string",
         "enum": [
-          "articles"
+          "articles",
+          "questionnaires"
         ]
       },
       "Rating": {
@@ -1238,6 +1293,9 @@
           },
           "appStyle": {
             "$ref": "#/components/schemas/Style"
+          },
+          "appRedirectUrl": {
+            "type": "string"
           }
         }
       },
