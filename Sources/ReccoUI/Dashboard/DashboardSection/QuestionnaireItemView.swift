@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Saúl on 29/11/23.
 //
@@ -16,9 +16,9 @@ struct QuestionnaireItemView: View {
     var opacity: CGFloat {
         fromBookmarks ?
             1 : item.status == .viewed ?
-                0.4 : 1
+            0.4 : 1
     }
-    
+
     var body: some View {
         VStack(spacing: .XS) {
             Spacer()
@@ -29,12 +29,12 @@ struct QuestionnaireItemView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.XXS)
                 .multilineTextAlignment(.center)
-            
+
             ReccoStyleImage(name: "people_digital", resizable: true)
                 .aspectRatio(1, contentMode: .fit)
-            .frame(
-                minWidth: .minCardWidth, idealWidth: .cardSize.width, maxWidth: .cardSize.width
-            )
+                .frame(
+                    minWidth: .minCardWidth, idealWidth: .cardSize.width, maxWidth: .cardSize.width
+                )
         }
         .clipShape(
             RoundedRectangle(cornerRadius: .XXS)
@@ -63,4 +63,3 @@ struct QuestionnaireItemView_Previews: PreviewProvider {
         ), fromBookmarks: false)
     }
 }
-

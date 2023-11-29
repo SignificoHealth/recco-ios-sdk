@@ -47,15 +47,15 @@ struct FeedSectionView: View {
                             LazyHStack(spacing: .XS) {
                                 Spacer(minLength: .S)
                                 ForEach(items, id: \.self) { item in
-                                    if (item.type == .articles) {
+                                    if item.type == .articles {
                                         Button {
                                             goToDetail(item)
                                         } label: {
                                             FeedItemView(item: item)
                                         }
                                     }
-                                    
-                                    if (item.type == .questionnaire) {
+
+                                    if item.type == .questionnaire {
                                         Button {
                                             goToQuestionnaire(section.section)
                                         } label: {
@@ -64,7 +64,6 @@ struct FeedSectionView: View {
                                                 topic: section.section.topic
                                             )
                                         }
-
                                     }
                                 }
 
