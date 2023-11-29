@@ -46,10 +46,24 @@ struct FeedSectionView: View {
                             LazyHStack(spacing: .XS) {
                                 Spacer(minLength: .S)
                                 ForEach(items, id: \.self) { item in
-                                    Button {
-                                        goToDetail(item)
-                                    } label: {
-                                        FeedItemView(item: item)
+                                    if (item.type == .articles) {
+                                        Button {
+                                            goToDetail(item)
+                                        } label: {
+                                            FeedItemView(item: item)
+                                        }
+                                    }
+                                    
+                                    if (item.type == .questionnaire) {
+                                        Button {
+                                            print("Say hi")
+                                        } label: {
+                                            QuestionnaireItemView(
+                                                item: item,
+                                                topic: section.section.topic
+                                            )
+                                        }
+
                                     }
                                 }
 
