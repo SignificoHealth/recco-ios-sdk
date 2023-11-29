@@ -76,6 +76,7 @@ extension TopicDTO {
 
 extension FeedSection {
     init(dto: FeedSectionDTO) {
+        
         self.init(
             type: .init(dto: dto.type),
             state: .init(dto: dto.state),

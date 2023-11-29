@@ -54,7 +54,7 @@ final class DashboardViewModel: ObservableObject {
                 topic, { [unowned self] answeredAll in
                     reloadSection(
                         type: section.type,
-                        nextState: answeredAll ? .unlock : .partiallyUnlock
+                        nextState: .unlock
                     )
                 }
             ))
@@ -77,7 +77,7 @@ final class DashboardViewModel: ObservableObject {
                 topic, { [unowned self] answeredAll in
                     reloadSection(
                         type: section.type,
-                        nextState: answeredAll ? .unlock : .partiallyUnlock
+                        nextState: .unlock
                     )
                 }
             ))
