@@ -47,6 +47,20 @@ final class DashboardViewModel: ObservableObject {
         ))
     }
 
+    @MainActor
+    func goToQuestionnaire(of section: FeedSection) {
+        if let topic = section.topic {
+            nav.navigate(to: .questionnaire(
+                topic, { [unowned self] answeredAll in
+                    reloadSection(
+                        type: section.type,
+                        nextState: answeredAll ? .unlock : .partiallyUnlock
+                    )
+                }
+            ))
+        }
+    }
+
     func goToBookmarks() {
         nav.navigate(to: .bookmarks)
     }

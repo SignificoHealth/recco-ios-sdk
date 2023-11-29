@@ -6,6 +6,7 @@ struct FeedSectionView: View {
     var section: FeedSectionViewState
     var items: [AppUserRecommendation]
     var goToDetail: (AppUserRecommendation) -> Void
+    var goToQuestionnaire: (FeedSection) -> Void
     var pressedLockedSection: (FeedSection) -> Void
 
     private var showSectionLoading: Bool {
@@ -56,7 +57,7 @@ struct FeedSectionView: View {
                                     
                                     if (item.type == .questionnaire) {
                                         Button {
-                                            print("Say hi")
+                                            goToQuestionnaire(section.section)
                                         } label: {
                                             QuestionnaireItemView(
                                                 item: item,
@@ -98,6 +99,7 @@ struct FeedSectionView_Previews: PreviewProvider {
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
             goToDetail: { _ in },
+            goToQuestionnaire: { _ in },
             pressedLockedSection: { _ in }
         )
     }
