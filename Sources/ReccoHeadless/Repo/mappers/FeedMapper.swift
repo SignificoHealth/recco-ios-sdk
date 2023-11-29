@@ -8,7 +8,7 @@ extension FeedSectionState {
         case .unlock:
             self = .unlock
         case .partiallyUnlock:
-            self = .partiallyUnlock
+            self = .unlock
         }
     }
 }
