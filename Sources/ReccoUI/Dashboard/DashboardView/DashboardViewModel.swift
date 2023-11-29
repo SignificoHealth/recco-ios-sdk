@@ -84,6 +84,7 @@ final class DashboardViewModel: ObservableObject {
             let data = try await feedRepo.getFeed()
             setView(sections: data)
             await load(sections: data)
+        
         } catch {
             logger.log(error)
             initialLoadError = error

@@ -9,6 +9,16 @@ final class LiveFeedRepository: FeedRepository {
 
     func getFeed() async throws -> [FeedSection] {
         let dto = try await FeedAPI.getFeed()
-        return dto.map(FeedSection.init)
+        
+        var feedAndTayloredSections = [
+            FeedSection(type: .physicalActivityRecommendations, state: .unlock, topic: .physicalActivity),
+            FeedSection(type: .nutritionRecommendations, state: .unlock, topic: .nutrition),
+            FeedSection(type: .mentalWellbeingRecommendations, state: .unlock, topic: .mentalWellbeing),
+            FeedSection(type: .sleepRecommendations, state: .unlock, topic: .sleep)
+        ]
+        
+        var feedSections = dto.map(FeedSection.init)
+        feedAndTayloredSections.append(contentsOf: feedSections)
+        return feedAndTayloredSections
     }
 }
