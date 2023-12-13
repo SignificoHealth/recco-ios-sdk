@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://recco-api.significo.dev",
+      "url": "https://recco-api.significo.app",
       "description": "Generated server url"
     }
   ],
@@ -1297,10 +1297,20 @@
           "androidFont",
           "darkColors",
           "iosFont",
-          "lightColors"
+          "isPredefined",
+          "lightColors",
+          "name",
+          "webFont"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
           "darkColors": {
             "$ref": "#/components/schemas/Colors"
           },
@@ -1312,8 +1322,20 @@
           },
           "androidFont": {
             "$ref": "#/components/schemas/AndroidFont"
+          },
+          "webFont": {
+            "$ref": "#/components/schemas/WebFont"
+          },
+          "isPredefined": {
+            "type": "boolean"
           }
         }
+      },
+      "WebFont": {
+        "type": "string",
+        "enum": [
+          "poppins"
+        ]
       },
       "Topic": {
         "type": "string",
@@ -1361,6 +1383,10 @@
           },
           "imageAlt": {
             "type": "string"
+          },
+          "dynamicImageResizingUrl": {
+            "type": "string",
+            "description": "Responsive image url. Supports transformation via query params. Allowed query params key=values width=number, height=number, quality=1..100, format=auto|jgp|png|webp|tiff, fit=cover|contain|inside|outside"
           }
         }
       },
@@ -1400,6 +1426,9 @@
             "type": "string"
           },
           "imageUrl": {
+            "type": "string"
+          },
+          "dynamicImageResizingUrl": {
             "type": "string"
           },
           "imageAlt": {
