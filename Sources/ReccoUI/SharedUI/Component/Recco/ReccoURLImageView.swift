@@ -85,7 +85,7 @@ struct ReccoURLImageView<
                 loadingView()
             }
             .scaledToFill()
-            .accessibilityLabel(alt)
+            .accessibilityLabel(alt ?? "")
     }
     #endif
     func constructDynamicImageUrl(url: String, downSampleSize: CGSize?) -> URL? {
