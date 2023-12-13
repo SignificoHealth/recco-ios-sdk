@@ -58,7 +58,8 @@ extension AppUserArticle {
             headline: dto.headline,
             bookmarked: dto.bookmarked,
             lead: dto.lead,
-            imageUrl: dto.imageUrl.flatMap(URL.init),
+            imageUrl: dto.dynamicImageResizingUrl.flatMap(URL.init),
+            imageAlt: dto.imageAlt,
             articleBodyHtml: dto.articleBodyHtml
         )
     }

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2023-12-13
+
+### Added:
+
++ Support dynamic image URLs with standardised sizes
+
+### Fixed
+
++ Close button on DashboardView fullscreen error has been removed to avoid redundancy.
+
+
 ## [1.0.3] - 2023-10-17
 
 ### Added:
