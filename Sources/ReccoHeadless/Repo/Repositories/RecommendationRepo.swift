@@ -6,8 +6,8 @@ public protocol RecommendationRepository {
 }
 
 final class LiveRecommendationRepository: RecommendationRepository {
-    private let supportedContentTypes = [ContentTypeDTO.articles, ContentTypeDTO.questionnaires]
-    
+    private let supportedContentTypes = [ContentTypeDTO.articles]
+
     init() {}
 
     func getFeedSection(_ section: FeedSection) async throws -> [AppUserRecommendation] {
