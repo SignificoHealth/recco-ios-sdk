@@ -45,8 +45,7 @@ struct DashboardView: View {
         }
         .reccoErrorView(
             error: $viewModel.initialLoadError,
-            onRetry: { await viewModel.getFeedItems() },
-            onClose: viewModel.dismiss
+            onRetry: { await viewModel.getFeedItems() }
         )
         .background(
             Color.reccoBackground.ignoresSafeArea()

@@ -65,7 +65,7 @@ To integrate using Apple's Swift package manager, without Xcode integration, add
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sf-recco/ios-sdk.git", .upToNextMajor(from: "1.0.3"))
+    .package(url: "https://github.com/sf-recco/ios-sdk.git", .upToNextMajor(from: "1.1.0"))
 ]
 ```
 
