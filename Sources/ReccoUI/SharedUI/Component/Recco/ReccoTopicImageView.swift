@@ -22,7 +22,7 @@ struct ReccoTopicImageView: View {
         case .mentalWellbeing:
             imageName = "people_digital"
         case .sleep:
-            imageName = "people_digital"
+            imageName = "sleep"
         }
         
         return ReccoStyleImage(name: imageName, resizable: true)
