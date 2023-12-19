@@ -18,7 +18,7 @@ struct ReccoTopicImageView: View {
         case .physicalActivity:
             imageName = "activity"
         case .nutrition:
-            imageName = "people_digital"
+            imageName = "eating_habits"
         case .mentalWellbeing:
             imageName = "people_digital"
         case .sleep:
