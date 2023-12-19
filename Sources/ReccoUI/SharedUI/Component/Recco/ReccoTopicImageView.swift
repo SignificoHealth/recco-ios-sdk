@@ -9,8 +9,8 @@ import ReccoHeadless
 import SwiftUI
 
 struct ReccoTopicImageView: View {
-    let topic: ReccoTopic
-    
+    let topic: ReccoTopic?
+
     var body: some View {
         let imageName: String
         
@@ -19,15 +19,14 @@ struct ReccoTopicImageView: View {
             imageName = "activity"
         case .nutrition:
             imageName = "eating_habits"
-        case .mentalWellbeing:
-            imageName = "people_digital"
         case .sleep:
             imageName = "sleep"
+        case .mentalWellbeing, .none:
+            imageName = "people_digital"
         }
         
         return ReccoStyleImage(name: imageName, resizable: true)
             .aspectRatio(1, contentMode: .fit)
-
     }
 
 }

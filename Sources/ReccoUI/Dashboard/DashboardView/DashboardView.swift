@@ -71,8 +71,7 @@ struct DashboardView: View {
             text: section.type.description,
             buttonText: "recco_start".localized,
             header: {
-                ReccoStyleImage(name: "people_digital", resizable: true)
-                    .aspectRatio(1, contentMode: .fit)
+                ReccoTopicImageView(topic: section.topic)
                     .padding(.horizontal, .XL)
             },
             action: viewModel.pressedUnlockSectionStart
