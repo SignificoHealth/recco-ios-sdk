@@ -13,7 +13,7 @@ struct ReccoTopicImageView: View {
 
     var body: some View {
         let imageName: String
-        
+
         switch topic {
         case .physicalActivity:
             imageName = "activity"
@@ -24,11 +24,10 @@ struct ReccoTopicImageView: View {
         case .mentalWellbeing, .none:
             imageName = "people_digital"
         }
-        
+
         return ReccoStyleImage(name: imageName, resizable: true)
             .aspectRatio(1, contentMode: .fit)
     }
-
 }
 
 struct ReccoTopicImageView_Previews: PreviewProvider {
@@ -57,4 +56,3 @@ struct ReccoTopicImageView_Previews: PreviewProvider {
         }
     }
 }
-

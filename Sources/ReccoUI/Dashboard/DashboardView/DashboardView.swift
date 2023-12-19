@@ -18,7 +18,7 @@ struct DashboardView: View {
                         dismiss: viewModel.dismiss,
                         onBookmarks: viewModel.goToBookmarks
                     )
-                
+
                     ForEach(viewModel.sections, id: \.self) { section in
                         FeedSectionView(
                             performedUnlockAnimation: .init(get: {
@@ -26,7 +26,7 @@ struct DashboardView: View {
                             }, set: { new in
                                 viewModel.unlockAnimationsDone[section.section.type] = new
                             }),
-                        
+
                             section: section,
                             items: viewModel.items[section.section.type, default: []],
                             goToDetail: viewModel.goToDetail,
