@@ -6,6 +6,7 @@ struct FeedSectionView: View {
     var section: FeedSectionViewState
     var items: [AppUserRecommendation]
     var goToDetail: (AppUserRecommendation) -> Void
+    var goToQuestionnaire: (FeedSection) -> Void
     var pressedLockedSection: (FeedSection) -> Void
 
     private var showSectionLoading: Bool {
@@ -46,10 +47,22 @@ struct FeedSectionView: View {
                             LazyHStack(spacing: .XS) {
                                 Spacer(minLength: .S)
                                 ForEach(items, id: \.self) { item in
-                                    Button {
-                                        goToDetail(item)
-                                    } label: {
-                                        FeedItemView(item: item)
+                                    switch item.type {
+                                    case .articles:
+                                        Button {
+                                            goToDetail(item)
+                                        } label: {
+                                            FeedItemView(item: item)
+                                        }
+                                    case .questionnaire:
+                                        Button {
+                                            goToQuestionnaire(section.section)
+                                        } label: {
+                                            QuestionnaireItemView(
+                                                item: item,
+                                                topic: section.section.topic
+                                            )
+                                        }
                                     }
                                 }
 
@@ -84,6 +97,7 @@ struct FeedSectionView_Previews: PreviewProvider {
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
             goToDetail: { _ in },
+            goToQuestionnaire: { _ in },
             pressedLockedSection: { _ in }
         )
     }

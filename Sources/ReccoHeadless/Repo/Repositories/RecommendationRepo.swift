@@ -6,6 +6,8 @@ public protocol RecommendationRepository {
 }
 
 final class LiveRecommendationRepository: RecommendationRepository {
+    private let supportedContentTypes = [ContentTypeDTO.articles]
+
     init() {}
 
     func getFeedSection(_ section: FeedSection) async throws -> [AppUserRecommendation] {
@@ -15,7 +17,8 @@ final class LiveRecommendationRepository: RecommendationRepository {
              (.sleepRecommendations, .some(let topic)):
             return try await RecommendationAPI
                 .getTailoredRecommendationsByTopic(
-                    topic: .init(entity: topic)
+                    topic: .init(entity: topic),
+                    contentTypes: supportedContentTypes
                 )
                 .map(AppUserRecommendation.init)
         case (.preferredRecommendations, _):

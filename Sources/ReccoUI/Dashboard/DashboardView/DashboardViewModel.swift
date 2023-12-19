@@ -13,7 +13,7 @@ final class DashboardViewModel: ObservableObject {
     private let logger: Logger
 
     @Published var lockedSectionAlert: FeedSection?
-	@Published var isLoading = true
+    @Published var isLoading = true
     @Published var initialLoadError: Error?
     @Published var unlockAnimationsDone: [FeedSectionType: Bool] = [:]
     @Published var sections: [FeedSectionViewState] = []
@@ -47,6 +47,20 @@ final class DashboardViewModel: ObservableObject {
         ))
     }
 
+    @MainActor
+    func goToQuestionnaire(of section: FeedSection) {
+        if let topic = section.topic {
+            nav.navigate(to: .questionnaire(
+                topic, { [unowned self] _ in
+                    reloadSection(
+                        type: section.type,
+                        nextState: .unlock
+                    )
+                }
+            ))
+        }
+    }
+
     func goToBookmarks() {
         nav.navigate(to: .bookmarks)
     }
@@ -60,10 +74,10 @@ final class DashboardViewModel: ObservableObject {
         if let section = lockedSectionAlert,
            let topic = section.topic {
             nav.navigate(to: .questionnaire(
-                topic, { [unowned self] answeredAll in
+                topic, { [unowned self] _ in
                     reloadSection(
                         type: section.type,
-                        nextState: answeredAll ? .unlock : .partiallyUnlock
+                        nextState: .unlock
                     )
                 }
             ))
@@ -147,7 +161,7 @@ final class DashboardViewModel: ObservableObject {
     private func markContentAsSeen(id: ContentId) {
         for section in sections {
             for (item, idx) in zip(items[section.section.type, default: []], items[section.section.type, default: []].indices) where item.status != .viewed && item.id == id {
-                    items[section.section.type]?[idx].status = .viewed
+                items[section.section.type]?[idx].status = .viewed
             }
         }
     }

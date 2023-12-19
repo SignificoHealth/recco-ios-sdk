@@ -19,6 +19,8 @@ extension ContentType {
         switch dto {
         case .articles:
             self = .articles
+        case .questionnaires:
+            self = .questionnaire
         }
     }
 }

@@ -56,13 +56,12 @@ internal class RecommendationAPI {
     /**
      Get article.
      
-     - parameter itemId: (query)  
      - parameter catalogId: (query)  
      - returns: AppUserArticleDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    internal class func getArticle(itemId: String, catalogId: String) async throws -> AppUserArticleDTO {
-        return try await getArticleWithRequestBuilder(itemId: itemId, catalogId: catalogId).execute().body
+    internal class func getArticle(catalogId: String) async throws -> AppUserArticleDTO {
+        return try await getArticleWithRequestBuilder(catalogId: catalogId).execute().body
     }
 
     /**
@@ -71,18 +70,16 @@ internal class RecommendationAPI {
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter itemId: (query)  
      - parameter catalogId: (query)  
      - returns: RequestBuilder<AppUserArticleDTO> 
      */
-    internal class func getArticleWithRequestBuilder(itemId: String, catalogId: String) -> RequestBuilder<AppUserArticleDTO> {
+    internal class func getArticleWithRequestBuilder(catalogId: String) -> RequestBuilder<AppUserArticleDTO> {
         let localVariablePath = "/api/v1/me/recommendations/articles"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "itemId": (wrappedValue: itemId.encodeToJSON(), isExplode: true),
             "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true),
         ])
 
@@ -245,11 +242,12 @@ internal class RecommendationAPI {
      A list of tailored recommendations filtered by topic.
      
      - parameter topic: (path)  
+     - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    internal class func getTailoredRecommendationsByTopic(topic: TopicDTO) async throws -> [AppUserRecommendationDTO] {
-        return try await getTailoredRecommendationsByTopicWithRequestBuilder(topic: topic).execute().body
+    internal class func getTailoredRecommendationsByTopic(topic: TopicDTO, contentTypes: [ContentTypeDTO]? = nil) async throws -> [AppUserRecommendationDTO] {
+        return try await getTailoredRecommendationsByTopicWithRequestBuilder(topic: topic, contentTypes: contentTypes).execute().body
     }
 
     /**
@@ -259,9 +257,10 @@ internal class RecommendationAPI {
        - type: http
        - name: bearerAuth
      - parameter topic: (path)  
+     - parameter contentTypes: (query)  (optional)
      - returns: RequestBuilder<[AppUserRecommendationDTO]> 
      */
-    internal class func getTailoredRecommendationsByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[AppUserRecommendationDTO]> {
+    internal class func getTailoredRecommendationsByTopicWithRequestBuilder(topic: TopicDTO, contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         var localVariablePath = "/api/v1/me/recommendations/tailored/topics/{topic}"
         let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
         let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -269,7 +268,10 @@ internal class RecommendationAPI {
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

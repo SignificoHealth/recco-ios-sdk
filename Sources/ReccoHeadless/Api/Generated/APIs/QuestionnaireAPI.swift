@@ -51,6 +51,47 @@ internal class QuestionnaireAPI {
     }
 
     /**
+     Get questionnaire.
+     
+     - parameter itemId: (query)  
+     - returns: [QuestionDTO]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    internal class func getQuestionnaire(itemId: String) async throws -> [QuestionDTO] {
+        return try await getQuestionnaireWithRequestBuilder(itemId: itemId).execute().body
+    }
+
+    /**
+     Get questionnaire.
+     - GET /api/v1/me/questionnaire
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter itemId: (query)  
+     - returns: RequestBuilder<[QuestionDTO]> 
+     */
+    internal class func getQuestionnaireWithRequestBuilder(itemId: String) -> RequestBuilder<[QuestionDTO]> {
+        let localVariablePath = "/api/v1/me/questionnaire"
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "itemId": (wrappedValue: itemId.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[QuestionDTO]>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Return the associated questionnaire for a given topic.
      
      - parameter topic: (path)  

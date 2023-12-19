@@ -8,10 +8,7 @@ final class LiveArticleRepository: ArticleRepository {
     init() {}
 
     func getArticle(with id: ContentId) async throws -> AppUserArticle {
-        let dto = try await RecommendationAPI.getArticle(
-            itemId: id.itemId,
-            catalogId: id.catalogId
-        )
+        let dto = try await RecommendationAPI.getArticle(catalogId: id.catalogId)
         return AppUserArticle(dto: dto)
     }
 }

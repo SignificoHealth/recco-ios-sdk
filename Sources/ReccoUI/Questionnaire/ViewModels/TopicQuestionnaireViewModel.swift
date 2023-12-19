@@ -20,7 +20,7 @@ final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
                 nav.navigate(to: .back)
             },
             getQuestions: { repo in
-                try await repo.getQuestionnaire(topic: topic)
+                try await repo.getQuestionaryByTopic(topic: topic)
             }, sendQuestions: { repo, answers in
                 try await repo.sendQuestionnaire(answers)
             }
