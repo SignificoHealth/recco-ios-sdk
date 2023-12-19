@@ -6,7 +6,7 @@ public protocol RecommendationRepository {
 }
 
 final class LiveRecommendationRepository: RecommendationRepository {
-    private let supportedContentTypes = [ContentTypeDTO.articles]
+    private let supportedContentTypes = [ContentTypeDTO.articles, ContentTypeDTO.questionnaires]
 
     init() {}
 

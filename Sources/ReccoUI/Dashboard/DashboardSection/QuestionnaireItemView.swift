@@ -30,8 +30,7 @@ struct QuestionnaireItemView: View {
                 .padding(.XXS)
                 .multilineTextAlignment(.center)
 
-            ReccoStyleImage(name: "people_digital", resizable: true)
-                .aspectRatio(1, contentMode: .fit)
+            ReccoTopicImageView(topic: topic ?? ReccoTopic.mentalWellbeing)
                 .frame(
                     minWidth: .minCardWidth, idealWidth: .cardSize.width, maxWidth: .cardSize.width
                 )

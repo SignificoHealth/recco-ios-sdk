@@ -15,7 +15,7 @@ final class LiveQuestionnaireRepository: QuestionnaireRepository {
         )
         .map(Question.init)
     }
-    
+
     func getQuestionaryById(id: String) async throws -> [Question] {
         try await QuestionnaireAPI.getQuestionnaire(itemId: id)
             .map(Question.init)

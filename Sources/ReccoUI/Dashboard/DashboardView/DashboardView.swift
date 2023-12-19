@@ -18,7 +18,7 @@ struct DashboardView: View {
                         dismiss: viewModel.dismiss,
                         onBookmarks: viewModel.goToBookmarks
                     )
-                
+
                     ForEach(viewModel.sections, id: \.self) { section in
                         FeedSectionView(
                             performedUnlockAnimation: .init(get: {
@@ -26,7 +26,7 @@ struct DashboardView: View {
                             }, set: { new in
                                 viewModel.unlockAnimationsDone[section.section.type] = new
                             }),
-                        
+
                             section: section,
                             items: viewModel.items[section.section.type, default: []],
                             goToDetail: viewModel.goToDetail,
@@ -71,8 +71,7 @@ struct DashboardView: View {
             text: section.type.description,
             buttonText: "recco_start".localized,
             header: {
-                ReccoStyleImage(name: "people_digital", resizable: true)
-                    .aspectRatio(1, contentMode: .fit)
+                ReccoTopicImageView(topic: section.topic)
                     .padding(.horizontal, .XL)
             },
             action: viewModel.pressedUnlockSectionStart
