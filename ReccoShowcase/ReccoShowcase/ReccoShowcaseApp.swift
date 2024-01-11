@@ -1,7 +1,7 @@
 import ReccoUI
 import SwiftUI
 
-let clientSecret = "99ItJU5LzZKmLggRvGJMWWxd9mEek7MKedmkZ4_3Wb4yKVJ17lm3K6Smh8eUp3GuFIPq0-w"
+let clientSecret =  ProcessInfo.processInfo.environment["ENV_API_SECRET"] ?? "99ItJU5LzZKmLggRvGJMWWxd9mEek7MKedmkZ4_3Wb4yKVJ17lm3K6Smh8eUp3GuFIPq0-w"
 
 @main
 struct ReccoShowcaseApp: App {
