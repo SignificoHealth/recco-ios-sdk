@@ -37,8 +37,6 @@ extension AppUserMetricCategory {
         switch dto {
         case .userSession:
             self = .userSession
-        case .dashboardScreen:
-            self = .dashboardScreen
         }
     }
 }
@@ -75,8 +73,6 @@ extension AppUserMetricCategoryDTO {
         switch entity {
         case .userSession:
             self = .userSession
-        case .dashboardScreen:
-            self = .dashboardScreen
         }
     }
 }
