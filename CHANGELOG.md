@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2024-01-15
+
 ### Added:
 
 - Support questionnaires as new type of recommendation.
