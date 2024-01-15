@@ -16,12 +16,14 @@ internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
     internal var clientUserId: String
     internal var isOnboardingQuestionnaireCompleted: Bool
     internal var appStyle: StyleDTO?
+    internal var appRedirectUrl: String?
 
-    internal init(id: String, clientUserId: String, isOnboardingQuestionnaireCompleted: Bool, appStyle: StyleDTO? = nil) {
+    internal init(id: String, clientUserId: String, isOnboardingQuestionnaireCompleted: Bool, appStyle: StyleDTO? = nil, appRedirectUrl: String? = nil) {
         self.id = id
         self.clientUserId = clientUserId
         self.isOnboardingQuestionnaireCompleted = isOnboardingQuestionnaireCompleted
         self.appStyle = appStyle
+        self.appRedirectUrl = appRedirectUrl
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
@@ -29,6 +31,7 @@ internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
         case clientUserId
         case isOnboardingQuestionnaireCompleted
         case appStyle
+        case appRedirectUrl
     }
 
     // Encodable protocol methods
@@ -39,6 +42,7 @@ internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
         try container.encode(clientUserId, forKey: .clientUserId)
         try container.encode(isOnboardingQuestionnaireCompleted, forKey: .isOnboardingQuestionnaireCompleted)
         try container.encodeIfPresent(appStyle, forKey: .appStyle)
+        try container.encodeIfPresent(appRedirectUrl, forKey: .appRedirectUrl)
     }
 }
 

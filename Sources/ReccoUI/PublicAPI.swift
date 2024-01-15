@@ -26,7 +26,7 @@ public func initialize(
 
     Api.initialize(
         clientSecret: clientSecret,
-        baseUrl: "https://recco-api.significo.app",
+        baseUrl: ProcessInfo.processInfo.environment["ENV_BASE_URL"] ?? "https://recco-api.significo.app",
         keychain: keychain
     )
 

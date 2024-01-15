@@ -48,3 +48,5 @@
 "recco_questionnaire_outro_body" = "Keep going! The more questionnaires you complete, the more accurate your health score will be. \nThen, Recco can make personalized recommendations for you to make real health improvements.";
 "recco_questionnaire_outro_title" = "Great! You finished the %@ section.";
 "recco_start" = "Start";
+"recco_questionnaire_card" = "Tailor your %@ journey";
+

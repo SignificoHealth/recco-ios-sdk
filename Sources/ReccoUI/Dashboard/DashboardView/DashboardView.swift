@@ -26,9 +26,11 @@ struct DashboardView: View {
                             }, set: { new in
                                 viewModel.unlockAnimationsDone[section.section.type] = new
                             }),
+
                             section: section,
                             items: viewModel.items[section.section.type, default: []],
                             goToDetail: viewModel.goToDetail,
+                            goToQuestionnaire: viewModel.goToQuestionnaire,
                             pressedLockedSection: viewModel.pressedLocked
                         )
                     }
@@ -69,8 +71,7 @@ struct DashboardView: View {
             text: section.type.description,
             buttonText: "recco_start".localized,
             header: {
-                ReccoStyleImage(name: "people_digital", resizable: true)
-                    .aspectRatio(1, contentMode: .fit)
+                ReccoTopicImageView(topic: section.topic)
                     .padding(.horizontal, .XL)
             },
             action: viewModel.pressedUnlockSectionStart
