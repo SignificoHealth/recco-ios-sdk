@@ -46,6 +46,15 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      */
     internal var taskDidReceiveChallenge: OpenAPIClientAPIChallengeHandler?
 
+    /**
+     May be assigned if you want to do any of those things:
+     - control the task completion
+     - intercept and handle errors like authorization
+     - retry the request.
+     */
+    @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
+    internal var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
+
     required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
     }
@@ -83,6 +92,10 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         originalRequest.httpMethod = method.rawValue
 
+        headers.forEach { key, value in
+            originalRequest.setValue(value, forHTTPHeaderField: key)
+        }
+
         buildHeaders().forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
@@ -115,8 +128,6 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = FormURLEncoding()
-            } else if contentType.hasPrefix("application/octet-stream"){
-                encoding = OctetStreamEncoding()
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
             }
@@ -134,13 +145,32 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
              }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
-                apiResponseQueue.async {
-                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                    cleanupRequest()
+
+                if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
+
+                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
+
+                        if shouldRetry {
+                            cleanupRequest()
+                            self.execute(apiResponseQueue, completion)
+                        } else {
+                            apiResponseQueue.async {
+                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                cleanupRequest()
+                            }
+                        }
+                    }
+                } else {
+                    apiResponseQueue.async {
+                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                        cleanupRequest()
+                    }
                 }
             }
 
-            onProgressReady?(dataTask.progress)
+            if #available(iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0, *) {
+                onProgressReady?(dataTask.progress)
+            }
 
             taskIdentifier = dataTask.taskIdentifier
             challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
@@ -188,10 +218,10 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     internal func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in OpenAPIClientAPI.customHeaders {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
-        for (key, value) in headers {
+        for (key, value) in OpenAPIClientAPI.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -323,8 +353,8 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
         default:
 
             guard let unwrappedData = data, !unwrappedData.isEmpty else {
-                if let expressibleByNilLiteralType = T.self as? ExpressibleByNilLiteral.Type {
-                    completion(.success(Response(response: httpResponse, body: expressibleByNilLiteralType.init(nilLiteral: ()) as! T, bodyData: data)))
+                if let E = T.self as? ExpressibleByNilLiteral.Type {
+                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T, bodyData: data)))
                 } else {
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 }
@@ -560,9 +590,10 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
-                let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-            return mimetype as String
+        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+                return mimetype as String
+            }
         }
         return "application/octet-stream"
     }
@@ -579,24 +610,6 @@ private class FormURLEncoding: ParameterEncoding {
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        }
-
-        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
-
-        return urlRequest
-    }
-}
-
-private class OctetStreamEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
-
-        var urlRequest = urlRequest
-
-        var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
-
-        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-            urlRequest.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         }
 
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)

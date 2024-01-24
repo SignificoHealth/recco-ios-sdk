@@ -18,10 +18,6 @@ extension AppUserMetricEvent {
 extension AppUserMetricAction {
     init(dto: AppUserMetricActionDTO) {
         switch dto {
-        case .login:
-            self = .login
-        case .duration:
-            self = .duration
         case .view:
             self = .view
         case .hostAppOpen:
@@ -37,6 +33,8 @@ extension AppUserMetricCategory {
         switch dto {
         case .userSession:
             self = .userSession
+        case .dashboardScreen:
+            self = .dashboardScreen
         }
     }
 }
@@ -54,10 +52,6 @@ extension AppUserMetricEventDTO {
 extension AppUserMetricActionDTO {
     init(entity: AppUserMetricAction) {
         switch entity {
-        case .login:
-            self = .login
-        case .duration:
-            self = .duration
         case .view:
             self = .view
         case .hostAppOpen:
@@ -73,6 +67,8 @@ extension AppUserMetricCategoryDTO {
         switch entity {
         case .userSession:
             self = .userSession
+        case .dashboardScreen:
+            self = .dashboardScreen
         }
     }
 }

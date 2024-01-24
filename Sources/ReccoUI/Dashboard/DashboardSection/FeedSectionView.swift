@@ -48,7 +48,7 @@ struct FeedSectionView: View {
                                 Spacer(minLength: .S)
                                 ForEach(items, id: \.self) { item in
                                     switch item.type {
-                                    case .articles:
+                                    case .articles, .audio, .video:
                                         Button {
                                             goToDetail(item)
                                         } label: {

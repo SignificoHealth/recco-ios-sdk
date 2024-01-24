@@ -21,6 +21,10 @@ extension ContentType {
             self = .articles
         case .questionnaires:
             self = .questionnaire
+        case .audios:
+            self = .audio
+        case .videos:
+            self = .video
         }
     }
 }
