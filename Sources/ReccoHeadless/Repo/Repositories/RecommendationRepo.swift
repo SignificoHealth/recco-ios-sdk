@@ -6,7 +6,7 @@ public protocol RecommendationRepository {
 }
 
 final class LiveRecommendationRepository: RecommendationRepository {
-    private let supportedContentTypes = [ContentTypeDTO.articles, ContentTypeDTO.questionnaires]
+    private let supportedContentTypes: [ContentTypeDTO] = [.articles, .questionnaires, .audios, .videos]
 
     init() {}
 
@@ -23,26 +23,26 @@ final class LiveRecommendationRepository: RecommendationRepository {
                 .map(AppUserRecommendation.init)
         case (.preferredRecommendations, _):
             return try await RecommendationAPI
-                .getUserPreferredRecommendations()
+                .getUserPreferredRecommendations(contentTypes: supportedContentTypes)
                 .map(AppUserRecommendation.init)
         case (.mostPopular, _):
             return try await RecommendationAPI
-                .getMostPopularContent()
+                .getMostPopularContent(contentTypes: supportedContentTypes)
                 .map(AppUserRecommendation.init)
         case (.newContent, _):
             return try await RecommendationAPI
-                .getNewestContent()
+                .getNewestContent(contentTypes: supportedContentTypes)
                 .map(AppUserRecommendation.init)
         case (.physicalActivityExplore, .some(let topic)),
              (.nutritionExplore, .some(let topic)),
              (.mentalWellbeingExplore, .some(let topic)),
              (.sleepExplore, .some(let topic)):
             return try await RecommendationAPI
-                .exploreContentByTopic(topic: .init(entity: topic))
+                .exploreContentByTopic(topic: .init(entity: topic), contentTypes: supportedContentTypes)
                 .map(AppUserRecommendation.init)
         case (.startingRecommendations, _):
             return try await RecommendationAPI
-                .getStartingRecommendations()
+                .getStartingRecommendations(contentTypes: supportedContentTypes)
                 .map(AppUserRecommendation.init)
         default:
             assertionFailure("This should never happen")

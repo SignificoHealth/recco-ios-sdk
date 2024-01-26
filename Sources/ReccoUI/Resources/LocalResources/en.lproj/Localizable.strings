@@ -49,4 +49,7 @@
 "recco_questionnaire_outro_title" = "Great! You finished the %@ section.";
 "recco_start" = "Start";
 "recco_questionnaire_card" = "Tailor your %@ journey";
-
+"recco_card_read" = "Read";
+"recco_card_video" = "Video";
+"recco_card_audio" = "Audio";
+"recco_dashboard_duration" = " • %@min";

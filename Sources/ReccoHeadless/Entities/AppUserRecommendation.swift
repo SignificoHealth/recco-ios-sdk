@@ -8,15 +8,7 @@ public enum ContentType: String, Codable, CaseIterable {
 }
 
 public struct AppUserRecommendation: Equatable, Hashable {
-    public var id: ContentId
-    public var type: ContentType
-    public var rating: ContentRating
-    public var status: ContentStatus
-    public var headline: String
-    public var imageUrl: URL?
-    public var imageAlt: String?
-
-    public init(id: ContentId, type: ContentType, rating: ContentRating, status: ContentStatus, headline: String, imageUrl: URL? = nil, imageAlt: String? = nil) {
+    public init(id: ContentId, type: ContentType, rating: ContentRating, status: ContentStatus, headline: String, imageUrl: URL? = nil, imageAlt: String? = nil, durationSeconds: Int? = nil) {
         self.id = id
         self.type = type
         self.rating = rating
@@ -24,5 +16,15 @@ public struct AppUserRecommendation: Equatable, Hashable {
         self.headline = headline
         self.imageUrl = imageUrl
         self.imageAlt = imageAlt
+        self.durationSeconds = durationSeconds
     }
+    
+    public var id: ContentId
+    public var type: ContentType
+    public var rating: ContentRating
+    public var status: ContentStatus
+    public var headline: String
+    public var imageUrl: URL?
+    public var imageAlt: String?
+    public var durationSeconds: Int?
 }
