@@ -68,5 +68,9 @@ public final class ReccoHeadlessAssembly: ReccoAssembly {
         container.register(type: KeychainProxy.self) { _ in
             .standard
         }
+
+        container.register(type: MediaRepository.self) { _ in
+            MockMediaRepository()
+        }
     }
 }

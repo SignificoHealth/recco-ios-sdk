@@ -9,16 +9,21 @@ private struct BoundsPreference: PreferenceKey {
     }
 }
 
-struct ArticleDetailView: View {
+struct MediaDetailView: View {
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
-    @StateObject var viewModel: ArticleDetailViewModel
+    @StateObject var viewModel: MediaDetailViewModel
 
     @State private var offset: CGFloat = .zero
     @State private var contentHeight: CGFloat = .zero
     @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
+    @State private var showPlayerImageOverlay = true
+
+    private var contentType: ContentType {
+        viewModel.mediaType == .audio ? .audio : .video
+    }
 
     private var headerHeight: CGFloat {
-        UIScreen.main.bounds.height * 0.4
+        max(300, UIScreen.main.bounds.height * 0.4)
     }
 
     private var negativePaddingTop: CGFloat {
@@ -36,24 +41,30 @@ struct ArticleDetailView: View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             imageHeaderHeight: headerHeight,
-            header: { articleHeader },
+            contentOnTop: false,
+            header: {
+                mediaHeader
+            },
+            overlayHeader: {
+                playButton
+            },
             content: {
                 VStack(alignment: .leading, spacing: .M) {
                     Text(viewModel.heading)
                         .h1()
                         .fixedSize(horizontal: false, vertical: true)
 
-                    if let duration = viewModel.article?.length {
-                        HStack(spacing: 0) {
-                            Image(resource: ContentType.articles.iconName)
-                                .padding(.trailing, .XXXS)
-                            Text(ContentType.articles.caption)
-                                .labelSmall()
-
+                    HStack(spacing: 0) {
+                        Image(resource: contentType.iconName)
+                            .padding(.trailing, .XXXS)
+                        Text(contentType.caption)
+                            .labelSmall()
+                        if let duration = viewModel.media?.length {
                             Text("recco_dashboard_duration".localized(displayDuration(seconds: duration)))
                                 .labelSmall()
                         }
                     }
+                    .redacted(reason: viewModel.media == nil ? .placeholder : [])
 
                     Rectangle()
                         .fill(Color.reccoAccent)
@@ -61,17 +72,9 @@ struct ArticleDetailView: View {
                         .frame(maxWidth: .infinity)
 
                     ReccoLoadingView(viewModel.isLoading) {
-                        if let article = viewModel.article {
+                        if let media = viewModel.media {
                             VStack(alignment: .leading, spacing: .L) {
-                                if let lead = article.lead {
-                                    Text(lead).body1bold()
-                                }
-
-                                if let audioUrl = article.audioUrl {
-                                    AudioPlayerView(url: audioUrl)
-                                }
-
-                                if let body = article.articleBodyHtml {
+                                if let body = media.description {
                                     HTMLTextView(text: body)
                                         .isEditable(false)
                                         .isSelectable(true)
@@ -101,10 +104,10 @@ struct ArticleDetailView: View {
         }
         .overlay(
             Group {
-                if let article = viewModel.article {
+                if let media = viewModel.media {
                     ReccoContentInteractionView(
-                        rating: article.rating,
-                        bookmark: article.bookmarked,
+                        rating: media.rating,
+                        bookmark: media.bookmarked,
                         toggleBookmark: viewModel.toggleBookmark,
                         rate: viewModel.rate
                     )
@@ -143,12 +146,50 @@ struct ArticleDetailView: View {
         }
     }
 
+    private var playButton: some View {
+        Button(
+            action: {
+                viewModel.playPause()
+                withAnimation {
+                    showPlayerImageOverlay = false
+                }
+            },
+            label: {
+                HStack(spacing: .S) {
+                    RoundedRectangle(cornerRadius: .S)
+                        .fill(Color.reccoAccent)
+                        .frame(width: 88, height: 56)
+                        .overlay(
+                            Image(systemName: "play.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(.reccoWhite)
+                        )
+
+                    Text("Play")
+                        .foregroundColor(.reccoWhite)
+                        .h4()
+                        .padding(.horizontal, .XS)
+                }
+                .frame(height: 72)
+                .padding(.XXS)
+                .padding(.horizontal, .XXXS)
+                .background(
+                    VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
+                        .cornerRadius(.XS)
+                )
+            }
+        )
+        .opacity(showPlayerImageOverlay ? 1 : 0)
+    }
+
     @ViewBuilder
-    private var articleHeader: some View {
-        if let imageUrl = viewModel.imageUrl {
+    private var image: some View {
+        if let imageUrl = viewModel.media?.dynamicImageResizingUrl ?? viewModel.imageUrl {
             ReccoURLImageView(
                 url: imageUrl,
-                alt: viewModel.article?.imageAlt,
+                alt: viewModel.media?.imageAlt,
                 downSampleSize: .size(.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.7))
             ) {
                 Color.reccoPrimary20.overlay(
@@ -175,15 +216,48 @@ struct ArticleDetailView: View {
             }
         }
     }
+
+    @ViewBuilder
+    private var mediaHeader: some View {
+        ZStack(alignment: .top) {
+            if let mediaUrl = viewModel.media?.mediaUrl {
+                VStack(spacing: 0) {
+                    Spacer()
+                    VideoPlayerView(
+                        startPlaying: $viewModel.isPlayingMedia,
+                        url: mediaUrl,
+                        overlayView: {
+                            if viewModel.mediaType == .audio {
+                                image
+                            }
+                        }
+                    )
+                    .frame(height: headerHeight * 0.8)
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                }
+                .frame(height: headerHeight)
+                .background(Color.black)
+                .frame(width: UIScreen.main.bounds.width)
+            }
+
+            ZStack {
+                image
+            }
+            .opacity(showPlayerImageOverlay ? 1 : 0)
+        }
+        .background(Color.reccoWhite)
+    }
 }
 
-struct ArticleDetailView_Previews: PreviewProvider {
+struct MediaDetailView_Previews: PreviewProvider {
     static var previews: some View {
         withAssembly { r in
-            ArticleDetailView(viewModel: r.get(argument: (
-                ContentId(itemId: "", catalogId: ""),
-                "This is a header",
-                URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), { (_: ContentId) in }, { (_: Bool) in }
+            MediaDetailView(viewModel: r.get(argument: (MediaType.audio,
+                                                        ContentId(itemId: "", catalogId: ""),
+                                                        "This is a header",
+                                                        URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), { (_: ContentId) in }, { (_: Bool) in }
             )))
         }
     }

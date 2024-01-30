@@ -12,6 +12,7 @@ struct BouncyHeaderScrollview<
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
         shapeHeight: CGFloat?,
+        contentOnTop: Bool,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder overlayHeader: @escaping () -> OverlayHeader,
         @ViewBuilder content: @escaping () -> Content,
@@ -26,8 +27,10 @@ struct BouncyHeaderScrollview<
         self.cta = cta
         self.navTitle = navTitle
         self.shapeHeight = shapeHeight
+        self.contentOnTop = contentOnTop
     }
 
+    private var contentOnTop: Bool
     private var navTitle: String?
     private var shapeHeight: CGFloat?
     private var header: () -> Header
@@ -59,7 +62,7 @@ struct BouncyHeaderScrollview<
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ZStack(alignment: .topLeading) {
+            if contentOnTop {
                 header()
                     .scaledToFill()
                     .frame(maxWidth: UIScreen.main.bounds.width)
@@ -72,21 +75,28 @@ struct BouncyHeaderScrollview<
                     .transformEffect(.init(translationX: 0, y: paralaxEffect))
                     .ignoresSafeArea(.all, edges: .top)
             }
-            .overlay(overlayHeader())
 
             VStack(spacing: 0) {
                 ObservableScrollView { _ in
                     VStack(alignment: .leading, spacing: 0) {
-                        Color.clear
-                            .frame(height: imageHeaderHeight, alignment: .top)
-                            .padding(.bottom, -(shapeHeight ?? 0))
+                        if contentOnTop {
+                            Color.clear
+                                .frame(height: imageHeaderHeight, alignment: .top)
+                                .padding(.bottom, -(shapeHeight ?? 0))
+                        } else {
+                            header()
+                                .scaledToFill()
+                                .frame(maxWidth: UIScreen.main.bounds.width)
+                                .frame(height: imageHeaderHeight)
+                                .overlay(overlayHeader())
+                        }
                         content()
                     }
                 }
 
                 cta()
             }
-            .ignoresSafeArea(.all, edges: .top)
+            .ignoresSafeArea(.all, edges: contentOnTop ? .all : [])
             .overlay(
                 HStack {
                     if let backAction = backAction {
@@ -118,6 +128,16 @@ struct BouncyHeaderScrollview<
         .onReceive(scrollObservable) { _, offset in
             scrollOffset = offset
         }
+        .overlay(
+            ZStack {
+                if contentOnTop {
+                    overlayHeader()
+                        .frame(height: imageHeaderHeight)
+                        .ignoresSafeArea(.all, edges: .top)
+                }
+            },
+            alignment: .top
+        )
     }
 }
 
@@ -130,6 +150,7 @@ extension BouncyHeaderScrollview where
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.height * 0.4,
         shapeHeight: CGFloat? = nil,
+        contentOnTop: Bool = true,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -139,6 +160,7 @@ extension BouncyHeaderScrollview where
             closeAction: closeAction,
             imageHeaderHeight: imageHeaderHeight,
             shapeHeight: shapeHeight,
+            contentOnTop: contentOnTop,
             header: header,
             overlayHeader: { EmptyView() },
             content: content,
@@ -154,6 +176,7 @@ extension BouncyHeaderScrollview where CTA == EmptyView {
         closeAction: (() -> Void)? = nil,
         imageHeaderHeight: CGFloat = UIScreen.main.bounds.width * (7 / 10),
         shapeHeight: CGFloat? = nil,
+        contentOnTop: Bool = true,
         @ViewBuilder header: @escaping () -> Header,
         @ViewBuilder overlayHeader: @escaping () -> OverlayHeader,
         @ViewBuilder content: @escaping () -> Content
@@ -164,6 +187,7 @@ extension BouncyHeaderScrollview where CTA == EmptyView {
             closeAction: closeAction,
             imageHeaderHeight: imageHeaderHeight,
             shapeHeight: shapeHeight,
+            contentOnTop: contentOnTop,
             header: header,
             overlayHeader: overlayHeader,
             content: content,
@@ -179,11 +203,13 @@ struct BouncyHeaderScrollview_Previews: PreviewProvider {
             backAction: {},
             closeAction: nil,
             imageHeaderHeight: 375,
+            contentOnTop: false,
             header: {
                 Color.blue
                     .overlay(
-                        Circle().fill(Color.black)
-                            .padding(100)
+                        Button("Adios") {
+                        }
+                        .foregroundColor(.red)
                     )
             },
             content: {

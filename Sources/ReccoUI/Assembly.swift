@@ -86,6 +86,16 @@ final class ReccoUIAssembly: ReccoAssembly {
                 logger: r.get()
             )
         }
+
+        container.register(type: MediaDetailViewModel.self) { (r: ReccoResolver, tuple: (MediaType, ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void)) in
+            MediaDetailViewModel(
+                loadedContent: tuple,
+                mediaRepo: r.get(),
+                contentRepo: r.get(),
+                nav: r.get(),
+                logger: r.get()
+            )
+        }
     }
 }
 

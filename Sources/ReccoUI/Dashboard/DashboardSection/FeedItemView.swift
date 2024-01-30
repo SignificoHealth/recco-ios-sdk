@@ -41,18 +41,19 @@ struct FeedItemView: View {
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
 
-                HStack(spacing: 0) {
-                    Image(resource: item.type.iconName)
-                        .padding(.trailing, .XXXS)
-                    Text(item.type.caption)
-                        .contentType()
-                    if let seconds = item.durationSeconds {
+                if let seconds = item.durationSeconds {
+                    HStack(spacing: 0) {
+                        Image(resource: item.type.iconName)
+                            .padding(.trailing, .XXXS)
+                        Text(item.type.caption)
+                            .contentType()
                         Text("recco_dashboard_duration".localized(displayDuration(seconds: seconds)))
                             .contentType()
                     }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(minHeight: 32)
             .padding(.XS)
             .background(Color.reccoBackground),
             alignment: .bottom
@@ -76,7 +77,7 @@ struct FeedItemView_Previews: PreviewProvider {
             rating: .like,
             status: .noInteraction,
             headline: "This card is too good to be true",
-            imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), durationSeconds: 100
+            imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), durationSeconds: nil
         ), fromBookmarks: false)
     }
 }

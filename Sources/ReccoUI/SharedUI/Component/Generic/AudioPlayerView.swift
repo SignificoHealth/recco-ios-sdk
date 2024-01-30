@@ -165,7 +165,7 @@ struct AudioPlayerView: View {
                     wasPlaying = viewModel.isPlaying
                     viewModel.pause()
                     wasEditing = true
-                default: 
+                default:
                     return
                 }
             }

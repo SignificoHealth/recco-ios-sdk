@@ -37,14 +37,29 @@ final class DashboardViewModel: ObservableObject {
     }
 
     func goToDetail(of item: AppUserRecommendation) {
-        nav.navigate(to: .article(
-            id: item.id,
-            headline: item.headline,
-            imageUrl: item.imageUrl,
-            seenContent: { [unowned self] id in
-                markContentAsSeen(id: id)
-            }, onBookmarkedChange: { _ in }
-        ))
+        switch item.type {
+        case .articles:
+            nav.navigate(to: .article(
+                id: item.id,
+                headline: item.headline,
+                imageUrl: item.imageUrl,
+                seenContent: { [unowned self] id in
+                    markContentAsSeen(id: id)
+                }, onBookmarkedChange: { _ in }
+            ))
+        case .questionnaire:
+            fatalError("asdf")
+        case .audio, .video:
+            nav.navigate(to: .media(
+                mediaType: item.type == .audio ? .audio : .video,
+                id: item.id,
+                headline: item.headline,
+                imageUrl: item.imageUrl,
+                seenContent: { [unowned self] id in
+                    markContentAsSeen(id: id)
+                }, onBookmarkedChange: { _ in }
+            ))
+        }
     }
 
     @MainActor

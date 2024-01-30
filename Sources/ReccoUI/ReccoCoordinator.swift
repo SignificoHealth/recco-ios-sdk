@@ -18,6 +18,7 @@ enum Destination: Equatable {
     case questionnaire(ReccoTopic, (Bool) -> Void)
     case bookmarks
     case dismiss
+    case media(mediaType: MediaType, id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void, onBookmarkedChange: (Bool) -> Void)
 
     static func == (lhs: Destination, rhs: Destination) -> Bool {
         switch (lhs, rhs) {
@@ -84,6 +85,12 @@ final class DefaultReccoCoordinator: ReccoCoordinator {
 
             navController?.pushViewController(
                 vc,
+                animated: true
+            )
+
+        case let .media(mediaType, id, headline, imageUrl, seenContent, onBookmarkedChange):
+            navController?.pushViewController(
+                UIHostingController(rootView: MediaDetailView(viewModel: get(argument: (mediaType, id, headline, imageUrl, seenContent, onBookmarkedChange)))),
                 animated: true
             )
 
