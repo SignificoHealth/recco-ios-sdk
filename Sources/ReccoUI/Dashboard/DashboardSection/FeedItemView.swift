@@ -8,14 +8,7 @@ struct FeedItemView: View {
     private var opacity: CGFloat {
         fromBookmarks ?
             1 : item.status == .viewed ?
-                0.4 : 1
-    }
-    
-    private func duration(seconds: Int) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = .minute
-        let components = DateComponents.init(second: seconds)
-        return formatter.string(from: components)!
+            0.4 : 1
     }
 
     var body: some View {
@@ -54,7 +47,7 @@ struct FeedItemView: View {
                     Text(item.type.caption)
                         .contentType()
                     if let seconds = item.durationSeconds {
-                        Text("recco_dashboard_duration".localized(duration(seconds: seconds)))
+                        Text("recco_dashboard_duration".localized(displayDuration(seconds: seconds)))
                             .contentType()
                     }
                 }

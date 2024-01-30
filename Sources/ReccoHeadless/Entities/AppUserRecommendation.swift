@@ -18,7 +18,7 @@ public struct AppUserRecommendation: Equatable, Hashable {
         self.imageAlt = imageAlt
         self.durationSeconds = durationSeconds
     }
-    
+
     public var id: ContentId
     public var type: ContentType
     public var rating: ContentRating

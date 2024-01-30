@@ -51,8 +51,23 @@ struct ArticleDetailView: View {
                     ReccoLoadingView(viewModel.isLoading) {
                         if let article = viewModel.article {
                             VStack(alignment: .leading, spacing: .L) {
+                                if let duration = article.length {
+                                    HStack(spacing: 0) {
+                                        Image(resource: ContentType.articles.iconName)
+                                            .padding(.trailing, .XXXS)
+                                        Text(ContentType.articles.caption)
+                                            .labelSmall()
+                                        Text("recco_dashboard_duration".localized(displayDuration(seconds: duration)))
+                                            .labelSmall()
+                                    }
+                                }
+
                                 if let lead = article.lead {
                                     Text(lead).body1bold()
+                                }
+
+                                if let audioUrl = article.audioUrl {
+                                    AudioPlayerView(url: audioUrl)
                                 }
 
                                 if let body = article.articleBodyHtml {

@@ -90,13 +90,12 @@ extension Text {
             .lineSpacing(3)
             .foregroundColor(.reccoPrimary)
     }
-    
+
     func contentType() -> some View {
         self
             .kerning(0.2)
             .font(Font(CurrentReccoStyle.font.uiFont(size: 10, weight: .medium)))
             .foregroundColor(.reccoPrimary60)
-
     }
 }
 
@@ -106,7 +105,7 @@ struct Typography_Previews: PreviewProvider {
         { AnyView($0.h1()) }, { AnyView($0.h2()) }, { AnyView($0.h3()) }, { AnyView($0.h4()) }, { AnyView($0.body1()) },
         { AnyView($0.body1bold()) }, { AnyView($0.body2()) }, { AnyView($0.body2bold()) }, { AnyView($0.body3()) },
         { AnyView($0.cta()) }, { AnyView($0.labelSmall()) }, { AnyView($0.contentTitle()) },
-        { AnyView($0.contentType()) }
+        { AnyView($0.contentType()) },
     ]
     static var previews: some View {
         _ = { CurrentReccoStyle.font = .sfPro }()

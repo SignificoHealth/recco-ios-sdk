@@ -77,3 +77,10 @@ extension ContentType {
         }
     }
 }
+
+func displayDuration(seconds: Int) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = .minute
+    let components = DateComponents(second: seconds)
+    return formatter.string(from: components)!
+}
