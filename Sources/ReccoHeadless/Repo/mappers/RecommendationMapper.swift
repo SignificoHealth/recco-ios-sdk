@@ -10,8 +10,30 @@ extension AppUserRecommendation {
             headline: dto.headline,
             imageUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
             imageAlt: dto.imageAlt,
-            durationSeconds: dto.length
+            durationSeconds: dto.duration
         )
+    }
+}
+
+extension ContentCategory {
+    init(dto: AppUserVideoDTO.CategoryDTO) {
+        switch dto {
+        case .exercise:
+            self = .exercise
+        case .meditation:
+            self = .meditation
+        }
+    }
+
+    init(dto: AppUserAudioDTO.CategoryDTO) {
+        switch dto {
+        case .exercise:
+            self = .exercise
+        case .meditation:
+            self = .meditation
+        case .relaxation:
+            self = .relaxation
+        }
     }
 }
 
@@ -30,13 +52,14 @@ extension AppUserMedia {
             bookmarked: dto.bookmarked,
             headline: dto.headline,
             description: dto.description,
-            category: dto.category,
+            category: .init(dto: dto.category),
             disclaimer: dto.disclaimer,
             warning: dto.warning,
             dynamicImageResizingUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
             imageAlt: dto.imageAlt,
             mediaUrl: videoUrl,
-            length: dto.length
+            duration: dto.duration,
+            textIsTranscription: false
         )
     }
 
@@ -54,11 +77,12 @@ extension AppUserMedia {
             bookmarked: dto.bookmarked,
             headline: dto.headline,
             description: dto.description,
-            category: dto.category,
+            category: .init(dto: dto.category),
             dynamicImageResizingUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
             imageAlt: dto.imageAlt,
             mediaUrl: audioUrl,
-            length: dto.length
+            duration: dto.duration,
+            textIsTranscription: dto.transcription
         )
     }
 }

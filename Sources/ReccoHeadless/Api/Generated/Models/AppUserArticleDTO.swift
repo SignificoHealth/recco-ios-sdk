@@ -24,9 +24,9 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
     internal var audioUrl: String?
     internal var articleBodyHtml: String?
     /** The estimated duration in seconds to read this article */
-    internal var length: Int?
+    internal var duration: Int?
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String? = nil, articleBodyHtml: String? = nil, length: Int? = nil) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String? = nil, articleBodyHtml: String? = nil, duration: Int? = nil) {
         self.id = id
         self.rating = rating
         self.status = status
@@ -38,7 +38,7 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         self.imageAlt = imageAlt
         self.audioUrl = audioUrl
         self.articleBodyHtml = articleBodyHtml
-        self.length = length
+        self.duration = duration
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
@@ -53,7 +53,7 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         case imageAlt
         case audioUrl
         case articleBodyHtml
-        case length
+        case duration
     }
 
     // Encodable protocol methods
@@ -71,7 +71,6 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
         try container.encodeIfPresent(audioUrl, forKey: .audioUrl)
         try container.encodeIfPresent(articleBodyHtml, forKey: .articleBodyHtml)
-        try container.encodeIfPresent(length, forKey: .length)
+        try container.encodeIfPresent(duration, forKey: .duration)
     }
 }
-

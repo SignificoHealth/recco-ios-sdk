@@ -12,10 +12,7 @@ private struct BoundsPreference: PreferenceKey {
 struct ArticleDetailView: View {
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
     @StateObject var viewModel: ArticleDetailViewModel
-
     @State private var offset: CGFloat = .zero
-    @State private var contentHeight: CGFloat = .zero
-    @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
 
     private var headerHeight: CGFloat {
         UIScreen.main.bounds.height * 0.4
@@ -23,13 +20,6 @@ struct ArticleDetailView: View {
 
     private var negativePaddingTop: CGFloat {
         -UIScreen.main.bounds.height * 0.05
-    }
-
-    private var shadowOpacity: CGFloat {
-        if viewModel.isLoading { return 0 }
-        let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
-
-        return (-distance / 100).clamped(to: 0...0.3)
     }
 
     var body: some View {
@@ -43,9 +33,11 @@ struct ArticleDetailView: View {
                         .h1()
                         .fixedSize(horizontal: false, vertical: true)
 
-                    if let duration = viewModel.article?.length {
+                    if let duration = viewModel.article?.duration {
                         HStack(spacing: 0) {
                             Image(resource: ContentType.articles.iconName)
+                                .renderingMode(.template)
+                                .foregroundColor(.reccoPrimary)
                                 .padding(.trailing, .XXXS)
                             Text(ContentType.articles.caption)
                                 .labelSmall()
@@ -56,7 +48,7 @@ struct ArticleDetailView: View {
                     }
 
                     Rectangle()
-                        .fill(Color.reccoAccent)
+                        .fill(Color.reccoAccent40)
                         .frame(height: 2)
                         .frame(maxWidth: .infinity)
 
@@ -87,32 +79,9 @@ struct ArticleDetailView: View {
                 .padding(.vertical, .L)
                 .padding(.horizontal, .S)
                 .background(Color.reccoBackground)
-                .overlay(
-                    GeometryReader { proxy in
-                        Color.clear.preference(key: BoundsPreference.self, value: proxy.size.height)
-                    }
-                )
                 .cornerRadius(.L, corners: [.topLeft, .topRight])
                 .padding(.top, negativePaddingTop)
             }
-        )
-        .onPreferenceChange(BoundsPreference.self) { new in
-            contentHeight = new
-        }
-        .overlay(
-            Group {
-                if let article = viewModel.article {
-                    ReccoContentInteractionView(
-                        rating: article.rating,
-                        bookmark: article.bookmarked,
-                        toggleBookmark: viewModel.toggleBookmark,
-                        rate: viewModel.rate
-                    )
-                    .shadowBase(opacity: shadowOpacity)
-                    .padding(.M)
-                }
-            },
-            alignment: .bottom
         )
         .reccoErrorView(
             error: $viewModel.initialLoadError,
@@ -123,13 +92,6 @@ struct ArticleDetailView: View {
         )
         .background(Color.reccoBackground.ignoresSafeArea())
         .reccoNotification(error: $viewModel.actionError)
-        .overlay(
-            GeometryReader { proxy in
-                Color.clear.onAppear {
-                    totalViewHeight = proxy.size.height
-                }
-            }
-        )
         .environment(\.currentScrollOffsetId, "\(self)")
         .addCloseSDKToNavbar(viewModel.dismiss)
         .navigationTitle(viewModel.heading)
@@ -138,6 +100,20 @@ struct ArticleDetailView: View {
                 offset = newOffset
             }
         }
+        .overlay(
+            VStack {
+                if let article = viewModel.article {
+                    Spacer()
+                    ReccoContentInteractionView(
+                        rating: article.rating,
+                        bookmark: article.bookmarked,
+                        toggleBookmark: viewModel.toggleBookmark,
+                        rate: viewModel.rate
+                    )
+                }
+            }.ignoresSafeArea(),
+            alignment: .bottom
+        )
         .task {
             await viewModel.initialLoad()
         }

@@ -56,8 +56,8 @@ internal class RequestBuilder<T> {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
                 guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
+                    continuation.resume(throwing: CancellationError())
+                    return
                 }
 
                 self.execute { result in
@@ -73,7 +73,7 @@ internal class RequestBuilder<T> {
             self.requestTask.cancel()
         }
     }
-    
+
     internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value

@@ -1,21 +1,11 @@
 import ReccoHeadless
 import SwiftUI
 
-private struct BoundsPreference: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
 struct MediaDetailView: View {
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
     @StateObject var viewModel: MediaDetailViewModel
 
     @State private var offset: CGFloat = .zero
-    @State private var contentHeight: CGFloat = .zero
-    @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
     @State private var showPlayerImageOverlay = true
 
     private var contentType: ContentType {
@@ -28,13 +18,6 @@ struct MediaDetailView: View {
 
     private var negativePaddingTop: CGFloat {
         -UIScreen.main.bounds.height * 0.05
-    }
-
-    private var shadowOpacity: CGFloat {
-        if viewModel.isLoading { return 0 }
-        let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
-
-        return (-distance / 100).clamped(to: 0...0.3)
     }
 
     var body: some View {
@@ -56,10 +39,12 @@ struct MediaDetailView: View {
 
                     HStack(spacing: 0) {
                         Image(resource: contentType.iconName)
+                            .renderingMode(.template)
+                            .foregroundColor(.reccoPrimary)
                             .padding(.trailing, .XXXS)
                         Text(contentType.caption)
                             .labelSmall()
-                        if let duration = viewModel.media?.length {
+                        if let duration = viewModel.media?.duration {
                             Text("recco_dashboard_duration".localized(displayDuration(seconds: duration)))
                                 .labelSmall()
                         }
@@ -67,13 +52,19 @@ struct MediaDetailView: View {
                     .redacted(reason: viewModel.media == nil ? .placeholder : [])
 
                     Rectangle()
-                        .fill(Color.reccoAccent)
+                        .fill(Color.reccoAccent40)
                         .frame(height: 2)
                         .frame(maxWidth: .infinity)
 
                     ReccoLoadingView(viewModel.isLoading) {
                         if let media = viewModel.media {
                             VStack(alignment: .leading, spacing: .L) {
+                                if media.textIsTranscription {
+                                    Text("recco_audio_detail_transcription".localized)
+                                        .foregroundColor(.reccoAccent)
+                                        .body1bold()
+                                }
+
                                 if let body = media.description {
                                     HTMLTextView(text: body)
                                         .isEditable(false)
@@ -90,32 +81,9 @@ struct MediaDetailView: View {
                 .padding(.vertical, .L)
                 .padding(.horizontal, .S)
                 .background(Color.reccoBackground)
-                .overlay(
-                    GeometryReader { proxy in
-                        Color.clear.preference(key: BoundsPreference.self, value: proxy.size.height)
-                    }
-                )
                 .cornerRadius(.L, corners: [.topLeft, .topRight])
                 .padding(.top, negativePaddingTop)
             }
-        )
-        .onPreferenceChange(BoundsPreference.self) { new in
-            contentHeight = new
-        }
-        .overlay(
-            Group {
-                if let media = viewModel.media {
-                    ReccoContentInteractionView(
-                        rating: media.rating,
-                        bookmark: media.bookmarked,
-                        toggleBookmark: viewModel.toggleBookmark,
-                        rate: viewModel.rate
-                    )
-                    .shadowBase(opacity: shadowOpacity)
-                    .padding(.M)
-                }
-            },
-            alignment: .bottom
         )
         .reccoErrorView(
             error: $viewModel.initialLoadError,
@@ -126,13 +94,6 @@ struct MediaDetailView: View {
         )
         .background(Color.reccoBackground.ignoresSafeArea())
         .reccoNotification(error: $viewModel.actionError)
-        .overlay(
-            GeometryReader { proxy in
-                Color.clear.onAppear {
-                    totalViewHeight = proxy.size.height
-                }
-            }
-        )
         .environment(\.currentScrollOffsetId, "\(self)")
         .addCloseSDKToNavbar(viewModel.dismiss)
         .navigationTitle(viewModel.heading)
@@ -141,6 +102,20 @@ struct MediaDetailView: View {
                 offset = newOffset
             }
         }
+        .overlay(
+            VStack {
+                if let media = viewModel.media {
+                    Spacer()
+                    ReccoContentInteractionView(
+                        rating: media.rating,
+                        bookmark: media.bookmarked,
+                        toggleBookmark: viewModel.toggleBookmark,
+                        rate: viewModel.rate
+                    )
+                }
+            }.ignoresSafeArea(),
+            alignment: .bottom
+        )
         .task {
             await viewModel.initialLoad()
         }
@@ -220,12 +195,12 @@ struct MediaDetailView: View {
     @ViewBuilder
     private var mediaHeader: some View {
         ZStack(alignment: .top) {
-            if let mediaUrl = viewModel.media?.mediaUrl {
+            if let media = viewModel.media {
                 VStack(spacing: 0) {
                     Spacer()
                     VideoPlayerView(
                         startPlaying: $viewModel.isPlayingMedia,
-                        url: mediaUrl,
+                        media: media,
                         overlayView: {
                             if viewModel.mediaType == .audio {
                                 image

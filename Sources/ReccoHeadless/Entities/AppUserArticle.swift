@@ -1,7 +1,7 @@
 import Foundation
 
 public struct AppUserArticle: Equatable, Hashable {
-    public init(bookmarked: Bool, id: ContentId, rating: ContentRating, status: ContentStatus, headline: String, lead: String? = nil, imageUrl: URL? = nil, audioUrl: URL? = nil, articleBodyHtml: String? = nil, imageAlt: String? = nil, length: Int? = nil) {
+    public init(bookmarked: Bool, id: ContentId, rating: ContentRating, status: ContentStatus, headline: String, lead: String? = nil, imageUrl: URL? = nil, audioUrl: URL? = nil, articleBodyHtml: String? = nil, imageAlt: String? = nil, duration: Int? = nil) {
         self.bookmarked = bookmarked
         self.id = id
         self.rating = rating
@@ -12,7 +12,7 @@ public struct AppUserArticle: Equatable, Hashable {
         self.audioUrl = audioUrl
         self.articleBodyHtml = articleBodyHtml
         self.imageAlt = imageAlt
-        self.length = length
+        self.duration = duration
     }
 
     public var bookmarked: Bool
@@ -25,5 +25,5 @@ public struct AppUserArticle: Equatable, Hashable {
     public var audioUrl: URL?
     public var articleBodyHtml: String?
     public var imageAlt: String?
-    public var length: Int?
+    public var duration: Int?
 }

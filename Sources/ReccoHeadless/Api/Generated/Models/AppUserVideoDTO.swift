@@ -12,22 +12,26 @@ import AnyCodable
 
 internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
 
+    internal enum CategoryDTO: String, Codable, CaseIterable {
+        case exercise = "exercise"
+        case meditation = "meditation"
+    }
     internal var id: ContentIdDTO
     internal var rating: RatingDTO
     internal var status: StatusDTO
     internal var bookmarked: Bool
     internal var headline: String
     internal var description: String?
-    internal var category: String
+    internal var category: CategoryDTO
     internal var disclaimer: String?
     internal var warning: String?
     internal var dynamicImageResizingUrl: String?
     internal var imageAlt: String?
     internal var videoUrl: String
     /** The estimated duration in seconds to read this article */
-    internal var length: Int?
+    internal var duration: Int
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, category: String, disclaimer: String? = nil, warning: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, videoUrl: String, length: Int? = nil) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, category: CategoryDTO, disclaimer: String? = nil, warning: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, videoUrl: String, duration: Int) {
         self.id = id
         self.rating = rating
         self.status = status
@@ -40,7 +44,7 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
         self.imageAlt = imageAlt
         self.videoUrl = videoUrl
-        self.length = length
+        self.duration = duration
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
@@ -56,7 +60,7 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
         case dynamicImageResizingUrl
         case imageAlt
         case videoUrl
-        case length
+        case duration
     }
 
     // Encodable protocol methods
@@ -75,7 +79,6 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
         try container.encode(videoUrl, forKey: .videoUrl)
-        try container.encodeIfPresent(length, forKey: .length)
+        try container.encode(duration, forKey: .duration)
     }
 }
-

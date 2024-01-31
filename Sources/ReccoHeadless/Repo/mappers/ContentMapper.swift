@@ -67,7 +67,7 @@ extension AppUserArticle {
             audioUrl: dto.audioUrl.flatMap(URL.init),
             articleBodyHtml: dto.articleBodyHtml,
             imageAlt: dto.imageAlt,
-            length: dto.length
+            duration: dto.duration
         )
     }
 }

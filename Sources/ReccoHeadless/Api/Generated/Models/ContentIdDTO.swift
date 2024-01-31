@@ -33,4 +33,3 @@ internal struct ContentIdDTO: Codable, JSONEncodable, Hashable {
         try container.encode(catalogId, forKey: .catalogId)
     }
 }
-

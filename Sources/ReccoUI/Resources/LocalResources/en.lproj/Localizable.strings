@@ -53,3 +53,4 @@
 "recco_card_video" = "Video";
 "recco_card_audio" = "Audio";
 "recco_dashboard_duration" = " • %@min";
+"recco_audio_detail_transcription" = "Transcription";

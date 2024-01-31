@@ -58,4 +58,3 @@ internal struct ColorsDTO: Codable, JSONEncodable, Hashable {
         try container.encode(illustrationOutline, forKey: .illustrationOutline)
     }
 }
-

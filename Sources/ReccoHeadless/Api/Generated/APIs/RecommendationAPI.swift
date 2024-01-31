@@ -14,8 +14,8 @@ internal class RecommendationAPI {
 
     /**
      A list of content filtered by topic.
-     
-     - parameter topic: (path)  
+
+     - parameter topic: (path)
      - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
@@ -28,11 +28,11 @@ internal class RecommendationAPI {
      A list of content filtered by topic.
      - GET /api/v1/me/recommendations/explore/topics/{topic}
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter topic: (path)  
+     - type: http
+     - name: bearerAuth
+     - parameter topic: (path)
      - parameter contentTypes: (query)  (optional)
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func exploreContentByTopicWithRequestBuilder(topic: TopicDTO, contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         var localVariablePath = "/api/v1/me/recommendations/explore/topics/{topic}"
@@ -44,7 +44,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -60,8 +60,8 @@ internal class RecommendationAPI {
 
     /**
      Get an article.
-     
-     - parameter catalogId: (query)  
+
+     - parameter catalogId: (query)
      - returns: AppUserArticleDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -73,10 +73,10 @@ internal class RecommendationAPI {
      Get an article.
      - GET /api/v1/me/recommendations/articles
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter catalogId: (query)  
-     - returns: RequestBuilder<AppUserArticleDTO> 
+     - type: http
+     - name: bearerAuth
+     - parameter catalogId: (query)
+     - returns: RequestBuilder<AppUserArticleDTO>
      */
     internal class func getArticleWithRequestBuilder(catalogId: String) -> RequestBuilder<AppUserArticleDTO> {
         let localVariablePath = "/api/v1/me/recommendations/articles"
@@ -85,7 +85,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true),
+            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -101,8 +101,8 @@ internal class RecommendationAPI {
 
     /**
      Get an audio.
-     
-     - parameter catalogId: (query)  
+
+     - parameter catalogId: (query)
      - returns: AppUserAudioDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -114,10 +114,10 @@ internal class RecommendationAPI {
      Get an audio.
      - GET /api/v1/me/recommendations/audios
      - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter catalogId: (query)  
-     - returns: RequestBuilder<AppUserAudioDTO> 
+     - type: http
+     - name: bearerAuth
+     - parameter catalogId: (query)
+     - returns: RequestBuilder<AppUserAudioDTO>
      */
     internal class func getAudioWithRequestBuilder(catalogId: String) -> RequestBuilder<AppUserAudioDTO> {
         let localVariablePath = "/api/v1/me/recommendations/audios"
@@ -126,7 +126,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true),
+            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -142,7 +142,7 @@ internal class RecommendationAPI {
 
     /**
      A list of bookmarked recommendations.
-     
+
      - returns: [AppUserRecommendationDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -154,9 +154,9 @@ internal class RecommendationAPI {
      A list of bookmarked recommendations.
      - GET /api/v1/me/recommendations/bookmarked
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - type: http
+     - name: bearerAuth
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getBookmarkedRecommendationsWithRequestBuilder() -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/bookmarked"
@@ -178,7 +178,7 @@ internal class RecommendationAPI {
 
     /**
      A list of most popular content.
-     
+
      - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
@@ -191,10 +191,10 @@ internal class RecommendationAPI {
      A list of most popular content.
      - GET /api/v1/me/recommendations/most_popular
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
+     - type: http
+     - name: bearerAuth
      - parameter contentTypes: (query)  (optional)
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getMostPopularContentWithRequestBuilder(contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/most_popular"
@@ -203,7 +203,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -219,7 +219,7 @@ internal class RecommendationAPI {
 
     /**
      A list of newest content.
-     
+
      - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
@@ -232,10 +232,10 @@ internal class RecommendationAPI {
      A list of newest content.
      - GET /api/v1/me/recommendations/newest
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
+     - type: http
+     - name: bearerAuth
      - parameter contentTypes: (query)  (optional)
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getNewestContentWithRequestBuilder(contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/newest"
@@ -244,7 +244,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -260,7 +260,7 @@ internal class RecommendationAPI {
 
     /**
      A list of starting recommendations.
-     
+
      - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
@@ -273,10 +273,10 @@ internal class RecommendationAPI {
      A list of starting recommendations.
      - GET /api/v1/me/recommendations/starting
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
+     - type: http
+     - name: bearerAuth
      - parameter contentTypes: (query)  (optional)
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getStartingRecommendationsWithRequestBuilder(contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/starting"
@@ -285,7 +285,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -301,8 +301,8 @@ internal class RecommendationAPI {
 
     /**
      A list of tailored recommendations filtered by topic.
-     
-     - parameter topic: (path)  
+
+     - parameter topic: (path)
      - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
@@ -315,11 +315,11 @@ internal class RecommendationAPI {
      A list of tailored recommendations filtered by topic.
      - GET /api/v1/me/recommendations/tailored/topics/{topic}
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter topic: (path)  
+     - type: http
+     - name: bearerAuth
+     - parameter topic: (path)
      - parameter contentTypes: (query)  (optional)
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getTailoredRecommendationsByTopicWithRequestBuilder(topic: TopicDTO, contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         var localVariablePath = "/api/v1/me/recommendations/tailored/topics/{topic}"
@@ -331,7 +331,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -347,7 +347,7 @@ internal class RecommendationAPI {
 
     /**
      A list of recommendations which are improved by the preferences.
-     
+
      - parameter contentTypes: (query)  (optional)
      - returns: [AppUserRecommendationDTO]
      */
@@ -360,10 +360,10 @@ internal class RecommendationAPI {
      A list of recommendations which are improved by the preferences.
      - GET /api/v1/me/recommendations/preferred
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
+     - type: http
+     - name: bearerAuth
      - parameter contentTypes: (query)  (optional)
-     - returns: RequestBuilder<[AppUserRecommendationDTO]> 
+     - returns: RequestBuilder<[AppUserRecommendationDTO]>
      */
     internal class func getUserPreferredRecommendationsWithRequestBuilder(contentTypes: [ContentTypeDTO]? = nil) -> RequestBuilder<[AppUserRecommendationDTO]> {
         let localVariablePath = "/api/v1/me/recommendations/preferred"
@@ -372,7 +372,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true),
+            "contentTypes": (wrappedValue: contentTypes?.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -388,8 +388,8 @@ internal class RecommendationAPI {
 
     /**
      Get a video.
-     
-     - parameter catalogId: (query)  
+
+     - parameter catalogId: (query)
      - returns: AppUserVideoDTO
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -401,10 +401,10 @@ internal class RecommendationAPI {
      Get a video.
      - GET /api/v1/me/recommendations/videos
      - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter catalogId: (query)  
-     - returns: RequestBuilder<AppUserVideoDTO> 
+     - type: http
+     - name: bearerAuth
+     - parameter catalogId: (query)
+     - returns: RequestBuilder<AppUserVideoDTO>
      */
     internal class func getVideoWithRequestBuilder(catalogId: String) -> RequestBuilder<AppUserVideoDTO> {
         let localVariablePath = "/api/v1/me/recommendations/videos"
@@ -413,7 +413,7 @@ internal class RecommendationAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true),
+            "catalogId": (wrappedValue: catalogId.encodeToJSON(), isExplode: true)
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -429,8 +429,8 @@ internal class RecommendationAPI {
 
     /**
      Set recommendation bookmark state.
-     
-     - parameter updateBookmarkDTO: (body)  
+
+     - parameter updateBookmarkDTO: (body)
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -442,10 +442,10 @@ internal class RecommendationAPI {
      Set recommendation bookmark state.
      - PUT /api/v1/me/recommendations/bookmark
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter updateBookmarkDTO: (body)  
-     - returns: RequestBuilder<Void> 
+     - type: http
+     - name: bearerAuth
+     - parameter updateBookmarkDTO: (body)
+     - returns: RequestBuilder<Void>
      */
     internal class func setBookmarkWithRequestBuilder(updateBookmarkDTO: UpdateBookmarkDTO) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/recommendations/bookmark"
@@ -467,8 +467,8 @@ internal class RecommendationAPI {
 
     /**
      Set recommendation rating.
-     
-     - parameter updateRatingDTO: (body)  
+
+     - parameter updateRatingDTO: (body)
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -480,10 +480,10 @@ internal class RecommendationAPI {
      Set recommendation rating.
      - PUT /api/v1/me/recommendations/rating
      - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter updateRatingDTO: (body)  
-     - returns: RequestBuilder<Void> 
+     - type: http
+     - name: bearerAuth
+     - parameter updateRatingDTO: (body)
+     - returns: RequestBuilder<Void>
      */
     internal class func setRatingWithRequestBuilder(updateRatingDTO: UpdateRatingDTO) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/recommendations/rating"

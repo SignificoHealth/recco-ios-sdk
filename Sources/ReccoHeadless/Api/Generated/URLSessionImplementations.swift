@@ -137,12 +137,12 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
             var taskIdentifier: Int?
-             let cleanupRequest = {
-                 if let taskIdentifier = taskIdentifier {
-                     challengeHandlerStore[taskIdentifier] = nil
-                     credentialStore[taskIdentifier] = nil
-                 }
-             }
+            let cleanupRequest = {
+                if let taskIdentifier = taskIdentifier {
+                    challengeHandlerStore[taskIdentifier] = nil
+                    credentialStore[taskIdentifier] = nil
+                }
+            }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
 

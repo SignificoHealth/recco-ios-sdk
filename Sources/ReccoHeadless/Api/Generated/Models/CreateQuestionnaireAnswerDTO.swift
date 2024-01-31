@@ -45,4 +45,3 @@ internal struct CreateQuestionnaireAnswerDTO: Codable, JSONEncodable, Hashable {
         try container.encode(type, forKey: .type)
     }
 }
-

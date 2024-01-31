@@ -12,20 +12,26 @@ import AnyCodable
 
 internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
 
+    internal enum CategoryDTO: String, Codable, CaseIterable {
+        case exercise = "exercise"
+        case meditation = "meditation"
+        case relaxation = "relaxation"
+    }
     internal var id: ContentIdDTO
     internal var rating: RatingDTO
     internal var status: StatusDTO
     internal var bookmarked: Bool
     internal var headline: String
     internal var description: String?
-    internal var category: String
+    internal var category: CategoryDTO
     internal var dynamicImageResizingUrl: String?
     internal var imageAlt: String?
     internal var audioUrl: String
     /** The estimated duration in seconds to read this article */
-    internal var length: Int?
+    internal var duration: Int
+    internal var transcription: Bool
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, category: String, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String, length: Int? = nil) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, category: CategoryDTO, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String, duration: Int, transcription: Bool) {
         self.id = id
         self.rating = rating
         self.status = status
@@ -36,7 +42,8 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
         self.imageAlt = imageAlt
         self.audioUrl = audioUrl
-        self.length = length
+        self.duration = duration
+        self.transcription = transcription
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
@@ -50,7 +57,8 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
         case dynamicImageResizingUrl
         case imageAlt
         case audioUrl
-        case length
+        case duration
+        case transcription
     }
 
     // Encodable protocol methods
@@ -67,7 +75,7 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
         try container.encode(audioUrl, forKey: .audioUrl)
-        try container.encodeIfPresent(length, forKey: .length)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(transcription, forKey: .transcription)
     }
 }
-
