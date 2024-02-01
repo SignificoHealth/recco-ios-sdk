@@ -54,3 +54,6 @@
 "recco_card_audio" = "Audio";
 "recco_dashboard_duration" = " • %@min";
 "recco_audio_detail_transcription" = "Transcription";
+"recco_category_relaxation_name" = "Relaxation";
+"recco_category_meditation_name" = "Meditation";
+"recco_category_exercise_name" = "Exercise";

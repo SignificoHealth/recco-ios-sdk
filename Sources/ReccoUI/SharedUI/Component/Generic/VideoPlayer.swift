@@ -97,7 +97,7 @@ struct VideoPlayerView<OverlayView: View>: UIViewControllerRepresentable {
                     avplayer: player!,
                     info: .init(
                         title: media.headline,
-                        subtitle: "\(media.category)",
+                        subtitle: media.category.displayName,
                         imageUrl: artworkUrl
                     ),
                     onStatusChanged: { [weak self] isReady in
