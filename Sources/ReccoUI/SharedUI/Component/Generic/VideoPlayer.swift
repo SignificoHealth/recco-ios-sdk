@@ -7,19 +7,20 @@
 
 import AVKit
 import Foundation
-import MediaPlayer
+import ReccoHeadless
 import SwiftUI
 import UIKit
-import ReccoHeadless
 
 struct VideoPlayerView<OverlayView: View>: UIViewControllerRepresentable {
     init(
         startPlaying: Binding<Bool>,
         gravity: AVLayerVideoGravity = .resizeAspect,
         media: AppUserMedia,
+        artworkUrl: URL?,
         whenReady: @escaping () -> Void = {},
         @ViewBuilder overlayView: @escaping () -> OverlayView
     ) {
+        self.artworkUrl = artworkUrl
         self.media = media
         self._startPlaying = startPlaying
         self.gravity = gravity
@@ -30,6 +31,7 @@ struct VideoPlayerView<OverlayView: View>: UIViewControllerRepresentable {
     @Binding var startPlaying: Bool
     var gravity: AVLayerVideoGravity = .resizeAspect
     var media: AppUserMedia
+    var artworkUrl: URL?
     var whenReady: () -> Void = {}
     var overlayView: () -> OverlayView
 
@@ -57,8 +59,6 @@ struct VideoPlayerView<OverlayView: View>: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         let vc = uiViewController as? AVPlayerViewController
-        try? AVAudioSession.sharedInstance().setActive(startPlaying)
-
         let isPlaying = vc?.player?.rate ?? 0 > 0
 
         guard isPlaying != startPlaying else {
@@ -73,90 +73,62 @@ struct VideoPlayerView<OverlayView: View>: UIViewControllerRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(media: media, whenReady)
+        Coordinator(
+            media: media,
+            artworkUrl: artworkUrl,
+            whenReady
+        ) {
+            startPlaying = $0
+        }
     }
 
     final class Coordinator: NSObject, AVPlayerViewControllerDelegate {
-        var statusObservation: NSKeyValueObservation?
-        private var timeObserver: Any?
-        let whenReady: () -> Void
-        let media: AppUserMedia
-        
+        private let whenReady: () -> Void
+        private let playingChanged: (Bool) -> Void
+        private let media: AppUserMedia
+        private let artworkUrl: URL?
+        private var hasStartedPlaying = false
+        private var playerCoordinator: AVPlayerSystemCoordinator!
+
         weak var player: AVPlayer? {
             didSet {
-                statusObservation = player?.observe(\.status, changeHandler: { [weak self] player, _ in
-                    if player.status == .readyToPlay {
-                        self?.whenReady()
-                    }
-                })
-                
-                timeObserver = player?.addPeriodicTimeObserver(
-                    forInterval: CMTimeMake(
-                        value: 1,
-                        timescale: 2
+                guard playerCoordinator == nil else { return }
+                self.playerCoordinator = .init(
+                    avplayer: player!,
+                    info: .init(
+                        title: media.headline,
+                        subtitle: "\(media.category)",
+                        imageUrl: artworkUrl
                     ),
-                    queue: DispatchQueue.main) { [weak self] _ in
-                        self?.updateNowPlayingInfoCenter()
-                }
-                
-                setupNowPlayingInfoCenter()
-                setupRemoteCommandCenter()
+                    onStatusChanged: { [weak self] isReady in
+                        if isReady { self?.whenReady() }
+                    },
+                    onPlayBackChanged: { [weak self] isPlaying in
+                        DispatchQueue.main.async {
+                            self?.playingChanged(isPlaying)
+                        }
+                    }
+                )
             }
         }
 
         init(
             media: AppUserMedia,
-            _ ready: @escaping () -> Void
+            artworkUrl: URL?,
+            _ ready: @escaping () -> Void,
+            _ playingChanged: @escaping (Bool) -> Void
         ) {
             self.media = media
             self.whenReady = ready
+            self.playingChanged = playingChanged
+            self.artworkUrl = artworkUrl
             super.init()
-        }
-
-        private func setupNowPlayingInfoCenter() {
-            var nowPlayingInfo = [String: Any]()
-            nowPlayingInfo[MPMediaItemPropertyTitle] = media.headline
-
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        }
-
-        private func setupRemoteCommandCenter() {
-            let commandCenter = MPRemoteCommandCenter.shared()
-
-            commandCenter.playCommand.addTarget { [unowned self] _ in
-                self.player?.play()
-                return .success
-            }
-
-            commandCenter.pauseCommand.addTarget { [unowned self] _ in
-                self.player?.pause()
-                return .success
-            }
-            // Add other command handlers here...
-        }
-
-        private func updateNowPlayingInfoCenter() {
-            // This method should be called periodically to update playback info
-            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
-            nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds
-            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = player?.currentItem?.duration.seconds
-            // Add other updates here...
-
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
         }
 
         func playerViewController(
             _ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void
         ) {
             completionHandler(true)
-        }
-
-        deinit {
-            statusObservation?.invalidate()
-            statusObservation = nil
-            timeObserver.map {
-                player?.removeTimeObserver($0)
-            }
         }
     }
 }
@@ -166,12 +138,14 @@ extension VideoPlayerView where OverlayView == EmptyView {
         startPlaying: Binding<Bool>,
         gravity: AVLayerVideoGravity = .resizeAspect,
         media: AppUserMedia,
+        artworkUrl: URL? = nil,
         whenReady: @escaping () -> Void = {}
     ) {
         self.init(
             startPlaying: startPlaying,
             gravity: gravity,
             media: media,
+            artworkUrl: artworkUrl,
             whenReady: whenReady,
             overlayView: { EmptyView() }
         )
@@ -184,7 +158,7 @@ extension VideoPlayerView where OverlayView == EmptyView {
         media: AppUserMedia(
             type: .audio,
             id: .init(itemId: "", catalogId: ""), rating: .dislike, status: .noInteraction, bookmarked: true, headline: "Hola", description: "Adios", category: .exercise, disclaimer: nil, warning: nil, dynamicImageResizingUrl: URL(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), imageAlt: nil, mediaUrl: .init(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!, duration: 30, textIsTranscription: true),
-        whenReady: {},
+        artworkUrl: nil, whenReady: {},
         overlayView: {
             Circle()
                 .fill(Color.red)

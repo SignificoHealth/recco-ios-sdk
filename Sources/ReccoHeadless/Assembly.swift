@@ -70,7 +70,7 @@ public final class ReccoHeadlessAssembly: ReccoAssembly {
         }
 
         container.register(type: MediaRepository.self) { _ in
-            MockMediaRepository()
+            LiveMediaRepository()
         }
     }
 }

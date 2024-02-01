@@ -50,8 +50,12 @@ final class DashboardViewModel: ObservableObject {
         case .questionnaire:
             fatalError("asdf")
         case .audio, .video:
+            guard let mediaType = MediaType(item.type) else {
+                return
+            }
+
             nav.navigate(to: .media(
-                mediaType: item.type == .audio ? .audio : .video,
+                mediaType: mediaType,
                 id: item.id,
                 headline: item.headline,
                 imageUrl: item.imageUrl,

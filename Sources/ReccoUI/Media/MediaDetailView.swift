@@ -161,35 +161,10 @@ struct MediaDetailView: View {
 
     @ViewBuilder
     private var image: some View {
-        if let imageUrl = viewModel.media?.dynamicImageResizingUrl ?? viewModel.imageUrl {
-            ReccoURLImageView(
-                url: imageUrl,
-                alt: viewModel.media?.imageAlt,
-                downSampleSize: .size(.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.7))
-            ) {
-                Color.reccoPrimary20.overlay(
-                    Image(resource: "error_image")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                )
-                .addBlackOpacityOverlay()
-            } loadingView: {
-                ReccoImageLoadingView(feedItem: false)
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            } transformView: { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            }
-        } else {
-            ZStack {
-                Color.reccoIllustration
-                ReccoStyleImage(name: "default_image", resizable: true)
-                    .scaledToFill()
-            }
-        }
+        ReccoContentImageView(
+            url: viewModel.media?.dynamicImageResizingUrl ?? viewModel.imageUrl,
+            alt: viewModel.media?.imageAlt
+        )
     }
 
     @ViewBuilder
@@ -201,6 +176,7 @@ struct MediaDetailView: View {
                     VideoPlayerView(
                         startPlaying: $viewModel.isPlayingMedia,
                         media: media,
+                        artworkUrl: viewModel.imageUrl,
                         overlayView: {
                             if viewModel.mediaType == .audio {
                                 image

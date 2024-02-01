@@ -21,21 +21,46 @@ final class BookmarksViewModel: ObservableObject {
     }
 
     func goToDetail(of item: AppUserRecommendation) {
-        nav.navigate(to: .article(
-            id: item.id,
-            headline: item.headline,
-            imageUrl: item.imageUrl,
-            seenContent: { [unowned self] id in
-                markContentAsSeen(id: id)
-            },
-            onBookmarkedChange: { [unowned self] bookmarked in
-                if !bookmarked {
-                    Task {
-                        await getBookmarks()
+        switch item.type {
+        case .articles:
+            nav.navigate(to: .article(
+                id: item.id,
+                headline: item.headline,
+                imageUrl: item.imageUrl,
+                seenContent: { [unowned self] id in
+                    markContentAsSeen(id: id)
+                },
+                onBookmarkedChange: { [unowned self] bookmarked in
+                    if !bookmarked {
+                        Task {
+                            await getBookmarks()
+                        }
                     }
                 }
+            ))
+        case .questionnaire:
+            fatalError("This should never happen, we can't bookmark a questionnaire recommedation")
+        case .audio, .video:
+            guard let mediaType = MediaType(item.type) else {
+                return
             }
-        ))
+            nav.navigate(to: .media(
+                mediaType: mediaType,
+                id: item.id,
+                headline: item.headline,
+                imageUrl: item.imageUrl,
+                seenContent: { [unowned self] id in
+                    markContentAsSeen(id: id)
+                },
+                onBookmarkedChange: { [unowned self] bookmarked in
+                    if !bookmarked {
+                        Task {
+                            await getBookmarks()
+                        }
+                    }
+                }
+            ))
+        }
     }
 
     func dismiss() {

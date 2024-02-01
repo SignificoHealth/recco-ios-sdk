@@ -12,6 +12,19 @@ public enum MediaType {
     case video
 }
 
+extension MediaType {
+    public init?(_ contentType: ContentType) {
+        switch contentType {
+        case .audio:
+            self = .audio
+        case .video:
+            self = .video
+        default:
+            return nil
+        }
+    }
+}
+
 public struct AppUserMedia: Hashable, Equatable {
     public init(type: MediaType, id: ContentId, rating: ContentRating, status: ContentStatus, bookmarked: Bool, headline: String, description: String? = nil, category: ContentCategory, disclaimer: String? = nil, warning: String? = nil, dynamicImageResizingUrl: URL? = nil, imageAlt: String? = nil, mediaUrl: URL, duration: Int, textIsTranscription: Bool = false) {
         self.type = type

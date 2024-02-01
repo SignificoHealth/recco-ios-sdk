@@ -60,7 +60,11 @@ struct ArticleDetailView: View {
                                 }
 
                                 if let audioUrl = article.audioUrl {
-                                    AudioPlayerView(url: audioUrl)
+                                    AudioPlayerView(url: audioUrl, nowPlayingInfo: .init(
+                                        title: article.headline,
+                                        subtitle: article.lead,
+                                        imageUrl: viewModel.imageUrl
+                                    ))
                                 }
 
                                 if let body = article.articleBodyHtml {
@@ -121,35 +125,10 @@ struct ArticleDetailView: View {
 
     @ViewBuilder
     private var articleHeader: some View {
-        if let imageUrl = viewModel.imageUrl {
-            ReccoURLImageView(
-                url: imageUrl,
-                alt: viewModel.article?.imageAlt,
-                downSampleSize: .size(.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.7))
-            ) {
-                Color.reccoPrimary20.overlay(
-                    Image(resource: "error_image")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                )
-                .addBlackOpacityOverlay()
-            } loadingView: {
-                ReccoImageLoadingView(feedItem: false)
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            } transformView: { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            }
-        } else {
-            ZStack {
-                Color.reccoIllustration
-                ReccoStyleImage(name: "default_image", resizable: true)
-                    .scaledToFill()
-            }
-        }
+        ReccoContentImageView(
+            url: viewModel.article?.imageUrl ?? viewModel.imageUrl,
+            alt: viewModel.article?.imageAlt
+        )
     }
 }
 

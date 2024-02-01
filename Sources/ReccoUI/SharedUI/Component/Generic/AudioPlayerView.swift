@@ -3,10 +3,8 @@ import Combine
 import SwiftUI
 
 final class AudioPlayerViewModel: ObservableObject {
+    private var coordinator: AVPlayerSystemCoordinator!
     private(set) var avPlayer: AVPlayer!
-    private var timeObserver: Any!
-    private var rateObserver: NSKeyValueObservation!
-    private var statusObserver: NSKeyValueObservation!
     private var cancellables: Set<AnyCancellable> = .init()
 
     @Published var currentTime: TimeInterval = 0
@@ -18,41 +16,38 @@ final class AudioPlayerViewModel: ObservableObject {
         0...durationTime
     }
 
-    init(url: URL) {
+    init(
+        url: URL,
+        nowPlayingInfo: NowPlayingInfo
+    ) {
         self.avPlayer = AVPlayer(url: url)
+        self.avPlayer.automaticallyWaitsToMinimizeStalling = false
 
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio)
         } catch {
             playbackError = error
         }
-
-        bind()
-    }
-
-    private func bind() {
-        timeObserver = avPlayer.addPeriodicTimeObserver(
-            forInterval: CMTimeMake(
-                value: 1,
-                timescale: 1
-            ),
-            queue: DispatchQueue.main) { [weak self] time in
-            if self?.currentTime ?? 0 != CMTimeGetSeconds(time) {
-                self?.currentTime = CMTimeGetSeconds(time)
+        
+        self.coordinator = .init(
+            avplayer: avPlayer,
+            info: nowPlayingInfo,
+            onStatusChanged: { [unowned self] isReady in
+                if isReady {
+                    self.durationTime = avPlayer?.currentItem.map {
+                        Double(CMTimeGetSeconds($0.asset.duration))
+                    } ?? 1.0
+                }
+            },
+            onPlayBackChanged: { [unowned self] isPlaying in
+                self.isPlaying = isPlaying
+            },
+            onProgressChanged: { [unowned self] seconds in
+                if currentTime != seconds {
+                    currentTime = seconds
+                }
             }
-        }
-
-        rateObserver = avPlayer.observe(\.rate, changeHandler: { [weak self] player, _ in
-            self?.isPlaying = player.rate > 0
-        })
-
-        statusObserver = avPlayer.observe(\.status, changeHandler: { [weak self] player, _ in
-            if player.status == .readyToPlay {
-                self?.durationTime = player.currentItem.map {
-                    Double(CMTimeGetSeconds($0.asset.duration))
-                } ?? 1.0
-            }
-        })
+        )
     }
 
     func play() {
@@ -65,13 +60,11 @@ final class AudioPlayerViewModel: ObservableObject {
             )
         }
 
-        try? AVAudioSession.sharedInstance().setActive(true)
         avPlayer.play()
     }
 
     func pause() {
         avPlayer.pause()
-        try? AVAudioSession.sharedInstance().setActive(false)
     }
 
     func setCurrentTime(seconds: TimeInterval, wasPlaying: Bool) {
@@ -85,15 +78,9 @@ final class AudioPlayerViewModel: ObservableObject {
             )
         )
         if wasPlaying {
-            play()
-        }
-    }
-
-    deinit {
-        statusObserver.invalidate()
-        rateObserver.invalidate()
-        timeObserver.map {
-            avPlayer.removeTimeObserver($0)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+                self?.play()
+            }
         }
     }
 }
@@ -112,8 +99,8 @@ struct AudioPlayerView: View {
         }
     }
 
-    init(url: URL) {
-        _viewModel = .init(wrappedValue: .init(url: url))
+    init(url: URL, nowPlayingInfo: NowPlayingInfo) {
+        _viewModel = .init(wrappedValue: .init(url: url, nowPlayingInfo: nowPlayingInfo))
     }
 
     private func format(seconds: TimeInterval) -> String? {
@@ -148,6 +135,7 @@ struct AudioPlayerView: View {
             if let currentProgress = format(seconds: viewModel.currentTime) {
                 Text(currentProgress)
                     .labelSmall()
+                    .frame(width: 46)
             }
 
             Slider(
@@ -174,6 +162,7 @@ struct AudioPlayerView: View {
             if let totaldDuration = format(seconds: viewModel.durationTime) {
                 Text(totaldDuration)
                     .labelSmall()
+                    .frame(width: 46)
             }
         }
         .padding(.horizontal, .M)
@@ -185,5 +174,5 @@ struct AudioPlayerView: View {
 }
 
 #Preview {
-    AudioPlayerView(url: URL(string: "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample2.mp3")!)
+    AudioPlayerView(url: URL(string: "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample2.mp3")!, nowPlayingInfo: .init(title: "", subtitle: "", imageUrl: URL(string: "hola.com")!))
 }
