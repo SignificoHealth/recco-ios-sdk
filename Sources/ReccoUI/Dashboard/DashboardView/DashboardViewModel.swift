@@ -36,7 +36,7 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
-    func goToDetail(of item: AppUserRecommendation) {
+    func goToDetail(of item: AppUserRecommendation, section: FeedSection) {
         switch item.type {
         case .articles:
             nav.navigate(to: .article(
@@ -48,7 +48,13 @@ final class DashboardViewModel: ObservableObject {
                 }, onBookmarkedChange: { _ in }
             ))
         case .questionnaire:
-            fatalError("asdf")
+            nav.navigate(to: .questionnaireById(
+                item.id, section, { @MainActor [unowned self] _ in
+                reloadSection(
+                    type: section.type,
+                    nextState: .unlock
+                )
+            }))
         case .audio, .video:
             guard let mediaType = MediaType(item.type) else {
                 return
@@ -66,20 +72,6 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
-    @MainActor
-    func goToQuestionnaire(of section: FeedSection) {
-        if let topic = section.topic {
-            nav.navigate(to: .questionnaire(
-                topic, { [unowned self] _ in
-                    reloadSection(
-                        type: section.type,
-                        nextState: .unlock
-                    )
-                }
-            ))
-        }
-    }
-
     func goToBookmarks() {
         nav.navigate(to: .bookmarks)
     }
@@ -92,7 +84,7 @@ final class DashboardViewModel: ObservableObject {
     func pressedUnlockSectionStart() {
         if let section = lockedSectionAlert,
            let topic = section.topic {
-            nav.navigate(to: .questionnaire(
+            nav.navigate(to: .questionnaireByTopic(
                 topic, { [unowned self] _ in
                     reloadSection(
                         type: section.type,

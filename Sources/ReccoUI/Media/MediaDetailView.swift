@@ -89,8 +89,7 @@ struct MediaDetailView: View {
             error: $viewModel.initialLoadError,
             onRetry: {
                 await viewModel.initialLoad()
-            },
-            onClose: viewModel.back
+            }
         )
         .background(Color.reccoBackground.ignoresSafeArea())
         .reccoNotification(error: $viewModel.actionError)

@@ -15,7 +15,8 @@ enum Destination: Equatable {
     case onboardingQuestionnaire
     case questionnaireOutro
     case article(id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void, onBookmarkedChange: (Bool) -> Void)
-    case questionnaire(ReccoTopic, (Bool) -> Void)
+    case questionnaireByTopic(ReccoTopic, (Bool) -> Void)
+    case questionnaireById(ContentId, FeedSection, (Bool) -> Void)
     case bookmarks
     case dismiss
     case media(mediaType: MediaType, id: ContentId, headline: String, imageUrl: URL?, seenContent: (ContentId) -> Void, onBookmarkedChange: (Bool) -> Void)
@@ -30,8 +31,12 @@ enum Destination: Equatable {
             return true
         case (let .article(id1, headline1, imageUrl1, _, _), let .article(id2, headline2, imageUrl2, _, _)):
             return id1 == id2 && headline1 == headline2 && imageUrl1 == imageUrl2
-        case (let .questionnaire(topic1, _), let .questionnaire(topic2, _)):
+        case (let .questionnaireByTopic(topic1, _), let .questionnaireByTopic(topic2, _)):
             return topic1 == topic2
+            
+        case let(.questionnaireById(id, _, _), .questionnaireById(id2,_, _)):
+            return id != id2
+            
         default:
             return false
         }
@@ -100,10 +105,17 @@ final class DefaultReccoCoordinator: ReccoCoordinator {
                 animated: true
             )
 
-        case let .questionnaire(topic, unlocked):
+        case let .questionnaireByTopic(topic, unlocked):
             let viewModel: TopicQuestionnaireViewModel = get(argument: (topic, unlocked))
             navController?.pushViewController(
                 UIHostingController(rootView: QuestionnaireView(viewModel: viewModel, navTitle: topic.displayName)),
+                animated: true
+            )
+
+        case let .questionnaireById(id, section, unlocked):
+            let viewModel: ByIdQuestionnaireViewModel = get(argument: (id, unlocked))
+            navController?.pushViewController(
+                UIHostingController(rootView: QuestionnaireView(viewModel: viewModel, navTitle: section.type.displayName)),
                 animated: true
             )
         case .bookmarks:

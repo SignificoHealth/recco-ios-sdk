@@ -70,6 +70,16 @@ final class ReccoUIAssembly: ReccoAssembly {
             )
         }
 
+        container.register(type: ByIdQuestionnaireViewModel.self) { (r: ReccoResolver, tuple: (ContentId, (Bool) -> Void)) in
+            ByIdQuestionnaireViewModel(
+                id: tuple.0,
+                reloadSection: tuple.1,
+                repo: r.get(),
+                nav: r.get(),
+                logger: r.get()
+            )
+        }
+
         container.register(type: OnboardingQuestionnaireViewModel.self) { r, next in
             OnboardingQuestionnaireViewModel(
                 nextScreen: next,

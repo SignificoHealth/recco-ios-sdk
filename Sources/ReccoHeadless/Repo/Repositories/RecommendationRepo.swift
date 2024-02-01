@@ -6,7 +6,7 @@ public protocol RecommendationRepository {
 }
 
 final class LiveRecommendationRepository: RecommendationRepository {
-    private let supportedContentTypes: [ContentTypeDTO] = [.articles, .questionnaires, .audios, .videos]
+    private let supportedContentTypes: [ContentTypeDTO] = [.articles, .audios, .videos]
 
     init() {}
 
@@ -18,7 +18,7 @@ final class LiveRecommendationRepository: RecommendationRepository {
             return try await RecommendationAPI
                 .getTailoredRecommendationsByTopic(
                     topic: .init(entity: topic),
-                    contentTypes: supportedContentTypes
+                    contentTypes: supportedContentTypes + [.questionnaires]
                 )
                 .map(AppUserRecommendation.init)
         case (.preferredRecommendations, _):

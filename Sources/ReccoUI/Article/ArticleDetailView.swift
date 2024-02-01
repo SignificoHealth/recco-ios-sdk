@@ -1,14 +1,6 @@
 import ReccoHeadless
 import SwiftUI
 
-private struct BoundsPreference: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
 struct ArticleDetailView: View {
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
     @StateObject var viewModel: ArticleDetailViewModel
@@ -26,7 +18,12 @@ struct ArticleDetailView: View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             imageHeaderHeight: headerHeight,
-            header: { articleHeader },
+            header: {
+                ReccoContentImageView(
+                    url: viewModel.article?.imageUrl ?? viewModel.imageUrl,
+                    alt: viewModel.article?.imageAlt
+                )
+            },
             content: {
                 VStack(alignment: .leading, spacing: .M) {
                     Text(viewModel.heading)
@@ -91,8 +88,7 @@ struct ArticleDetailView: View {
             error: $viewModel.initialLoadError,
             onRetry: {
                 await viewModel.initialLoad()
-            },
-            onClose: viewModel.back
+            }
         )
         .background(Color.reccoBackground.ignoresSafeArea())
         .reccoNotification(error: $viewModel.actionError)
@@ -121,14 +117,6 @@ struct ArticleDetailView: View {
         .task {
             await viewModel.initialLoad()
         }
-    }
-
-    @ViewBuilder
-    private var articleHeader: some View {
-        ReccoContentImageView(
-            url: viewModel.article?.imageUrl ?? viewModel.imageUrl,
-            alt: viewModel.article?.imageAlt
-        )
     }
 }
 

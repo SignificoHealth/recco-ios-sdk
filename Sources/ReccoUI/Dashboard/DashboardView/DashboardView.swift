@@ -30,7 +30,6 @@ struct DashboardView: View {
                             section: section,
                             items: viewModel.items[section.section.type, default: []],
                             goToDetail: viewModel.goToDetail,
-                            goToQuestionnaire: viewModel.goToQuestionnaire,
                             pressedLockedSection: viewModel.pressedLocked
                         )
                     }
