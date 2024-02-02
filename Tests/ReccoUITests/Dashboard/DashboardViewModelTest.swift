@@ -25,7 +25,7 @@ final class DashboardViewModelTest: XCTestCase {
     }()
     private let feedSection = Mocks.feedSectionWithTopic
     private lazy var questionnaireDestination: Destination = {
-        .questionnaire(
+        .questionnaireByTopic(
             feedSection.topic ?? .nutrition, { _ in /* No need to mock this */ }
         )
     }()
@@ -66,7 +66,10 @@ final class DashboardViewModelTest: XCTestCase {
         mockCoordinator.expectations[.navigate] = navigateExpectation
         let viewModel = getViewModel(nav: mockCoordinator)
 
-        viewModel.goToDetail(of: appUserRecommendation)
+        viewModel.goToDetail(of: appUserRecommendation, section: FeedSection(
+            type: .mostPopular,
+            state: .unlock
+        ))
 
         wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
@@ -88,7 +91,10 @@ final class DashboardViewModelTest: XCTestCase {
         ]
         viewModel.items[.mostPopular] = [appUserRecommendation]
 
-        viewModel.goToDetail(of: appUserRecommendation)
+        viewModel.goToDetail(of: appUserRecommendation, section: FeedSection(
+            type: .mostPopular,
+            state: .unlock
+        ))
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, articleDestination)
         guard case .article(_, _, _, let seenContent, _) = mockCoordinator.lastDestination else {
@@ -184,7 +190,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, questionnaireDestination)
-        guard case .questionnaire(_, let reloadSections) = mockCoordinator.lastDestination else {
+        guard case .questionnaireByTopic(_, let reloadSections) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .questionnaire")
         }
         reloadSections(true)
@@ -228,7 +234,7 @@ final class DashboardViewModelTest: XCTestCase {
         viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, questionnaireDestination)
-        guard case .questionnaire(_, let reloadSections) = mockCoordinator.lastDestination else {
+        guard case .questionnaireByTopic(_, let reloadSections) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .questionnaire")
         }
         reloadSections(true)
