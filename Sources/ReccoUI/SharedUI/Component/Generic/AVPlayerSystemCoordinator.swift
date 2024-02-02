@@ -66,13 +66,19 @@ final class AVPlayerSystemCoordinator {
 
     private func bind() {
         if !audioBackgroundModesEnabled {
-            noteCenter.publisher(for: UIApplication.didEnterBackgroundNotification).sink { [unowned self] _ in
+            noteCenter.publisher(
+                for: UIApplication.didEnterBackgroundNotification
+            )
+            .sink { [unowned self] _ in
                 MPNowPlayingInfoCenter.default().nowPlayingInfo = [:]
                 commandCenter(enabled: false)
             }
             .store(in: &cancellables)
 
-            noteCenter.publisher(for: UIApplication.didBecomeActiveNotification).sink { [unowned self] _ in
+            noteCenter.publisher(
+                for: UIApplication.didBecomeActiveNotification
+            )
+            .sink { [unowned self] _ in
                 commandCenter(enabled: true)
                 setupRemoteCommandCenter()
                 setupNowPlayingInfoCenter()
