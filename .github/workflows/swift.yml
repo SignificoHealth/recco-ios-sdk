@@ -13,7 +13,7 @@ on:
 env:
   TEST_SCHEME: ReccoUITests
   DEVICE_NAME: iPhone 15
-  DEVICE_OS: 17.0
+  DEVICE_OS: 17.0.1
   IS_CI: true
 
 
