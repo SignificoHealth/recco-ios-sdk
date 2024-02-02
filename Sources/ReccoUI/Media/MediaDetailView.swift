@@ -168,7 +168,7 @@ struct MediaDetailView: View {
 
     @ViewBuilder
     private var mediaHeader: some View {
-        ZStack(alignment: .top) {
+        ZStack {
             if let media = viewModel.media {
                 VStack(spacing: 0) {
                     Spacer()
