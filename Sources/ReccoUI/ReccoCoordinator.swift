@@ -33,10 +33,10 @@ enum Destination: Equatable {
             return id1 == id2 && headline1 == headline2 && imageUrl1 == imageUrl2
         case (let .questionnaireByTopic(topic1, _), let .questionnaireByTopic(topic2, _)):
             return topic1 == topic2
-            
-        case let(.questionnaireById(id, _, _), .questionnaireById(id2,_, _)):
+
+        case let(.questionnaireById(id, _, _), .questionnaireById(id2, _, _)):
             return id != id2
-            
+
         default:
             return false
         }

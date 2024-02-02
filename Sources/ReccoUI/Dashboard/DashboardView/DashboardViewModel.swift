@@ -49,12 +49,12 @@ final class DashboardViewModel: ObservableObject {
             ))
         case .questionnaire:
             nav.navigate(to: .questionnaireById(
-                item.id, section, { @MainActor [unowned self] _ in
-                reloadSection(
-                    type: section.type,
-                    nextState: .unlock
-                )
-            }))
+                            item.id, section, { @MainActor [unowned self] _ in
+                                reloadSection(
+                                    type: section.type,
+                                    nextState: .unlock
+                                )
+                            }))
         case .audio, .video:
             guard let mediaType = MediaType(item.type) else {
                 return

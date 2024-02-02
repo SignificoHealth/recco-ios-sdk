@@ -28,7 +28,7 @@ final class AudioPlayerViewModel: ObservableObject {
         } catch {
             playbackError = error
         }
-        
+
         self.coordinator = .init(
             avplayer: avPlayer,
             info: nowPlayingInfo,

@@ -87,7 +87,7 @@ struct FeedSectionView_Previews: PreviewProvider {
                 isLoading: false
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
-            goToDetail: { _,_ in },
+            goToDetail: { _, _ in },
             pressedLockedSection: { _ in }
         )
     }

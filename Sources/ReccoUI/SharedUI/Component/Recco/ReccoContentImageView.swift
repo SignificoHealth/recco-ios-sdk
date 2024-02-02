@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Adrián R on 1/2/24.
 //
@@ -11,7 +11,7 @@ import SwiftUI
 struct ReccoContentImageView: View {
     var url: URL?
     var alt: String?
-    
+
     var body: some View {
         if let imageUrl = url {
             ReccoURLImageView(
