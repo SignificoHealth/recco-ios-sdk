@@ -51,7 +51,7 @@
 "recco_questionnaire_card" = "Tailor your %@ journey";
 "recco_card_read" = "Read";
 "recco_card_video" = "Video";
-"recco_card_audio" = "Audio";
+"recco_card_audio" = "Podcast";
 "recco_dashboard_duration" = " • %@min";
 "recco_audio_detail_transcription" = "Transcription";
 "recco_category_relaxation_name" = "Relaxation";
