@@ -25,20 +25,23 @@ final class AVPlayerSystemCoordinator {
     private weak var avPlayer: AVPlayer?
     private let info: NowPlayingInfo
     private var cancellables: Set<AnyCancellable> = .init()
-    /// returns true when it is ready to play, and provides total duration
-    /// for current item
+    private let noteCenter: NotificationCenter
+
+    /// returns true when it is ready to play
     private let onStatusChanged: ((Bool) -> Void)?
     private let onPlayBackChanged: ((Bool) -> Void)?
     private let onProgressChanged: ((TimeInterval) -> Void)?
-    private let noteCenter: NotificationCenter
+
     // internal state
     private var lastRecordedTime: TimeInterval = 0
     private var firstTimePlaying = true
+    private var cachedArtwork: MPMediaItemArtwork?
+
     // observer tokens
     private var periodicObserver: Any?
     private var rateObserver: NSKeyValueObservation?
     private var statusObserver: NSKeyValueObservation?
-    private var cachedArtwork: MPMediaItemArtwork?
+
     private var audioBackgroundModesEnabled: Bool {
         (Bundle.main.infoDictionary?["UIBackgroundModes"] as? [String])?.contains("audio") ?? false
     }
@@ -155,7 +158,7 @@ final class AVPlayerSystemCoordinator {
 
             // Skip backward command
             commandCenter.skipBackwardCommand.preferredIntervals = [15]  // Define the skip interval
-            commandCenter.skipBackwardCommand.addTarget { [unowned self] _ in
+            commandCenter.skipBackwardCommand.addTarget { _ in
                 // Implement skip backward functionality
                 let playerCurrentTime = player.currentTime()
                 let skipInterval = -15.0 // 15 seconds back
