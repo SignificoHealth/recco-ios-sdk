@@ -74,7 +74,7 @@ struct ArticleDetailView: View {
                         }
                     }
 
-                    Spacer()
+                    Spacer(minLength: 56) // interaction view height
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, .L)

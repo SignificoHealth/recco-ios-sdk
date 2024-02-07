@@ -10,8 +10,8 @@ private var alertAnimation: Animation {
 struct ReccoAlert<Header: View>: View {
     init(
         isPresent: Binding<Bool>,
-        title: String,
-        text: String?,
+        title: String? = nil,
+        text: String? = nil,
         buttonText: String,
         @ViewBuilder header: @escaping () -> Header,
         action: @escaping () -> Void
@@ -27,7 +27,7 @@ struct ReccoAlert<Header: View>: View {
     @Binding var isPresent: Bool
     @State private var offset: CGFloat = 0.0
 
-    var title: String
+    var title: String?
     var text: String?
     var buttonText: String
     var header: () -> Header
@@ -51,9 +51,9 @@ struct ReccoAlert<Header: View>: View {
         DragGesture(minimumDistance: 10)
             .onChanged { gesture in
                 guard gesture.translation.height > 0 else { return }
-                withAnimation(.interactiveSpring()) {
-                    offset = gesture.translation.height
-                }
+                //                withAnimation(.linear(duration: 0.05)) {
+                offset = gesture.translation.height
+                //                }
             }
             .onEnded { gesture in
                 let velocityY = gesture.predictedEndLocation.y - gesture.location.y
@@ -78,16 +78,20 @@ struct ReccoAlert<Header: View>: View {
                     .cornerRadius(.M, corners: [.topLeft, .topRight])
 
                 ReccoCloseButton {
-                    $isPresent.wrappedValue = false
+                    withAnimation(alertAnimation) {
+                        $isPresent.wrappedValue = false
+                    }
                 }
                 .padding(.horizontal, .M)
                 .padding(.top, -.M)
             }
 
             VStack(spacing: .M) {
-                Text(title)
-                    .h1()
-                    .multilineTextAlignment(.center)
+                if let title {
+                    Text(title)
+                        .h1()
+                        .multilineTextAlignment(.center)
+                }
 
                 if let text {
                     Text(text)
@@ -108,36 +112,6 @@ struct ReccoAlert<Header: View>: View {
 }
 
 extension View {
-    func sfAlert<Header: View>(
-        isPresent: Binding<Bool>,
-        title: String,
-        text: String?,
-        buttonText: String,
-        header: @escaping () -> Header,
-        action: @escaping () -> Void
-    ) -> some View {
-        ZStack {
-            self
-                .allowsHitTesting(
-                    !isPresent.wrappedValue
-                )
-
-            ZStack {
-                if isPresent.wrappedValue {
-                    ReccoAlert(
-                        isPresent: isPresent,
-                        title: title,
-                        text: text,
-                        buttonText: buttonText,
-                        header: header,
-                        action: action
-                    )
-                }
-            }
-            .animation(alertAnimation, value: isPresent.wrappedValue)
-        }
-    }
-
     func reccoAlert<Wrapped, Header: View>(
         showWhenPresent: Binding<Wrapped?>,
         body: (Wrapped) -> ReccoAlert<Header>
@@ -153,39 +127,6 @@ extension View {
                     body(value)
                 }
             }
-            .animation(alertAnimation, value: showWhenPresent.isPresent().wrappedValue)
         }
-    }
-}
-
-struct SFAlert_Previews: PreviewProvider {
-    struct Wrapper: View {
-        @State var isPresent = false
-
-        var body: some View {
-            ZStack {
-                Color.gray
-
-                Button("show") {
-                    isPresent = true
-                }
-            }
-            .sfAlert(
-                isPresent: $isPresent,
-                title: "Hola",
-                text: "ASLKDJHFALK ALKSDFLKAJHS DFH ALKSJDH FLKAJHSDLFKJHALSKDJFH ",
-                buttonText: "Accept",
-                header: {
-                    Image(systemName: "photo.fill")
-                        .resizable()
-                        .scaledToFit()
-                },
-                action: {}
-            )
-        }
-    }
-
-    static var previews: some View {
-        Wrapper()
     }
 }

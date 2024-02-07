@@ -39,7 +39,9 @@ struct FeedSectionView: View {
                             performedUnlockAnimation: $performedUnlockAnimation
                         )
                         .onTapGesture {
-                            pressedLockedSection(section.section)
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                pressedLockedSection(section.section)
+                            }
                         }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {

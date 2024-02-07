@@ -13,7 +13,11 @@ final class AudioPlayerViewModel: ObservableObject {
     @Published var playbackError: Error?
 
     var secondsSliderRange: ClosedRange<TimeInterval> {
-        0...durationTime
+        if durationTime <= 0 {
+            return 0...1
+        } else {
+            return 0...durationTime
+        }
     }
 
     init(

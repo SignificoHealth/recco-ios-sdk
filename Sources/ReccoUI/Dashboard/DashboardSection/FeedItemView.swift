@@ -41,12 +41,15 @@ struct FeedItemView: View {
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
 
-                if let seconds = item.durationSeconds {
-                    HStack(spacing: 0) {
-                        Image(resource: item.type.iconName)
-                            .padding(.trailing, .XXXS)
-                        Text(item.type.caption)
-                            .contentType()
+                HStack(spacing: 0) {
+                    Image(resource: item.type.iconName)
+                        .renderingMode(.template)
+                        .foregroundColor(.reccoPrimary60)
+                        .padding(.trailing, .XXXS)
+                    Text(item.type.caption)
+                        .contentType()
+
+                    if let seconds = item.durationSeconds {
                         Text("recco_dashboard_duration".localized(displayDuration(seconds: seconds)))
                             .contentType()
                     }

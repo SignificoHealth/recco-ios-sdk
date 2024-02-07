@@ -16,6 +16,12 @@ import Kingfisher
 #endif
 
 struct NowPlayingInfo {
+    init(title: String, subtitle: String? = nil, imageUrl: URL? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.imageUrl = imageUrl
+    }
+
     let title: String
     let subtitle: String?
     let imageUrl: URL?

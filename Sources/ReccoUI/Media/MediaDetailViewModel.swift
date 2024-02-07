@@ -2,13 +2,14 @@ import Foundation
 import ReccoHeadless
 
 final class MediaDetailViewModel: ObservableObject {
-    private let mediaRepo: MediaRepository
+    private var mediaRepo: MediaRepository
     private let contentRepo: ContentRepository
     private let contentId: ContentId
     private let updateContentSeen: (ContentId) -> Void
     private let onBookmarkChanged: (Bool) -> Void
     private let nav: ReccoCoordinator
     private let logger: Logger
+    private var hasShownWarningAlertAlready = false
 
     let imageUrl: URL?
     let heading: String
@@ -19,6 +20,8 @@ final class MediaDetailViewModel: ObservableObject {
     @Published var initialLoadError: Error?
     @Published var actionError: Error?
     @Published var isPlayingMedia = false
+    @Published var warningAlert: String?
+    @Published var neverShowWarningToggle = false
 
     init(
         loadedContent: (MediaType, ContentId, String, URL?, (ContentId) -> Void, (Bool) -> Void),
@@ -37,6 +40,8 @@ final class MediaDetailViewModel: ObservableObject {
         self.onBookmarkChanged = loadedContent.5
         self.nav = nav
         self.logger = logger
+
+        bind()
     }
 
     @MainActor
@@ -109,7 +114,25 @@ final class MediaDetailViewModel: ObservableObject {
         nav.navigate(to: .back)
     }
 
+    func showWarningAlertIfNecessary() {
+        if !mediaRepo.userTappedNeverShowVideoWarning && !hasShownWarningAlertAlready {
+            warningAlert = media?.warning
+            hasShownWarningAlertAlready = true
+        } else {
+            playPause()
+        }
+    }
+
     func playPause() {
         isPlayingMedia.toggle()
+    }
+
+    private func bind() {
+        $neverShowWarningToggle
+            .dropFirst()
+            .sink { [unowned self] new in
+                mediaRepo.userTappedNeverShowVideoWarning = new
+            }
+            .store(in: &cancellables)
     }
 }

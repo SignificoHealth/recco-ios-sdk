@@ -50,7 +50,7 @@
 "recco_start" = "Los geht's!";
 "recco_card_read" = "Lesen";
 "recco_card_video" = "Video";
-"recco_card_audio" = "Podcast";
+"recco_card_audio" = "Audio";
 "recco_dashboard_duration" = " • %@min";
 "recco_audio_detail_transcription" = "Transkription";
 "recco_category_relaxation_name" = "Entspannung";

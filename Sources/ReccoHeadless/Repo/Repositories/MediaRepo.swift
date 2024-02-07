@@ -10,9 +10,17 @@ import Foundation
 public protocol MediaRepository {
     func getVideo(with id: ContentId) async throws -> AppUserMedia
     func getAudio(with id: ContentId) async throws -> AppUserMedia
+    var userTappedNeverShowVideoWarning: Bool { get set }
 }
 
 final class LiveMediaRepository: MediaRepository {
+    var userTappedNeverShowVideoWarning: Bool {
+        get { UserDefaults.standard.bool(forKey: "_reccoShowVideoWarning") }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "_reccoShowVideoWarning")
+        }
+    }
+
     func getAudio(with id: ContentId) async throws -> AppUserMedia {
         let dto = try await RecommendationAPI.getAudio(catalogId: id.catalogId)
         return try AppUserMedia(dto: dto)
@@ -25,6 +33,8 @@ final class LiveMediaRepository: MediaRepository {
 }
 
 final class MockMediaRepository: MediaRepository {
+    var userTappedNeverShowVideoWarning = false
+
     func getAudio(with id: ContentId) async throws -> AppUserMedia {
         AppUserMedia(
             type: .audio,

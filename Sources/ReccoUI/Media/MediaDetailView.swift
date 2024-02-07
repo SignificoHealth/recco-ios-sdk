@@ -51,6 +51,22 @@ struct MediaDetailView: View {
                     }
                     .redacted(reason: viewModel.media == nil ? .placeholder : [])
 
+                    if let warning = viewModel.media?.warning {
+                        HStack(spacing: .S) {
+                            Image(resource: "information_ic")
+                                .renderingMode(.template)
+                                .foregroundColor(.reccoAccent)
+
+                            Text(warning)
+                                .body3()
+                        }
+                        .padding(.XS)
+                        .background(
+                            RoundedRectangle(cornerRadius: .XXS)
+                                .fill(Color.reccoAccent20)
+                        )
+                    }
+
                     Rectangle()
                         .fill(Color.reccoAccent40)
                         .frame(height: 2)
@@ -75,7 +91,7 @@ struct MediaDetailView: View {
                         }
                     }
 
-                    Spacer()
+                    Spacer(minLength: 56) // interaction view height
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, .L)
@@ -115,6 +131,35 @@ struct MediaDetailView: View {
             }.ignoresSafeArea(),
             alignment: .bottom
         )
+        .reccoAlert(showWhenPresent: $viewModel.warningAlert) { warning in
+            ReccoAlert(
+                isPresent: $viewModel.warningAlert.isPresent(),
+                buttonText: "recco_media_warning_button".localized,
+                header: {
+                    VStack(alignment: .leading, spacing: .S) {
+                        Text("recco_media_warning_title".localized)
+                            .body1bold()
+                        Text(warning)
+                            .body3()
+
+                        Toggle(isOn: $viewModel.neverShowWarningToggle) {
+                            Text("recco_media_warning_never".localized)
+                                .body3()
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: .reccoAccent))
+                        .padding(.horizontal, .L)
+                    }
+                    .padding(.S)
+                    .background(Color.reccoBackground)
+                },
+                action: {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        viewModel.warningAlert = nil
+                    }
+                    viewModel.playPause()
+                }
+            )
+        }
         .task {
             await viewModel.initialLoad()
         }
@@ -123,8 +168,8 @@ struct MediaDetailView: View {
     private var playButton: some View {
         Button(
             action: {
-                viewModel.playPause()
-                withAnimation {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    viewModel.showWarningAlertIfNecessary()
                     showPlayerImageOverlay = false
                 }
             },
@@ -155,6 +200,7 @@ struct MediaDetailView: View {
                 )
             }
         )
+        .disabled(viewModel.media == nil)
         .opacity(showPlayerImageOverlay ? 1 : 0)
     }
 
