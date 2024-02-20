@@ -45,3 +45,4 @@ internal struct AppUserDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(appRedirectUrl, forKey: .appRedirectUrl)
     }
 }
+

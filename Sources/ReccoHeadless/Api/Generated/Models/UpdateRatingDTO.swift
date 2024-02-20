@@ -37,3 +37,4 @@ internal struct UpdateRatingDTO: Codable, JSONEncodable, Hashable {
         try container.encode(rating, forKey: .rating)
     }
 }
+

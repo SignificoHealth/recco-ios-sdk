@@ -30,3 +30,4 @@ internal struct PATReferenceDeleteDTO: Codable, JSONEncodable, Hashable {
         try container.encode(tokenId, forKey: .tokenId)
     }
 }
+

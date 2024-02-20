@@ -74,3 +74,4 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(duration, forKey: .duration)
     }
 }
+

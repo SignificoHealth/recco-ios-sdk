@@ -57,3 +57,4 @@ internal struct StyleDTO: Codable, JSONEncodable, Hashable {
         try container.encode(isPredefined, forKey: .isPredefined)
     }
 }
+

@@ -37,3 +37,4 @@ internal struct UpdateBookmarkDTO: Codable, JSONEncodable, Hashable {
         try container.encode(bookmarked, forKey: .bookmarked)
     }
 }
+

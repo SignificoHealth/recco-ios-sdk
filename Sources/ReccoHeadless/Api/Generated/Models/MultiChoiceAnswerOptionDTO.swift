@@ -33,3 +33,4 @@ internal struct MultiChoiceAnswerOptionDTO: Codable, JSONEncodable, Hashable {
         try container.encode(text, forKey: .text)
     }
 }
+

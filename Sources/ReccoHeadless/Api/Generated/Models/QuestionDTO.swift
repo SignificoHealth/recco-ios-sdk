@@ -61,3 +61,4 @@ internal struct QuestionDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(numericSelected, forKey: .numericSelected)
     }
 }
+

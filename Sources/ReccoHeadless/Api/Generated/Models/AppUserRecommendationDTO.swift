@@ -20,12 +20,10 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
     internal var headline: String
     internal var imageUrl: String?
     internal var imageAlt: String?
-    /** The estimated duration in seconds to consume this content */
-    internal var duration: Int?
     /** Responsive image url. Supports transformation via query params. Allowed query params key=values width=number, height=number, quality=1..100, format=auto|jgp|png|webp|tiff, fit=cover|contain|inside|outside */
     internal var dynamicImageResizingUrl: String?
 
-    internal init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, imageUrl: String? = nil, imageAlt: String? = nil, duration: Int? = nil, dynamicImageResizingUrl: String? = nil) {
+    internal init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, imageUrl: String? = nil, imageAlt: String? = nil, dynamicImageResizingUrl: String? = nil) {
         self.id = id
         self.type = type
         self.rating = rating
@@ -34,7 +32,6 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         self.headline = headline
         self.imageUrl = imageUrl
         self.imageAlt = imageAlt
-        self.duration = duration
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
     }
 
@@ -47,7 +44,6 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         case headline
         case imageUrl
         case imageAlt
-        case duration
         case dynamicImageResizingUrl
     }
 
@@ -63,7 +59,7 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
-        try container.encodeIfPresent(duration, forKey: .duration)
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
     }
 }
+

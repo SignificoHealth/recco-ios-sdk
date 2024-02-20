@@ -12,10 +12,9 @@ import AnyCodable
 
 internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
 
-    internal enum CategoryDTO: String, Codable, CaseIterable {
-        case exercise = "exercise"
+    internal enum ThemeDTO: String, Codable, CaseIterable {
         case meditation = "meditation"
-        case relaxation = "relaxation"
+        case relaxationExercise = "relaxation_exercise"
     }
     internal var id: ContentIdDTO
     internal var rating: RatingDTO
@@ -23,7 +22,7 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
     internal var bookmarked: Bool
     internal var headline: String
     internal var description: String?
-    internal var category: CategoryDTO
+    internal var theme: ThemeDTO
     internal var dynamicImageResizingUrl: String?
     internal var imageAlt: String?
     internal var audioUrl: String
@@ -31,14 +30,14 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
     internal var duration: Int
     internal var transcription: Bool
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, category: CategoryDTO, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String, duration: Int, transcription: Bool) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, theme: ThemeDTO, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String, duration: Int, transcription: Bool) {
         self.id = id
         self.rating = rating
         self.status = status
         self.bookmarked = bookmarked
         self.headline = headline
         self.description = description
-        self.category = category
+        self.theme = theme
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
         self.imageAlt = imageAlt
         self.audioUrl = audioUrl
@@ -53,7 +52,7 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
         case bookmarked
         case headline
         case description
-        case category
+        case theme
         case dynamicImageResizingUrl
         case imageAlt
         case audioUrl
@@ -71,7 +70,7 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
         try container.encode(bookmarked, forKey: .bookmarked)
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(description, forKey: .description)
-        try container.encode(category, forKey: .category)
+        try container.encode(theme, forKey: .theme)
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
         try container.encode(audioUrl, forKey: .audioUrl)
@@ -79,3 +78,4 @@ internal struct AppUserAudioDTO: Codable, JSONEncodable, Hashable {
         try container.encode(transcription, forKey: .transcription)
     }
 }
+

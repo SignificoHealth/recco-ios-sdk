@@ -12,9 +12,13 @@ import AnyCodable
 
 internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
 
-    internal enum CategoryDTO: String, Codable, CaseIterable {
+    internal enum ThemeDTO: String, Codable, CaseIterable {
         case exercise = "exercise"
         case meditation = "meditation"
+    }
+    internal enum OrientationDTO: String, Codable, CaseIterable {
+        case landscape = "landscape"
+        case portrait = "portrait"
     }
     internal var id: ContentIdDTO
     internal var rating: RatingDTO
@@ -22,7 +26,8 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
     internal var bookmarked: Bool
     internal var headline: String
     internal var description: String?
-    internal var category: CategoryDTO
+    internal var theme: ThemeDTO
+    internal var orientation: OrientationDTO
     internal var disclaimer: String?
     internal var warning: String?
     internal var dynamicImageResizingUrl: String?
@@ -31,14 +36,15 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
     /** The estimated duration in seconds to read this article */
     internal var duration: Int
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, category: CategoryDTO, disclaimer: String? = nil, warning: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, videoUrl: String, duration: Int) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, description: String? = nil, theme: ThemeDTO, orientation: OrientationDTO, disclaimer: String? = nil, warning: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, videoUrl: String, duration: Int) {
         self.id = id
         self.rating = rating
         self.status = status
         self.bookmarked = bookmarked
         self.headline = headline
         self.description = description
-        self.category = category
+        self.theme = theme
+        self.orientation = orientation
         self.disclaimer = disclaimer
         self.warning = warning
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
@@ -54,7 +60,8 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
         case bookmarked
         case headline
         case description
-        case category
+        case theme
+        case orientation
         case disclaimer
         case warning
         case dynamicImageResizingUrl
@@ -73,7 +80,8 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
         try container.encode(bookmarked, forKey: .bookmarked)
         try container.encode(headline, forKey: .headline)
         try container.encodeIfPresent(description, forKey: .description)
-        try container.encode(category, forKey: .category)
+        try container.encode(theme, forKey: .theme)
+        try container.encode(orientation, forKey: .orientation)
         try container.encodeIfPresent(disclaimer, forKey: .disclaimer)
         try container.encodeIfPresent(warning, forKey: .warning)
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
@@ -82,3 +90,4 @@ internal struct AppUserVideoDTO: Codable, JSONEncodable, Hashable {
         try container.encode(duration, forKey: .duration)
     }
 }
+

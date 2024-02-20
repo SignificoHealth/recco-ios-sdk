@@ -14,7 +14,7 @@ protocol JSONEncodable {
 }
 
 /// An enum where the last case value can be used as a default catch-all.
-protocol CaseIterableDefaultsLast: Decodable, CaseIterable, RawRepresentable
+protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
 where RawValue: Decodable, AllCases: BidirectionalCollection {}
 
 extension CaseIterableDefaultsLast {

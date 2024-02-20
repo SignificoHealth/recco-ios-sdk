@@ -41,3 +41,4 @@ internal struct PATDTO: Codable, JSONEncodable, Hashable {
         try container.encode(creationDate, forKey: .creationDate)
     }
 }
+

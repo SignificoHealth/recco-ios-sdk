@@ -9,14 +9,13 @@ extension AppUserRecommendation {
             status: .init(dto: dto.status),
             headline: dto.headline,
             imageUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
-            imageAlt: dto.imageAlt,
-            durationSeconds: dto.duration
+            imageAlt: dto.imageAlt
         )
     }
 }
 
 extension ContentCategory {
-    init(dto: AppUserVideoDTO.CategoryDTO) {
+    init(dto: AppUserVideoDTO.ThemeDTO) {
         switch dto {
         case .exercise:
             self = .exercise
@@ -25,13 +24,11 @@ extension ContentCategory {
         }
     }
 
-    init(dto: AppUserAudioDTO.CategoryDTO) {
+    init(dto: AppUserAudioDTO.ThemeDTO) {
         switch dto {
-        case .exercise:
-            self = .exercise
         case .meditation:
             self = .meditation
-        case .relaxation:
+        case .relaxationExercise:
             self = .relaxation
         }
     }
@@ -52,7 +49,7 @@ extension AppUserMedia {
             bookmarked: dto.bookmarked,
             headline: dto.headline,
             description: dto.description,
-            category: .init(dto: dto.category),
+            category: .init(dto: dto.theme),
             disclaimer: dto.disclaimer,
             warning: dto.warning,
             dynamicImageResizingUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
@@ -77,7 +74,7 @@ extension AppUserMedia {
             bookmarked: dto.bookmarked,
             headline: dto.headline,
             description: dto.description,
-            category: .init(dto: dto.category),
+            category: .init(dto: dto.theme),
             dynamicImageResizingUrl: dto.dynamicImageResizingUrl.flatMap { URL(string: $0) },
             imageAlt: dto.imageAlt,
             mediaUrl: audioUrl,

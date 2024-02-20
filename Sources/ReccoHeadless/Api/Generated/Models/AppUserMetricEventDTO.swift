@@ -37,3 +37,4 @@ internal struct AppUserMetricEventDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(value, forKey: .value)
     }
 }
+

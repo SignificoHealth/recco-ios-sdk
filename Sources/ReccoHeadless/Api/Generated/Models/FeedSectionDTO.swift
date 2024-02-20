@@ -37,3 +37,4 @@ internal struct FeedSectionDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(topic, forKey: .topic)
     }
 }
+

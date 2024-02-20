@@ -43,3 +43,4 @@ internal struct NumericQuestionDTO: Codable, JSONEncodable, Hashable {
         try container.encode(format, forKey: .format)
     }
 }
+

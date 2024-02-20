@@ -14,8 +14,8 @@ internal class QuestionnaireAPI {
 
     /**
      Set user app answers for a questionnaire.
-
-     - parameter createQuestionnaireAnswerDTO: (body)
+     
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -27,10 +27,10 @@ internal class QuestionnaireAPI {
      Set user app answers for a questionnaire.
      - POST /api/v1/me/questionnaire/answers
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter createQuestionnaireAnswerDTO: (body)
-     - returns: RequestBuilder<Void>
+       - type: http
+       - name: bearerAuth
+     - parameter createQuestionnaireAnswerDTO: (body)  
+     - returns: RequestBuilder<Void> 
      */
     internal class func answersWithRequestBuilder(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/questionnaire/answers"
@@ -40,7 +40,7 @@ internal class QuestionnaireAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -52,8 +52,8 @@ internal class QuestionnaireAPI {
 
     /**
      Get questionnaire.
-
-     - parameter itemId: (query)
+     
+     - parameter itemId: (query)  
      - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -65,10 +65,10 @@ internal class QuestionnaireAPI {
      Get questionnaire.
      - GET /api/v1/me/questionnaire
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter itemId: (query)
-     - returns: RequestBuilder<[QuestionDTO]>
+       - type: http
+       - name: bearerAuth
+     - parameter itemId: (query)  
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
     internal class func getQuestionnaireWithRequestBuilder(itemId: String) -> RequestBuilder<[QuestionDTO]> {
         let localVariablePath = "/api/v1/me/questionnaire"
@@ -77,7 +77,7 @@ internal class QuestionnaireAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "itemId": (wrappedValue: itemId.encodeToJSON(), isExplode: true)
+            "itemId": (wrappedValue: itemId.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -93,8 +93,8 @@ internal class QuestionnaireAPI {
 
     /**
      Return the associated questionnaire for a given topic.
-
-     - parameter topic: (path)
+     
+     - parameter topic: (path)  
      - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -106,10 +106,10 @@ internal class QuestionnaireAPI {
      Return the associated questionnaire for a given topic.
      - GET /api/v1/me/questionnaire/topics/{topic}
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter topic: (path)
-     - returns: RequestBuilder<[QuestionDTO]>
+       - type: http
+       - name: bearerAuth
+     - parameter topic: (path)  
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
     internal class func getQuestionnaireByTopicWithRequestBuilder(topic: TopicDTO) -> RequestBuilder<[QuestionDTO]> {
         var localVariablePath = "/api/v1/me/questionnaire/topics/{topic}"
@@ -134,7 +134,7 @@ internal class QuestionnaireAPI {
 
     /**
      Return the onboarding questionnaire.
-
+     
      - returns: [QuestionDTO]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -146,9 +146,9 @@ internal class QuestionnaireAPI {
      Return the onboarding questionnaire.
      - GET /api/v1/me/questionnaire/onboarding_questionnaires
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - returns: RequestBuilder<[QuestionDTO]>
+       - type: http
+       - name: bearerAuth
+     - returns: RequestBuilder<[QuestionDTO]> 
      */
     internal class func onboardingWithRequestBuilder() -> RequestBuilder<[QuestionDTO]> {
         let localVariablePath = "/api/v1/me/questionnaire/onboarding_questionnaires"
@@ -170,8 +170,8 @@ internal class QuestionnaireAPI {
 
     /**
      Set user app answers for the onboarding questionnaires.
-
-     - parameter createQuestionnaireAnswerDTO: (body)
+     
+     - parameter createQuestionnaireAnswerDTO: (body)  
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -183,10 +183,10 @@ internal class QuestionnaireAPI {
      Set user app answers for the onboarding questionnaires.
      - POST /api/v1/me/questionnaire/onboarding_answers
      - Bearer Token:
-     - type: http
-     - name: bearerAuth
-     - parameter createQuestionnaireAnswerDTO: (body)
-     - returns: RequestBuilder<Void>
+       - type: http
+       - name: bearerAuth
+     - parameter createQuestionnaireAnswerDTO: (body)  
+     - returns: RequestBuilder<Void> 
      */
     internal class func onboardingAnswersWithRequestBuilder(createQuestionnaireAnswerDTO: [CreateQuestionnaireAnswerDTO]) -> RequestBuilder<Void> {
         let localVariablePath = "/api/v1/me/questionnaire/onboarding_answers"
@@ -196,7 +196,7 @@ internal class QuestionnaireAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

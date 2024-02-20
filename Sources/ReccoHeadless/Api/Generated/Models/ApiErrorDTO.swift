@@ -46,3 +46,4 @@ internal struct ApiErrorDTO: Codable, JSONEncodable, Hashable {
         try container.encode(traceId, forKey: .traceId)
     }
 }
+
