@@ -1,5 +1,18 @@
 import Foundation
 
+private extension Locale {
+    var reccoAPILanguage: String {
+        switch (languageCode, regionCode) {
+        case ("de", _):
+            return "de-DE"
+        case ("en", "DE"):
+            return "en-DE"
+        default:
+            return "en-US"
+        }
+    }
+}
+
 public enum Api {
     public static func initialize(
         clientSecret: String,
@@ -9,7 +22,7 @@ public enum Api {
         OpenAPIClientAPI.requestBuilderFactory = BearerRequestBuilderFactory()
         OpenAPIClientAPI.basePath = baseUrl
         BearerTokenHandler.clientSecret = "Bearer \(clientSecret)"
-        OpenAPIClientAPI.customHeaders["Accept-Language"] = Locale.current.identifier.contains("de") ? "de-DE" : "en-US"
+        OpenAPIClientAPI.customHeaders["Accept-Language"] = Locale.current.reccoAPILanguage
         OpenAPIClientAPI.customHeaders["Client-Platform"] = "iOS"
         BearerTokenHandler.keychain = keychain
 

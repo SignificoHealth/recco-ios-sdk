@@ -13,7 +13,7 @@ public func initialize(
     style: ReccoStyle = .fresh,
     logger: @escaping (Error) -> Void = { error in
         #if DEBUG
-            print(error)
+        print(error)
         #endif
     }
 ) {

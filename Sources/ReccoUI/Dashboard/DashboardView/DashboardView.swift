@@ -30,7 +30,6 @@ struct DashboardView: View {
                             section: section,
                             items: viewModel.items[section.section.type, default: []],
                             goToDetail: viewModel.goToDetail,
-                            goToQuestionnaire: viewModel.goToQuestionnaire,
                             pressedLockedSection: viewModel.pressedLocked
                         )
                     }
@@ -80,26 +79,26 @@ struct DashboardView: View {
 }
 
 struct DashboardHeader: View {
-	var dismiss: () -> Void
-	var onBookmarks: () -> Void
+    var dismiss: () -> Void
+    var onBookmarks: () -> Void
 
-	var body: some View {
-		VStack(spacing: 0) {
-			HStack(alignment: .top, spacing: .XS) {
-				VStack(alignment: .leading, spacing: .XXXS) {
-					Text("recco_dashboard_welcome_back_title".localized)
-						.h1()
-					Text("recco_dashboard_welcome_back_body".localized)
-						.body1()
-				}
-				.padding(.leading, .M)
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .top, spacing: .XS) {
+                VStack(alignment: .leading, spacing: .XXXS) {
+                    Text("recco_dashboard_welcome_back_title".localized)
+                        .h1()
+                    Text("recco_dashboard_welcome_back_body".localized)
+                        .body1()
+                }
+                .padding(.leading, .M)
 
-				Spacer()
+                Spacer()
 
-				ReccoStyleImage(name: "potted_plant")
-			}
-		}
-	}
+                ReccoStyleImage(name: "potted_plant")
+            }
+        }
+    }
 }
 
 struct DashboardView_Previews: PreviewProvider {

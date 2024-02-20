@@ -2,14 +2,13 @@
 
 final class Mocks {
     static let article = AppUserArticle(
-        id: ContentId(
+        bookmarked: false, id: ContentId(
             itemId: "itemId",
             catalogId: "catalogId"
         ),
         rating: .notRated,
         status: .viewed,
-        headline: "headline",
-        bookmarked: false
+        headline: "headline"
     )
 
     static let appUserRecommendation = AppUserRecommendation(

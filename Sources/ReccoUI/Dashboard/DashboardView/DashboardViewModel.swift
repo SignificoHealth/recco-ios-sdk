@@ -36,27 +36,38 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
-    func goToDetail(of item: AppUserRecommendation) {
-        nav.navigate(to: .article(
-            id: item.id,
-            headline: item.headline,
-            imageUrl: item.imageUrl,
-            seenContent: { [unowned self] id in
-                markContentAsSeen(id: id)
-            }, onBookmarkedChange: { _ in }
-        ))
-    }
+    func goToDetail(of item: AppUserRecommendation, section: FeedSection) {
+        switch item.type {
+        case .articles:
+            nav.navigate(to: .article(
+                id: item.id,
+                headline: item.headline,
+                imageUrl: item.imageUrl,
+                seenContent: { [unowned self] id in
+                    markContentAsSeen(id: id)
+                }, onBookmarkedChange: { _ in }
+            ))
+        case .questionnaire:
+            nav.navigate(to: .questionnaireById(
+                            item.id, section, { @MainActor [unowned self] _ in
+                                reloadSection(
+                                    type: section.type,
+                                    nextState: .unlock
+                                )
+                            }))
+        case .audio, .video:
+            guard let mediaType = MediaType(item.type) else {
+                return
+            }
 
-    @MainActor
-    func goToQuestionnaire(of section: FeedSection) {
-        if let topic = section.topic {
-            nav.navigate(to: .questionnaire(
-                topic, { [unowned self] _ in
-                    reloadSection(
-                        type: section.type,
-                        nextState: .unlock
-                    )
-                }
+            nav.navigate(to: .media(
+                mediaType: mediaType,
+                id: item.id,
+                headline: item.headline,
+                imageUrl: item.imageUrl,
+                seenContent: { [unowned self] id in
+                    markContentAsSeen(id: id)
+                }, onBookmarkedChange: { _ in }
             ))
         }
     }
@@ -73,7 +84,7 @@ final class DashboardViewModel: ObservableObject {
     func pressedUnlockSectionStart() {
         if let section = lockedSectionAlert,
            let topic = section.topic {
-            nav.navigate(to: .questionnaire(
+            nav.navigate(to: .questionnaireByTopic(
                 topic, { [unowned self] _ in
                     reloadSection(
                         type: section.type,

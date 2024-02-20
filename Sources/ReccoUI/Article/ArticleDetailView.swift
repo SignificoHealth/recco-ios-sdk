@@ -1,21 +1,10 @@
 import ReccoHeadless
 import SwiftUI
 
-private struct BoundsPreference: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
 struct ArticleDetailView: View {
     @Environment(\.currentScrollObservable) var scrollOffsetObservable
     @StateObject var viewModel: ArticleDetailViewModel
-
     @State private var offset: CGFloat = .zero
-    @State private var contentHeight: CGFloat = .zero
-    @State private var totalViewHeight: CGFloat = UIScreen.main.bounds.height
 
     private var headerHeight: CGFloat {
         UIScreen.main.bounds.height * 0.4
@@ -25,26 +14,38 @@ struct ArticleDetailView: View {
         -UIScreen.main.bounds.height * 0.05
     }
 
-    private var shadowOpacity: CGFloat {
-        if viewModel.isLoading { return 0 }
-        let distance = (totalViewHeight + offset) - ((headerHeight + negativePaddingTop) + contentHeight) + .XL + .L // add some padding to account for the view itself
-
-        return (-distance / 100).clamped(to: 0...0.3)
-    }
-
     var body: some View {
         BouncyHeaderScrollview(
             navTitle: viewModel.heading,
             imageHeaderHeight: headerHeight,
-            header: { articleHeader },
+            header: {
+                ReccoContentImageView(
+                    url: viewModel.article?.imageUrl ?? viewModel.imageUrl,
+                    alt: viewModel.article?.imageAlt
+                )
+            },
             content: {
                 VStack(alignment: .leading, spacing: .M) {
                     Text(viewModel.heading)
                         .h1()
                         .fixedSize(horizontal: false, vertical: true)
 
+                    if let duration = viewModel.article?.duration {
+                        HStack(spacing: 0) {
+                            Image(resource: ContentType.articles.iconName)
+                                .renderingMode(.template)
+                                .foregroundColor(.reccoPrimary)
+                                .padding(.trailing, .XXXS)
+                            Text(ContentType.articles.caption)
+                                .labelSmall()
+
+                            Text("recco_dashboard_duration".localized(displayDuration(seconds: duration)))
+                                .labelSmall()
+                        }
+                    }
+
                     Rectangle()
-                        .fill(Color.reccoAccent)
+                        .fill(Color.reccoAccent40)
                         .frame(height: 2)
                         .frame(maxWidth: .infinity)
 
@@ -53,6 +54,14 @@ struct ArticleDetailView: View {
                             VStack(alignment: .leading, spacing: .L) {
                                 if let lead = article.lead {
                                     Text(lead).body1bold()
+                                }
+
+                                if let audioUrl = article.audioUrl {
+                                    AudioPlayerView(url: audioUrl, nowPlayingInfo: .init(
+                                        title: article.headline,
+                                        subtitle: article.lead,
+                                        imageUrl: viewModel.imageUrl
+                                    ))
                                 }
 
                                 if let body = article.articleBodyHtml {
@@ -65,55 +74,24 @@ struct ArticleDetailView: View {
                         }
                     }
 
-                    Spacer()
+                    Spacer(minLength: 56) // interaction view height
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, .L)
                 .padding(.horizontal, .S)
                 .background(Color.reccoBackground)
-                .overlay(
-                    GeometryReader { proxy in
-                        Color.clear.preference(key: BoundsPreference.self, value: proxy.size.height)
-                    }
-                )
                 .cornerRadius(.L, corners: [.topLeft, .topRight])
                 .padding(.top, negativePaddingTop)
             }
-        )
-        .onPreferenceChange(BoundsPreference.self) { new in
-            contentHeight = new
-        }
-        .overlay(
-            Group {
-                if let article = viewModel.article {
-                    ReccoContentInteractionView(
-                        rating: article.rating,
-                        bookmark: article.bookmarked,
-                        toggleBookmark: viewModel.toggleBookmark,
-                        rate: viewModel.rate
-                    )
-                    .shadowBase(opacity: shadowOpacity)
-                    .padding(.M)
-                }
-            },
-            alignment: .bottom
         )
         .reccoErrorView(
             error: $viewModel.initialLoadError,
             onRetry: {
                 await viewModel.initialLoad()
-            },
-            onClose: viewModel.back
+            }
         )
         .background(Color.reccoBackground.ignoresSafeArea())
         .reccoNotification(error: $viewModel.actionError)
-        .overlay(
-            GeometryReader { proxy in
-                Color.clear.onAppear {
-                    totalViewHeight = proxy.size.height
-                }
-            }
-        )
         .environment(\.currentScrollOffsetId, "\(self)")
         .addCloseSDKToNavbar(viewModel.dismiss)
         .navigationTitle(viewModel.heading)
@@ -122,41 +100,22 @@ struct ArticleDetailView: View {
                 offset = newOffset
             }
         }
+        .overlay(
+            VStack {
+                if let article = viewModel.article {
+                    Spacer()
+                    ReccoContentInteractionView(
+                        rating: article.rating,
+                        bookmark: article.bookmarked,
+                        toggleBookmark: viewModel.toggleBookmark,
+                        rate: viewModel.rate
+                    )
+                }
+            }.ignoresSafeArea(),
+            alignment: .bottom
+        )
         .task {
             await viewModel.initialLoad()
-        }
-    }
-
-    @ViewBuilder
-    private var articleHeader: some View {
-        if let imageUrl = viewModel.imageUrl {
-            ReccoURLImageView(
-                url: imageUrl,
-                alt: viewModel.article?.imageAlt,
-                downSampleSize: .size(.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.7))
-            ) {
-                Color.reccoPrimary20.overlay(
-                    Image(resource: "error_image")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                )
-                .addBlackOpacityOverlay()
-            } loadingView: {
-                ReccoImageLoadingView(feedItem: false)
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            } transformView: { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .addBlackOpacityOverlay()
-            }
-        } else {
-            ZStack {
-                Color.reccoIllustration
-                ReccoStyleImage(name: "default_image", resizable: true)
-                    .scaledToFill()
-            }
         }
     }
 }

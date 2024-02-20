@@ -49,3 +49,38 @@ extension FeedSectionType {
         }
     }
 }
+
+extension ContentType {
+    var iconName: String {
+        switch self {
+        case .articles:
+            "article_content_ic"
+        case .questionnaire:
+            fatalError("Should never happen")
+        case .audio:
+            "audio_content_ic"
+        case .video:
+            "video_content_ic"
+        }
+    }
+
+    var caption: String {
+        switch self {
+        case .articles:
+            "recco_card_read".localized
+        case .questionnaire:
+            fatalError("Should never happen")
+        case .audio:
+            "recco_card_audio".localized
+        case .video:
+            "recco_card_video".localized
+        }
+    }
+}
+
+func displayDuration(seconds: Int) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = .minute
+    let components = DateComponents(second: seconds)
+    return formatter.string(from: components)!
+}

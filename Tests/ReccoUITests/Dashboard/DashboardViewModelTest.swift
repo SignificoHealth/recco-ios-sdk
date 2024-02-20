@@ -25,7 +25,7 @@ final class DashboardViewModelTest: XCTestCase {
     }()
     private let feedSection = Mocks.feedSectionWithTopic
     private lazy var questionnaireDestination: Destination = {
-        .questionnaire(
+        .questionnaireByTopic(
             feedSection.topic ?? .nutrition, { _ in /* No need to mock this */ }
         )
     }()
@@ -66,7 +66,10 @@ final class DashboardViewModelTest: XCTestCase {
         mockCoordinator.expectations[.navigate] = navigateExpectation
         let viewModel = getViewModel(nav: mockCoordinator)
 
-        viewModel.goToDetail(of: appUserRecommendation)
+        viewModel.goToDetail(of: appUserRecommendation, section: FeedSection(
+            type: .mostPopular,
+            state: .unlock
+        ))
 
         wait(for: [navigateExpectation, loggerLogError], timeout: 1)
     }
@@ -78,17 +81,20 @@ final class DashboardViewModelTest: XCTestCase {
         // Mark as not seen
         appUserRecommendation.status = .noInteraction
         viewModel.sections = [
-			FeedSectionViewState(
-				section: FeedSection(
-					type: .mostPopular,
-					state: .unlock
-				),
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: FeedSection(
+                    type: .mostPopular,
+                    state: .unlock
+                ),
+                isLoading: false
+            ),
         ]
         viewModel.items[.mostPopular] = [appUserRecommendation]
 
-        viewModel.goToDetail(of: appUserRecommendation)
+        viewModel.goToDetail(of: appUserRecommendation, section: FeedSection(
+            type: .mostPopular,
+            state: .unlock
+        ))
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, articleDestination)
         guard case .article(_, _, _, let seenContent, _) = mockCoordinator.lastDestination else {
@@ -171,20 +177,20 @@ final class DashboardViewModelTest: XCTestCase {
         mockRecommendationRepository.expectations[.getFeedSection] = getFeedSectionExpectation
         mockRecommendationRepository.expectedGetFeedSection = [appUserRecommendation]
         viewModel.sections = [
-			FeedSectionViewState(
-				section: FeedSection(
-					type: .mostPopular,
-					state: .partiallyUnlock
-				),
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: FeedSection(
+                    type: .mostPopular,
+                    state: .partiallyUnlock
+                ),
+                isLoading: false
+            ),
         ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
         viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, questionnaireDestination)
-        guard case .questionnaire(_, let reloadSections) = mockCoordinator.lastDestination else {
+        guard case .questionnaireByTopic(_, let reloadSections) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .questionnaire")
         }
         reloadSections(true)
@@ -216,19 +222,19 @@ final class DashboardViewModelTest: XCTestCase {
         let getFeedSectionError = NSError(domain: "getFeedSectionError", code: 0)
         mockRecommendationRepository.getFeedSectionError = getFeedSectionError
         viewModel.sections = [
-			FeedSectionViewState(
-				section: FeedSection(
-					type: .mostPopular,
-					state: .partiallyUnlock
-				),
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: FeedSection(
+                    type: .mostPopular,
+                    state: .partiallyUnlock
+                ),
+                isLoading: false
+            ),
         ]
 
         viewModel.pressedUnlockSectionStart()
         // They are equal except for the closures
         XCTAssertEqual(mockCoordinator.lastDestination, questionnaireDestination)
-        guard case .questionnaire(_, let reloadSections) = mockCoordinator.lastDestination else {
+        guard case .questionnaireByTopic(_, let reloadSections) = mockCoordinator.lastDestination else {
             return XCTFail("destination was not .questionnaire")
         }
         reloadSections(true)
@@ -367,10 +373,10 @@ final class DashboardViewModelTest: XCTestCase {
             state: .locked
         )
         viewModel.sections = [
-			FeedSectionViewState(
-				section: lockedSection,
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: lockedSection,
+                isLoading: false
+            ),
         ]
 
         await viewModel.load(sections: [lockedSection])
@@ -396,10 +402,10 @@ final class DashboardViewModelTest: XCTestCase {
             state: .unlock
         )
         viewModel.sections = [
-			FeedSectionViewState(
-				section: unlockedSection,
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: unlockedSection,
+                isLoading: false
+            ),
         ]
 
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -429,10 +435,10 @@ final class DashboardViewModelTest: XCTestCase {
             state: .unlock
         )
         viewModel.sections = [
-			FeedSectionViewState(
-				section: unlockedSection,
-				isLoading: false
-			),
+            FeedSectionViewState(
+                section: unlockedSection,
+                isLoading: false
+            ),
         ]
         expectErrorLogging()
 

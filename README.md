@@ -169,6 +169,18 @@ YourAwesomeView()
   }
 ``` 
 
+### Audio and video background playback 
+
+Some of Recco's content can be enjoyed through audio and video playback and that will work on your application out of the box. But whenever the user backgrounds your application, that playback will be stopped by the system. To allow playback to continue on these situations, you must add the Background Audio capability to your application. To do so follow the next steps: 
+
+ + Go to your app's project, click on `Signing and Capabilities` and on `+ Capability`. Now search for Background Modes, and add it pressing enter or clicking on it.
+
+![Add Background Mode Capability](.art/add-capability.png)
+ 
+ + Now make sure you enable `Audio, AirPlay, and Picture in Picture`.
+ 
+![Enable audio background mode](.art/select-bg-mode-audio.png)
+
 ## Releases
 
 Our [CHANGELOG.md](./CHANGELOG.md) contains information on all releases.

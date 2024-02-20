@@ -49,4 +49,14 @@
 "recco_questionnaire_outro_title" = "Great! You finished the %@ section.";
 "recco_start" = "Start";
 "recco_questionnaire_card" = "Tailor your %@ journey";
-
+"recco_card_read" = "Read";
+"recco_card_video" = "Video";
+"recco_card_audio" = "Audio";
+"recco_dashboard_duration" = " • %@min";
+"recco_audio_detail_transcription" = "Transcription";
+"recco_category_relaxation_name" = "Relaxation";
+"recco_category_meditation_name" = "Meditation";
+"recco_category_exercise_name" = "Exercise";
+"recco_media_warning_title" = "Warning";
+"recco_media_warning_never" = "Don’t show this warning again";
+"recco_media_warning_button" = "Dismiss";
