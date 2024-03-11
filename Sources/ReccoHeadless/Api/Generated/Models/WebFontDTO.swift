@@ -12,4 +12,9 @@ import AnyCodable
 
 internal enum WebFontDTO: String, Codable, CaseIterable {
     case poppins = "poppins"
+    case roboto = "roboto"
+    case montserrat = "montserrat"
+    case workSans = "work_sans"
+    case nunitoSans = "nunito_sans"
+    case bitter = "bitter"
 }

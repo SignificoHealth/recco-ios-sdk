@@ -5,8 +5,7 @@ struct FeedSectionView: View {
     @Binding var performedUnlockAnimation: Bool
     var section: FeedSectionViewState
     var items: [AppUserRecommendation]
-    var goToDetail: (AppUserRecommendation) -> Void
-    var goToQuestionnaire: (FeedSection) -> Void
+    var goToDetail: (AppUserRecommendation, FeedSection) -> Void
     var pressedLockedSection: (FeedSection) -> Void
 
     private var showSectionLoading: Bool {
@@ -40,7 +39,9 @@ struct FeedSectionView: View {
                             performedUnlockAnimation: $performedUnlockAnimation
                         )
                         .onTapGesture {
-                            pressedLockedSection(section.section)
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                pressedLockedSection(section.section)
+                            }
                         }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -48,29 +49,21 @@ struct FeedSectionView: View {
                                 Spacer(minLength: .S)
                                 ForEach(items, id: \.self) { item in
                                     switch item.type {
-                                    case .articles:
+                                    case .articles, .audio, .video:
                                         Button {
-                                            goToDetail(item)
+                                            goToDetail(item, section.section)
                                         } label: {
                                             FeedItemView(item: item)
                                         }
                                     case .questionnaire:
                                         Button {
-                                            goToQuestionnaire(section.section)
+                                            goToDetail(item, section.section)
                                         } label: {
                                             QuestionnaireItemView(
                                                 item: item,
                                                 topic: section.section.topic
                                             )
                                         }
-                                    }
-                                }
-
-                                if section.section.state == .partiallyUnlock {
-                                    Button {
-                                        pressedLockedSection(section.section)
-                                    } label: {
-                                        FinishQuestionnaireButtonView()
                                     }
                                 }
 
@@ -96,8 +89,7 @@ struct FeedSectionView_Previews: PreviewProvider {
                 isLoading: false
             ),
             items: [.init(id: .init(itemId: "", catalogId: ""), type: .articles, rating: .like, status: .viewed, headline: "This item", imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"))],
-            goToDetail: { _ in },
-            goToQuestionnaire: { _ in },
+            goToDetail: { _, _ in },
             pressedLockedSection: { _ in }
         )
     }

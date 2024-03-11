@@ -21,6 +21,10 @@ extension ContentType {
             self = .articles
         case .questionnaires:
             self = .questionnaire
+        case .audios:
+            self = .audio
+        case .videos:
+            self = .video
         }
     }
 }
@@ -54,15 +58,16 @@ extension ContentStatus {
 extension AppUserArticle {
     init(dto: AppUserArticleDTO) {
         self.init(
-            id: .init(dto: dto.id),
+            bookmarked: dto.bookmarked, id: .init(dto: dto.id),
             rating: .init(dto: dto.rating),
             status: .init(dto: dto.status),
             headline: dto.headline,
-            bookmarked: dto.bookmarked,
             lead: dto.lead,
             imageUrl: dto.dynamicImageResizingUrl.flatMap(URL.init),
+            audioUrl: dto.audioUrl.flatMap(URL.init),
+            articleBodyHtml: dto.articleBodyHtml,
             imageAlt: dto.imageAlt,
-            articleBodyHtml: dto.articleBodyHtml
+            duration: dto.duration
         )
     }
 }

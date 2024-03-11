@@ -286,7 +286,7 @@ final class SFNotificationView: UIView {
                 hide()
             }
         default:
-			break
+            break
         }
     }
 }

@@ -48,3 +48,11 @@
 "recco_questionnaire_outro_body" = "Du hast alle Fragen zu%@beantwortet und damit noch bessere Empfehlungen für dich generiert. Schau sie dir gleich an!";
 "recco_questionnaire_outro_title" = "Super gemacht!";
 "recco_start" = "Los geht's!";
+"recco_card_read" = "Lesen";
+"recco_card_video" = "Video";
+"recco_card_audio" = "Audio";
+"recco_dashboard_duration" = " • %@min";
+"recco_audio_detail_transcription" = "Transkription";
+"recco_category_relaxation_name" = "Entspannung";
+"recco_category_meditation_name" = "Meditation";
+"recco_category_exercise_name" = "Übung";

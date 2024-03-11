@@ -5,10 +5,10 @@ struct FeedItemView: View {
     var item: AppUserRecommendation
     var fromBookmarks = false
 
-    var opacity: CGFloat {
+    private var opacity: CGFloat {
         fromBookmarks ?
             1 : item.status == .viewed ?
-                0.4 : 1
+            0.4 : 1
     }
 
     var body: some View {
@@ -35,14 +35,30 @@ struct FeedItemView: View {
             minHeight: .cardSize.height, maxHeight: .cardSize.height
         )
         .overlay(
-            Text(item.headline)
-                .body3()
-                .lineLimit(2)
-                .frame(maxWidth: .infinity)
-                .padding(.XXS)
-                .multilineTextAlignment(.center)
-                .frame(height: .L + .M)
-                .background(Color.reccoBackground),
+            VStack(alignment: .leading, spacing: .XXS) {
+                Text(item.headline)
+                    .body3()
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+
+                HStack(spacing: 0) {
+                    Image(resource: item.type.iconName)
+                        .renderingMode(.template)
+                        .foregroundColor(.reccoPrimary60)
+                        .padding(.trailing, .XXXS)
+                    Text(item.type.caption)
+                        .contentType()
+
+                    if let seconds = item.durationSeconds {
+                        Text("recco_dashboard_duration".localized(displayDuration(seconds: seconds)))
+                            .contentType()
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(minHeight: 32)
+            .padding(.XS)
+            .background(Color.reccoBackground),
             alignment: .bottom
         )
         .clipShape(
@@ -63,8 +79,8 @@ struct FeedItemView_Previews: PreviewProvider {
             type: .articles,
             rating: .like,
             status: .noInteraction,
-            headline: "This card is good",
-            imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg")
+            headline: "This card is too good to be true",
+            imageUrl: .init(string: "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg"), durationSeconds: nil
         ), fromBookmarks: false)
     }
 }

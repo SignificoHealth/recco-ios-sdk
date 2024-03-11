@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2024-02-02
+
+### Added:
+- Support for podcasts and video recommendations. 
+- Support for embedded audio in articles.
+
+### Fixed
+- Now recommendation questionnaires work as expected. 
+
 ## [1.2.0] - 2024-01-15
 
 ### Added:

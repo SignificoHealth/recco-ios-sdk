@@ -27,3 +27,30 @@ final class TopicQuestionnaireViewModel: QuestionnaireViewModel {
         )
     }
 }
+
+final class ByIdQuestionnaireViewModel: QuestionnaireViewModel {
+    init(
+        id: ContentId,
+        reloadSection: @escaping (Bool) -> Void,
+        repo: QuestionnaireRepository,
+        nav: ReccoCoordinator,
+        logger: Logger
+    ) {
+        super.init(
+            repo: repo,
+            nav: nav,
+            logger: logger,
+            shouldValidateAllAnswersOnQuestionChange: false,
+            mainButtonEnabledByDefault: true,
+            nextScreen: { answeredAll in
+                reloadSection(answeredAll)
+                nav.navigate(to: .back)
+            },
+            getQuestions: { repo in
+                try await repo.getQuestionaryById(id: id.itemId)
+            }, sendQuestions: { repo, answers in
+                try await repo.sendQuestionnaire(answers)
+            }
+        )
+    }
+}

@@ -12,7 +12,7 @@ import AnyCodable
 
 internal struct StyleDTO: Codable, JSONEncodable, Hashable {
 
-    internal var id: UUID?
+    internal var id: UUID
     internal var name: String
     internal var darkColors: ColorsDTO
     internal var lightColors: ColorsDTO
@@ -21,7 +21,7 @@ internal struct StyleDTO: Codable, JSONEncodable, Hashable {
     internal var webFont: WebFontDTO
     internal var isPredefined: Bool
 
-    internal init(id: UUID? = nil, name: String, darkColors: ColorsDTO, lightColors: ColorsDTO, iosFont: IOSFontDTO, androidFont: AndroidFontDTO, webFont: WebFontDTO, isPredefined: Bool) {
+    internal init(id: UUID, name: String, darkColors: ColorsDTO, lightColors: ColorsDTO, iosFont: IOSFontDTO, androidFont: AndroidFontDTO, webFont: WebFontDTO, isPredefined: Bool) {
         self.id = id
         self.name = name
         self.darkColors = darkColors
@@ -47,7 +47,7 @@ internal struct StyleDTO: Codable, JSONEncodable, Hashable {
 
     internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(id, forKey: .id)
+        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(darkColors, forKey: .darkColors)
         try container.encode(lightColors, forKey: .lightColors)

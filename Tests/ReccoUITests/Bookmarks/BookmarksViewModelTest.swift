@@ -16,12 +16,12 @@ final class BookmarksViewModelTest: XCTestCase {
         )
     }()
 
-	override func setUp() async throws {
-		loggerLogError = expectation(description: "Logger received an error")
-		loggerLogError.isInverted = true
-	}
+    override func setUp() async throws {
+        loggerLogError = expectation(description: "Logger received an error")
+        loggerLogError.isInverted = true
+    }
 
-	private func expectErrorLogging() { loggerLogError.isInverted = false }
+    private func expectErrorLogging() { loggerLogError.isInverted = false }
 
     private func getViewModel(
         recRepo: RecommendationRepository? = nil,

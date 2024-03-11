@@ -18,20 +18,18 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
     internal var status: StatusDTO
     internal var bookmarked: Bool
     internal var headline: String
-    internal var lead: String?
     internal var imageUrl: String?
     internal var imageAlt: String?
     /** Responsive image url. Supports transformation via query params. Allowed query params key=values width=number, height=number, quality=1..100, format=auto|jgp|png|webp|tiff, fit=cover|contain|inside|outside */
     internal var dynamicImageResizingUrl: String?
 
-    internal init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, imageAlt: String? = nil, dynamicImageResizingUrl: String? = nil) {
+    internal init(id: ContentIdDTO, type: ContentTypeDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, imageUrl: String? = nil, imageAlt: String? = nil, dynamicImageResizingUrl: String? = nil) {
         self.id = id
         self.type = type
         self.rating = rating
         self.status = status
         self.bookmarked = bookmarked
         self.headline = headline
-        self.lead = lead
         self.imageUrl = imageUrl
         self.imageAlt = imageAlt
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
@@ -44,7 +42,6 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         case status
         case bookmarked
         case headline
-        case lead
         case imageUrl
         case imageAlt
         case dynamicImageResizingUrl
@@ -60,7 +57,6 @@ internal struct AppUserRecommendationDTO: Codable, JSONEncodable, Hashable {
         try container.encode(status, forKey: .status)
         try container.encode(bookmarked, forKey: .bookmarked)
         try container.encode(headline, forKey: .headline)
-        try container.encodeIfPresent(lead, forKey: .lead)
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)

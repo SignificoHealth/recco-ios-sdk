@@ -21,9 +21,12 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
     internal var imageUrl: String?
     internal var dynamicImageResizingUrl: String?
     internal var imageAlt: String?
+    internal var audioUrl: String?
     internal var articleBodyHtml: String?
+    /** The estimated duration in seconds to read this article */
+    internal var duration: Int?
 
-    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, articleBodyHtml: String? = nil) {
+    internal init(id: ContentIdDTO, rating: RatingDTO, status: StatusDTO, bookmarked: Bool, headline: String, lead: String? = nil, imageUrl: String? = nil, dynamicImageResizingUrl: String? = nil, imageAlt: String? = nil, audioUrl: String? = nil, articleBodyHtml: String? = nil, duration: Int? = nil) {
         self.id = id
         self.rating = rating
         self.status = status
@@ -33,7 +36,9 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         self.imageUrl = imageUrl
         self.dynamicImageResizingUrl = dynamicImageResizingUrl
         self.imageAlt = imageAlt
+        self.audioUrl = audioUrl
         self.articleBodyHtml = articleBodyHtml
+        self.duration = duration
     }
 
     internal enum CodingKeys: String, CodingKey, CaseIterable {
@@ -46,7 +51,9 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         case imageUrl
         case dynamicImageResizingUrl
         case imageAlt
+        case audioUrl
         case articleBodyHtml
+        case duration
     }
 
     // Encodable protocol methods
@@ -62,7 +69,9 @@ internal struct AppUserArticleDTO: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
         try container.encodeIfPresent(dynamicImageResizingUrl, forKey: .dynamicImageResizingUrl)
         try container.encodeIfPresent(imageAlt, forKey: .imageAlt)
+        try container.encodeIfPresent(audioUrl, forKey: .audioUrl)
         try container.encodeIfPresent(articleBodyHtml, forKey: .articleBodyHtml)
+        try container.encodeIfPresent(duration, forKey: .duration)
     }
 }
 

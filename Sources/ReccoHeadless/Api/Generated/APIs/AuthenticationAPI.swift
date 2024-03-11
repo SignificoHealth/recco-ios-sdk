@@ -85,6 +85,7 @@ internal class AuthenticationAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
             "Authorization": authorization.encodeToJSON(),
             "Client-User-Id": clientUserId.encodeToJSON(),
         ]
